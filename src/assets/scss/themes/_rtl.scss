@@ -1,0 +1,16 @@
+/**=====================
+    RTL css
+==========================**/
+[dir="rtl"] {
+    .slick-slider {
+        direction: ltr;
+    }
+
+    .slick-slide {
+        float: left;
+    }
+
+    ul {
+        padding-right: 0;
+    }
+}
