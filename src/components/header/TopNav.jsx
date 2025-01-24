@@ -1,12 +1,4 @@
-import '../../assets/css/vendors/bootstrap.css'
-import '../../assets/css/animate.min.css'
-import '../../assets/css/vendors/font-awesome.css'
-import '../../assets/css/vendors/feather-icon.css'
-import '../../assets/css/vendors/slick/slick.css'
-import '../../assets/css/vendors/slick/slick-theme.css'
-import '../../assets/css/bulk-style.css'
-import '../../assets/css/vendors/animate.css'
-import '../../assets/css/style.css'
+
 import LogoShop from '../../assets/images/logo/1.png'
 export default function TopNav() {
   return (
@@ -34,19 +26,7 @@ export default function TopNav() {
                   />
                 </a>
                 <div className="middle-box">
-                  <div className="location-box">
-                    <button
-                      className="btn location-button"
-                      data-bs-toggle="modal"
-                      data-bs-target="#locationModal"
-                    >
-                      <span className="location-arrow">
-                        <i data-feather="map-pin" />
-                      </span>
-                      <span className="locat-name">Your Location</span>
-                      <i className="fa-solid fa-angle-down" />
-                    </button>
-                  </div>
+
                   <div className="search-box">
                     <div className="input-group">
                       <input
