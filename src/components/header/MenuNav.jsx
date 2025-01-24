@@ -837,7 +837,7 @@ export default function MenuNav() {
                                 className="dropdown-item"
                                 href="javascript:void(0)"
                               >
-                                Email Template{" "}
+                                Email Template{' '}
                                 <span className="new-text">
                                   <i className="fa-solid fa-bolt-lightning" />
                                 </span>
@@ -875,7 +875,7 @@ export default function MenuNav() {
                                 className="dropdown-item"
                                 href="javascript:void(0)"
                               >
-                                Invoice Template{" "}
+                                Invoice Template{' '}
                                 <span className="new-text">
                                   <i className="fa-solid fa-bolt-lightning" />
                                 </span>

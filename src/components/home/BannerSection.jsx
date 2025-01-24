@@ -61,7 +61,5 @@ export default function BannerSection() {
         </div>
       </div>
     </section >
-
-
   )
 }

@@ -26,7 +26,7 @@ export default function ProductSection() {
                 data-bs-target="#cooking"
                 type="button"
               >
-                {" "}
+                {' '}
                 Cooking
               </button>
             </li>
