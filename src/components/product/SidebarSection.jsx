@@ -1,3 +1,7 @@
+import Hinh1 from '~/assets/images/product/category/1.jpg'
+import Hinh2 from '~/assets/images/product/category/2.jpg'
+import Hinh3 from '~/assets/images/product/category/3.jpg'
+
 export default function SidebarSection() {
   return (
     <section className="product-section">
@@ -37,9 +41,9 @@ export default function SidebarSection() {
                             >
                               <div className="slider-image">
                                 <img
-                                  src="../assets/images/product/category/1.jpg"
+                                  src={Hinh1}
                                   id="img-1"
-                                  data-zoom-image="../assets/images/product/category/1.jpg"
+                                  data-zoom-image={Hinh1}
                                   className="img-fluid image_zoom_cls-0 blur-up lazyloaded"
                                   alt=""
                                 />
@@ -61,8 +65,8 @@ export default function SidebarSection() {
                             >
                               <div className="slider-image">
                                 <img
-                                  src="../assets/images/product/category/2.jpg"
-                                  data-zoom-image="../assets/images/product/category/2.jpg"
+                                  src={Hinh2}
+                                  data-zoom-image={Hinh2}
                                   className="img-fluid image_zoom_cls-1 blur-up lazyloaded"
                                   alt=""
                                 />
@@ -84,8 +88,8 @@ export default function SidebarSection() {
                             >
                               <div className="slider-image">
                                 <img
-                                  src="../assets/images/product/category/3.jpg"
-                                  data-zoom-image="../assets/images/product/category/3.jpg"
+                                  src={Hinh3}
+                                  data-zoom-image={Hinh3}
                                   className="img-fluid image_zoom_cls-2 blur-up lazyloaded"
                                   alt=""
                                 />
@@ -172,7 +176,7 @@ export default function SidebarSection() {
                           type="button"
                           style={{ display: 'inline-block' }}
                         >
-                      Previous
+                          Previous
                         </button>
                         <div className="slick-list draggable">
                           <div
@@ -441,7 +445,7 @@ export default function SidebarSection() {
                           type="button"
                           style={{ display: 'inline-block' }}
                         >
-                      Next
+                          Next
                         </button>
                       </div>
                     </div>
@@ -462,7 +466,7 @@ export default function SidebarSection() {
                   <h2 className="name">Creamy Chocolate Cake</h2>
                   <div className="price-rating">
                     <h3 className="theme-color price">
-                  $49.50 <del className="text-content">$58.46</del>{' '}
+                      $49.50 <del className="text-content">$58.46</del>{' '}
                       <span className="offer theme-color">(8% off)</span>
                     </h3>
                     <div className="product-rating custom-rate">
@@ -553,9 +557,9 @@ export default function SidebarSection() {
                   </div>
                   <div className="procuct-contain">
                     <p>
-                  Lollipop cake chocolate chocolate cake dessert jujubes.
-                  Shortbread sugar plum dessert powder cookie sweet brownie.
-                  Cake cookie apple pie dessert sugar plum muffin cheesecake.
+                      Lollipop cake chocolate chocolate cake dessert jujubes.
+                      Shortbread sugar plum dessert powder cookie sweet brownie.
+                      Cake cookie apple pie dessert sugar plum muffin cheesecake.
                     </p>
                   </div>
                   <div className="product-packege">
@@ -565,7 +569,7 @@ export default function SidebarSection() {
                     <ul className="select-packege">
                       <li>
                         <a href="javascript:void(0)" className="active">
-                      1/2 KG
+                          1/2 KG
                         </a>
                       </li>
                       <li>
@@ -650,7 +654,7 @@ export default function SidebarSection() {
                       onClick="location.href = 'cart.html';"
                       className="btn btn-md bg-dark cart-button text-white w-100"
                     >
-                  Add To Cart
+                      Add To Cart
                     </button>
                   </div>
                   <div className="buy-box">
@@ -699,26 +703,26 @@ export default function SidebarSection() {
                     </div>
                     <div className="pickup-detail">
                       <h4 className="text-content">
-                    Lollipop cake chocolate chocolate cake dessert jujubes.
-                    Shortbread sugar plum dessert powder cookie sweet brownie.
+                        Lollipop cake chocolate chocolate cake dessert jujubes.
+                        Shortbread sugar plum dessert powder cookie sweet brownie.
                       </h4>
                     </div>
                     <div className="product-info">
                       <ul className="product-info-list product-info-list-2">
                         <li>
-                      Type : <a href="javascript:void(0)">Black Forest</a>
+                          Type : <a href="javascript:void(0)">Black Forest</a>
                         </li>
                         <li>
-                      SKU : <a href="javascript:void(0)">SDFVW65467</a>
+                          SKU : <a href="javascript:void(0)">SDFVW65467</a>
                         </li>
                         <li>
-                      MFG : <a href="javascript:void(0)">Jun 4, 2022</a>
+                          MFG : <a href="javascript:void(0)">Jun 4, 2022</a>
                         </li>
                         <li>
-                      Stock : <a href="javascript:void(0)">2 Items Left</a>
+                          Stock : <a href="javascript:void(0)">2 Items Left</a>
                         </li>
                         <li>
-                      Tags : <a href="javascript:void(0)">Cake,</a>{' '}
+                          Tags : <a href="javascript:void(0)">Cake,</a>{' '}
                           <a href="javascript:void(0)">Backery</a>
                         </li>
                       </ul>
@@ -792,7 +796,7 @@ export default function SidebarSection() {
                         aria-controls="description"
                         aria-selected="true"
                       >
-                    Description
+                        Description
                       </button>
                     </li>
                     <li className="nav-item" role="presentation">
@@ -806,7 +810,7 @@ export default function SidebarSection() {
                         aria-controls="info"
                         aria-selected="false"
                       >
-                    Additional info
+                        Additional info
                       </button>
                     </li>
                     <li className="nav-item" role="presentation">
@@ -820,7 +824,7 @@ export default function SidebarSection() {
                         aria-controls="care"
                         aria-selected="false"
                       >
-                    Care Instuctions
+                        Care Instuctions
                       </button>
                     </li>
                     <li className="nav-item" role="presentation">
@@ -834,7 +838,7 @@ export default function SidebarSection() {
                         aria-controls="review"
                         aria-selected="false"
                       >
-                    Review
+                        Review
                       </button>
                     </li>
                   </ul>
@@ -848,16 +852,16 @@ export default function SidebarSection() {
                       <div className="product-description">
                         <div className="nav-desh">
                           <p>
-                        Jelly beans carrot cake icing biscuit oat cake gummi
-                        bears tart. Lemon drops carrot cake pudding sweet gummi
-                        bears. Chocolate cake tart cupcake donut topping
-                        liquorice sugar plum chocolate bar. Jelly beans tiramisu
-                        caramels jujubes biscuit liquorice chocolate. Pudding
-                        toffee jujubes oat cake sweet roll. Lemon drops dessert
-                        croissant danish cake cupcake. Sweet roll candy
-                        chocolate toffee jelly sweet roll halvah brownie
-                        topping. Marshmallow powder candy sesame snaps jelly
-                        beans candy canes marshmallow gingerbread pie.
+                            Jelly beans carrot cake icing biscuit oat cake gummi
+                            bears tart. Lemon drops carrot cake pudding sweet gummi
+                            bears. Chocolate cake tart cupcake donut topping
+                            liquorice sugar plum chocolate bar. Jelly beans tiramisu
+                            caramels jujubes biscuit liquorice chocolate. Pudding
+                            toffee jujubes oat cake sweet roll. Lemon drops dessert
+                            croissant danish cake cupcake. Sweet roll candy
+                            chocolate toffee jelly sweet roll halvah brownie
+                            topping. Marshmallow powder candy sesame snaps jelly
+                            beans candy canes marshmallow gingerbread pie.
                           </p>
                         </div>
                         <div className="nav-desh">
@@ -865,29 +869,29 @@ export default function SidebarSection() {
                             <h5>Organic:</h5>
                           </div>
                           <p>
-                        vitae et leo duis ut diam quam nulla porttitor massa id
-                        neque aliquam vestibulum morbi blandit cursus risus at
-                        ultrices mi tempus imperdiet nulla malesuada
-                        pellentesque elit eget gravida cum sociis natoque
-                        penatibus et magnis dis parturient montes nascetur
-                        ridiculus mus mauris vitae ultricies leo integer
-                        malesuada nunc vel risus commodo viverra maecenas
-                        accumsan lacus vel facilisis volutpat est velit egestas
-                        dui id ornare arcu odio ut sem nulla pharetra diam sit
-                        amet nisl suscipit adipiscing bibendum est ultricies
-                        integer quis auctor elit sed vulputate mi sit amet
-                        mauris commodo quis imperdiet massa tincidunt nunc
-                        pulvinar sapien et ligula ullamcorper malesuada proin
-                        libero nunc consequat interdum varius sit amet mattis
-                        vulputate enim nulla aliquet porttitor lacus luctus
-                        accumsan.
+                            vitae et leo duis ut diam quam nulla porttitor massa id
+                            neque aliquam vestibulum morbi blandit cursus risus at
+                            ultrices mi tempus imperdiet nulla malesuada
+                            pellentesque elit eget gravida cum sociis natoque
+                            penatibus et magnis dis parturient montes nascetur
+                            ridiculus mus mauris vitae ultricies leo integer
+                            malesuada nunc vel risus commodo viverra maecenas
+                            accumsan lacus vel facilisis volutpat est velit egestas
+                            dui id ornare arcu odio ut sem nulla pharetra diam sit
+                            amet nisl suscipit adipiscing bibendum est ultricies
+                            integer quis auctor elit sed vulputate mi sit amet
+                            mauris commodo quis imperdiet massa tincidunt nunc
+                            pulvinar sapien et ligula ullamcorper malesuada proin
+                            libero nunc consequat interdum varius sit amet mattis
+                            vulputate enim nulla aliquet porttitor lacus luctus
+                            accumsan.
                           </p>
                         </div>
                         <div
                           className="banner-contain nav-desh bg-size blur-up lazyloaded"
                           style={{
                             backgroundImage:
-                          'url("../assets/images/vegetable/banner/14.jpg")',
+                              'url("../assets/images/vegetable/banner/14.jpg")',
                             backgroundSize: 'cover',
                             backgroundPosition: 'center center',
                             backgroundRepeat: 'no-repeat',
@@ -903,7 +907,7 @@ export default function SidebarSection() {
                           <div className="banner-details p-center banner-b-space w-100 text-center">
                             <div>
                               <h6 className="ls-expanded theme-color mb-sm-3 mb-1">
-                            SUMMER
+                                SUMMER
                               </h6>
                               <h2>VEGETABLE</h2>
                               <p className="mx-auto mt-1">Save up to 5% OFF</p>
@@ -915,28 +919,28 @@ export default function SidebarSection() {
                             <h5>From The Manufacturer:</h5>
                           </div>
                           <p>
-                        Jelly beans shortbread chupa chups carrot cake jelly-o
-                        halvah apple pie pudding gingerbread. Apple pie halvah
-                        cake tiramisu shortbread cotton candy croissant
-                        chocolate cake. Tart cupcake caramels gummi bears
-                        macaroon gingerbread fruitcake marzipan wafer. Marzipan
-                        dessert cupcake ice cream tootsie roll. Brownie
-                        chocolate cake pudding cake powder candy ice cream ice
-                        cream cake. Jujubes soufflé chupa chups cake candy
-                        halvah donut. Tart tart icing lemon drops fruitcake
-                        apple pie.
+                            Jelly beans shortbread chupa chups carrot cake jelly-o
+                            halvah apple pie pudding gingerbread. Apple pie halvah
+                            cake tiramisu shortbread cotton candy croissant
+                            chocolate cake. Tart cupcake caramels gummi bears
+                            macaroon gingerbread fruitcake marzipan wafer. Marzipan
+                            dessert cupcake ice cream tootsie roll. Brownie
+                            chocolate cake pudding cake powder candy ice cream ice
+                            cream cake. Jujubes soufflé chupa chups cake candy
+                            halvah donut. Tart tart icing lemon drops fruitcake
+                            apple pie.
                           </p>
                           <p>
-                        Dessert liquorice tart soufflé chocolate bar apple pie
-                        pastry danish soufflé. Gummi bears halvah gingerbread
-                        jelly icing. Chocolate cake chocolate bar pudding chupa
-                        chups bear claw pie dragée donut halvah. Gummi bears
-                        cookie ice cream jelly-o jujubes sweet croissant.
-                        Marzipan cotton candy gummi bears lemon drops lollipop
-                        lollipop chocolate. Ice cream cookie dragée cake sweet
-                        roll sweet roll.Lemon drops cookie muffin carrot cake
-                        chocolate marzipan gingerbread topping chocolate bar.
-                        Soufflé tiramisu pastry sweet dessert.
+                            Dessert liquorice tart soufflé chocolate bar apple pie
+                            pastry danish soufflé. Gummi bears halvah gingerbread
+                            jelly icing. Chocolate cake chocolate bar pudding chupa
+                            chups bear claw pie dragée donut halvah. Gummi bears
+                            cookie ice cream jelly-o jujubes sweet croissant.
+                            Marzipan cotton candy gummi bears lemon drops lollipop
+                            lollipop chocolate. Ice cream cookie dragée cake sweet
+                            roll sweet roll.Lemon drops cookie muffin carrot cake
+                            chocolate marzipan gingerbread topping chocolate bar.
+                            Soufflé tiramisu pastry sweet dessert.
                           </p>
                         </div>
                       </div>
@@ -995,21 +999,21 @@ export default function SidebarSection() {
                       <div className="information-box">
                         <ul>
                           <li>
-                        Store cream cakes in a refrigerator. Fondant cakes
-                        should be stored in an air conditioned environment.
+                            Store cream cakes in a refrigerator. Fondant cakes
+                            should be stored in an air conditioned environment.
                           </li>
                           <li>
-                        Slice and serve the cake at room temperature and make
-                        sure it is not exposed to heat.
+                            Slice and serve the cake at room temperature and make
+                            sure it is not exposed to heat.
                           </li>
                           <li>Use a serrated knife to cut a fondant cake.</li>
                           <li>
-                        Sculptural elements and figurines may contain wire
-                        supports or toothpicks or wooden skewers for support.
+                            Sculptural elements and figurines may contain wire
+                            supports or toothpicks or wooden skewers for support.
                           </li>
                           <li>
-                        Please check the placement of these items before serving
-                        to small children.
+                            Please check the placement of these items before serving
+                            to small children.
                           </li>
                           <li>The cake should be consumed within 24 hours.</li>
                           <li>Enjoy your cake!</li>
@@ -1129,7 +1133,7 @@ export default function SidebarSection() {
                                         aria-valuemin={0}
                                         aria-valuemax={100}
                                       >
-                                    68%
+                                        68%
                                       </div>
                                     </div>
                                   </div>
@@ -1146,7 +1150,7 @@ export default function SidebarSection() {
                                         aria-valuemin={0}
                                         aria-valuemax={100}
                                       >
-                                    67%
+                                        67%
                                       </div>
                                     </div>
                                   </div>
@@ -1163,7 +1167,7 @@ export default function SidebarSection() {
                                         aria-valuemin={0}
                                         aria-valuemax={100}
                                       >
-                                    42%
+                                        42%
                                       </div>
                                     </div>
                                   </div>
@@ -1180,7 +1184,7 @@ export default function SidebarSection() {
                                         aria-valuemin={0}
                                         aria-valuemax={100}
                                       >
-                                    30%
+                                        30%
                                       </div>
                                     </div>
                                   </div>
@@ -1197,7 +1201,7 @@ export default function SidebarSection() {
                                         aria-valuemin={0}
                                         aria-valuemax={100}
                                       >
-                                    24%
+                                        24%
                                       </div>
                                     </div>
                                   </div>
@@ -1264,7 +1268,7 @@ export default function SidebarSection() {
                                     defaultValue={''}
                                   />
                                   <label htmlFor="floatingTextarea2">
-                                Write Your Comment
+                                    Write Your Comment
                                   </label>
                                 </div>
                               </div>
@@ -1273,7 +1277,7 @@ export default function SidebarSection() {
                           <div className="col-12">
                             <div className="review-title">
                               <h4 className="fw-500">
-                            Customer questions &amp; answers
+                                Customer questions &amp; answers
                               </h4>
                             </div>
                             <div className="review-people">
@@ -1291,11 +1295,11 @@ export default function SidebarSection() {
                                     </div>
                                     <div className="people-comment">
                                       <a className="name" href="javascript:void(0)">
-                                    Tracey
+                                        Tracey
                                       </a>
                                       <div className="date-time">
                                         <h6 className="text-content">
-                                      14 Jan, 2022 at 12.58 AM
+                                          14 Jan, 2022 at 12.58 AM
                                         </h6>
                                         <div className="product-rating">
                                           <ul className="rating">
@@ -1384,12 +1388,12 @@ export default function SidebarSection() {
                                       </div>
                                       <div className="reply">
                                         <p>
-                                      Icing cookie carrot cake chocolate cake
-                                      sugar plum jelly-o danish. Dragée dragée
-                                      shortbread tootsie roll croissant muffin
-                                      cake I love gummi bears. Candy canes ice
-                                      cream caramels tiramisu marshmallow cake
-                                      shortbread candy canes cookie.
+                                          Icing cookie carrot cake chocolate cake
+                                          sugar plum jelly-o danish. Dragée dragée
+                                          shortbread tootsie roll croissant muffin
+                                          cake I love gummi bears. Candy canes ice
+                                          cream caramels tiramisu marshmallow cake
+                                          shortbread candy canes cookie.
                                           <a href="javascript:void(0)">Reply</a>
                                         </p>
                                       </div>
@@ -1409,11 +1413,11 @@ export default function SidebarSection() {
                                     </div>
                                     <div className="people-comment">
                                       <a className="name" href="javascript:void(0)">
-                                    Olivia
+                                        Olivia
                                       </a>
                                       <div className="date-time">
                                         <h6 className="text-content">
-                                      01 May, 2022 at 08.31 AM
+                                          01 May, 2022 at 08.31 AM
                                         </h6>
                                         <div className="product-rating">
                                           <ul className="rating">
@@ -1502,11 +1506,11 @@ export default function SidebarSection() {
                                       </div>
                                       <div className="reply">
                                         <p>
-                                      Tootsie roll cake danish halvah powder
-                                      Tootsie roll candy marshmallow cookie
-                                      brownie apple pie pudding brownie
-                                      chocolate bar. Jujubes gummi bears I love
-                                      powder danish oat cake tart croissant.
+                                          Tootsie roll cake danish halvah powder
+                                          Tootsie roll candy marshmallow cookie
+                                          brownie apple pie pudding brownie
+                                          chocolate bar. Jujubes gummi bears I love
+                                          powder danish oat cake tart croissant.
                                           <a href="javascript:void(0)">Reply</a>
                                         </p>
                                       </div>
@@ -1526,11 +1530,11 @@ export default function SidebarSection() {
                                     </div>
                                     <div className="people-comment">
                                       <a className="name" href="javascript:void(0)">
-                                    Gabrielle
+                                        Gabrielle
                                       </a>
                                       <div className="date-time">
                                         <h6 className="text-content">
-                                      21 May, 2022 at 05.52 PM
+                                          21 May, 2022 at 05.52 PM
                                         </h6>
                                         <div className="product-rating">
                                           <ul className="rating">
@@ -1619,14 +1623,14 @@ export default function SidebarSection() {
                                       </div>
                                       <div className="reply">
                                         <p>
-                                      Biscuit chupa chups gummies powder I love
-                                      sweet pudding jelly beans. Lemon drops
-                                      marzipan apple pie gingerbread macaroon
-                                      croissant cotton candy pastry wafer.
-                                      Carrot cake halvah I love tart caramels
-                                      pudding icing chocolate gummi bears. Gummi
-                                      bears danish cotton candy muffin marzipan
-                                      caramels awesome feel.{' '}
+                                          Biscuit chupa chups gummies powder I love
+                                          sweet pudding jelly beans. Lemon drops
+                                          marzipan apple pie gingerbread macaroon
+                                          croissant cotton candy pastry wafer.
+                                          Carrot cake halvah I love tart caramels
+                                          pudding icing chocolate gummi bears. Gummi
+                                          bears danish cotton candy muffin marzipan
+                                          caramels awesome feel.{' '}
                                           <a href="javascript:void(0)">Reply</a>
                                         </p>
                                       </div>
@@ -1748,8 +1752,8 @@ export default function SidebarSection() {
                   </div>
                 </div>
                 <p className="vendor-detail">
-              Noodles &amp; Company is an American fast-casual restaurant that
-              offers international and American noodle dishes and pasta.
+                  Noodles &amp; Company is an American fast-casual restaurant that
+                  offers international and American noodle dishes and pasta.
                 </p>
                 <div className="vendor-list">
                   <ul>
@@ -1771,7 +1775,7 @@ export default function SidebarSection() {
                           <circle cx={12} cy={10} r={3} />
                         </svg>
                         <h5>
-                      Address:{' '}
+                          Address:{' '}
                           <span className="text-content">1288 Franklin Avenue</span>
                         </h5>
                       </div>
@@ -1794,7 +1798,7 @@ export default function SidebarSection() {
                           <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
                         </svg>
                         <h5>
-                      Contact Seller:{' '}
+                          Contact Seller:{' '}
                           <span className="text-content">(+1)-123-456-789</span>
                         </h5>
                       </div>
@@ -1846,7 +1850,7 @@ export default function SidebarSection() {
                           <div>
                             <a href="product-left-thumbnail.html">
                               <h6 className="name">
-                            Dates Medjoul Premium Imported
+                                Dates Medjoul Premium Imported
                               </h6>
                             </a>
                             <span>450 G</span>
@@ -1910,7 +1914,7 @@ export default function SidebarSection() {
                   className="home-contain bg-size blur-up lazyloaded"
                   style={{
                     backgroundImage:
-                  'url("../assets/images/vegetable/banner/8.jpg")',
+                      'url("../assets/images/vegetable/banner/8.jpg")',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center center',
                     backgroundRepeat: 'no-repeat',
@@ -1928,14 +1932,14 @@ export default function SidebarSection() {
                       <h6 className="text-yellow home-banner">Seafood</h6>
                       <h3 className="text-uppercase fw-normal">
                         <span className="theme-color fw-bold">Freshes</span>{' '}
-                    Products
+                        Products
                       </h3>
                       <h3 className="fw-light">every hour</h3>
                       <button
                         onClick="location.href = 'shop-left-sidebar.html';"
                         className="btn btn-animation btn-md fw-bold mend-auto"
                       >
-                    Shop Now <i className="fa-solid fa-arrow-right icon" />
+                        Shop Now <i className="fa-solid fa-arrow-right icon" />
                       </button>
                     </div>
                   </div>
