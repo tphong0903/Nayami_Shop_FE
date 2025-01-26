@@ -14,7 +14,6 @@ export default function ListProduct() {
         <Product />
         <Product />
         <Product />
-
       </div>
       <nav className="custome-pagination">
         <ul className="pagination justify-content-center">
