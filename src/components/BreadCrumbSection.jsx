@@ -1,11 +1,11 @@
-export default function BreadCrumb() {
+export default function BreadCrumb(props) {
   return (
     <section className="breadscrumb-section pt-0">
       <div className="container-fluid-lg">
         <div className="row">
           <div className="col-12">
             <div className="breadscrumb-contain">
-              <h2>Creamy Chocolate Cake</h2>
+              <h2>{props.title}</h2>
               <nav>
                 <ol className="breadcrumb mb-0">
                   <li className="breadcrumb-item">
@@ -14,7 +14,7 @@ export default function BreadCrumb() {
                     </a>
                   </li>
                   <li className="breadcrumb-item active">
-                      Creamy Chocolate Cake
+                    {props.page}
                   </li>
                 </ol>
               </nav>
