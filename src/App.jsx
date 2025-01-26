@@ -15,6 +15,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import feather from 'feather-icons';
 import HomePage from './pages/HomePage'
 import ProductPage from './pages/ProductPage';
+import ShopPage from './pages/ShopPage';
 function App() {
 
   useEffect(() => {
@@ -26,7 +27,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/product" element={<ProductPage />} />
+          <Route path="/product-detail" element={<ProductPage />} />
+          <Route path="/shop" element={<ShopPage />} />
         </Routes>
       </Router>
     </>
