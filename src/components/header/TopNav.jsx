@@ -1,5 +1,11 @@
 
+import { Link } from 'react-router-dom'
 import LogoShop from '../../assets/images/logo/1.png'
+import SearchIcon from '@mui/icons-material/Search';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import PermPhoneMsgOutlinedIcon from '@mui/icons-material/PermPhoneMsgOutlined';
+import { Hearing, ShoppingCartOutlined } from '@mui/icons-material';
 export default function TopNav() {
   return (
     <>
@@ -18,13 +24,13 @@ export default function TopNav() {
                     <i className="fa-solid fa-bars" />
                   </span>
                 </button>
-                <a href="index.html" className="web-logo nav-logo">
+                <Link to="/" className="web-logo nav-logo">
                   <img
                     src={LogoShop}
                     className="img-fluid lazyload"
                     alt=""
                   />
-                </a>
+                </Link>
                 <div className="middle-box">
 
                   <div className="search-box">
@@ -37,7 +43,7 @@ export default function TopNav() {
                         aria-describedby="button-addon2"
                       />
                       <button className="btn" type="button" id="button-addon2">
-                        <i data-feather="search" />
+                        <SearchIcon />
                       </button>
                     </div>
                   </div>
@@ -46,7 +52,7 @@ export default function TopNav() {
                   <div className="search-full">
                     <div className="input-group">
                       <span className="input-group-text">
-                        <i data-feather="search" className="font-light" />
+                        <SearchIcon />
                       </span>
                       <input
                         type="text"
@@ -71,7 +77,7 @@ export default function TopNav() {
                     <li className="right-side">
                       <a href="contact-us.html" className="delivery-login-box">
                         <div className="delivery-icon">
-                          <i data-feather="phone-call" />
+                          <PermPhoneMsgOutlinedIcon style={{ color: 'black' }} />
                         </div>
                         <div className="delivery-detail">
                           <h6>24/7 Delivery</h6>
@@ -84,7 +90,7 @@ export default function TopNav() {
                         href="wishlist.html"
                         className="btn p-0 position-relative header-wishlist"
                       >
-                        <i data-feather="heart" />
+                        <FavoriteBorderIcon />
                       </a>
                     </li>
                     <li className="right-side">
@@ -93,7 +99,7 @@ export default function TopNav() {
                           type="button"
                           className="btn p-0 position-relative header-wishlist"
                         >
-                          <i data-feather="shopping-cart" />
+                          <ShoppingCartOutlined />
                           <span className="position-absolute top-0 start-100 translate-middle badge">
                             2
                             <span className="visually-hidden">unread messages</span>
@@ -160,9 +166,9 @@ export default function TopNav() {
                             <h4 className="theme-color fw-bold">$106.58</h4>
                           </div>
                           <div className="button-group">
-                            <a href="cart.html" className="btn btn-sm cart-button">
+                            <Link to="/cart" className="btn btn-sm cart-button">
                               View Cart
-                            </a>
+                            </Link>
                             <a
                               href="checkout.html"
                               className="btn btn-sm cart-button theme-bg-color
@@ -177,7 +183,7 @@ export default function TopNav() {
                     <li className="right-side onhover-dropdown">
                       <div className="delivery-login-box">
                         <div className="delivery-icon">
-                          <i data-feather="user" />
+                          <PersonOutlineOutlinedIcon sx={{ fontSize: 30 }} />
                         </div>
                         <div className="delivery-detail">
                           <h6>Hello,</h6>

@@ -1,6 +1,8 @@
 import Hinh1 from '~/assets/images/grocery/category/1.png'
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function CategorySection() {
+  const navigate = useNavigate();
   return (
     <section className="category-section-3">
       <div className="container-fluid-lg">
@@ -12,20 +14,20 @@ export default function CategorySection() {
             <div className="row g-3 row-cols-xxl-5 row-cols-lg-3 row-cols-md-2 wow fadeInUp">
               <div>
                 <div className="category-box-list">
-                  <a href="shop-left-sidebar.html" className="category-name">
+                  <Link to="/shop" className="category-name">
                     <h4>Fashion</h4>
                     <h6>25 items</h6>
-                  </a>
+                  </Link>
                   <div className="category-box-view">
-                    <a href="shop-left-sidebar.html">
+                    <Link to="/shop">
                       <img
                         src={Hinh1}
                         className="img-fluid blur-up lazyload"
-                        alt=""
+                        alt="Shop"
                       />
-                    </a>
+                    </Link>
                     <button
-                      onclick="location.href = 'shop-left-sidebar.html';"
+                      onClick={() => navigate('/shop')}
                       className="btn shop-button"
                     >
                       <span>Shop Now</span>

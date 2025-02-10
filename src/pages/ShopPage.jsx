@@ -4,6 +4,7 @@ import Footer from '~/components/footer/Footer';
 import BreadCrumb from '~/components/BreadCrumbSection';
 import CategorySection from '~/components/shop/CategorySection';
 import ProductSection from '~/components/shop/ProductSection';
+import '~/assets/UserCss.css'
 export default function ShopPage() {
   return (
     <>
