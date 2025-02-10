@@ -9,6 +9,7 @@ import AdminPage from './pages/Admin/AdminPage';
 import DashBoard from './components/Admin/body/dashboard/DashBoard';
 import Products from './components/Admin/body/products/Products'
 import AddProduct from './components/Admin/body/products/AddProduct';
+import UserDashboard from './pages/UserDashboard';
 function App() {
 
   useEffect(() => {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/product-detail" element={<ProductPage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/admin" element={<AdminPage />}>
             <Route path="" element={<DashBoard />} />
             <Route path="products" element={<Products />} />

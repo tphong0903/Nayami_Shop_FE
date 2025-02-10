@@ -737,7 +737,7 @@ export default function SidebarSection() {
                         <a href="javascript:void(0)">
                           <img
                             src="../assets/images/product/payment/1.svg"
-                            className="blur-up lazyloaded"
+                            // className="blur-up lazyloaded"
                             alt=""
                           />
                         </a>
