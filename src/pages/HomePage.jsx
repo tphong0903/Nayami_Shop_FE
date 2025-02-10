@@ -8,12 +8,12 @@ import ProductSection from '~/components/home/ProductSection'
 import BannerSection from '~/components/home/BannerSection'
 import TopSellerSection from '~/components/home/TopSellerSection'
 import DiscountSection from '~/components/home/DiscountSection'
+import '~/assets/UserCss.css'
 
 export default function HomePage() {
   return (
     <>
       <Header />
-
       <HomeSection />
       <ServiceSection />
       <CategorySection />
@@ -22,7 +22,6 @@ export default function HomePage() {
       <DiscountSection />
       <TopSellerSection />
       <Footer />
-
     </>
   )
 }
