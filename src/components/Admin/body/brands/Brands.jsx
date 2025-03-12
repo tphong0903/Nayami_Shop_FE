@@ -4,29 +4,29 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const CategoryList = () => {
-  const [categories, setCategories] = useState([]);
+const BrandList = () => {
+  const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchCategories();
+    fetchBrands();
   }, []);
 
-  const fetchCategories = async () => {
+  const fetchBrands = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/categories');
-      setCategories(response.data);
+      const response = await axios.get('/api/brands');
+      setBrands(response.data);
     } catch (err) {
-      setError('Failed to fetch categories');
-      console.error('Error fetching categories:', err);
+      setError('Failed to fetch brands');
+      console.error('Error fetching brands:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  const deleteCategory = async (id) => {
+  const deleteBrand = async (id) => {
     Swal.fire({
       title: 'Bạn có chắc chắn muốn xoá?',
       text: 'Sau khi xoá sẽ không thể khôi phục!',
@@ -39,8 +39,8 @@ const CategoryList = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`/api/categories/${id}`);
-          setCategories((prevCategories) => prevCategories.filter(category => category.id !== id));
+          await axios.delete(`/api/brands/${id}`);
+          setBrands((prevBrands) => prevBrands.filter(Brand => Brand.id !== id));
 
           Swal.fire('Đã xoá!', 'Danh mục đã được xoá thành công.', 'success');
         } catch (err) {
@@ -67,32 +67,32 @@ const CategoryList = () => {
             <div className="card card-table">
               <div className="card-body">
                 <div className="title-header option-title">
-                  <h5>All Categories</h5>
+                  <h5>All Brands</h5>
                   <div className="d-inline-flex">
-                    <Link to="/admin/add-new-category" className="align-items-center btn btn-theme d-flex">
+                    <Link to="/admin/add-new-Brand" className="align-items-center btn btn-theme d-flex">
                       <i className="ri-add-line me-2"></i> Add New
                     </Link>
                   </div>
                 </div>
 
-                <div className="table-responsive category-table">
+                <div className="table-responsive Brand-table">
                   <table className="table all-package theme-table" id="table_id">
                     <thead>
                       <tr>
-                        <th>Category Name</th>
+                        <th>Brand Name</th>
                         <th>Option</th>
                       </tr>
                     </thead>
 
                     <tbody>
-                      {categories.length > 0 ? (
-                        categories.map((category) => (
-                          <tr key={category.id}>
-                            <td>{category.categoryName}</td>
+                      {brands.length > 0 ? (
+                        brands.map((Brand) => (
+                          <tr key={Brand.id}>
+                            <td>{Brand.name}</td>
                             <td>
                               <ul>
                                 <li>
-                                  <Link to={`/admin/add-new-category/${category.id}`}>
+                                  <Link to={`/admin/add-new-brand/${Brand.id}`}>
                                     <i className="ri-pencil-line" />
                                   </Link>
                                 </li>
@@ -102,7 +102,7 @@ const CategoryList = () => {
                                     className="text-danger"
                                     onClick={(e) => {
                                       e.preventDefault();
-                                      deleteCategory(category.id);
+                                      deleteBrand(Brand.id);
                                     }}
                                   >
                                     <i className="ri-delete-bin-line" />
@@ -130,4 +130,4 @@ const CategoryList = () => {
   );
 };
 
-export default CategoryList;
+export default BrandList;

@@ -11,6 +11,9 @@ import Products from './components/Admin/body/products/Products'
 import AddProduct from './components/Admin/body/products/AddProduct';
 import UserDashboard from './pages/UserDashboard';
 import Categories from './components/Admin/body/categories/Categories';
+import AddCategory from './components/Admin/body/categories/AddCategory';
+import Brands from './components/Admin/body/brands/Brands';
+import AddBrand from './components/Admin/body/brands/AddBrand';
 function App() {
 
   useEffect(() => {
@@ -31,6 +34,12 @@ function App() {
             <Route path="products" element={<Products />} />
             <Route path="add-new-product" element={<AddProduct />} />
             <Route path="categories" element={<Categories />} />
+            <Route path="/admin/add-new-category/" element={<AddCategory />} />
+            <Route path="/admin/add-new-category/:id" element={<AddCategory />} />
+            <Route path="brands" element={<Brands />} />
+            <Route path="/admin/add-new-brand/" element={<AddBrand />} />
+            <Route path="/admin/add-new-brand/:id" element={<AddBrand />} />
+
           </Route>
         </Routes>
       </Router>
