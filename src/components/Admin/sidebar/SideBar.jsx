@@ -83,7 +83,7 @@ export default function SideBar() {
                 </a>
                 {isCategoryOpen && (
                   <ul className="sidebar-submenu">
-                    <li><a href="category.html">Category List</a></li>
+                    <li><Link to="/admin/categories">Category List</Link></li>
                     <li><a href="add-new-category.html">Add New Category</a></li>
                   </ul>
                 )}

@@ -10,6 +10,7 @@ import DashBoard from './components/Admin/body/dashboard/DashBoard';
 import Products from './components/Admin/body/products/Products'
 import AddProduct from './components/Admin/body/products/AddProduct';
 import UserDashboard from './pages/UserDashboard';
+import Categories from './components/Admin/body/categories/Categories';
 function App() {
 
   useEffect(() => {
@@ -29,6 +30,7 @@ function App() {
             <Route path="" element={<DashBoard />} />
             <Route path="products" element={<Products />} />
             <Route path="add-new-product" element={<AddProduct />} />
+            <Route path="categories" element={<Categories />} />
           </Route>
         </Routes>
       </Router>
