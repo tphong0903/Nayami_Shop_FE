@@ -1041,6 +1041,34 @@ data-view-byte-offset@^1.0.1:
     es-errors "^1.3.0"
     is-data-view "^1.0.1"
 
+datatables.net-bs5@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/datatables.net-bs5/-/datatables.net-bs5-2.2.2.tgz#2d23183f6d9892a5518be9d33ef845935d859dba"
+  integrity sha512-0mAbpUf0EpnIEc0RlN6vSrSk9y/+NuReiwDpjHYY3RfzdvH6Lt0+7Q9OU5RIbYxaFxES/z60thxdrw7IUFnBhw==
+  dependencies:
+    datatables.net "2.2.2"
+    jquery ">=1.7"
+
+datatables.net-dt@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/datatables.net-dt/-/datatables.net-dt-2.2.2.tgz#2c7f16b08e2b10c25c65ef85eed058fa49c7d754"
+  integrity sha512-Qfe9g/E3yAPTHoDASc1J0r5Yx++3Y3VdcEOFCupvfGJ8LhRrreebUC70UYEzO8vPOKnkutoRanW/VBMRIbXKXA==
+  dependencies:
+    datatables.net "2.2.2"
+    jquery ">=1.7"
+
+datatables.net-react@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/datatables.net-react/-/datatables.net-react-1.0.0.tgz#c1d499f997609922895785b19f24cfb4af00caf9"
+  integrity sha512-Rhuxu5KEnEHC8rCbXhwcLZ+tbjWkCiI7X8nj5p6+6UT5RHqJpKYjDxLQZnva0sLLOCSvmjHS+3TatzckTAk+Pw==
+
+datatables.net@2.2.2, datatables.net@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-2.2.2.tgz#de45c9ef18775499481ffdae81a8de6a10d264a0"
+  integrity sha512-gfODIKE3gpgbVeZy2QGj2Dq9roO6hy00S+k1knklrqlMyAMrh1wt0Q6ryBUM7gU96U77ysbq8dYhxFdmcC/oPQ==
+  dependencies:
+    jquery ">=1.7"
+
 debug@^4.3.1, debug@^4.3.2:
   version "4.4.0"
   resolved "https://registry.npmjs.org/debug/-/debug-4.4.0.tgz"
@@ -1838,6 +1866,11 @@ iterator.prototype@^1.1.4:
     has-symbols "^1.1.0"
     set-function-name "^2.0.2"
 
+jquery@>=1.7, jquery@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.1.tgz#083ef98927c9a6a74d05a6af02806566d16274de"
+  integrity sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz"
@@ -1976,13 +2009,21 @@ natural-compare@^1.4.0:
     "@mui/icons-material" "^6.4.0"
     "@mui/material" "^6.4.0"
     axios "^1.8.3"
+
+    datatables.net-dt "^2.2.2"
+    datatables.net-react "^1.0.0"
     feather-icons "^4.29.2"
-    nayami-shop-fe "file:C:/Users/QuangDang/AppData/Local/Yarn/Cache/v6/npm-nayami-shop-fe-0.0.0-0e95f004-7f26-4f2d-8b3d-726616602478-1741785239047/node_modules/nayami-shop-fe"
+    nayami-shop-fe "file:C:/Users/MSI_PC/AppData/Local/Yarn/Cache/v6/npm-nayami-shop-fe-0.0.0-9ce59cbc-b494-47ca-9384-a6920b0da260-1741839926777/node_modules/nayami-shop-fe"
+
+  
     react "^18.3.1"
     react-dom "^18.3.1"
     react-helmet "^6.1.0"
     react-router-dom "^7.1.3"
     simplebar "^6.3.0"
+
+    sweetalert2 "^11.17.2"
+
 
 object-assign@^4.1.1:
   version "4.1.1"

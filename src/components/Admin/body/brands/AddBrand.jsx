@@ -28,7 +28,7 @@ const BrandForm = () => {
       const brand = response.data;
 
       setFormData({
-        name: brand.brandName || '',
+        name: brand.name || '',
       });
 
       setLoading(false);
