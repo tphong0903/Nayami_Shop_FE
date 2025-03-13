@@ -6,7 +6,7 @@ import 'simplebar/dist/simplebar.css';
 export default function SideBar() {
   const [isProductOpen, setIsProductOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-  const [isAttributesOpen, setIsAttributesOpen] = useState(false);
+  const [isBrandsOpen, setIsBrandsOpen] = useState(false);
   const [isUsersOpen, setIsUsersOpen] = useState(false);
   const [isRolesOpen, setIsRolesOpen] = useState(false);
   const [isOrdersOpen, setIsOrdersOpen] = useState(false);
@@ -78,28 +78,28 @@ export default function SideBar() {
               <li className="sidebar-list">
                 <a className="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsCategoryOpen)}>
                   <i className="ri-list-check-2" />
-                  <span>Category</span>
+                  <span>Danh mục</span>
                   <i className={`ri-arrow-${isCategoryOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
                 </a>
                 {isCategoryOpen && (
                   <ul className="sidebar-submenu">
-                    <li><Link to="category.html">Category List</Link></li>
-                    <li><a href="add-new-category.html">Add New Category</a></li>
+                    <li><Link to="/admin/categories">Danh sách danh mục</Link></li>
+                    <li><Link to="/admin/add-new-category">Thêm danh mục</Link></li>
                   </ul>
                 )}
               </li>
 
-              {/* Attributes Menu */}
+              {/* Brands Menu */}
               <li className="sidebar-list">
-                <a className="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsAttributesOpen)}>
+                <a className="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsBrandsOpen)}>
                   <i className="ri-list-settings-line" />
-                  <span>Attributes</span>
-                  <i className={`ri-arrow-${isAttributesOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
+                  <span>Thương hiệu</span>
+                  <i className={`ri-arrow-${isBrandsOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
                 </a>
-                {isAttributesOpen && (
+                {isBrandsOpen && (
                   <ul className="sidebar-submenu">
-                    <li><a href="attributes.html">Attributes</a></li>
-                    <li><a href="add-new-attributes.html">Add Attributes</a></li>
+                    <li><Link to="/admin/brands">Danh sách thương hiệu</Link></li>
+                    <li><Link to="/admin/add-new-brand">Thêm thương hiệu</Link></li>
                   </ul>
                 )}
               </li>
