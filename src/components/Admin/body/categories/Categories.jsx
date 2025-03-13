@@ -85,7 +85,7 @@ const CategoryList = () => {
                     </thead>
 
                     <tbody>
-                      {categories.length > 0 ? (
+                      {categories.length != 0 ? (
                         categories.map((category) => (
                           <tr key={category.id}>
                             <td>{category.categoryName}</td>

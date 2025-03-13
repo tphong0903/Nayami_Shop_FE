@@ -1,3 +1,4 @@
+import { Inventory2Outlined, LogoutOutlined, PeopleAltOutlined, PermPhoneMsgOutlined, TuneOutlined } from "@mui/icons-material";
 
 export default function AdminHeader() {
   return (
@@ -8,12 +9,12 @@ export default function AdminHeader() {
             <a href="index.html">
               <img
                 className="img-fluid main-logo"
-                src="assets/images/logo/1.png"
+                src="/src/assets/Admin//images/logo/1.png"
                 alt="logo"
               />
               <img
                 className="img-fluid white-logo"
-                src="assets/images/logo/1-white.png"
+                src="/src/assets/Admin//images/logo/1-white.png"
                 alt="logo"
               />
             </a>
@@ -24,7 +25,7 @@ export default function AdminHeader() {
               data-feather="align-center"
             />
             <a href="index.html">
-              <img src="assets/images/logo/1.png" className="img-fluid" alt="" />
+              <img src="/src/assets/Admin//images/logo/1.png" className="img-fluid" alt="" />
             </a>
           </div>
         </div>
@@ -66,7 +67,7 @@ export default function AdminHeader() {
                 <span className="badge rounded-pill badge-theme">4</span>
               </div>
               <ul className="notification-dropdown onhover-show-div">
-                <li>
+                <li style={{ display: 'block' }}>
                   <i className="ri-notification-line" />
                   <h6 className="f-18 mb-0">Notitications</h6>
                 </li>
@@ -101,16 +102,12 @@ export default function AdminHeader() {
                 </li>
               </ul>
             </li>
-            <li>
-              <div className="mode">
-                <i className="ri-moon-line" />
-              </div>
-            </li>
+
             <li className="profile-nav onhover-dropdown pe-0 me-0">
               <div className="media profile-media">
                 <img
                   className="user-profile rounded-circle"
-                  src="assets/images/users/4.jpg"
+                  src="/src/assets/Admin/images/users/4.jpg"
                   alt=""
                 />
                 <div className="user-name-hide media-body">
@@ -124,25 +121,25 @@ export default function AdminHeader() {
               <ul className="profile-dropdown onhover-show-div">
                 <li>
                   <a href="all-users.html">
-                    <i data-feather="users" />
+                    <PeopleAltOutlined />
                     <span>Users</span>
                   </a>
                 </li>
                 <li>
                   <a href="order-list.html">
-                    <i data-feather="archive" />
+                    <Inventory2Outlined />
                     <span>Orders</span>
                   </a>
                 </li>
                 <li>
                   <a href="support-ticket.html">
-                    <i data-feather="phone" />
+                    <PermPhoneMsgOutlined />
                     <span>Spports Tickets</span>
                   </a>
                 </li>
                 <li>
                   <a href="profile-setting.html">
-                    <i data-feather="settings" />
+                    <TuneOutlined />
                     <span>Settings</span>
                   </a>
                 </li>
@@ -152,7 +149,7 @@ export default function AdminHeader() {
                     data-bs-target="#staticBackdrop"
                     href="javascript:void(0)"
                   >
-                    <i data-feather="log-out" />
+                    <LogoutOutlined />
                     <span>Log out</span>
                   </a>
                 </li>
