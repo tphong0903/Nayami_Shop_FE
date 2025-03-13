@@ -19,7 +19,6 @@
     "datatables.net-bs5": "^2.2.2",
     "datatables.net-dt": "^2.2.2",
     "datatables.net-react": "^1.0.0",
-
     "feather-icons": "^4.29.2",
     "jquery": "^3.7.1",
     "nayami-shop-fe": "file:",
