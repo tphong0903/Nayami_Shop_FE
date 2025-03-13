@@ -2009,16 +2009,21 @@ natural-compare@^1.4.0:
     "@mui/icons-material" "^6.4.0"
     "@mui/material" "^6.4.0"
     axios "^1.8.3"
+
     datatables.net-dt "^2.2.2"
     datatables.net-react "^1.0.0"
     feather-icons "^4.29.2"
     nayami-shop-fe "file:C:/Users/MSI_PC/AppData/Local/Yarn/Cache/v6/npm-nayami-shop-fe-0.0.0-9ce59cbc-b494-47ca-9384-a6920b0da260-1741839926777/node_modules/nayami-shop-fe"
+
+  
     react "^18.3.1"
     react-dom "^18.3.1"
     react-helmet "^6.1.0"
     react-router-dom "^7.1.3"
     simplebar "^6.3.0"
+
     sweetalert2 "^11.17.2"
+
 
 object-assign@^4.1.1:
   version "4.1.1"
