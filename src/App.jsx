@@ -10,6 +10,8 @@ import DashBoard from './components/Admin/body/dashboard/DashBoard';
 import Products from './components/Admin/body/products/Products'
 import AddProduct from './components/Admin/body/products/AddProduct';
 import UserDashboard from './pages/UserDashboard';
+import Users from './components/Admin/body/users/Users';
+import AddUser from './components/Admin/body/users/AddUser';
 function App() {
 
   useEffect(() => {
@@ -26,9 +28,11 @@ function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/admin" element={<AdminPage />}>
-            <Route path="" element={<DashBoard />} />
+            <Route index element={<DashBoard />} />
             <Route path="products" element={<Products />} />
             <Route path="add-new-product" element={<AddProduct />} />
+            <Route path="users" element={<Users />} />
+            <Route path="add-new-user" element={<AddUser />} />
           </Route>
         </Routes>
       </Router>

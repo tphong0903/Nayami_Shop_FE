@@ -83,7 +83,7 @@ export default function SideBar() {
                 </a>
                 {isCategoryOpen && (
                   <ul className="sidebar-submenu">
-                    <li><a href="category.html">Category List</a></li>
+                    <li><Link to="category.html">Category List</Link></li>
                     <li><a href="add-new-category.html">Add New Category</a></li>
                   </ul>
                 )}
@@ -113,8 +113,8 @@ export default function SideBar() {
                 </a>
                 {isUsersOpen && (
                   <ul className="sidebar-submenu">
-                    <li><a href="all-users.html">All Users</a></li>
-                    <li><a href="add-new-user.html">Add New User</a></li>
+                    <li><Link to="/admin/users">All Users</Link></li>
+                    <li><Link to="/admin/add-new-user">Add New User</Link></li>
                   </ul>
                 )}
               </li>
