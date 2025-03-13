@@ -14,13 +14,20 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.4.0",
     "@mui/material": "^6.4.0",
+    "axios": "^1.8.3",
+    "datatables.net": "^2.2.2",
+    "datatables.net-bs5": "^2.2.2",
+    "datatables.net-dt": "^2.2.2",
+    "datatables.net-react": "^1.0.0",
     "feather-icons": "^4.29.2",
+    "jquery": "^3.7.1",
     "nayami-shop-fe": "file:",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-helmet": "^6.1.0",
     "react-router-dom": "^7.1.3",
-    "simplebar": "^6.3.0"
+    "simplebar": "^6.3.0",
+    "sweetalert2": "^11.17.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
