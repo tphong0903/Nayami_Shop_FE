@@ -1,6 +1,10 @@
-import { Inventory2Outlined, LogoutOutlined, PeopleAltOutlined, PermPhoneMsgOutlined, TuneOutlined } from "@mui/icons-material";
+import { Inventory2Outlined, LogoutOutlined, PeopleAltOutlined, PermPhoneMsgOutlined, TuneOutlined } from '@mui/icons-material';
 
-export default function AdminHeader() {
+export default function AdminHeader({ setSidebarOpen }) {
+  const toggleSidebar = () => {
+    setSidebarOpen();
+  };
+
   return (
     <div className="page-header">
       <div className="header-wrapper m-0">
@@ -19,14 +23,12 @@ export default function AdminHeader() {
               />
             </a>
           </div>
-          <div className="toggle-sidebar">
+          <div className="toggle-sidebar" onClick={toggleSidebar}>
             <i
               className="status_toggle middle sidebar-toggle"
+              onClick={toggleSidebar}
               data-feather="align-center"
             />
-            <a href="index.html">
-              <img src="/src/assets/Admin//images/logo/1.png" className="img-fluid" alt="" />
-            </a>
           </div>
         </div>
         <form
@@ -119,31 +121,31 @@ export default function AdminHeader() {
                 </div>
               </div>
               <ul className="profile-dropdown onhover-show-div">
-                <li>
+                <li style={{ display: 'block', width: '100%' }}>
                   <a href="all-users.html">
                     <PeopleAltOutlined />
                     <span>Users</span>
                   </a>
                 </li>
-                <li>
+                <li style={{ display: 'block', width: '100%' }}>
                   <a href="order-list.html">
                     <Inventory2Outlined />
                     <span>Orders</span>
                   </a>
                 </li>
-                <li>
+                <li style={{ display: 'block', width: '100%' }}>
                   <a href="support-ticket.html">
                     <PermPhoneMsgOutlined />
-                    <span>Spports Tickets</span>
+                    <span>Support Tickets</span>
                   </a>
                 </li>
-                <li>
+                <li style={{ display: 'block', width: '100%' }}>
                   <a href="profile-setting.html">
                     <TuneOutlined />
                     <span>Settings</span>
                   </a>
                 </li>
-                <li>
+                <li style={{ display: 'block', width: '100%' }}>
                   <a
                     data-bs-toggle="modal"
                     data-bs-target="#staticBackdrop"
@@ -154,6 +156,7 @@ export default function AdminHeader() {
                   </a>
                 </li>
               </ul>
+
             </li>
           </ul>
         </div>
