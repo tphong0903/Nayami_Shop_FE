@@ -8,8 +8,6 @@ export default function CartTable() {
           <table className="table">
             <tbody>
               <Product />
-              <Product />
-              <Product />
             </tbody>
           </table>
         </div>
