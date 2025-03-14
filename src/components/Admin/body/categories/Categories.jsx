@@ -6,8 +6,6 @@ import Swal from 'sweetalert2';
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchCategories();
@@ -15,14 +13,10 @@ const CategoryList = () => {
 
   const fetchCategories = async () => {
     try {
-      setLoading(true);
       const response = await axios.get('/api/categories');
       setCategories(response.data);
     } catch (err) {
-      setError('Failed to fetch categories');
       console.error('Error fetching categories:', err);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -50,15 +44,6 @@ const CategoryList = () => {
       }
     });
   };
-
-  if (loading) {
-    return <div className="loader-wrapper">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="alert alert-danger">{error}</div>;
-  }
-
   return (
     <div className="page-body">
       <div className="container-fluid">
@@ -92,7 +77,7 @@ const CategoryList = () => {
                             <td>
                               <ul>
                                 <li>
-                                  <Link to={`/admin/add-new-category/${category.id}`}>
+                                  <Link to={`/admin/update-new-category/${category.id}`}>
                                     <i className="ri-pencil-line" />
                                   </Link>
                                 </li>

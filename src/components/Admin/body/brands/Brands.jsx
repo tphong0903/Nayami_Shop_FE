@@ -6,8 +6,6 @@ import Swal from 'sweetalert2';
 
 const BrandList = () => {
   const [brands, setBrands] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchBrands();
@@ -15,14 +13,10 @@ const BrandList = () => {
 
   const fetchBrands = async () => {
     try {
-      setLoading(true);
       const response = await axios.get('/api/brands');
       setBrands(response.data);
     } catch (err) {
-      setError('Failed to fetch brands');
       console.error('Error fetching brands:', err);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -50,14 +44,6 @@ const BrandList = () => {
       }
     });
   };
-
-  if (loading) {
-    return <div className="loader-wrapper">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="alert alert-danger">{error}</div>;
-  }
 
   return (
     <div className="page-body">
@@ -92,7 +78,7 @@ const BrandList = () => {
                             <td>
                               <ul>
                                 <li>
-                                  <Link to={`/admin/add-new-brand/${Brand.id}`}>
+                                  <Link to={`/admin/update-new-brand/${Brand.id}`}>
                                     <i className="ri-pencil-line" />
                                   </Link>
                                 </li>

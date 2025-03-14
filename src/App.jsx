@@ -42,10 +42,10 @@ function App() {
             <Route path="add-new-user" element={<AddUser />} />
             <Route path="categories" element={<Categories />} />
             <Route path="/admin/add-new-category/" element={<AddCategory />} />
-            <Route path="/admin/add-new-category/:id" element={<AddCategory />} />
+            <Route path="/admin/update-new-category/:id" element={<AddCategory />} />
             <Route path="brands" element={<Brands />} />
             <Route path="/admin/add-new-brand/" element={<AddBrand />} />
-            <Route path="/admin/add-new-brand/:id" element={<AddBrand />} />
+            <Route path="/admin/update-new-brand/:id" element={<AddBrand />} />
 
           </Route>
         </Routes>
