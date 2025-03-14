@@ -1,4 +1,5 @@
-import React from 'react'
+
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 export default function ProductItem({ product, deleteProduct }) {
   return (
@@ -22,23 +23,20 @@ export default function ProductItem({ product, deleteProduct }) {
         </td>
         <td>
           <ul>
-            <li>
-              <a href={`/order-detail/${product.id}`}>
+            {/* <li>
+              <Link to={`/view-product/${product.id}`}>
                 <i className="ri-eye-line" />
-              </a>
-            </li>
+              </Link>
+            </li> */}
             <li>
-              <a href={`/edit-product/${product.id}`}>
+              <Link to={`/admin/edit-product/${product.id}`}>
                 <i className="ri-pencil-line" />
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" onClick={(e) => {
-                e.preventDefault();
-                deleteProduct(product);
-              }} data-bs-toggle="modal" data-bs-target="#exampleModalToggle">
+              <Link onClick={() => { deleteProduct(product); }} data-bs-toggle="modal" data-bs-target="#exampleModalToggle">
                 <i className="ri-delete-bin-line" />
-              </a>
+              </Link>
             </li>
           </ul>
         </td>

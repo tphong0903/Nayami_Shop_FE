@@ -17,11 +17,9 @@ export default function Products() {
     axios
       .get('/api/products')
       .then((response) => {
-        console.log('API response:', response.data)
         setProducts(response.data.data)
       })
       .catch((error) => {
-        console.error('Lỗi khi lấy dữ liệu sản phẩm:', error)
         Swal.fire('Lỗi!', 'Không thể tải danh sách sản phẩm.', 'error')
       })
   }, [])
@@ -54,7 +52,7 @@ export default function Products() {
               Swal.fire('Lỗi!', 'Không thể tải danh sách sản phẩm.', 'error')
             })
 
-          Swal.fire('Đã xoá!', 'Sản phẩm đã được ẩn thành công.', 'success');
+          Swal.fire('Thành công!', '', 'success');
         } catch (err) {
           Swal.fire('Lỗi!', 'Đã có lỗi ', 'error');
         }

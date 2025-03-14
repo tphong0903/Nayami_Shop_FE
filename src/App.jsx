@@ -36,7 +36,7 @@ function App() {
             <Route index element={<DashBoard />} />
             <Route path="products" element={<Products />} />
             <Route path="add-new-product" element={<AddProduct />} />
-            <Route path="update-new-product/:id" element={<AddProduct />} />
+            <Route path="edit-product/:id" element={<AddProduct />} />
 
             <Route path="users" element={<Users />} />
             <Route path="add-new-user" element={<AddUser />} />
