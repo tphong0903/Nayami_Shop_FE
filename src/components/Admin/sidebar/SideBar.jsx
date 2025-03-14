@@ -1,9 +1,10 @@
+
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SimpleBar from 'simplebar';
 import 'simplebar/dist/simplebar.css';
 
-export default function SideBar() {
+export default function SideBar({ value, setSidebarOpen }) {
   const [isProductOpen, setIsProductOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isBrandsOpen, setIsBrandsOpen] = useState(false);
@@ -14,8 +15,12 @@ export default function SideBar() {
   const [isCouponsOpen, setIsCouponsOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
+
   const toggleMenu = (menuSetter) => {
     menuSetter(prevState => !prevState);
+  };
+  const toggleSidebar = () => {
+    setSidebarOpen();
   };
 
   useEffect(() => {
@@ -26,22 +31,22 @@ export default function SideBar() {
   }, []);
 
   return (
-    <div className="sidebar-wrapper">
+    <div className="sidebar-wrapper" style={{ display: value ? 'block' : 'none' }}>
       <div id="sidebarEffect"></div>
       <div>
         <div className="logo-wrapper logo-wrapper-center">
-          <a href="index.html">
+          <a>
             <img className="img-fluid for-white" src="/src/assets/Admin/images/logo/full-white.png" alt="logo" />
           </a>
-          <div className="back-btn">
+          <div className="back-btn" onClick={toggleSidebar}>
             <i className="fa fa-angle-left" />
           </div>
-          <div className="toggle-sidebar">
+          <div className="toggle-sidebar" >
             <i className="ri-apps-line status_toggle middle sidebar-toggle" />
           </div>
         </div>
         <div className="logo-icon-wrapper">
-          <a href="index.html">
+          <a>
             <img className="img-fluid main-logo main-white" src="/src/assets/Admin/images/logo/logo.png" alt="logo" />
             <img className="img-fluid main-logo main-dark" src="/src/assets/Admin/images/logo/logo-white.png" alt="logo" />
           </a>

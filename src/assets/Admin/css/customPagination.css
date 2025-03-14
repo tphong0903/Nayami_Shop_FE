@@ -1,4 +1,3 @@
-
 .dt-paging {
   display: flex;
   justify-content: center;
@@ -38,4 +37,8 @@
 
 .dt-paging .page-item {
   font-size: 18px;
+}
+
+.table>:not(:first-child) {
+  border-top: 0px
 }

@@ -78,7 +78,7 @@ const BrandList = () => {
                             <td>
                               <ul>
                                 <li>
-                                  <Link to={`/admin/add-new-brand/${Brand.id}`}>
+                                  <Link to={`/admin/update-new-brand/${Brand.id}`}>
                                     <i className="ri-pencil-line" />
                                   </Link>
                                 </li>

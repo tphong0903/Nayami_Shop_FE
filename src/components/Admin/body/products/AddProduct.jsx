@@ -1,593 +1,481 @@
 
+import { useState, useEffect, useRef } from 'react'
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios'
+import Swal from 'sweetalert2'
+import { Rating } from '@mui/material';
+import { Editor } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function AddProduct() {
+  const [loading, setLoading] = useState(true);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const isEditMode = !!id;
+  const [listBrands, setBrands] = useState([])
+  const [listCategorys, setCategorys] = useState([])
+  const [listDisocunts, setDiscouts] = useState([])
+  const [images, setImages] = useState([]);
+  const editorRef = useRef(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    brandDTO: {
+      id: null,
+      name: '',
+    },
+    categoryDTO: {
+      id: null,
+      categoryName: '',
+    },
+    discountDTO: null,
+    ratingAvg: 0,
+    quantity: 0,
+    originalPrice: 0,
+    unitPrice: 0,
+    displayStatus: false,
+    productStatus: '',
+    listImage: [],
+    configDTO: {
+      category: null,
+      listOtherConfigDTO: [],
+    },
+  });
+
+  const handleSave = async () => {
+    const editorContent = editorRef.current?.getInstance().getMarkdown() || '';
+    const updatedFormData = {
+      ...formData,
+      description: editorContent
+    };
+    const uploadData = new FormData();
+    uploadData.append('productDTO', JSON.stringify(updatedFormData));
+
+    images.forEach(file => uploadData.append('files', file));
+
+    try {
+      const response = await axios.post('/api/products', uploadData, {
+        headers: { 'Content-Type': 'multipart/form-data;' }
+      });
+
+      if (response.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Sản phẩm đã được lưu thành công! 🎉',
+          timer: 3000,
+          showConfirmButton: false,
+        });
+
+        setTimeout(() => {
+          navigate('/admin/products');
+        }, 3000);
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi!',
+        text: 'Có lỗi xảy ra, vui lòng thử lại! ❌',
+        timer: 3000,
+        showConfirmButton: false,
+      });
+    }
+  };
+  const addOption = () => {
+    setFormData(prev => ({
+      ...prev,
+      configDTO: {
+        ...prev.configDTO,
+        listOtherConfigDTO: [...prev.configDTO.listOtherConfigDTO, { id: '', name: '', value: '' }]
+      }
+    }));
+  };
+
+  const handleChange = (index, field, value) => {
+    setFormData(prev => {
+      const newOptions = [...prev.configDTO.listOtherConfigDTO];
+      newOptions[index] = { ...newOptions[index], [field]: value };
+      return {
+        ...prev,
+        configDTO: {
+          ...prev.configDTO,
+          listOtherConfigDTO: newOptions
+        }
+      };
+    });
+  };
+
+  const handleDeleteOption = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      configDTO: {
+        ...prev.configDTO,
+        listOtherConfigDTO: prev.configDTO.listOtherConfigDTO.filter((_, i) => i !== index)
+      }
+    }));
+  };
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      description: '',
+      brandDTO: {
+        id: null,
+        name: '',
+      },
+      categoryDTO: {
+        id: null,
+        categoryName: '',
+      },
+      discountDTO: null,
+      ratingAvg: 0,
+      quantity: 0,
+      originalPrice: 0,
+      unitPrice: 0,
+      displayStatus: false,
+      productStatus: '',
+      listImage: [],
+      configDTO: {
+        category: null,
+        listOtherConfigDTO: [],
+      },
+    });
+
+    setImages([]);
+
+    if (editorRef.current) {
+      editorRef.current.getInstance().setMarkdown('');
+    }
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    resetForm()
+    axios
+      .get('/api/brands')
+      .then((response) => {
+        setBrands(response.data)
+      })
+      .catch(() => {
+        Swal.fire('Lỗi!', 'Không thể tải danh sách thương hiệu.', 'error')
+      })
+    axios
+      .get('/api/categories')
+      .then((response) => {
+        setCategorys(response.data)
+      })
+      .catch(() => {
+        Swal.fire('Lỗi!', 'Không thể tải danh sách danh mục.', 'error')
+      })
+    // axios
+    //   .get('/api/discountdetails')
+    //   .then((response) => {
+    //     listCategorys(response.data.data)
+    //   })
+    //   .catch((error) => {
+    //     Swal.fire('Lỗi!', 'Không thể tải danh sách danh mục.', 'error')
+    //   })
+    if (isEditMode) {
+      axios
+        .get(`/api/products/${id}`)
+        .then((response) => {
+          setFormData(response.data.data)
+        })
+        .catch(() => {
+          Swal.fire('Lỗi!', 'Không thể tải danh sách thương hiệu.', 'error')
+        })
+    }
+    setLoading(false);
+  }, [id, isEditMode])
+
+  const handleImageChange = (event) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) {
+      return
+    };
+
+    const imageArray = Array.from(files).map((file) =>
+      URL.createObjectURL(file)
+    );
+    setFormData((formData) => ({ ...formData, listImage: [...imageArray] }));
+
+    const fileArray = Array.from(files).filter((file) => file.type.startsWith('image/'));
+    setImages((prevImages) => [...prevImages, ...fileArray]);
+  };
+
   return (
     <div className="page-body">
-      {/* New Product Add Start */}
       <div className="container-fluid">
         <div className="row">
           <div className="col-12">
             <div className="row">
-              <div className="col-sm-8 m-auto">
-                <div className="card">
-                  <div className="card-body">
-                    <div className="card-header-2">
-                      <h5>Product Information</h5>
-                    </div>
-                    <form className="theme-form theme-form-2 mega-form">
-                      <div className="mb-4 row align-items-center">
-                        <label className="form-label-title col-sm-3 mb-0">
-                          Product Name
-                        </label>
-                        <div className="col-sm-9">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Product Name"
-                          />
-                        </div>
+              {loading ? <div className="loader-wrapper">Loading...</div> :
+                <div className="col-sm-8 m-auto">
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="card-header-2">
+                        <h5>Product Information</h5>
                       </div>
-                      <div className="mb-4 row align-items-center">
-                        <label className="col-sm-3 col-form-label form-label-title">
-                          Product Type
-                        </label>
-                        <div className="col-sm-9">
-                          <select
-                            className="js-example-basic-single w-100"
-                            name="state"
-                          >
-                            <option disabled="">Static Menu</option>
-                            <option>Simple</option>
-                            <option>Classified</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="mb-4 row align-items-center">
-                        <label className="col-sm-3 col-form-label form-label-title">
-                          Category
-                        </label>
-                        <div className="col-sm-9">
-                          <select
-                            className="js-example-basic-single w-100"
-                            name="state"
-                          >
-                            <option disabled="">Category Menu</option>
-                            <option>Electronics</option>
-                            <option>TV &amp; Appliances</option>
-                            <option>Home &amp; Furniture</option>
-                            <option>Another</option>
-                            <option>Baby &amp; Kids</option>
-                            <option>Health, Beauty &amp; Perfumes</option>
-                            <option>Uncategorized</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="mb-4 row align-items-center">
-                        <label className="col-sm-3 col-form-label form-label-title">
-                          Subcategory
-                        </label>
-                        <div className="col-sm-9">
-                          <select
-                            className="js-example-basic-single w-100"
-                            name="state"
-                          >
-                            <option disabled="">Subcategory Menu</option>
-                            <option>Ethnic Wear</option>
-                            <option>Ethnic Bottoms</option>
-                            <option>Women Western Wear</option>
-                            <option>Sandels</option>
-                            <option>Shoes</option>
-                            <option>Beauty &amp; Grooming</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="mb-4 row align-items-center">
-                        <label className="col-sm-3 col-form-label form-label-title">
-                          Brand
-                        </label>
-                        <div className="col-sm-9">
-                          <select className="js-example-basic-single w-100">
-                            <option disabled="">Brand Menu</option>
-                            <option value="puma">Puma</option>
-                            <option value="hrx">HRX</option>
-                            <option value="roadster">Roadster</option>
-                            <option value="zara">Zara</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="mb-4 row align-items-center">
-                        <label className="col-sm-3 col-form-label form-label-title">
-                          Unit
-                        </label>
-                        <div className="col-sm-9">
-                          <select className="js-example-basic-single w-100">
-                            <option disabled="">Unit Menu</option>
-                            <option>Kilogram</option>
-                            <option>Pieces</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="mb-4 row align-items-center">
-                        <label className="col-sm-3 col-form-label form-label-title">
-                          Tags
-                        </label>
-                        <div className="col-sm-9">
-                          <div className="bs-example">
+                      <form className="theme-form theme-form-2 mega-form">
+                        <div className="mb-4 row align-items-center">
+                          <label className="form-label-title col-sm-3 mb-0">
+                            Tên sản phẩm
+                          </label>
+                          <div className="col-sm-9">
                             <input
-                              type="text"
                               className="form-control"
-                              placeholder="Type tag & hit enter"
-                              id="#inputTag"
-                              data-role="tagsinput"
+                              type="text"
+                              value={formData.name}
+                              placeholder="Product Name"
+                              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             />
                           </div>
                         </div>
-                      </div>
-                      <div className="mb-4 row align-items-center">
-                        <label className="col-sm-3 col-form-label form-label-title">
-                          Exchangeable
-                        </label>
-                        <div className="col-sm-9">
-                          <label className="switch">
-                            <input type="checkbox" />
-                            <span className="switch-state" />
+                        <div className="mb-4 row align-items-center">
+                          <label className="col-sm-3 col-form-label form-label-title">
+                            Trạng thái sản phẩm
                           </label>
+                          <div className="col-sm-9">
+                            <select
+                              className="js-example-basic-single w-100"
+                              value={formData.productStatus}
+                              name="state"
+                              onChange={(e) => setFormData({ ...formData, productStatus: e.target.value })}
+                            >
+                              <option disabled="">Static Menu</option>
+                              <option value={'COMING_SOON'}>Coming soon</option>
+                              <option value={'ON_SELL'}>Còn kinh doanh</option>
+                              <option value={'OUT_OF_STOCK'}>Hết hàng</option>
+                              <option value={'STOP_SELLING'}>Ngừng kinh doanh</option>
+                            </select>
+                          </div>
                         </div>
-                      </div>
-                      <div className="row align-items-center">
-                        <label className="col-sm-3 col-form-label form-label-title">
-                          Refundable
-                        </label>
-                        <div className="col-sm-9">
-                          <label className="switch">
-                            <input type="checkbox" defaultChecked="" />
-                            <span className="switch-state" />
+                        <div className="mb-4 row align-items-center">
+                          <label className="col-sm-3 col-form-label form-label-title">
+                            Danh mục
                           </label>
+                          <div className="col-sm-9">
+                            <select
+                              className="js-example-basic-single w-100"
+                              name="categoryName"
+                              value={formData.categoryDTO.categoryName}
+                              onChange={(e) => setFormData({ ...formData, categoryDTO: { categoryName: e.target.value } })}
+
+                            >
+                              <option disabled="">Category Menu</option>
+                              {listCategorys.map(cate => (<option key={cate.id}>{cate.categoryName}</option>))}
+                            </select>
+                          </div>
                         </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-                <div className="card">
-                  <div className="card-body">
-                    <div className="card-header-2">
-                      <h5>Description</h5>
+                        <div className="mb-4 row align-items-center">
+                          <label className="col-sm-3 col-form-label form-label-title">
+                            Khuyến mãi
+                          </label>
+                          <div className="col-sm-9">
+                            <select
+                              className="js-example-basic-single w-100"
+                              name="discountName"
+                            // onChange={(e) => setFormData({ ...formData, categoryDTO: { categoryName: e.target.value } })}
+                            >
+                              <option disabled="">Discount Menu</option>
+                              {/* {listCategorys.map(cate => (<option key={cate.id}>{cate.categoryName}</option>))} */}
+                            </select>
+                          </div>
+                        </div>
+                        <div className="mb-4 row align-items-center">
+                          <label className="col-sm-3 col-form-label form-label-title">
+                            Thương hiệu
+                          </label>
+                          <div className="col-sm-9">
+                            <select className="js-example-basic-single w-100" name="brandName"
+                              onChange={(e) => setFormData({ ...formData, brandDTO: { name: e.target.value } })}
+                              value={formData.brandDTO.name}>
+                              <option disabled="">Brand Menu</option>
+                              {listBrands.map(brand => (<option key={brand.id}>{brand.name}</option>))}
+                            </select>
+                          </div>
+                        </div>
+                        <div className="mb-4 row align-items-center">
+                          <label className="col-sm-3 col-form-label form-label-title">
+                            Giá gốc
+                          </label>
+                          <div className="col-sm-9">
+                            <input
+                              type="text"
+                              onChange={(e) => setFormData({ ...formData, originalPrice: e.target.value })}
+                              value={formData.originalPrice}
+                              className="form-control"
+                              placeholder="VND"
+                              id="inputOriginalPrice"
+                              data-role="tagsinput"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div className="mb-4 row align-items-center">
+                          <label className="col-sm-3 col-form-label form-label-title">
+                            Giá bán
+                          </label>
+                          <div className="col-sm-9">
+                            <input
+                              type="text"
+                              onChange={(e) => setFormData({ ...formData, unitPrice: e.target.value })}
+                              value={formData.unitPrice}
+                              className="form-control"
+                              placeholder="VND"
+                              id="inputUnitPrice"
+                              data-role="tagsinput"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div className="mb-4 row align-items-center">
+                          <label className="col-sm-3 col-form-label form-label-title">
+                            Số lượng
+                          </label>
+                          <div className="col-sm-9">
+                            <input
+                              type="text"
+                              onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
+                              value={formData.quantity}
+                              className="form-control"
+                              placeholder="0"
+                              id="inputQuantity"
+                              data-role="tagsinput"
+                              required
+                            />
+                          </div>
+                        </div>
+                        {isEditMode &&
+                          (
+                            <div className="mb-4 row align-items-center">
+                              <label className="col-sm-3 col-form-label form-label-title">
+                                Đánh giá sản phẩm
+                              </label>
+                              <div className="col-sm-9">
+                                <Rating name="read-only" value={formData.ratingAvg} readOnly />
+                              </div>
+                            </div>
+                          )}
+                      </form>
                     </div>
-                    <form className="theme-form theme-form-2 mega-form">
-                      <div className="row">
-                        <div className="col-12">
-                          <div className="row">
-                            <label className="form-label-title col-sm-3 mb-0">
-                              Product Description
-                            </label>
-                            <div className="col-sm-9">
-                              <div id="editor" />
+                  </div>
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="card-header-2">
+                        <h5>Description</h5>
+                      </div>
+                      <Editor
+                        initialValue={editorRef.current ? editorRef.current.getInstance().setHTML(formData.description) : ''}
+                        initialEditType="wysiwyg"
+                        previewStyle="vertical"
+                        height="400px"
+                        useCommandShortcut={true}
+                        ref={editorRef}
+                      />
+                    </div>
+                  </div>
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="card-header-2">
+                        <h5>Product Images</h5>
+                      </div>
+                      <form className="theme-form theme-form-2 mega-form">
+                        <div className="mb-4 row align-items-center">
+                          <label className="col-sm-3 col-form-label form-label-title">
+                            Images
+                          </label>
+                          <div className="col-sm-9">
+                            <input
+                              type="file"
+                              multiple
+                              accept="image/*"
+                              onChange={handleImageChange}
+                              className="form-control"
+                            />
+                            <div className="mt-3 d-flex flex-wrap gap-2">
+                              {formData.listImage.map((image, index) => (
+                                <img
+                                  key={index}
+                                  src={image}
+                                  alt={`Selected ${index}`}
+                                  className="rounded"
+                                  style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                                />
+                              ))}
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-                <div className="card">
-                  <div className="card-body">
-                    <div className="card-header-2">
-                      <h5>Product Images</h5>
+                      </form>
                     </div>
-                    <form className="theme-form theme-form-2 mega-form">
-                      <div className="mb-4 row align-items-center">
-                        <label className="col-sm-3 col-form-label form-label-title">
-                          Images
-                        </label>
-                        <div className="col-sm-9">
-                          <input
-                            className="form-control form-choose"
-                            type="file"
-                            id="formFile"
-                            multiple=""
-                          />
-                        </div>
-                      </div>
-                      <div className="row align-items-center">
-                        <label className="col-sm-3 col-form-label form-label-title">
-                          Thumbnail Image
-                        </label>
-                        <div className="col-sm-9">
-                          <input
-                            className="form-control form-choose"
-                            type="file"
-                            id="formFileMultiple1"
-                            multiple=""
-                          />
-                        </div>
-                      </div>
-                    </form>
                   </div>
-                </div>
-                <div className="card">
-                  <div className="card-body">
-                    <div className="card-header-2">
-                      <h5>Product Videos</h5>
-                    </div>
-                    <form className="theme-form theme-form-2 mega-form">
-                      <div className="mb-4 row align-items-center">
-                        <label className="col-sm-3 col-form-label form-label-title">
-                          Video Provider
-                        </label>
-                        <div className="col-sm-9">
-                          <select
-                            className="js-example-basic-single w-100"
-                            name="state"
-                          >
-                            <option>Vimeo</option>
-                            <option>Youtube</option>
-                            <option>Dailymotion</option>
-                            <option>Vimeo</option>
-                          </select>
-                        </div>
+
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="card-header-2">
+                        <h5>Product Variations</h5>
                       </div>
-                      <div className="row align-items-center">
-                        <label className="form-label-title col-sm-3 mb-0">
-                          Video Link
-                        </label>
-                        <div className="col-sm-9">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Video Link"
-                          />
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-                <div className="card">
-                  <div className="card-body">
-                    <div className="card-header-2">
-                      <h5>Product variations</h5>
-                    </div>
-                    <form className="theme-form theme-form-2 mega-form">
-                      <div className="mb-4 row align-items-center">
-                        <label className="form-label-title col-sm-3 mb-0">
-                          Option Name
-                        </label>
-                        <div className="col-sm-9">
-                          <select
-                            className="js-example-basic-single w-100"
-                            name="state"
-                          >
-                            <option>Color</option>
-                            <option>Size</option>
-                            <option>Material</option>
-                            <option>Style</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="row align-items-center">
-                        <label className="col-sm-3 col-form-label form-label-title">
-                          Option Value
-                        </label>
-                        <div className="col-sm-9">
-                          <div className="bs-example">
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Type tag & hit enter"
-                              id="#inputTag"
-                              data-role="tagsinput"
-                            />
+                      <form className="theme-form theme-form-2 mega-form">
+                        {formData.configDTO.listOtherConfigDTO.map((option, index) => (
+                          <div key={index} className="mb-3">
+                            <div className="mb-2 row align-items-center">
+                              <div className="col-sm-5">
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Enter Option Name"
+                                  value={option.name}
+                                  onChange={(e) => handleChange(index, 'name', e.target.value)}
+                                />
+                              </div>
+                              <div className="col-sm-5">
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Enter Option Value"
+                                  value={option.value}
+                                  onChange={(e) => handleChange(index, 'value', e.target.value)}
+                                />
+                              </div>
+                              <div className="col-sm-2">
+                                <DeleteIcon onClick={() => handleDeleteOption(index)} />
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </form>
-                    <a href="#" className="add-option">
-                      <i className="ri-add-line me-2" /> Add Another Option
-                    </a>
-                  </div>
-                </div>
-                <div className="card">
-                  <div className="card-body">
-                    <div className="card-header-2">
-                      <h5>Shipping</h5>
+                        ))}
+                      </form>
+                      <button onClick={addOption} className="btn btn-primary mt-3">
+                        <i className="ri-add-line me-2" /> Add Another Option
+                      </button>
                     </div>
-                    <form className="theme-form theme-form-2 mega-form">
-                      <div className="mb-4 row align-items-center">
-                        <label className="form-label-title col-sm-3 mb-0">
-                          Weight (kg)
-                        </label>
-                        <div className="col-sm-9">
-                          <input
-                            className="form-control"
-                            type="number"
-                            placeholder="Weight"
-                          />
-                        </div>
-                      </div>
+                  </div>
+                  <div className="card">
+                    <div className="card-body">
                       <div className="row align-items-center">
-                        <label className="col-sm-3 col-form-label form-label-title">
-                          Dimensions (cm)
-                        </label>
-                        <div className="col-sm-9">
-                          <select
-                            className="js-example-basic-single w-100"
-                            name="state"
+                        <div className="col-sm-12 d-flex justify-content-end">
+                          <button type="submit" className="btn btn-primary me-3" onClick={handleSave}>
+                            {isEditMode ? 'Update Product' : 'Add Product'}
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-secondary"
+                            onClick={() => navigate('/admin/products')}
                           >
-                            <option>Length</option>
-                            <option>Width</option>
-                            <option>Height</option>
-                          </select>
+                            Cancel
+                          </button>
                         </div>
                       </div>
-                    </form>
+                    </div>
                   </div>
                 </div>
-                <div className="card">
-                  <div className="card-body">
-                    <div className="card-header-2">
-                      <h5>Product Price</h5>
-                    </div>
-                    <form className="theme-form theme-form-2 mega-form">
-                      <div className="mb-4 row align-items-center">
-                        <label className="col-sm-3 form-label-title">price</label>
-                        <div className="col-sm-9">
-                          <input
-                            className="form-control"
-                            type="number"
-                            placeholder={0}
-                          />
-                        </div>
-                      </div>
-                      <div className="mb-4 row align-items-center">
-                        <label className="col-sm-3 form-label-title">
-                          Compare at price
-                        </label>
-                        <div className="col-sm-9">
-                          <input
-                            className="form-control"
-                            type="number"
-                            placeholder={0}
-                          />
-                        </div>
-                      </div>
-                      <div className="mb-4 row align-items-center">
-                        <label className="col-sm-3 form-label-title">
-                          Cost per item
-                        </label>
-                        <div className="col-sm-5">
-                          <input
-                            className="form-control"
-                            type="number"
-                            placeholder={0}
-                          />
-                        </div>
-                        <div className="col-sm-2">
-                          <label>Margin:</label>
-                          <span>25%</span>
-                        </div>
-                        <div className="col-sm-2">
-                          <label>Profit:</label>
-                          <span>$5</span>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-                <div className="card">
-                  <div className="card-body">
-                    <div className="card-header-2">
-                      <h5>Product Inventory</h5>
-                    </div>
-                    <form className="theme-form theme-form-2 mega-form">
-                      <div className="mb-4 row align-items-center">
-                        <label className="form-label-title col-sm-3 mb-0">
-                          SKU
-                        </label>
-                        <div className="col-sm-9">
-                          <input className="form-control" type="text" />
-                        </div>
-                      </div>
-                      <div className="mb-4 row align-items-center">
-                        <label className="col-sm-3 col-form-label form-label-title">
-                          Stock Status
-                        </label>
-                        <div className="col-sm-9">
-                          <select
-                            className="js-example-basic-single w-100"
-                            name="state"
-                          >
-                            <option>In Stock</option>
-                            <option>Out Of Stock</option>
-                            <option>On Backorder</option>
-                          </select>
-                        </div>
-                      </div>
-                    </form>
-                    <table className="table variation-table table-responsive-sm">
-                      <thead>
-                        <tr>
-                          <th scope="col">Variant</th>
-                          <th scope="col">Price</th>
-                          <th scope="col">SKU</th>
-                          <th scope="col">Quantity</th>
-                          <th scope="col" />
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Red</td>
-                          <td>
-                            <input
-                              className="form-control"
-                              type="number"
-                              placeholder={0}
-                            />
-                          </td>
-                          <td>
-                            <input
-                              className="form-control"
-                              type="number"
-                              placeholder={0}
-                            />
-                          </td>
-                          <td>
-                            <input
-                              className="form-control"
-                              type="number"
-                              placeholder={0}
-                            />
-                          </td>
-                          <td>
-                            <ul className="order-option">
-                              <li>
-                                <a
-                                  href="javascript:void(0)"
-                                  data-toggle="modal"
-                                  data-target="#deleteModal"
-                                >
-                                  <i className="ri-delete-bin-line" />
-                                </a>
-                              </li>
-                            </ul>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Blue</td>
-                          <td>
-                            <input
-                              className="form-control"
-                              type="number"
-                              placeholder={0}
-                            />
-                          </td>
-                          <td>
-                            <input
-                              className="form-control"
-                              type="number"
-                              placeholder={0}
-                            />
-                          </td>
-                          <td>
-                            <input
-                              className="form-control"
-                              type="number"
-                              placeholder={0}
-                            />
-                          </td>
-                          <td>
-                            <ul className="order-option">
-                              <li>
-                                <a
-                                  href="javascript:void(0)"
-                                  data-toggle="modal"
-                                  data-target="#deleteModal"
-                                >
-                                  <i className="ri-delete-bin-line" />
-                                </a>
-                              </li>
-                            </ul>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <div className="card">
-                  <div className="card-body">
-                    <div className="card-header-2">
-                      <h5>Link Products</h5>
-                    </div>
-                    <form className="theme-form theme-form-2 mega-form">
-                      <div className="mb-4 row align-items-center">
-                        <label className="form-label-title col-sm-3 mb-0">
-                          Upsells
-                        </label>
-                        <div className="col-sm-9">
-                          <input className="form-control" type="search" />
-                        </div>
-                      </div>
-                      <div className="row align-items-center">
-                        <label className="form-label-title col-sm-3 mb-0">
-                          Cross-Sells
-                        </label>
-                        <div className="col-sm-9">
-                          <input className="form-control" type="search" />
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-                <div className="card">
-                  <div className="card-body">
-                    <div className="card-header-2">
-                      <h5>Search engine listing</h5>
-                    </div>
-                    <div className="seo-view">
-                      <span className="link">https://fastkart.com</span>
-                      <h5>
-                        Buy fresh vegetables &amp; Fruits online at best price
-                      </h5>
-                      <p>
-                        Online Vegetable Store - Buy fresh vegetables &amp; Fruits
-                        online at best prices. Order online and get free delivery.
-                      </p>
-                    </div>
-                    <form className="theme-form theme-form-2 mega-form">
-                      <div className="mb-4 row align-items-center">
-                        <label className="form-label-title col-sm-3 mb-0">
-                          Page title
-                        </label>
-                        <div className="col-sm-9">
-                          <input
-                            className="form-control"
-                            type="search"
-                            placeholder="Fresh Fruits"
-                          />
-                        </div>
-                      </div>
-                      <div className="mb-4 row">
-                        <label className="form-label-title col-sm-3 mb-0">
-                          Meta description
-                        </label>
-                        <div className="col-sm-9">
-                          <textarea
-                            className="form-control"
-                            rows={3}
-                            defaultValue=""
-                          />
-                        </div>
-                      </div>
-                      <div className="row">
-                        <label className="form-label-title col-sm-3 mb-0">
-                          URL handle
-                        </label>
-                        <div className="col-sm-9">
-                          <input
-                            className="form-control"
-                            type="search"
-                            placeholder="https://fastkart.com/fresh-veggies"
-                          />
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
+              }
+
             </div>
           </div>
         </div>
       </div>
-      {/* New Product Add End */}
-      {/* footer Start */}
-      <div className="container-fluid">
-        <footer className="footer">
-          <div className="row">
-            <div className="col-md-12 footer-copyright text-center">
-              <p className="mb-0">Copyright 2022 © Fastkart theme by pixelstrap</p>
-            </div>
-          </div>
-        </footer>
-      </div>
-      {/* footer En */}
+
+
     </div>
 
   )

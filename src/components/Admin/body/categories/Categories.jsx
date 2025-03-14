@@ -77,7 +77,7 @@ const CategoryList = () => {
                             <td>
                               <ul>
                                 <li>
-                                  <Link to={`/admin/add-new-category/${category.id}`}>
+                                  <Link to={`/admin/update-new-category/${category.id}`}>
                                     <i className="ri-pencil-line" />
                                   </Link>
                                 </li>
