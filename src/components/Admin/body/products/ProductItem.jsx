@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ProductItem({ product }) {
+export default function ProductItem({ product, deleteProduct }) {
   return (
     <>
       <tr key={product.id}>
@@ -33,7 +33,10 @@ export default function ProductItem({ product }) {
               </a>
             </li>
             <li>
-              <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">
+              <a href="#" onClick={(e) => {
+                e.preventDefault();
+                deleteProduct(product);
+              }} data-bs-toggle="modal" data-bs-target="#exampleModalToggle">
                 <i className="ri-delete-bin-line" />
               </a>
             </li>

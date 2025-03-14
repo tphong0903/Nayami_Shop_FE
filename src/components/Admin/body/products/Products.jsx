@@ -1,10 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom';
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import ProductItem from './ProductItem'
 import $ from 'jquery'
 import 'datatables.net-bs5'
 import '/src/assets/Admin/css/customPagination.css';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+
 
 export default function Products() {
   const [products, setProducts] = useState([])
@@ -12,7 +15,7 @@ export default function Products() {
 
   useEffect(() => {
     axios
-      .get('/api/products/get-all-product')
+      .get('/api/products')
       .then((response) => {
         console.log('API response:', response.data)
         setProducts(response.data.data)
@@ -29,6 +32,36 @@ export default function Products() {
     }
   }, [products])
 
+  const deleteProduct = async (product) => {
+    Swal.fire({
+      title: product.displayStatus == true ? 'Bạn có chắc chắn muốn ẩn sản phẩm không?' : 'Bạn có chắc chắn muốn hiển thị sản phẩm không?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: product.displayStatus == true ? 'Ẩn' : 'Hiển thị',
+      cancelButtonText: 'Hủy'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`/api/products/${product.id}`);
+          axios
+            .get('/api/products')
+            .then((response) => {
+              setProducts(response.data.data)
+            })
+            .catch((error) => {
+              Swal.fire('Lỗi!', 'Không thể tải danh sách sản phẩm.', 'error')
+            })
+
+          Swal.fire('Đã xoá!', 'Sản phẩm đã được ẩn thành công.', 'success');
+        } catch (err) {
+          Swal.fire('Lỗi!', 'Đã có lỗi ', 'error');
+        }
+      }
+    });
+  };
+
   return (
     <div className='page-body'>
       <div className='container-fluid'>
@@ -41,9 +74,9 @@ export default function Products() {
                   <div className='right-options'>
                     <ul>
                       <li>
-                        <a className='btn btn-solid' href='add-new-product.html'>
+                        <Link className='btn btn-solid' to={'/admin/add-new-product'}>
                           Thêm sản phẩm
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
@@ -56,18 +89,18 @@ export default function Products() {
                     <thead>
                       <tr>
                         <th>Hình ảnh</th>
-                        <th>Tên sản phẩm</th>
-                        <th>Danh mục</th>
-                        <th>Số lượng</th>
-                        <th>Giá</th>
-                        <th>Trạng thái</th>
+                        <th>Tên sản phẩm<SwapVertIcon /></th>
+                        <th>Danh mục<SwapVertIcon /></th>
+                        <th>Số lượng<SwapVertIcon /></th>
+                        <th>Giá<SwapVertIcon /></th>
+                        <th>Trạng thái<SwapVertIcon /></th>
                         <th>Tùy chọn</th>
                       </tr>
                     </thead>
                     <tbody>
                       {products.length > 0 ? (
                         products.map((product) => (
-                          <ProductItem key={product.id} product={product} />
+                          <ProductItem key={product.id} product={product} deleteProduct={deleteProduct} />
                         ))
                       ) : (
                         <tr>
