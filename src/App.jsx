@@ -17,6 +17,8 @@ import Categories from './components/Admin/body/categories/Categories';
 import AddCategory from './components/Admin/body/categories/AddCategory';
 import Brands from './components/Admin/body/brands/Brands';
 import AddBrand from './components/Admin/body/brands/AddBrand';
+import DiscountCampain from './components/Admin/body/discounts/DiscountCampain';
+import AddDiscountCampain from './components/Admin/body/discounts/AddDiscountCampain';
 function App() {
   useEffect(() => {
     feather.replace();
@@ -35,6 +37,9 @@ function App() {
             <Route path="products" element={<Products />} />
             <Route path="add-new-product" element={<AddProduct />} />
             <Route path="edit-product/:id" element={<AddProduct />} />
+            <Route path="discounts" element={<DiscountCampain />} />
+            <Route path="add-discounts" element={<AddDiscountCampain />} />
+            <Route path="edit-discounts/:id" element={<AddDiscountCampain />} />
 
             <Route path="users" element={<Users />} />
             <Route path="add-new-user" element={<AddUser />} />

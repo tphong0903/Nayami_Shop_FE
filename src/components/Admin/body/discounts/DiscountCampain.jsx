@@ -2,22 +2,21 @@ import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 import Swal from 'sweetalert2'
-import ProductItem from './ProductItem'
 import $ from 'jquery'
 import 'datatables.net-bs5'
 import '/src/assets/Admin/css/customPagination.css';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
+import DiscountCampainItem from './DiscountCampainItem';
 
-
-export default function Products() {
-  const [products, setProducts] = useState([])
+export default function DiscountCampain() {
+  const [discountCampains, setDiscountCampains] = useState([])
   const tableRef = useRef(null)
 
   useEffect(() => {
     axios
-      .get('/api/products')
+      .get('/api/discounts')
       .then((response) => {
-        setProducts(response.data.data)
+        setDiscountCampains(response.data.data)
       })
       .catch((error) => {
         Swal.fire('Lỗi!', 'Không thể tải danh sách sản phẩm.', 'error')
@@ -25,31 +24,31 @@ export default function Products() {
   }, [])
 
   useEffect(() => {
-    if (products.length > 0) {
+    if (discountCampains.length > 0) {
       $(tableRef.current).DataTable()
     }
-  }, [products])
+  }, [discountCampains])
 
-  const deleteProduct = async (product) => {
+  const deleteDiscountCampain = async (discountCampain) => {
     Swal.fire({
-      title: product.displayStatus == true ? 'Bạn có chắc chắn muốn ẩn sản phẩm không?' : 'Bạn có chắc chắn muốn hiển thị sản phẩm không?',
+      title: discountCampain.active == true ? 'Bạn có chắc chắn muốn tắt khuyến mãi không?' : 'Bạn có chắc chắn muốn kích hoạt không?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
-      confirmButtonText: product.displayStatus == true ? 'Ẩn' : 'Hiển thị',
+      confirmButtonText: discountCampain.active == true ? 'Tắt' : 'Kích hoạt',
       cancelButtonText: 'Hủy'
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`/api/products/${product.id}`);
+          await axios.delete(`/api/discounts/${discountCampain.id}`);
           axios
-            .get('/api/products')
+            .get('/api/discounts')
             .then((response) => {
-              setProducts(response.data.data)
+              setDiscountCampains(response.data.data)
             })
             .catch(() => {
-              Swal.fire('Lỗi!', 'Không thể tải danh sách sản phẩm.', 'error')
+              Swal.fire('Lỗi!', 'Không thể tải danh sách khuyến mãi.', 'error')
             })
 
           Swal.fire('Thành công!', '', 'success');
@@ -68,12 +67,12 @@ export default function Products() {
             <div className='card card-table'>
               <div className='card-body'>
                 <div className='title-header option-title'>
-                  <h5>Danh sách sản phẩm</h5>
+                  <h5>Danh sách chiến dịch khuyến mãi</h5>
                   <div className='right-options'>
                     <ul>
                       <li>
-                        <Link className='btn btn-solid' to={'/admin/add-new-product'}>
-                          Thêm sản phẩm
+                        <Link className='btn btn-solid' to={'/admin/add-discounts'}>
+                          Thêm chiến dịch
                         </Link>
                       </li>
                     </ul>
@@ -86,19 +85,17 @@ export default function Products() {
                   >
                     <thead>
                       <tr>
-                        <th>Hình ảnh</th>
-                        <th>Tên sản phẩm<SwapVertIcon /></th>
-                        <th>Danh mục<SwapVertIcon /></th>
-                        <th>Số lượng<SwapVertIcon /></th>
-                        <th>Giá<SwapVertIcon /></th>
-                        <th>Trạng thái<SwapVertIcon /></th>
+                        <th>Tên</th>
+                        <th>Ngày bắt đầu<SwapVertIcon /></th>
+                        <th>Ngày kết thúc<SwapVertIcon /></th>
+                        <th>Trạng tháithái<SwapVertIcon /></th>
                         <th>Tùy chọn</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {products.length > 0 ? (
-                        products.map((product) => (
-                          <ProductItem key={product.id} product={product} deleteProduct={deleteProduct} />
+                      {discountCampains.length > 0 ? (
+                        discountCampains.map((product) => (
+                          <DiscountCampainItem key={product.id} discountCampainItem={product} deleteDiscountCampain={deleteDiscountCampain} />
                         ))
                       ) : (
                         <tr>
