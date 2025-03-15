@@ -19,13 +19,16 @@ const CategoryForm = () => {
     if (isEditMode) {
       fetchCategoryData();
     }
+    else {
+      setFormData({ name: '' });
+    }
   }, [id, isEditMode]);
 
   const fetchCategoryData = async () => {
     try {
       setLoading(true);
       const response = await axios.get(`/api/categories/${id}`);
-      const category = response.data;
+      const category = response.data.data;
 
       setFormData({
         name: category.categoryName || '',

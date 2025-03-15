@@ -1,13 +1,13 @@
-import { useEffect } from 'react'
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import feather from 'feather-icons';
-import HomePage from './pages/HomePage'
+import HomePage from './pages/HomePage';
 import ProductPage from './pages/ProductPage';
 import ShopPage from './pages/ShopPage';
 import CartPage from './pages/CartPage';
 import AdminPage from './pages/Admin/AdminPage';
 import DashBoard from './components/Admin/body/dashboard/DashBoard';
-import Products from './components/Admin/body/products/Products'
+import Products from './components/Admin/body/products/Products';
 import AddProduct from './components/Admin/body/products/AddProduct';
 import UserDashboard from './pages/UserDashboard';
 
@@ -18,10 +18,8 @@ import AddCategory from './components/Admin/body/categories/AddCategory';
 import Brands from './components/Admin/body/brands/Brands';
 import AddBrand from './components/Admin/body/brands/AddBrand';
 function App() {
-
   useEffect(() => {
     feather.replace();
-
   }, []);
   return (
     <>
@@ -42,17 +40,18 @@ function App() {
             <Route path="add-new-user" element={<AddUser />} />
             <Route path="categories" element={<Categories />} />
             <Route path="/admin/add-new-category/" element={<AddCategory />} />
-            <Route path="/admin/add-new-category/:id" element={<AddCategory />} />
+            <Route
+              path="/admin/update-new-category/:id"
+              element={<AddCategory />}
+            />
             <Route path="brands" element={<Brands />} />
             <Route path="/admin/add-new-brand/" element={<AddBrand />} />
             <Route path="/admin/update-new-brand/:id" element={<AddBrand />} />
-
           </Route>
         </Routes>
       </Router>
-
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -7,7 +7,6 @@ const BrandForm = () => {
   const navigate = useNavigate();
   const isEditMode = !!id;
 
-  // Form state
   const [formData, setFormData] = useState({
     name: '',
   });
@@ -18,14 +17,15 @@ const BrandForm = () => {
   useEffect(() => {
     if (isEditMode) {
       fetchBrandData();
+    } else {
+      setFormData({ name: '' });
     }
-  }, [id, isEditMode]);
-
+  }, [isEditMode, id]);
   const fetchBrandData = async () => {
     try {
       setLoading(true);
       const response = await axios.get(`/api/brands/${id}`);
-      const brand = response.data;
+      const brand = response.data.data;
 
       setFormData({
         name: brand.name || '',
