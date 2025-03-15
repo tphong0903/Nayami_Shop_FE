@@ -5,7 +5,7 @@ export default function CartTable() {
     <div className="col-xxl-9">
       <div className="cart-table">
         <div className="table-responsive-xl">
-          <table className="table-auto w-full text-center align-middle">
+          <table className="table-auto table-fixed w-full text-center align-middle border border-red-500">
             <tbody>
               <Product />
             </tbody>

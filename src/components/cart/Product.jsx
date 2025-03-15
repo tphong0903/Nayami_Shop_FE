@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -15,8 +16,9 @@ const ProductList = () => {
     fetchProducts();
   }, []);
   const token =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MTk1NTI4MiwiZXhwIjoxNzQxOTU2NzIyfQ.ik0NlooEMqqfwHAXrfEt0hCOC5T8BnkF3x9-JP220q4';
+  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjAyMTI1NSwiZXhwIjoxNzQyMDIyNjk1fQ.Hq-qx2_edgXrMvXIImbgX4NMqbnojAyMFbP983DlWEM';
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  const navigate = useNavigate();
 
   const fetchProducts = async () => {
     try {
@@ -24,6 +26,10 @@ const ProductList = () => {
       const response = await axios.get('/api/cart');
       setProducts(response.data.data);
     } catch (err) {
+      if (err.response?.status === 403) {
+        navigate('/login');
+      }
+
       console.error('Error fetching products:', err);
     }
   };
@@ -75,26 +81,33 @@ const ProductList = () => {
     <>
       {products.map((product, index) => (
         <tr className="product-box-contain h-full" key={product.id}>
-          <td className="product-detail">
+          <td className="select-product w-1/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
+            <input
+              type="checkbox"
+              name="select_product"
+              className="w-4 h-4 cursor-pointer"
+            />
+          </td>
+          <td className="product-detail !w-4/14">
             <div className="product border-0">
               <Link to={`/product/${product.id}`} className="product-image">
                 <img
                   src={product.listImage}
                   alt={product.productName}
-                  width={80}
-                  height={90}
+                  width={101}
+                  height={101}
                 />
               </Link>
-              <div className="product-detail">
-                <ul className="name break-words whitespace-normal">
-                  <Link to={`/product/${product.id}`}>
-                    {product.productName}
-                  </Link>
-                </ul>
-              </div>
             </div>
           </td>
-          <td className="unitprice">
+          <td className="uproduct-info  w-4/14  min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
+            <ul className="name break-words whitespace-normal w-full overflow-hidden text-ellipsis">
+              <Link to={`/product/${product.id}`}>
+                {product.productName}
+              </Link>
+            </ul>
+          </td>
+          <td className="unitprice w-2/14  min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
             <h4 className="table-title text-content">Total</h4>
             <h5>
               {new Intl.NumberFormat('vi-VN', {
@@ -103,7 +116,7 @@ const ProductList = () => {
               }).format(product.unitPrice)}
             </h5>
           </td>
-          <td className="quantity align-middle text-center">
+          <td className="quantity  w-2/14 align-middle text-center">
             <div className="d-flex flex-column align-items-center justify-content-center">
               <h4 className="table-title text-content">Qty</h4>
               <div className="quantity-price">
@@ -145,7 +158,7 @@ const ProductList = () => {
             </div>
           </td>
 
-          <td className="subtotal">
+          <td className="subtotal w-2/14  min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
             <h4 className="table-title text-content">Total</h4>
             <h5>
               {new Intl.NumberFormat('vi-VN', {
@@ -154,7 +167,7 @@ const ProductList = () => {
               }).format(product.totalPrice)}
             </h5>
           </td>
-          <td className="save-remove">
+          <td className="save-remove -1/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
             <h4 className="table-title text-content">Action</h4>
             <li>
               <a
