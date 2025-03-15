@@ -14,7 +14,6 @@ export default function AddProduct() {
   const isEditMode = !!id;
   const [listBrands, setBrands] = useState([])
   const [listCategorys, setCategorys] = useState([])
-  const [listDisocunts, setDiscouts] = useState([])
   const [images, setImages] = useState([]);
   const editorRef = useRef(null);
   const [formData, setFormData] = useState({
@@ -28,7 +27,11 @@ export default function AddProduct() {
       id: null,
       categoryName: '',
     },
-    discountDTO: null,
+    discountDTO: {
+      id: 0,
+      percentage: 0,
+      productID: null
+    },
     ratingAvg: 0,
     quantity: 0,
     originalPrice: 0,
@@ -126,7 +129,11 @@ export default function AddProduct() {
         id: null,
         categoryName: '',
       },
-      discountDTO: null,
+      discountDTO: {
+        id: 0,
+        percentage: 0,
+        productID: null
+      },
       ratingAvg: 0,
       quantity: 0,
       originalPrice: 0,
@@ -145,6 +152,20 @@ export default function AddProduct() {
     if (editorRef.current) {
       editorRef.current.getInstance().setMarkdown('');
     }
+  };
+  const handleImageChange = (event) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) {
+      return
+    };
+
+    const imageArray = Array.from(files).map((file) =>
+      URL.createObjectURL(file)
+    );
+    setFormData((formData) => ({ ...formData, listImage: [...imageArray] }));
+
+    const fileArray = Array.from(files).filter((file) => file.type.startsWith('image/'));
+    setImages((prevImages) => [...prevImages, ...fileArray]);
   };
 
   useEffect(() => {
@@ -165,14 +186,6 @@ export default function AddProduct() {
       .catch(() => {
         Swal.fire('Lỗi!', 'Không thể tải danh sách danh mục.', 'error')
       })
-    // axios
-    //   .get('/api/discountdetails')
-    //   .then((response) => {
-    //     listCategorys(response.data.data)
-    //   })
-    //   .catch((error) => {
-    //     Swal.fire('Lỗi!', 'Không thể tải danh sách danh mục.', 'error')
-    //   })
     if (isEditMode) {
       axios
         .get(`/api/products/${id}`)
@@ -184,21 +197,12 @@ export default function AddProduct() {
         })
     }
   }, [id, isEditMode])
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.getInstance().setHTML(formData.description);
+    }
+  }, [formData.description]);
 
-  const handleImageChange = (event) => {
-    const files = event.target.files;
-    if (!files || files.length === 0) {
-      return
-    };
-
-    const imageArray = Array.from(files).map((file) =>
-      URL.createObjectURL(file)
-    );
-    setFormData((formData) => ({ ...formData, listImage: [...imageArray] }));
-
-    const fileArray = Array.from(files).filter((file) => file.type.startsWith('image/'));
-    setImages((prevImages) => [...prevImages, ...fileArray]);
-  };
 
   return (
     <div className="page-body">
@@ -269,12 +273,18 @@ export default function AddProduct() {
                         </label>
                         <div className="col-sm-9">
                           <select
-                            className="js-example-basic-single w-100"
-                            name="discountName"
-                          // onChange={(e) => setFormData({ ...formData, categoryDTO: { categoryName: e.target.value } })}
-                          >
-                            <option disabled="">Discount Menu</option>
-                            {/* {listCategorys.map(cate => (<option key={cate.id}>{cate.categoryName}</option>))} */}
+                            className="js-example-basic-single w-100" name="discountName" value={formData.discountDTO?.percentage || ''} onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                discountDTO: e.target.value === '' ? null : {
+                                  ...formData.discountDTO,
+                                  percentage: e.target.value
+                                },
+                              })}>
+                            <option value={''}>Không có khuyến mãi</option>
+                            <option value={formData.discountDTO?.percentage}>
+                              {formData.discountDTO?.percentage}%
+                            </option>
                           </select>
                         </div>
                       </div>
@@ -362,12 +372,13 @@ export default function AddProduct() {
                       <h5>Description</h5>
                     </div>
                     <Editor
-                      initialValue={editorRef.current ? editorRef.current.getInstance().setHTML(formData.description) : ''}
+                      initialValue=""
                       initialEditType="wysiwyg"
                       previewStyle="vertical"
                       height="400px"
                       useCommandShortcut={true}
                       ref={editorRef}
+                      autoFocus={false}
                     />
                   </div>
                 </div>

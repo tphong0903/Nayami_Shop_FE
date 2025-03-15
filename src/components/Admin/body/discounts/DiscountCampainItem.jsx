@@ -18,7 +18,7 @@ export default function discountCampainItem({ discountCampainItem, deleteDiscoun
               </Link>
             </li> */}
             <li>
-              <Link to={`/admin/edit-product/${discountCampainItem.id}`}>
+              <Link to={`/admin/edit-discounts/${discountCampainItem.id}`}>
                 <i className="ri-pencil-line" />
               </Link>
             </li>

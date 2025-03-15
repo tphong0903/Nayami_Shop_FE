@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
-import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import '@toast-ui/editor/dist/toastui-editor.css';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import $ from 'jquery'
 import 'datatables.net-bs5'
@@ -24,12 +22,11 @@ const style = {
   p: 4,
 };
 
-export default function AddDiscount({ discountDetail, openModal, setOpenModal, handleAddDiscountDetail }) {
+export default function AddDiscount({ discountDetail, openModal, setOpenModal, handleAddDiscountDetail, isEdit, handleUpdateDiscountDetail }) {
   const [products, setProducts] = useState([])
-  const [discountDetailDTO, setDiscountDetailDTO] = useState({ percentage: '', productID: [] })
+  const [discountDetailDTO, setDiscountDetailDTO] = useState(discountDetail)
   const tableRef = useRef(null)
-  const [listProducts, setListProducts] = useState([])
-  const [percent, setPercent] = useState('');
+  const [listProducts, setListProducts] = useState(discountDetail.productID)
 
   const addListProducts = (id) => {
     setListProducts((prevList) => {
@@ -46,7 +43,10 @@ export default function AddDiscount({ discountDetail, openModal, setOpenModal, h
   };
 
   const saveDiscount = () => {
-    handleAddDiscountDetail(discountDetailDTO)
+    if (isEdit == 1)
+      handleUpdateDiscountDetail(discountDetailDTO)
+    else
+      handleAddDiscountDetail(discountDetailDTO)
     setOpenModal(v => !v)
   }
   useEffect(() => {
@@ -55,18 +55,10 @@ export default function AddDiscount({ discountDetail, openModal, setOpenModal, h
       .then((response) => {
         setProducts(response.data.data)
       })
-      .catch((error) => {
+      .catch(() => {
         Swal.fire('Lỗi!', 'Không thể tải danh sách sản phẩm.', 'error')
       })
-    if (discountDetail) {
-      setDiscountDetailDTO({
-        percentage: discountDetail.percentage || '',
-        productID: discountDetail.productID || [],
-      });
-    }
-    console.log(discountDetail)
-    console.log(discountDetailDTO)
-  }, [discountDetailDTO]);
+  }, []);
 
   useEffect(() => {
     if (products.length > 0) {

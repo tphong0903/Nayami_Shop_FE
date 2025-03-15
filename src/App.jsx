@@ -41,6 +41,7 @@ function App() {
             <Route path="edit-product/:id" element={<AddProduct />} />
             <Route path="discounts" element={<DiscountCampain />} />
             <Route path="add-discounts" element={<AddDiscountCampain />} />
+            <Route path="edit-discounts/:id" element={<AddDiscountCampain />} />
 
             <Route path="users" element={<Users />} />
             <Route path="add-new-user" element={<AddUser />} />

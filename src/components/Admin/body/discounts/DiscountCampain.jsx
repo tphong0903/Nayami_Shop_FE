@@ -71,7 +71,7 @@ export default function DiscountCampain() {
                   <div className='right-options'>
                     <ul>
                       <li>
-                        <Link className='btn btn-solid' to={'/admin/add-new-product'}>
+                        <Link className='btn btn-solid' to={'/admin/add-discounts'}>
                           Thêm chiến dịch
                         </Link>
                       </li>

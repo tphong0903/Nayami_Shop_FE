@@ -3,19 +3,16 @@ import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import Swal from 'sweetalert2'
-import { Rating } from '@mui/material';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import discountCampainItem from './DiscountCampainItem';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 import AddDiscount from './AddDiscount';
 
 export default function AddDiscountCampain() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const isEditMode = !!id;
   const editorRef = useRef(null);
   const [openModal, setOpenModal] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -31,12 +28,41 @@ export default function AddDiscountCampain() {
 
   });
   useEffect(() => {
+
   }, [discountCampainModel])
+  useEffect(() => {
+    if (isEditMode) {
+      axios
+        .get(`/api/discounts/${id}`)
+        .then((response) => {
+          setDiscountCampainModel(response.data.data)
+        })
+        .catch(() => {
+          Swal.fire('Lỗi!', 'Không thể tải danh sách thương hiệu.', 'error')
+        })
+    }
+  }, [id, isEditMode])
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.getInstance().setHTML(discountCampainModel.description);
+    }
+  }, [discountCampainModel.description]);
   const handleAddDiscountDetail = (discountDetailModel) => {
     setDiscountCampainModel(prev => ({
       ...prev,
       discountDetailDTOList: [...prev.discountDetailDTOList, discountDetailModel]
     }));
+  };
+
+  const handleUpdateDiscountDetail = (discountDetailModel) => {
+    setDiscountCampainModel(prev => ({
+      ...prev,
+      discountDetailDTOList: prev.discountDetailDTOList
+        .filter(detail => detail !== selectedDiscountDetail)
+        .concat(discountDetailModel)
+    }));
+
+    setSelectedDiscountDetail(null);
   };
   const handleDeleteOption = (index) => {
     setDiscountCampainModel(prev => ({
@@ -46,7 +72,39 @@ export default function AddDiscountCampain() {
   }
   const handleEditDiscountDetail = (discountDetail) => {
     setSelectedDiscountDetail(discountDetail);
-    setOpenModalEdit(true);
+    setOpenModalEdit(v => !v);
+  };
+  const handleSave = async () => {
+    const editorContent = editorRef.current?.getInstance().getMarkdown() || '';
+    setDiscountCampainModel(prev => ({ ...prev, description: editorContent }))
+
+    try {
+      const response = await axios.post('/api/discounts', JSON.stringify(discountCampainModel), {
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      if (response.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Khuyến mãi đã được lưu thành công! 🎉',
+          timer: 3000,
+          showConfirmButton: false,
+        });
+
+        setTimeout(() => {
+          navigate('/admin/discounts');
+        }, 3000);
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi!',
+        text: 'Có lỗi xảy ra, vui lòng thử lại! ❌',
+        timer: 3000,
+        showConfirmButton: false,
+      });
+    }
   };
   return (
     <div className="page-body">
@@ -74,7 +132,7 @@ export default function AddDiscountCampain() {
                                 Coupon Title
                               </label>
                               <div className="col-md-9 col-lg-10">
-                                <input className="form-control" type="text" />
+                                <input className="form-control" type="text" value={discountCampainModel.name} onChange={(e) => setDiscountCampainModel(v => ({ ...v, name: e.target.value }))} />
                               </div>
                             </div>
                             <div className="mb-4 row align-items-center">
@@ -83,7 +141,7 @@ export default function AddDiscountCampain() {
                               </label>
                               <div className="col-md-9 col-lg-10">
                                 <Editor
-                                  // initialValue={editorRef.current ? editorRef.current.getInstance().setHTML(formData.description) : ''}
+                                  initialValue=""
                                   initialEditType="wysiwyg"
                                   previewStyle="vertical"
                                   height="400px"
@@ -97,7 +155,7 @@ export default function AddDiscountCampain() {
                                 Start Date
                               </label>
                               <div className="col-md-9 col-lg-10">
-                                <input className="form-control" type="date" />
+                                <input className="form-control" type="date" value={discountCampainModel.startDate} onChange={(e) => setDiscountCampainModel(v => ({ ...v, startDate: e.target.value }))} />
                               </div>
                             </div>
                             <div className="mb-4 row align-items-center">
@@ -105,7 +163,7 @@ export default function AddDiscountCampain() {
                                 End Date
                               </label>
                               <div className="col-md-9 col-lg-10">
-                                <input className="form-control" type="date" />
+                                <input className="form-control" type="date" value={discountCampainModel.endDate} onChange={(e) => setDiscountCampainModel(v => ({ ...v, endDate: e.target.value }))} />
                               </div>
                             </div>
                           </div>
@@ -146,8 +204,26 @@ export default function AddDiscountCampain() {
                     <button onClick={() => setOpenModal(v => !v)} className="btn btn-primary mt-3">
                       <i className="ri-add-line me-2" /> Add Another Option
                     </button>
-                    {openModalEdit && (<AddDiscount discountDetail={selectedDiscountDetail} openModalEdit={openModalEdit} setOpenModalEdit={setOpenModalEdit} handleAddDiscountDetail={handleAddDiscountDetail} />)}
-                    {openModal && (<AddDiscount openModal={openModal} setOpenModal={setOpenModal} handleAddDiscountDetail={handleAddDiscountDetail} />)}
+                    {openModalEdit && (<AddDiscount discountDetail={selectedDiscountDetail} openModal={openModalEdit} setOpenModal={setOpenModalEdit} handleAddDiscountDetail={handleAddDiscountDetail} handleUpdateDiscountDetail={handleUpdateDiscountDetail} isEdit={1} />)}
+                    {openModal && (<AddDiscount discountDetail={{ percentage: '', productID: [] }} openModal={openModal} setOpenModal={setOpenModal} handleAddDiscountDetail={handleAddDiscountDetail} isEdit={0} />)}
+                  </div>
+                </div>
+                <div className="card">
+                  <div className="card-body">
+                    <div className="row align-items-center">
+                      <div className="col-sm-12 d-flex justify-content-end">
+                        <button type="submit" className="btn btn-primary me-3" onClick={handleSave}>
+                          {isEditMode ? 'Update Discount' : 'Add Discount'}
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-secondary"
+                          onClick={() => navigate('/admin/discounts')}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
