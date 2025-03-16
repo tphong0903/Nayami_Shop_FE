@@ -19,6 +19,10 @@ import Brands from './components/Admin/body/brands/Brands';
 import AddBrand from './components/Admin/body/brands/AddBrand';
 import DiscountCampain from './components/Admin/body/discounts/DiscountCampain';
 import AddDiscountCampain from './components/Admin/body/discounts/AddDiscountCampain';
+import Coupons from './components/Admin/body/coupons/Coupons';
+import AddCoupon from './components/Admin/body/coupons/AddCoupon';
+
+
 function App() {
   useEffect(() => {
     feather.replace();
@@ -44,14 +48,19 @@ function App() {
             <Route path="users" element={<Users />} />
             <Route path="add-new-user" element={<AddUser />} />
             <Route path="categories" element={<Categories />} />
-            <Route path="/admin/add-new-category/" element={<AddCategory />} />
+            <Route path="add-new-category" element={<AddCategory />} />
             <Route
               path="/admin/update-new-category/:id"
               element={<AddCategory />}
             />
             <Route path="brands" element={<Brands />} />
-            <Route path="/admin/add-new-brand/" element={<AddBrand />} />
-            <Route path="/admin/update-new-brand/:id" element={<AddBrand />} />
+            <Route path="add-new-brand" element={<AddBrand />} />
+            <Route path="update-new-brand/:id" element={<AddBrand />} />
+            <Route path="coupons" element={<Coupons />} />
+            <Route path="add-new-coupon" element={<AddCoupon />} />
+            <Route path="update-coupon/:id" element={<AddCoupon />} />
+
+
           </Route>
         </Routes>
       </Router>
