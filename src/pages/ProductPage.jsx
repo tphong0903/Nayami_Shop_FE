@@ -26,11 +26,11 @@ export default function ProductPage() {
       .catch((error) => {
         Swal.fire('Lỗi!', 'Không thể tải sản phẩm.', 'error')
       })
-  }, [id, product])
+  }, [id])
   return (
     <>
       <Header />
-      <BreadCrumbSection title='Chi tiết sản phẩm' page="hhe" />
+      <BreadCrumbSection title='Chi tiết sản phẩm' page={product?.name} />
       <ProductSection product={product} />
       <ReletedProductSection />
       <Footer />
