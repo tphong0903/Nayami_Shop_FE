@@ -258,12 +258,12 @@ export default function AddProduct() {
                           <select
                             className="js-example-basic-single w-100"
                             name="categoryName"
-                            value={formData.categoryDTO.categoryName}
-                            onChange={(e) => setFormData({ ...formData, categoryDTO: { categoryName: e.target.value } })}
+                            value={formData.categoryDTO.id}
+                            onChange={(e) => setFormData({ ...formData, categoryDTO: { id: e.target.value } })}
 
                           >
                             <option disabled="">Category Menu</option>
-                            {listCategorys.map(cate => (<option key={cate.id}>{cate.categoryName}</option>))}
+                            {listCategorys.map(cate => (<option key={cate.id} value={cate.id}>{cate.categoryName}</option>))}
                           </select>
                         </div>
                       </div>
@@ -294,10 +294,10 @@ export default function AddProduct() {
                         </label>
                         <div className="col-sm-9">
                           <select className="js-example-basic-single w-100" name="brandName"
-                            onChange={(e) => setFormData({ ...formData, brandDTO: { name: e.target.value } })}
-                            value={formData.brandDTO.name}>
+                            onChange={(e) => setFormData({ ...formData, brandDTO: { id: e.target.value } })}
+                            value={formData.brandDTO.id}>
                             <option disabled="">Brand Menu</option>
-                            {listBrands.map(brand => (<option key={brand.id}>{brand.name}</option>))}
+                            {listBrands.map(brand => (<option key={brand.id} value={brand.id} >{brand.name}</option>))}
                           </select>
                         </div>
                       </div>

@@ -1,8 +1,12 @@
+import { Rating } from '@mui/material';
 import Hinh1 from '~/assets/images/product/category/1.jpg'
 import Hinh2 from '~/assets/images/product/category/2.jpg'
 import Hinh3 from '~/assets/images/product/category/3.jpg'
 
-export default function SidebarSection() {
+export default function ProductSection({ product }) {
+  if (!product) {
+    return <p>Đang tải sản phẩm...</p>;
+  }
   return (
     <section className="product-section">
       <div className="container-fluid-lg">
@@ -462,98 +466,24 @@ export default function SidebarSection() {
                 }}
               >
                 <div className="right-box-contain">
-                  <h6 className="offer-top">30% Off</h6>
-                  <h2 className="name">Creamy Chocolate Cake</h2>
+                  <h2 className="name">{product?.name}</h2>
                   <div className="price-rating">
                     <h3 className="theme-color price">
-                      $49.50 <del className="text-content">$58.46</del>{' '}
-                      <span className="offer theme-color">(8% off)</span>
+                      {product.unitPrice * (100 - product?.discountDTO.percentage) / 100} VND
+                      {product?.discountDTO != null &&
+                        (
+                          <>
+                            <del className="text-content">{product.unitPrice} VND</del>
+                            <h6 className="offer-top">{product?.discountDTO.percentage}% Off</h6>
+                          </>
+                        )
+                      }
                     </h3>
-                    <div className="product-rating custom-rate">
-                      <ul className="rating">
-                        <li>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-star fill"
-                          >
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                          </svg>
-                        </li>
-                        <li>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-star fill"
-                          >
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                          </svg>
-                        </li>
-                        <li>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-star fill"
-                          >
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                          </svg>
-                        </li>
-                        <li>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-star fill"
-                          >
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                          </svg>
-                        </li>
-                        <li>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-star"
-                          >
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                          </svg>
-                        </li>
-                      </ul>
-                      <span className="review">23 Customer Review</span>
-                    </div>
+
+                  </div>
+                  <div>
+                    <Rating name="read-only" value={product?.ratingAvg ?? 0} readOnly />
+                    <span className="review" style={{ margin: '10px', fontSize: '15px', }}>23 Customer Review</span>
                   </div>
                   <div className="procuct-contain">
                     <p>
