@@ -1,20 +1,39 @@
 import { Rating } from '@mui/material';
-import Hinh1 from '~/assets/images/product/category/1.jpg'
-import Hinh2 from '~/assets/images/product/category/2.jpg'
-import Hinh3 from '~/assets/images/product/category/3.jpg'
 import { useEffect, useState } from 'react';
 import { Editor } from '@toast-ui/react-editor';
 import DealTimer from './DealTimer';
-const formatCurrency = (amount) => {
-  return new Intl.NumberFormat('vi-VN').format(amount) + ' VND';
-};
+import Slider from 'react-slick';
+import { formatCurrency } from '~/utils/formatCurrency';
 
+var settings = {
+  focusOnSelect: true,
+  infinite: true,
+  lazyLoad: true,
+  speed: 500,
+  vertical: true,
+  verticalSwiping: true,
+  arrows: false
+};
 export default function ProductSection({ product }) {
+  const [listImage, setListImage] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  useEffect(() => {
+    if (!product) {
+      return;
+    }
+
+    setListImage(product.listImage || []);
+    if (listImage.length > 0) {
+      setSelectedImage(listImage[0]);
+    }
+  }, [product, listImage]);
+
+
 
   if (!product) {
     return <p>Đang tải sản phẩm...</p>;
   }
-
   return (
     <section className="product-section">
       <div className="container-fluid-lg">
@@ -29,433 +48,40 @@ export default function ProductSection({ product }) {
                 <div className="product-left-box">
                   <div className="row g-2">
                     <div className="col-xxl-10 col-lg-12 col-md-10 order-xxl-2 order-lg-1 order-md-2">
-                      <div className="product-main-2 no-arrow slick-initialized slick-slider">
-                        <div className="slick-list draggable">
-                          <div className="slick-track" style={{ opacity: 1, width: 3006 }}>
-                            <div
-                              className="slick-slide slick-current slick-active"
-                              data-slick-index={0}
-                              aria-hidden="false"
-                              style={{
-                                width: 501,
-                                position: "relative",
-                                left: 0,
-                                top: 0,
-                                zIndex: 999,
-                                opacity: 1
-                              }}
-                              tabIndex={0}
-                            >
-                              <div className="slider-image">
-                                <img
-                                  src={Hinh1}
-                                  id="img-1"
-                                  data-zoom-image={Hinh1}
-                                  className="img-fluid image_zoom_cls-0 blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide"
-                              data-slick-index={1}
-                              aria-hidden="true"
-                              style={{
-                                width: 501,
-                                position: "relative",
-                                left: "-501px",
-                                top: 0,
-                                zIndex: 998,
-                                opacity: 0
-                              }}
-                              tabIndex={-1}
-                            >
-                              <div className="slider-image">
-                                <img
-                                  src={Hinh2}
-                                  data-zoom-image={Hinh2}
-                                  className="img-fluid image_zoom_cls-1 blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide"
-                              data-slick-index={2}
-                              aria-hidden="true"
-                              style={{
-                                width: 501,
-                                position: "relative",
-                                left: "-1002px",
-                                top: 0,
-                                zIndex: 998,
-                                opacity: 0
-                              }}
-                              tabIndex={-1}
-                            >
-                              <div className="slider-image">
-                                <img
-                                  src={Hinh2}
-                                  data-zoom-image={Hinh2}
-                                  className="img-fluid image_zoom_cls-2 blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide"
-                              data-slick-index={3}
-                              aria-hidden="true"
-                              style={{
-                                width: 501,
-                                position: "relative",
-                                left: "-1503px",
-                                top: 0,
-                                zIndex: 998,
-                                opacity: 0
-                              }}
-                              tabIndex={-1}
-                            >
-                              <div className="slider-image">
-                                <img
-                                  src="../assets/images/product/category/4.jpg"
-                                  data-zoom-image="../assets/images/product/category/4.jpg"
-                                  className="img-fluid image_zoom_cls-3 blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide"
-                              data-slick-index={4}
-                              aria-hidden="true"
-                              style={{
-                                width: 501,
-                                position: "relative",
-                                left: "-2004px",
-                                top: 0,
-                                zIndex: 998,
-                                opacity: 0
-                              }}
-                              tabIndex={-1}
-                            >
-                              <div className="slider-image">
-                                <img
-                                  src={Hinh2}
-                                  data-zoom-image={Hinh2}
-                                  className="img-fluid image_zoom_cls-4 blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide"
-                              data-slick-index={5}
-                              aria-hidden="true"
-                              style={{
-                                width: 501,
-                                position: "relative",
-                                left: "-2505px",
-                                top: 0,
-                                zIndex: 998,
-                                opacity: 0
-                              }}
-                              tabIndex={-1}
-                            >
-                              <div className="slider-image">
-                                <img
-                                  src={Hinh2}
-                                  data-zoom-image={Hinh2}
-                                  className="img-fluid image_zoom_cls-5 blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
+                      <div className="product-main-2 no-arrow">
+                        <div>
+                          <div className="slider-image">
+                            <img
+                              src={selectedImage}
+                              id="img-1"
+                              data-zoom-image={selectedImage}
+                              className="img-fluid image_zoom_cls-0  lazyload"
+                              alt=""
+                            />
                           </div>
                         </div>
                       </div>
+
                     </div>
                     <div className="col-xxl-2 col-lg-12 col-md-2 order-xxl-1 order-lg-2 order-md-1">
-                      <div className="left-slider-image-2 left-slider no-arrow slick-top slick-initialized slick-slider slick-vertical">
-                        <button
-                          className="slick-prev slick-arrow"
-                          aria-label="Previous"
-                          type="button"
-                          style={{ display: "inline-block" }}
-                        >
-                          Previous
-                        </button>
-                        <div className="slick-list draggable" style={{ height: 384 }}>
-                          <div
-                            className="slick-track"
-                            style={{
-                              opacity: 1,
-                              height: 1536,
-                              transform: "translate3d(0px, -384px, 0px)"
-                            }}
-                          >
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={-4}
-                              id=""
-                              aria-hidden="true"
-                              style={{ width: 110 }}
-                              tabIndex={-1}
-                            >
+                      <div className="left-slider-image-2 left-slider ">
+                        <Slider {...settings} slidesToShow={listImage.length} slidesToScroll={1} style={{ height: '100%' }}>
+                          {listImage.length > 0 && listImage.map((v, index) => (
+                            <div key={index}>
                               <div className="sidebar-image">
                                 <img
-                                  src={Hinh2}
-                                  className="img-fluid blur-up lazyloaded"
+                                  src={listImage[index]}
+                                  onClick={() => setSelectedImage(listImage[index])}
+                                  className="img-fluid  lazyload"
                                   alt=""
                                 />
                               </div>
                             </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={-3}
-                              id=""
-                              aria-hidden="true"
-                              style={{ width: 110 }}
-                              tabIndex={-1}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src={Hinh2}
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={-2}
-                              id=""
-                              aria-hidden="true"
-                              style={{ width: 110 }}
-                              tabIndex={-1}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src={Hinh2}
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={-1}
-                              id=""
-                              aria-hidden="true"
-                              style={{ width: 110 }}
-                              tabIndex={-1}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src={Hinh2}
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-current slick-active"
-                              data-slick-index={0}
-                              aria-hidden="false"
-                              style={{ width: 110 }}
-                              tabIndex={0}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src={Hinh1}
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-active"
-                              data-slick-index={1}
-                              aria-hidden="false"
-                              style={{ width: 110 }}
-                              tabIndex={0}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src={Hinh1}
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-active"
-                              data-slick-index={2}
-                              aria-hidden="false"
-                              style={{ width: 110 }}
-                              tabIndex={0}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src={Hinh1}
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-active"
-                              data-slick-index={3}
-                              aria-hidden="false"
-                              style={{ width: 110 }}
-                              tabIndex={0}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src={Hinh1}
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide"
-                              data-slick-index={4}
-                              aria-hidden="true"
-                              style={{ width: 110 }}
-                              tabIndex={-1}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src={Hinh1}
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide"
-                              data-slick-index={5}
-                              aria-hidden="true"
-                              style={{ width: 110 }}
-                              tabIndex={-1}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src={Hinh1}
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={6}
-                              id=""
-                              aria-hidden="true"
-                              style={{ width: 110 }}
-                              tabIndex={-1}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src={Hinh1}
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={7}
-                              id=""
-                              aria-hidden="true"
-                              style={{ width: 110 }}
-                              tabIndex={-1}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src={Hinh1}
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={8}
-                              id=""
-                              aria-hidden="true"
-                              style={{ width: 110 }}
-                              tabIndex={-1}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src={Hinh1}
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={9}
-                              id=""
-                              aria-hidden="true"
-                              style={{ width: 110 }}
-                              tabIndex={-1}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src={Hinh1}
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={10}
-                              id=""
-                              aria-hidden="true"
-                              style={{ width: 110 }}
-                              tabIndex={-1}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src={Hinh1}
-                                  className="img-fluid blur-up lazyload"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={11}
-                              id=""
-                              aria-hidden="true"
-                              style={{ width: 110 }}
-                              tabIndex={-1}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src="../assets/images/product/category/6.jpg"
-                                  className="img-fluid blur-up lazyload"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <button
-                          className="slick-next slick-arrow"
-                          aria-label="Next"
-                          type="button"
-                          style={{ display: "inline-block" }}
-                        >
-                          Next
-                        </button>
+                          ))}
+                        </Slider>
                       </div>
                     </div>
+
                   </div>
 
                 </div>
@@ -1416,43 +1042,6 @@ export default function ProductSection({ product }) {
                       </div>
                     </li>
                   </ul>
-                </div>
-              </div>
-              {/* Banner Section */}
-              <div className="ratio_156 pt-25">
-                <div
-                  className="home-contain bg-size blur-up lazyloaded"
-                  style={{
-                    backgroundImage:
-                      'url("../assets/images/vegetable/banner/8.jpg")',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center center',
-                    backgroundRepeat: 'no-repeat',
-                    display: 'block'
-                  }}
-                >
-                  <img
-                    src="../assets/images/vegetable/banner/8.jpg"
-                    className="bg-img blur-up lazyload"
-                    alt=""
-                    style={{ display: 'none' }}
-                  />
-                  <div className="home-detail p-top-left home-p-medium">
-                    <div>
-                      <h6 className="text-yellow home-banner">Seafood</h6>
-                      <h3 className="text-uppercase fw-normal">
-                        <span className="theme-color fw-bold">Freshes</span>{' '}
-                        Products
-                      </h3>
-                      <h3 className="fw-light">every hour</h3>
-                      <button
-                        onClick="location.href = 'shop-left-sidebar.html';"
-                        className="btn btn-animation btn-md fw-bold mend-auto"
-                      >
-                        Shop Now <i className="fa-solid fa-arrow-right icon" />
-                      </button>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

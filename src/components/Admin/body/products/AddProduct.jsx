@@ -30,7 +30,9 @@ export default function AddProduct() {
     discountDTO: {
       id: 0,
       percentage: 0,
-      productID: null
+      productID: null,
+      startDate: null,
+      endDate: null,
     },
     ratingAvg: 0,
     quantity: 0,

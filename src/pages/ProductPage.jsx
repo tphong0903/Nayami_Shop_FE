@@ -18,6 +18,8 @@ export default function ProductPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+    setProduct(null);
     axios
       .get(`/api/products/${id}`)
       .then((response) => {
@@ -32,7 +34,7 @@ export default function ProductPage() {
       <Header />
       <BreadCrumbSection title='Chi tiết sản phẩm' page={product?.name} />
       <ProductSection product={product} />
-      <ReletedProductSection />
+      <ReletedProductSection product={product} />
       <Footer />
       <QuickViewSection />
       <DealBoxSection />

@@ -15,7 +15,8 @@ export default function DealTimer({ product }) {
       return;
     }
 
-    const endDate = new Date(`${product.discountDTO.endDate}T23:59:59`);
+    const endDate = new Date(product.discountDTO.endDate);
+    endDate.setHours(23, 59, 59, 999);
     updateCountdown(endDate);
     startCountdown(endDate);
     return () => {
