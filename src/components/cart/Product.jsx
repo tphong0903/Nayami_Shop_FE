@@ -1,191 +1,147 @@
-/* eslint-disable no-console */
-import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
 
-const ProductList = () => {
-  const [products, setProducts] = useState([]);
-  const fetchedRef = useRef(false);
+const Product = ({ product, index, onQuantityChange, onDeleteProduct }) => {
+  const handleDelete = (e) => {
+    e.preventDefault();
 
-  useEffect(() => {
-    if (fetchedRef.current) return;
-    fetchedRef.current = true;
-
-    fetchProducts();
-  }, []);
-  const token =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjAyMTI1NSwiZXhwIjoxNzQyMDIyNjk1fQ.Hq-qx2_edgXrMvXIImbgX4NMqbnojAyMFbP983DlWEM';
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  const navigate = useNavigate();
-
-  const fetchProducts = async () => {
-    try {
-      // const token = localStorage.getItem("token");
-      const response = await axios.get('/api/cart');
-      setProducts(response.data.data);
-    } catch (err) {
-      if (err.response?.status === 403) {
-        navigate('/login');
-      }
-
-      console.error('Error fetching products:', err);
-    }
-  };
-
-  const handleQuantityChange = async (index, newQuantity) => {
-    if (newQuantity >= 0) {
-      try {
-        const updatedProducts = [...products];
-        const product = updatedProducts[index];
-        product.quantity = newQuantity;
-
-        await axios.put(`/api/cart/${product.id}`, {
-          quantity: newQuantity
-        });
-        setProducts(updatedProducts);
-      } catch (error) {
-        console.error('Error updating quantity:', error);
-        Swal.fire('Lỗi!', 'Không thể cập nhật số lượng sản phẩm.', 'error');
-      }
-    }
-  };
-
-  const deleteCard = async (id) => {
     Swal.fire({
-      title: 'Bạn có chắc chắn muốn xoá?',
-      text: 'Sau khi xoá sẽ không thể khôi phục!',
+      title: 'Bạn có chắc chắn không?',
+      text: 'Hành động này không thể hoàn tác!',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Xoá',
-      cancelButtonText: 'Hủy'
-    }).then(async (result) => {
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Có, xoá ngay!',
+      cancelButtonText: 'Huỷ'
+    }).then((result) => {
       if (result.isConfirmed) {
-        try {
-          await axios.delete(`/api/cart/${id}`);
-          Swal.fire('Đã xoá!', 'Sản phẩm đã được xoá thành công.', 'success');
-          setProducts((prevProducts) => prevProducts.filter(product => product.id !== id));
-        } catch (err) {
-          Swal.fire('Lỗi!', 'Không thể xoá sản phẩm .', 'error');
-          console.error('Lỗi khi xoá sản phẩm :', err);
-        }
+        onDeleteProduct(product.id);
       }
     });
   };
 
+  const handleQuantityChange = (newQuantity) => {
+    if (newQuantity <= 0) {
+      Swal.fire({
+        title: 'Xoá sản phẩm?',
+        text: 'Bạn có muốn xoá sản phẩm này khỏi giỏ hàng không?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Có, xoá ngay!',
+        cancelButtonText: 'Không, giữ lại'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          onDeleteProduct(product.id);
+        } else {
+          // Reset về 1 nếu người dùng huỷ xoá
+          onQuantityChange(index, 1);
+        }
+      });
+    } else {
+      onQuantityChange(index, newQuantity);
+    }
+  };
 
   return (
-    <>
-      {products.map((product, index) => (
-        <tr className="product-box-contain h-full" key={product.id}>
-          <td className="select-product w-1/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
-            <input
-              type="checkbox"
-              name="select_product"
-              className="w-4 h-4 cursor-pointer"
+    <tr className="product-box-contain h-full">
+      <td className="select-product w-1/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
+        <input
+          type="checkbox"
+          checked={true}
+          name="select_product"
+          className="w-4 h-4 cursor-pointer checkbox_animated checkall"
+        />
+      </td>
+      <td className="product-detail !w-4/14">
+        <div className="product border-0">
+          <Link to={`/product/${product.id}`} className="product-image">
+            <img
+              src={product.listImage}
+              alt={product.productName}
+              width={101}
+              height={101}
             />
-          </td>
-          <td className="product-detail !w-4/14">
-            <div className="product border-0">
-              <Link to={`/product/${product.id}`} className="product-image">
-                <img
-                  src={product.listImage}
-                  alt={product.productName}
-                  width={101}
-                  height={101}
+          </Link>
+        </div>
+      </td>
+      <td className="uproduct-info w-4/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
+        <ul className="name break-words whitespace-normal w-full overflow-hidden text-ellipsis">
+          <Link to={`/product/${product.id}`}>
+            {product.productName}
+          </Link>
+        </ul>
+      </td>
+      <td className="unitprice w-2/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
+        <h4 className="table-title text-content">Đơn giá</h4>
+        <h5>
+          {new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          }).format(product.unitPrice)}
+        </h5>
+      </td>
+      <td className="quantity w-2/14 align-middle text-center">
+        <div className="d-flex flex-column align-items-center justify-content-center">
+          <h4 className="table-title text-content">Số lượng</h4>
+          <div className="quantity-price">
+            <div className="cart_qty">
+              <div className="input-group d-flex align-items-center">
+                <button
+                  type="button"
+                  className="btn qty-left-minus"
+                  onClick={() => handleQuantityChange((product.quantity || 1) - 1)}
+                >
+                  <i className="fa fa-minus ms-0" aria-hidden="true" />
+                </button>
+                <input
+                  className="form-control input-number qty-input text-center"
+                  type="text"
+                  name="quantity"
+                  value={product.quantity || 1}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value) || 0;
+                    handleQuantityChange(value);
+                  }}
                 />
-              </Link>
-            </div>
-          </td>
-          <td className="uproduct-info  w-4/14  min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
-            <ul className="name break-words whitespace-normal w-full overflow-hidden text-ellipsis">
-              <Link to={`/product/${product.id}`}>
-                {product.productName}
-              </Link>
-            </ul>
-          </td>
-          <td className="unitprice w-2/14  min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
-            <h4 className="table-title text-content">Total</h4>
-            <h5>
-              {new Intl.NumberFormat('vi-VN', {
-                style: 'currency',
-                currency: 'VND',
-              }).format(product.unitPrice)}
-            </h5>
-          </td>
-          <td className="quantity  w-2/14 align-middle text-center">
-            <div className="d-flex flex-column align-items-center justify-content-center">
-              <h4 className="table-title text-content">Qty</h4>
-              <div className="quantity-price">
-                <div className="cart_qty">
-                  <div className="input-group d-flex align-items-center">
-                    <button
-                      type="button"
-                      className="btn qty-left-minus"
-                      onClick={() =>
-                        handleQuantityChange(index, (product.quantity || 1) - 1)
-                      }
-                    >
-                      <i className="fa fa-minus ms-0" aria-hidden="true" />
-                    </button>
-                    <input
-                      className="form-control input-number qty-input text-center"
-                      type="text"
-                      name="quantity"
-                      value={product.quantity || 1}
-                      onChange={(e) =>
-                        handleQuantityChange(
-                          index,
-                          parseInt(e.target.value) || 0
-                        )
-                      }
-                    />
-                    <button
-                      type="button"
-                      className="btn qty-right-plus"
-                      onClick={() =>
-                        handleQuantityChange(index, (product.quantity || 1) + 1)
-                      }
-                    >
-                      <i className="fa fa-plus ms-0" aria-hidden="true" />
-                    </button>
-                  </div>
-                </div>
+                <button
+                  type="button"
+                  className="btn qty-right-plus"
+                  onClick={() => handleQuantityChange((product.quantity || 1) + 1)}
+                >
+                  <i className="fa fa-plus ms-0" aria-hidden="true" />
+                </button>
               </div>
             </div>
-          </td>
+          </div>
+        </div>
+      </td>
 
-          <td className="subtotal w-2/14  min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
-            <h4 className="table-title text-content">Total</h4>
-            <h5>
-              {new Intl.NumberFormat('vi-VN', {
-                style: 'currency',
-                currency: 'VND',
-              }).format(product.totalPrice)}
-            </h5>
-          </td>
-          <td className="save-remove -1/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
-            <h4 className="table-title text-content">Action</h4>
-            <li>
-              <a
-                href="#"
-                className="text-danger"
-                onClick={(e) => {
-                  e.preventDefault();
-                  deleteCard(product.id);
-                }}
-              >
-                <i className="ri-delete-bin-line" />
-              </a>
-            </li>
-          </td>
-        </tr>
-      ))}
-    </>
+      <td className="subtotal w-2/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
+        <h4 className="table-title text-content">Tổng</h4>
+        <h5>
+          {new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          }).format(product.totalPrice)}
+        </h5>
+      </td>
+      <td className="save-remove -1/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
+        <h4 className="table-title text-content">Hành động</h4>
+        <li>
+          <a
+            href="#"
+            className="text-danger"
+            onClick={handleDelete}
+          >
+            <i className="ri-delete-bin-line" />
+          </a>
+        </li>
+      </td>
+    </tr>
   );
 };
 
-export default ProductList;
+export default Product;

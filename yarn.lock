@@ -464,6 +464,18 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@lordicon/helpers@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@lordicon/helpers/-/helpers-1.10.1.tgz#28e35d547b7ae0b2b4b4af0a56513a91561910d3"
+  integrity sha512-GUOffYns36Y7j2c0oWWx0AJB80unvVnYrF1VCXJ7dAGuCyFhxuaR6NrzKgDPbY98Vn1q6b+7rRdfUEyXISiQgQ==
+
+"@lordicon/react@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@lordicon/react/-/react-1.10.1.tgz#95676d936c48062003c70514b324103115ba0bca"
+  integrity sha512-Dv1Cwhpt0Ut/bIZVVSqkE2rCC+C8Yg/QDj+aM3brAahKgNl/Eivh/iZ8Ik4yUbjTutODTREPQV/BwWb08VjNFg==
+  dependencies:
+    "@lordicon/helpers" "^1.10.1"
+
 "@mui/core-downloads-tracker@^6.4.0":
   version "6.4.0"
   resolved "https://registry.npmjs.org/@mui/core-downloads-tracker/-/core-downloads-tracker-6.4.0.tgz"
@@ -2113,11 +2125,12 @@ natural-compare@^1.4.0:
     datatables.net-react "^1.0.0"
     feather-icons "^4.29.2"
     jquery "^3.7.1"
-    nayami-shop-fe "file:C:/Users/QuangDang/AppData/Local/Yarn/Cache/v6/npm-nayami-shop-fe-0.0.0-bdd41aa0-b8d5-47db-a38b-0cce55e23339-1742102481196/node_modules/nayami-shop-fe"
+    nayami-shop-fe "file:C:/Users/QuangDang/AppData/Local/Yarn/Cache/v6/npm-nayami-shop-fe-0.0.0-94d0b618-4657-4993-935a-a5f262e6f46f-1742315380628/node_modules/nayami-shop-fe"
     react "^18.3.1"
     react-dom "^18.3.1"
     react-helmet "^6.1.0"
     react-router-dom "^7.1.3"
+    react-select "^5.10.1"
     simplebar "^6.3.0"
     sweetalert2 "^11.17.2"
 

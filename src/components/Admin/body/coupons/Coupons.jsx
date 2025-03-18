@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const CouponList = () => {
   const [coupons, setCoupons] = useState([]);
@@ -12,7 +13,30 @@ const CouponList = () => {
   useEffect(() => {
     fetchCoupons();
   }, []);
+  const deleteCoupon = async (id) => {
+    Swal.fire({
+      title: 'Bạn có chắc chắn muốn xoá?',
+      text: 'Sau khi xoá sẽ không thể khôi phục!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Xoá',
+      cancelButtonText: 'Hủy'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`/api/coupons/${id}`);
+          fetchCoupons();
 
+          Swal.fire('Đã xoá!', 'Danh mục đã được xoá thành công.', 'success');
+        } catch (err) {
+          Swal.fire('Lỗi!', 'Không thể xoá danh mục.', 'error');
+          console.error('Lỗi khi xoá danh mục:', err);
+        }
+      }
+    });
+  };
   const fetchCoupons = async () => {
     try {
       setLoading(true);
@@ -41,11 +65,6 @@ const CouponList = () => {
     } else {
       setSelectedCoupons(selectedCoupons.filter(id => id !== couponId));
     }
-  };
-
-  const handleDeleteCoupon = async (couponId) => {
-    // Implementation would go here
-    console.log('Delete coupon:', couponId);
   };
 
   return (
@@ -137,7 +156,12 @@ const CouponList = () => {
                                     </Link>
                                   </li>
                                   <li>
-                                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#exampleModalToggle" className="text-danger">
+                                    <a href="#"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        deleteCoupon(coupon.id);
+                                      }}
+                                      data-bs-toggle="modal" data-bs-target="#exampleModalToggle" className="text-danger">
                                       <i className="ri-delete-bin-line"></i>
                                     </a>
                                   </li>

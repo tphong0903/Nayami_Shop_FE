@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import ProductPage from './pages/ProductPage';
 import ShopPage from './pages/ShopPage';
 import CartPage from './pages/CartPage';
+import CheckOutPage from './pages/CheckOutPage';
 import AdminPage from './pages/Admin/AdminPage';
 import DashBoard from './components/Admin/body/dashboard/DashBoard';
 import Products from './components/Admin/body/products/Products';
@@ -36,6 +37,8 @@ function App() {
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/dashboard" element={<UserDashboard />} />
+          <Route path="/checkout" element={<CheckOutPage />} />
+
           <Route path="/admin" element={<AdminPage />}>
             <Route index element={<DashBoard />} />
             <Route path="products" element={<Products />} />
