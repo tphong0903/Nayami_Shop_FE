@@ -8,17 +8,13 @@ export default function Product() {
           <div className="product-image">
             <a href="product-left-thumbnail.html">
               <img
-                src={Hinh1}
+                src="../assets/images/cake/product/2.png"
                 className="img-fluid blur-up lazyload"
                 alt=""
               />
             </a>
             <ul className="product-option">
-              <li
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title="View"
-              >
+              <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
                 <a
                   href="javascript:void(0)"
                   data-bs-toggle="modal"
@@ -56,8 +52,8 @@ export default function Product() {
             </a>
             <p className="text-content mt-1 mb-2 product-content">
               Cheesy feet cheesy grin brie. Mascarpone cheese and wine hard
-              cheese the big cheese everyone loves smelly cheese macaroni
-              cheese croque monsieur.
+              cheese the big cheese everyone loves smelly cheese macaroni cheese
+              croque monsieur.
             </p>
             <div className="product-rating mt-2">
               <ul className="rating">
