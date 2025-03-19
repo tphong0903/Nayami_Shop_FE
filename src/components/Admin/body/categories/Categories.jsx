@@ -14,7 +14,7 @@ const CategoryList = () => {
   const fetchCategories = async () => {
     try {
       const response = await axios.get('/api/categories');
-      setCategories(response.data);
+      setCategories(response.data.data);
     } catch (err) {
       console.error('Error fetching categories:', err);
     }
