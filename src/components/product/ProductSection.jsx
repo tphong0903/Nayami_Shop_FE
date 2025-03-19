@@ -4,6 +4,8 @@ import { Editor } from '@toast-ui/react-editor';
 import DealTimer from './DealTimer';
 import Slider from 'react-slick';
 import { formatCurrency } from '~/utils/formatCurrency';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 var settings = {
   focusOnSelect: true,
@@ -14,8 +16,10 @@ var settings = {
   verticalSwiping: true,
   arrows: false
 };
+
 export default function ProductSection({ product }) {
   const [listImage, setListImage] = useState([]);
+  const [listDiscountProducts, setListDiscountProducts] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
@@ -29,6 +33,13 @@ export default function ProductSection({ product }) {
     }
   }, [product, listImage]);
 
+  useEffect(() => {
+    axios
+      .get('/api/products/discounts')
+      .then((response) => {
+        setListDiscountProducts(response.data.data.slice(0, 5))
+      })
+  }, []);
 
 
   if (!product) {
@@ -153,23 +164,7 @@ export default function ProductSection({ product }) {
                     </button>
                   </div>
                   <div className="buy-box">
-                    <a href="wishlist.html">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width={24}
-                        height={24}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="feather feather-heart"
-                      >
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                      </svg>
-                      <span>Add To Wishlist</span>
-                    </a>
+
                     <a href="compare.html">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -947,100 +942,38 @@ export default function ProductSection({ product }) {
                 <div className="category-menu">
                   <h3>Trending Products</h3>
                   <ul className="product-list product-right-sidebar border-0 p-0">
-                    <li>
-                      <div className="offer-product">
-                        <a
-                          href="product-left-thumbnail.html"
-                          className="offer-image"
-                        >
-                          <img
-                            src="../assets/images/vegetable/product/23.png"
-                            className="img-fluid blur-up lazyloaded"
-                            alt=""
-                          />
-                        </a>
-                        <div className="offer-detail">
-                          <div>
-                            <a href="product-left-thumbnail.html">
-                              <h6 className="name">Meatigo Premium Goat Curry</h6>
-                            </a>
-                            <span>450 G</span>
-                            <h6 className="price theme-color">$ 70.00</h6>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="offer-product">
-                        <a
-                          href="product-left-thumbnail.html"
-                          className="offer-image"
-                        >
-                          <img
-                            src="../assets/images/vegetable/product/24.png"
-                            className="blur-up lazyloaded"
-                            alt=""
-                          />
-                        </a>
-                        <div className="offer-detail">
-                          <div>
-                            <a href="product-left-thumbnail.html">
-                              <h6 className="name">
-                                Dates Medjoul Premium Imported
+                    {listDiscountProducts.map(v => (
+                      <li key={v.id}>
+                        <div className="offer-product">
+                          <Link
+                            to={`/product-detail/${v.id}`}
+                            className="offer-image"
+                          >
+                            <img
+                              src={v.listImage[0]}
+                              className="img-fluid blur-up lazyloaded"
+                              alt=""
+                            />
+                          </Link>
+                          <div className="offer-detail">
+                            <div>
+                              <Link to={`/product-detail/${v.id}`}>
+                                <h6 className="name">{v.name}</h6>
+                              </Link>
+                              {product?.discountDTO && (
+                                <div>
+                                  <del className="text-content">{formatCurrency(product.unitPrice)}</del>
+                                </div>
+                              )}
+                              <h6 className="price theme-color">
+                                {formatCurrency(parseInt(product.unitPrice * (100 - (product?.discountDTO?.percentage || 0)) / 100, 10))}
                               </h6>
-                            </a>
-                            <span>450 G</span>
-                            <h6 className="price theme-color">$ 40.00</h6>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="offer-product">
-                        <a
-                          href="product-left-thumbnail.html"
-                          className="offer-image"
-                        >
-                          <img
-                            src="../assets/images/vegetable/product/25.png"
-                            className="blur-up lazyloaded"
-                            alt=""
-                          />
-                        </a>
-                        <div className="offer-detail">
-                          <div>
-                            <a href="product-left-thumbnail.html">
-                              <h6 className="name">Good Life Walnut Kernels</h6>
-                            </a>
-                            <span>200 G</span>
-                            <h6 className="price theme-color">$ 52.00</h6>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="mb-0">
-                      <div className="offer-product">
-                        <a
-                          href="product-left-thumbnail.html"
-                          className="offer-image"
-                        >
-                          <img
-                            src="../assets/images/vegetable/product/26.png"
-                            className="blur-up lazyloaded"
-                            alt=""
-                          />
-                        </a>
-                        <div className="offer-detail">
-                          <div>
-                            <a href="product-left-thumbnail.html">
-                              <h6 className="name">Apple Red Premium Imported</h6>
-                            </a>
-                            <span>1 KG</span>
-                            <h6 className="price theme-color">$ 80.00</h6>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
+                      </li>
+                    ))
+                    }
                   </ul>
                 </div>
               </div>
