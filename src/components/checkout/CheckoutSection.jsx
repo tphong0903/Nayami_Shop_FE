@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DeliveryAddressSection from '../checkout/DeliveryAddressSection';
@@ -10,7 +11,7 @@ const CheckoutSection = () => {
   const [address, setAddress] = useState(null);
   const [carts, setCarts]=useState(null);
   const [discount, setDiscount]=useState(null);
-  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMjQzMiwiZXhwIjoxNzQyMzIzODcyfQ.2p4sIs7sDFMTaPCUs4OOD_2fXtqyFeQMxf2TtU7e0jU';
+  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjM2ODU0MywiZXhwIjoxNzQyMzY5OTgzfQ.8Cb5n38QnBHN5-8_k7x83uyHDY32X3xLd8LOIw9B5kY';
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   useEffect(() => {
     // Lấy dữ liệu từ localStorage
@@ -26,7 +27,7 @@ const CheckoutSection = () => {
         icon: 'error',
         confirmButtonText: 'OK'
       }).then(() => {
-        window.location.href = '/cart'; // Quay lại giỏ hàng nếu không có dữ liệu
+        window.location.href = '/cart';
       });
     }
   }, []);

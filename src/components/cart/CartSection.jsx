@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -19,7 +20,7 @@ export default function CartSection() {
     fetchProducts();
   }, []);
 
-  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMxNzk4NSwiZXhwIjoxNzQyMzE5NDI1fQ.IkZtdWDQ7bXWeSesPShZCn2UBBZ0x8dyQmykjd7MEyc';
+  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjM1MzM2OSwiZXhwIjoxNzQyMzU0ODA5fQ.mUA_VlR6m3vt6KWnkqGAgTBj69gmrB6_h49gEWyEVME';
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   const fetchProducts = async () => {

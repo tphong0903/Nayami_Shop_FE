@@ -1,10 +1,19 @@
+/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
-const DeliveryAddressSection = ({ addressList = [], initialAddress, onAddAddress }) => {
+const DeliveryAddressSection = ({
+  addressList = [],
+  initialAddress,
+  onAddAddress,
+  onUpdateAddress,
+  onDeleteAddress
+}) => {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [newAddress, setNewAddress] = useState({
-    fullName: '',
-    street: '',
+    recipientName: '',
+    addressName: '',
     province: '',
     district: '',
     ward: '',
@@ -13,6 +22,13 @@ const DeliveryAddressSection = ({ addressList = [], initialAddress, onAddAddress
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
+  // Add local state to manage addresses
+  const [addresses, setAddresses] = useState(addressList);
+
+  // Update local addresses when addressList prop changes
+  useEffect(() => {
+    setAddresses(addressList);
+  }, [addressList]);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -25,7 +41,6 @@ const DeliveryAddressSection = ({ addressList = [], initialAddress, onAddAddress
     fetch('https://raw.githubusercontent.com/quangdang1412/ProjectIT_2024/refs/heads/main/src/main/resources/static/province/province.json')
       .then(response => response.json())
       .then(data => {
-
         setProvinces(data.Sheet1);
       })
       .catch(error => console.error('Lỗi tải danh sách tỉnh:', error));
@@ -38,63 +53,178 @@ const DeliveryAddressSection = ({ addressList = [], initialAddress, onAddAddress
       [name]: value
     });
   };
+
   useEffect(() => {
-    if (initialAddress) {
+    if (initialAddress && provinces.length > 0) {
       setNewAddress(initialAddress);
 
-      const selectedProvince = provinces.find(p => p.name === initialAddress.province);
-      if (selectedProvince) {
-        setDistricts(selectedProvince.districts);
-        const selectedDistrict = selectedProvince.districts.find(d => d.name === initialAddress.district);
-        if (selectedDistrict) {
-          setWards(selectedDistrict.wards);
+      // Filter provinces that match the initialAddress province
+      const selectedProvincesList = provinces.filter(p => p.provinceName === initialAddress.province);
+      if (selectedProvincesList.length > 0) {
+        setDistricts(selectedProvincesList);
+
+        // Filter districts that match the initialAddress district
+        const selectedDistrictsList = selectedProvincesList.filter(d => d.districtName === initialAddress.district);
+        if (selectedDistrictsList.length > 0) {
+          setWards(selectedDistrictsList);
         }
       }
     }
   }, [initialAddress, provinces]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically send this data to your backend
-    console.log('Address to save:', newAddress);
 
-    // Call parent component's handler if provided
-    if (onAddAddress) {
-      onAddAddress(newAddress);
+    try {
+      let response;
+
+      if (newAddress.id) {
+        response = await axios.put(`/api/addresses/${newAddress.id}`, newAddress, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const updatedAddress = response.data.data;
+
+        setAddresses(addresses.map(address =>
+          address.id === updatedAddress.id ? updatedAddress : address
+        ));
+        console.log('Updated address:', updatedAddress);
+
+        if (onUpdateAddress) {
+          onUpdateAddress(updatedAddress);
+        }
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Địa chỉ đã được cập nhật thành công!',
+        });
+      } else {
+        response = await axios.post('/api/addresses', newAddress, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const newAddressData = response.data.data;
+
+        setAddresses([...addresses, newAddressData]);
+
+        if (onAddAddress) {
+          onAddAddress(newAddressData);
+        }
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Địa chỉ đã được lưu thành công!',
+        });
+      }
+
+      setNewAddress({
+        recipientName: '',
+        addressName: '',
+        province: '',
+        district: '',
+        ward: '',
+        phone: '',
+      });
+      setShowAddressForm(false);
+    } catch (error) {
+      console.error('Lỗi khi lưu địa chỉ:', error.response?.data?.message || error.message);
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi!',
+        text: error.response?.data?.message || 'Có lỗi xảy ra, vui lòng thử lại!',
+      });
     }
-
-    // Reset form and hide it
-    setNewAddress({
-      fullName: '',
-      street: '',
-      province: '',
-      district: '',
-      ward: '',
-      phone: ''
-    });
-    setShowAddressForm(false);
   };
 
   const handleProvinceChange = (e) => {
-    const provinceId = e.target.value;
-    setNewAddress({ ...newAddress, province: provinceId, district: '', ward: '' });
-
-    const selectedDistricts = provinces.filter(d => d.provinceId === provinceId);
-
-    setDistricts(selectedDistricts);
+    const provinceName = e.target.value;
+    const selectedProvince = provinces.filter(d => d.provinceName === provinceName);
+    setNewAddress({ ...newAddress, province: provinceName, district: '', ward: '' });
+    setDistricts(selectedProvince);
     setWards([]);
   };
 
   const handleDistrictChange = (e) => {
-    const districtId = e.target.value;
-    setNewAddress({ ...newAddress, district: districtId, ward: '' });
-    const selectedWards = provinces.filter(w => w.districtId == districtId);
-    setWards(selectedWards);
+    const districtName = e.target.value;
+    const selectedDistrict = districts.filter(w => w.districtName === districtName);
+    setNewAddress({ ...newAddress, district: districtName, ward: '' });
+    setWards(selectedDistrict);
   };
-
 
   const handleWardChange = (e) => {
     setNewAddress({ ...newAddress, ward: e.target.value });
+  };
+
+  const handleEditAddress = (address) => {
+    setNewAddress({
+      id: address.id,
+      recipientName: address.recipientName,
+      addressName: address.addressName,
+      province: address.province,
+      district: address.district,
+      ward: address.ward,
+      phone: address.phone
+    });
+
+    if (provinces.length > 0) {
+      const selectedProvinces = provinces.filter(p => p.provinceName === address.province);
+      if (selectedProvinces.length > 0) {
+        setDistricts(selectedProvinces);
+
+        const selectedDistricts = selectedProvinces.filter(d => d.districtName === address.district);
+        if (selectedDistricts.length > 0) {
+          setWards(selectedDistricts);
+        }
+      }
+    }
+
+    setShowAddressForm(true);
+  };
+
+  const handleDeleteAddress = async (addressId) => {
+    try {
+      Swal.fire({
+        title: 'Xác nhận xóa',
+        text: 'Bạn có chắc muốn xóa địa chỉ này?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Xác nhận',
+        cancelButtonText: 'Hủy'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await axios.delete(`/api/addresses/${addressId}`);
+
+          // Update local state by removing the deleted address
+          setAddresses(addresses.filter(address => address.id !== addressId));
+
+          if (onDeleteAddress) {
+            onDeleteAddress(addressId);
+          }
+
+          Swal.fire(
+            'Đã xóa!',
+            'Địa chỉ đã được xóa thành công.',
+            'success'
+          );
+        }
+      });
+    } catch (error) {
+      console.error('Lỗi khi xóa địa chỉ:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi!',
+        text: 'Không thể xóa địa chỉ. Vui lòng thử lại sau!'
+      });
+    }
   };
 
   return (
@@ -126,8 +256,8 @@ const DeliveryAddressSection = ({ addressList = [], initialAddress, onAddAddress
                           <input
                             type="text"
                             className="form-control"
-                            name="fullName"
-                            value={newAddress.fullName}
+                            name="recipientName"
+                            value={newAddress.recipientName}
                             onChange={handleInputChange}
                             required
                             placeholder="Họ và tên người nhận"
@@ -138,8 +268,8 @@ const DeliveryAddressSection = ({ addressList = [], initialAddress, onAddAddress
                           <input
                             type="text"
                             className="form-control"
-                            name="street"
-                            value={newAddress.street}
+                            name="addressName"
+                            value={newAddress.addressName}
                             onChange={handleInputChange}
                             required
                             placeholder="Số nhà, tên đường..."
@@ -155,8 +285,8 @@ const DeliveryAddressSection = ({ addressList = [], initialAddress, onAddAddress
                             required
                           >
                             <option value="">Chọn tỉnh/thành phố</option>
-                            {[...new Map(provinces.map(p => [p.provinceId, p])).values()].map((province) => (
-                              <option key={province.provinceId} value={province.provinceId}>
+                            {[...new Map(provinces.map(p => [p.provinceName, p])).values()].map((province) => (
+                              <option key={province.provinceName} value={province.provinceName}>
                                 {province.provinceName}
                               </option>
                             ))}
@@ -174,8 +304,8 @@ const DeliveryAddressSection = ({ addressList = [], initialAddress, onAddAddress
                             disabled={!districts.length}
                           >
                             <option value="">Chọn quận/huyện</option>
-                            {[...new Map(districts.map(d => [d.districtId, d])).values()].map((district) => (
-                              <option key={district.districtId} value={district.districtId}>
+                            {[...new Map(districts.map(d => [d.districtName, d])).values()].map((district) => (
+                              <option key={district.districtName} value={district.districtName}>
                                 {district.districtName}
                               </option>
                             ))}
@@ -234,30 +364,26 @@ const DeliveryAddressSection = ({ addressList = [], initialAddress, onAddAddress
               </div>
             )}
 
-            {addressList && addressList.length > 0 ? (
-              addressList.map((address, index) => (
+            {addresses && addresses.length > 0 ? (
+              addresses.map((address, index) => (
                 <div key={index} className="col-xxl-6 col-lg-12 col-md-6">
                   <div className="delivery-address-box">
                     <div>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="address"
-                          id={`address-${index}`}
-                          defaultChecked={index === 0}
-                        />
+                      <div className="d-flex justify-content-between align-items-start mb-2">
+                        <div className="form-check">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="address"
+                            id={`address-${index}`}
+                            defaultChecked={index === 0}
+                          />
+                        </div>
                       </div>
 
                       <ul className="delivery-address-detail">
                         <li>
-                          <h4 className="fw-500">{address.fullName}</h4>
-                        </li>
-                        <li>
-                          <p className="text-content">
-                            <span className="text-title">Địa chỉ: </span>
-                            {address.street}, {address.ward}, {address.district}, {address.province}
-                          </p>
+                          <h4 className="fw-500">{address.recipientName}</h4>
                         </li>
                         <li>
                           <h6 className="text-content mb-0">
@@ -265,7 +391,35 @@ const DeliveryAddressSection = ({ addressList = [], initialAddress, onAddAddress
                             {address.phone}
                           </h6>
                         </li>
+                        <li>
+                          <p className="text-content" style={{
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis'
+                          }}>
+                            <span className="text-title">
+                              Địa chỉ:
+                            </span>
+                            {address.addressName}, {address.ward}, {address.district}, {address.province}
+                          </p>
+                        </li>
                       </ul>
+                      <div className="address-buttons">
+                        <button
+                          className="edit-button btn btn-sm btn-outline-primary me-2"
+                          onClick={() => handleEditAddress(address)}
+                        >
+                          <i className="fa fa-edit"></i>
+                        </button>
+                        <button
+                          className="delete-button btn btn-sm btn-outline-danger"
+                          onClick={() => handleDeleteAddress(address.id)}
+                        >
+                          <i className="fa fa-trash"></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -287,7 +441,7 @@ const DeliveryAddressSection = ({ addressList = [], initialAddress, onAddAddress
               )
             )}
 
-            {addressList && addressList.length > 0 && !showAddressForm && (
+            {addresses && addresses.length > 0 && !showAddressForm && (
               <div className="col-12 mt-lg-3">
                 <div className="delivery-address-box add-address p-3">
                   <div className="d-flex justify-content-center">
