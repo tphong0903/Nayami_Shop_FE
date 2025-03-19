@@ -1,9 +1,47 @@
 import { Rating } from '@mui/material';
-import Hinh1 from '~/assets/images/product/category/1.jpg'
-import Hinh2 from '~/assets/images/product/category/2.jpg'
-import Hinh3 from '~/assets/images/product/category/3.jpg'
+import { useEffect, useState } from 'react';
+import { Editor } from '@toast-ui/react-editor';
+import DealTimer from './DealTimer';
+import Slider from 'react-slick';
+import { formatCurrency } from '~/utils/formatCurrency';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
+var settings = {
+  focusOnSelect: true,
+  infinite: true,
+  lazyLoad: true,
+  speed: 500,
+  vertical: true,
+  verticalSwiping: true,
+  arrows: false
+};
 
 export default function ProductSection({ product }) {
+  const [listImage, setListImage] = useState([]);
+  const [listDiscountProducts, setListDiscountProducts] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  useEffect(() => {
+    if (!product) {
+      return;
+    }
+
+    setListImage(product.listImage || []);
+    if (listImage.length > 0) {
+      setSelectedImage(listImage[0]);
+    }
+  }, [product, listImage]);
+
+  useEffect(() => {
+    axios
+      .get('/api/products/discounts')
+      .then((response) => {
+        setListDiscountProducts(response.data.data.slice(0, 5))
+      })
+  }, []);
+
+
   if (!product) {
     return <p>Đang tải sản phẩm...</p>;
   }
@@ -13,448 +51,52 @@ export default function ProductSection({ product }) {
         <div className="row">
           <div
             className="col-xxl-9 col-xl-8 col-lg-7 wow fadeInUp"
-            style={{ visibility: 'visible', animationName: 'fadeInUp' }}
           >
             <div className="row g-4">
               <div
                 className="col-xl-6 wow fadeInUp"
-                style={{ visibility: 'visible', animationName: 'fadeInUp' }}
               >
                 <div className="product-left-box">
                   <div className="row g-2">
-                    <div className="col-12">
-                      <div className="product-main-1 no-arrow slick-initialized slick-slider">
-                        <div className="slick-list draggable">
-                          <div
-                            className="slick-track"
-                            style={{ opacity: 1, width: 3582 }}
-                          >
-                            <div
-                              className="slick-slide slick-current slick-active"
-                              data-slick-index={0}
-                              aria-hidden="false"
-                              tabIndex={0}
-                              style={{
-                                width: 597,
-                                position: 'relative',
-                                left: 0,
-                                top: 0,
-                                zIndex: 999,
-                                opacity: 1
-                              }}
-                            >
-                              <div className="slider-image">
-                                <img
-                                  src={Hinh1}
-                                  id="img-1"
-                                  data-zoom-image={Hinh1}
-                                  className="img-fluid image_zoom_cls-0 blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide"
-                              data-slick-index={1}
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{
-                                width: 597,
-                                position: 'relative',
-                                left: '-597px',
-                                top: 0,
-                                zIndex: 998,
-                                opacity: 0
-                              }}
-                            >
-                              <div className="slider-image">
-                                <img
-                                  src={Hinh2}
-                                  data-zoom-image={Hinh2}
-                                  className="img-fluid image_zoom_cls-1 blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide"
-                              data-slick-index={2}
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{
-                                width: 597,
-                                position: 'relative',
-                                left: '-1194px',
-                                top: 0,
-                                zIndex: 998,
-                                opacity: 0
-                              }}
-                            >
-                              <div className="slider-image">
-                                <img
-                                  src={Hinh3}
-                                  data-zoom-image={Hinh3}
-                                  className="img-fluid image_zoom_cls-2 blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide"
-                              data-slick-index={3}
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{
-                                width: 597,
-                                position: 'relative',
-                                left: '-1791px',
-                                top: 0,
-                                zIndex: 998,
-                                opacity: 0
-                              }}
-                            >
-                              <div className="slider-image">
-                                <img
-                                  src="../assets/images/product/category/4.jpg"
-                                  data-zoom-image="../assets/images/product/category/4.jpg"
-                                  className="img-fluid image_zoom_cls-3 blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide"
-                              data-slick-index={4}
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{
-                                width: 597,
-                                position: 'relative',
-                                left: '-2388px',
-                                top: 0,
-                                zIndex: 998,
-                                opacity: 0
-                              }}
-                            >
-                              <div className="slider-image">
-                                <img
-                                  src="../assets/images/product/category/5.jpg"
-                                  data-zoom-image="../assets/images/product/category/5.jpg"
-                                  className="img-fluid image_zoom_cls-4 blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide"
-                              data-slick-index={5}
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{
-                                width: 597,
-                                position: 'relative',
-                                left: '-2985px',
-                                top: 0,
-                                zIndex: 998,
-                                opacity: 0
-                              }}
-                            >
-                              <div className="slider-image">
-                                <img
-                                  src="../assets/images/product/category/6.jpg"
-                                  data-zoom-image="../assets/images/product/category/6.jpg"
-                                  className="img-fluid image_zoom_cls-5 blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
+                    <div className="col-xxl-10 col-lg-12 col-md-10 order-xxl-2 order-lg-1 order-md-2">
+                      <div className="product-main-2 no-arrow">
+                        <div>
+                          <div className="slider-image">
+                            <img
+                              src={selectedImage}
+                              id="img-1"
+                              data-zoom-image={selectedImage}
+                              className="img-fluid image_zoom_cls-0  lazyload"
+                              alt=""
+                            />
                           </div>
                         </div>
                       </div>
+
                     </div>
-                    <div className="col-12">
-                      <div className="bottom-slider-image left-slider no-arrow slick-top slick-initialized slick-slider">
-                        <button
-                          className="slick-prev slick-arrow"
-                          aria-label="Previous"
-                          type="button"
-                          style={{ display: 'inline-block' }}
-                        >
-                          Previous
-                        </button>
-                        <div className="slick-list draggable">
-                          <div
-                            className="slick-track"
-                            style={{
-                              opacity: 1,
-                              width: 2400,
-                              transform: 'translate3d(-600px, 0px, 0px)'
-                            }}
-                          >
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={-4}
-                              id=""
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{ width: 150 }}
-                            >
+                    <div className="col-xxl-2 col-lg-12 col-md-2 order-xxl-1 order-lg-2 order-md-1">
+                      <div className="left-slider-image-2 left-slider ">
+                        <Slider {...settings} slidesToShow={listImage.length} slidesToScroll={1} style={{ height: '100%' }}>
+                          {listImage.length > 0 && listImage.map((v, index) => (
+                            <div key={index}>
                               <div className="sidebar-image">
                                 <img
-                                  src="../assets/images/product/category/3.jpg"
-                                  className="img-fluid blur-up lazyloaded"
+                                  src={listImage[index]}
+                                  onClick={() => setSelectedImage(listImage[index])}
+                                  className="img-fluid  lazyload"
                                   alt=""
                                 />
                               </div>
                             </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={-3}
-                              id=""
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{ width: 150 }}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src="../assets/images/product/category/4.jpg"
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={-2}
-                              id=""
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{ width: 150 }}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src="../assets/images/product/category/5.jpg"
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={-1}
-                              id=""
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{ width: 150 }}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src="../assets/images/product/category/6.jpg"
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-current slick-active"
-                              data-slick-index={0}
-                              aria-hidden="false"
-                              tabIndex={0}
-                              style={{ width: 150 }}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src="../assets/images/product/category/1.jpg"
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-active"
-                              data-slick-index={1}
-                              aria-hidden="false"
-                              tabIndex={0}
-                              style={{ width: 150 }}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src="../assets/images/product/category/2.jpg"
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-active"
-                              data-slick-index={2}
-                              aria-hidden="false"
-                              tabIndex={0}
-                              style={{ width: 150 }}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src="../assets/images/product/category/3.jpg"
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-active"
-                              data-slick-index={3}
-                              aria-hidden="false"
-                              tabIndex={0}
-                              style={{ width: 150 }}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src="../assets/images/product/category/4.jpg"
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide"
-                              data-slick-index={4}
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{ width: 150 }}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src="../assets/images/product/category/5.jpg"
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide"
-                              data-slick-index={5}
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{ width: 150 }}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src="../assets/images/product/category/6.jpg"
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={6}
-                              id=""
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{ width: 150 }}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src="../assets/images/product/category/1.jpg"
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={7}
-                              id=""
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{ width: 150 }}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src="../assets/images/product/category/2.jpg"
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={8}
-                              id=""
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{ width: 150 }}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src="../assets/images/product/category/3.jpg"
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={9}
-                              id=""
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{ width: 150 }}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src="../assets/images/product/category/4.jpg"
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={10}
-                              id=""
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{ width: 150 }}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src="../assets/images/product/category/5.jpg"
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="slick-slide slick-cloned"
-                              data-slick-index={11}
-                              id=""
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              style={{ width: 150 }}
-                            >
-                              <div className="sidebar-image">
-                                <img
-                                  src="../assets/images/product/category/6.jpg"
-                                  className="img-fluid blur-up lazyloaded"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <button
-                          className="slick-next slick-arrow"
-                          aria-label="Next"
-                          type="button"
-                          style={{ display: 'inline-block' }}
-                        >
-                          Next
-                        </button>
+                          ))}
+                        </Slider>
                       </div>
                     </div>
+
                   </div>
+
                 </div>
+
               </div>
               <div
                 className="col-xl-6 wow fadeInUp"
@@ -469,15 +111,14 @@ export default function ProductSection({ product }) {
                   <h2 className="name">{product?.name}</h2>
                   <div className="price-rating">
                     <h3 className="theme-color price">
-                      {product.unitPrice * (100 - product?.discountDTO.percentage) / 100} VND
-                      {product?.discountDTO != null &&
-                        (
-                          <>
-                            <del className="text-content">{product.unitPrice} VND</del>
-                            <h6 className="offer-top">{product?.discountDTO.percentage}% Off</h6>
-                          </>
-                        )
-                      }
+                      {formatCurrency(product.unitPrice * (100 - (product?.discountDTO?.percentage || 0)) / 100)}
+
+                      {product?.discountDTO && (
+                        <div>
+                          <del className="text-content">{formatCurrency(product.unitPrice)}</del>
+                          <h6 className="offer-top">{product?.discountDTO.percentage}% Off</h6>
+                        </div>
+                      )}
                     </h3>
 
                   </div>
@@ -485,74 +126,9 @@ export default function ProductSection({ product }) {
                     <Rating name="read-only" value={product?.ratingAvg ?? 0} readOnly />
                     <span className="review" style={{ margin: '10px', fontSize: '15px', }}>23 Customer Review</span>
                   </div>
-                  <div className="procuct-contain">
-                    <p>
-                      Lollipop cake chocolate chocolate cake dessert jujubes.
-                      Shortbread sugar plum dessert powder cookie sweet brownie.
-                      Cake cookie apple pie dessert sugar plum muffin cheesecake.
-                    </p>
-                  </div>
-                  <div className="product-packege">
-                    <div className="product-title">
-                      <h4>Weight</h4>
-                    </div>
-                    <ul className="select-packege">
-                      <li>
-                        <a href="javascript:void(0)" className="active">
-                          1/2 KG
-                        </a>
-                      </li>
-                      <li>
-                        <a href="javascript:void(0)">1 KG</a>
-                      </li>
-                      <li>
-                        <a href="javascript:void(0)">1.5 KG</a>
-                      </li>
-                      <li>
-                        <a href="javascript:void(0)">Red Roses</a>
-                      </li>
-                      <li>
-                        <a href="javascript:void(0)">With Pink Roses</a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div
-                    className="time deal-timer product-deal-timer mx-md-0 mx-auto"
-                    id="clockdiv-1"
-                    data-hours={1}
-                    data-minutes={2}
-                    data-seconds={3}
-                  >
-                    <div className="product-title">
-                      <h4>Hurry up! Sales Ends In</h4>
-                    </div>
-                    <ul>
-                      <li>
-                        <div className="counter d-block">
-                          <div className="days d-block">14</div>
-                          <h6>Days</h6>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="counter d-block">
-                          <div className="hours d-block">23</div>
-                          <h6>Hours</h6>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="counter d-block">
-                          <div className="minutes d-block">58</div>
-                          <h6>Min</h6>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="counter d-block">
-                          <div className="seconds d-block">50</div>
-                          <h6>Sec</h6>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
+                  {product && product?.discountDTO && (
+                    <DealTimer product={product} />
+                  )}
                   <div className="note-box product-packege">
                     <div className="cart_qty qty-box product-qty">
                       <div className="input-group">
@@ -581,30 +157,14 @@ export default function ProductSection({ product }) {
                       </div>
                     </div>
                     <button
-                      onClick="location.href = 'cart.html';"
-                      className="btn btn-md bg-dark cart-button text-white w-100"
+                      onClick="location.href = 'shop-left-sidebar.html';"
+                      className="btn btn-animation btn-md fw-bold mend-auto cart-button w-100"
                     >
-                      Add To Cart
+                      Giỏ hàng <i className="fa-solid fa-arrow-right icon" />
                     </button>
                   </div>
                   <div className="buy-box">
-                    <a href="wishlist.html">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width={24}
-                        height={24}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="feather feather-heart"
-                      >
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                      </svg>
-                      <span>Add To Wishlist</span>
-                    </a>
+
                     <a href="compare.html">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -631,84 +191,29 @@ export default function ProductSection({ product }) {
                     <div className="product-title">
                       <h4>Store Information</h4>
                     </div>
-                    <div className="pickup-detail">
-                      <h4 className="text-content">
-                        Lollipop cake chocolate chocolate cake dessert jujubes.
-                        Shortbread sugar plum dessert powder cookie sweet brownie.
-                      </h4>
-                    </div>
                     <div className="product-info">
                       <ul className="product-info-list product-info-list-2">
                         <li>
-                          Type : <a href="javascript:void(0)">Black Forest</a>
+                          Thương hiệu : <a href="javascript:void(0)">{product.brandDTO.name}</a>
                         </li>
                         <li>
-                          SKU : <a href="javascript:void(0)">SDFVW65467</a>
+                          Danh mục : <a href="javascript:void(0)">{product.categoryDTO.categoryName}</a>
                         </li>
                         <li>
                           MFG : <a href="javascript:void(0)">Jun 4, 2022</a>
                         </li>
                         <li>
-                          Stock : <a href="javascript:void(0)">2 Items Left</a>
+                          Số lượng : <a href="javascript:void(0)">{product.quantity}</a>
                         </li>
                         <li>
-                          Tags : <a href="javascript:void(0)">Cake,</a>{' '}
-                          <a href="javascript:void(0)">Backery</a>
+                          Tình trạng : <a href="javascript:void(0)">{
+                            product.productStatus == 'COMING_SOON' ? 'Sắp kinh doanh' :
+                              product.productStatus == 'OUT_OF_STOCK' ? 'Hết hàng' :
+                                product.productStatus == 'STOP_SELLING' ? 'Ngừng kinh doanh' : 'Đang bán'
+                          }</a>
                         </li>
                       </ul>
                     </div>
-                  </div>
-                  <div className="paymnet-option">
-                    <div className="product-title">
-                      <h4>Guaranteed Safe Checkout</h4>
-                    </div>
-                    <ul>
-                      <li>
-                        <a href="javascript:void(0)">
-                          <img
-                            src="../assets/images/product/payment/1.svg"
-                            // className="blur-up lazyloaded"
-                            alt=""
-                          />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="javascript:void(0)">
-                          <img
-                            src="../assets/images/product/payment/2.svg"
-                            className="blur-up lazyloaded"
-                            alt=""
-                          />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="javascript:void(0)">
-                          <img
-                            src="../assets/images/product/payment/3.svg"
-                            className="blur-up lazyloaded"
-                            alt=""
-                          />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="javascript:void(0)">
-                          <img
-                            src="../assets/images/product/payment/4.svg"
-                            className="blur-up lazyloaded"
-                            alt=""
-                          />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="javascript:void(0)">
-                          <img
-                            src="../assets/images/product/payment/5.svg"
-                            className="blur-up lazyloaded"
-                            alt=""
-                          />
-                        </a>
-                      </li>
-                    </ul>
                   </div>
                 </div>
               </div>
@@ -746,20 +251,6 @@ export default function ProductSection({ product }) {
                     <li className="nav-item" role="presentation">
                       <button
                         className="nav-link"
-                        id="care-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#care"
-                        type="button"
-                        role="tab"
-                        aria-controls="care"
-                        aria-selected="false"
-                      >
-                        Care Instuctions
-                      </button>
-                    </li>
-                    <li className="nav-item" role="presentation">
-                      <button
-                        className="nav-link"
                         id="review-tab"
                         data-bs-toggle="tab"
                         data-bs-target="#review"
@@ -773,110 +264,27 @@ export default function ProductSection({ product }) {
                     </li>
                   </ul>
                   <div className="tab-content custom-tab" id="myTabContent">
-                    <div
-                      className="tab-pane fade show active"
+                    <div className="tab-pane fade show active"
                       id="description"
                       role="tabpanel"
                       aria-labelledby="description-tab"
                     >
                       <div className="product-description">
-                        <div className="nav-desh">
-                          <p>
-                            Jelly beans carrot cake icing biscuit oat cake gummi
-                            bears tart. Lemon drops carrot cake pudding sweet gummi
-                            bears. Chocolate cake tart cupcake donut topping
-                            liquorice sugar plum chocolate bar. Jelly beans tiramisu
-                            caramels jujubes biscuit liquorice chocolate. Pudding
-                            toffee jujubes oat cake sweet roll. Lemon drops dessert
-                            croissant danish cake cupcake. Sweet roll candy
-                            chocolate toffee jelly sweet roll halvah brownie
-                            topping. Marshmallow powder candy sesame snaps jelly
-                            beans candy canes marshmallow gingerbread pie.
-                          </p>
-                        </div>
-                        <div className="nav-desh">
-                          <div className="desh-title">
-                            <h5>Organic:</h5>
-                          </div>
-                          <p>
-                            vitae et leo duis ut diam quam nulla porttitor massa id
-                            neque aliquam vestibulum morbi blandit cursus risus at
-                            ultrices mi tempus imperdiet nulla malesuada
-                            pellentesque elit eget gravida cum sociis natoque
-                            penatibus et magnis dis parturient montes nascetur
-                            ridiculus mus mauris vitae ultricies leo integer
-                            malesuada nunc vel risus commodo viverra maecenas
-                            accumsan lacus vel facilisis volutpat est velit egestas
-                            dui id ornare arcu odio ut sem nulla pharetra diam sit
-                            amet nisl suscipit adipiscing bibendum est ultricies
-                            integer quis auctor elit sed vulputate mi sit amet
-                            mauris commodo quis imperdiet massa tincidunt nunc
-                            pulvinar sapien et ligula ullamcorper malesuada proin
-                            libero nunc consequat interdum varius sit amet mattis
-                            vulputate enim nulla aliquet porttitor lacus luctus
-                            accumsan.
-                          </p>
-                        </div>
-                        <div
-                          className="banner-contain nav-desh bg-size blur-up lazyloaded"
-                          style={{
-                            backgroundImage:
-                              'url("../assets/images/vegetable/banner/14.jpg")',
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center center',
-                            backgroundRepeat: 'no-repeat',
-                            display: 'block'
-                          }}
-                        >
-                          <img
-                            src="../assets/images/vegetable/banner/14.jpg"
-                            className="bg-img blur-up lazyload"
-                            alt=""
-                            style={{ display: 'none' }}
+                        <div className="nav-desh" >
+                          <Editor
+                            initialValue={product.description}
+                            initialEditType="wysiwyg"
+                            previewStyle="vertical"
+                            useCommandShortcut={true}
+                            readOnly
+                            hideModeSwitch={true}
+                            toolbarItems={[]}
+                            height="auto"
                           />
-                          <div className="banner-details p-center banner-b-space w-100 text-center">
-                            <div>
-                              <h6 className="ls-expanded theme-color mb-sm-3 mb-1">
-                                SUMMER
-                              </h6>
-                              <h2>VEGETABLE</h2>
-                              <p className="mx-auto mt-1">Save up to 5% OFF</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="nav-desh">
-                          <div className="desh-title">
-                            <h5>From The Manufacturer:</h5>
-                          </div>
-                          <p>
-                            Jelly beans shortbread chupa chups carrot cake jelly-o
-                            halvah apple pie pudding gingerbread. Apple pie halvah
-                            cake tiramisu shortbread cotton candy croissant
-                            chocolate cake. Tart cupcake caramels gummi bears
-                            macaroon gingerbread fruitcake marzipan wafer. Marzipan
-                            dessert cupcake ice cream tootsie roll. Brownie
-                            chocolate cake pudding cake powder candy ice cream ice
-                            cream cake. Jujubes soufflé chupa chups cake candy
-                            halvah donut. Tart tart icing lemon drops fruitcake
-                            apple pie.
-                          </p>
-                          <p>
-                            Dessert liquorice tart soufflé chocolate bar apple pie
-                            pastry danish soufflé. Gummi bears halvah gingerbread
-                            jelly icing. Chocolate cake chocolate bar pudding chupa
-                            chups bear claw pie dragée donut halvah. Gummi bears
-                            cookie ice cream jelly-o jujubes sweet croissant.
-                            Marzipan cotton candy gummi bears lemon drops lollipop
-                            lollipop chocolate. Ice cream cookie dragée cake sweet
-                            roll sweet roll.Lemon drops cookie muffin carrot cake
-                            chocolate marzipan gingerbread topping chocolate bar.
-                            Soufflé tiramisu pastry sweet dessert.
-                          </p>
                         </div>
                       </div>
                     </div>
-                    <div
-                      className="tab-pane fade"
+                    <div className="tab-pane fade"
                       id="info"
                       role="tabpanel"
                       aria-labelledby="info-tab"
@@ -884,74 +292,20 @@ export default function ProductSection({ product }) {
                       <div className="table-responsive">
                         <table className="table info-table">
                           <tbody>
-                            <tr>
-                              <td>Specialty</td>
-                              <td>Vegetarian</td>
-                            </tr>
-                            <tr>
-                              <td>Ingredient Type</td>
-                              <td>Vegetarian</td>
-                            </tr>
-                            <tr>
-                              <td>Brand</td>
-                              <td>Lavian Exotique</td>
-                            </tr>
-                            <tr>
-                              <td>Form</td>
-                              <td>Bar Brownie</td>
-                            </tr>
-                            <tr>
-                              <td>Package Information</td>
-                              <td>Box</td>
-                            </tr>
-                            <tr>
-                              <td>Manufacturer</td>
-                              <td>Prayagh Nutri Product Pvt Ltd</td>
-                            </tr>
-                            <tr>
-                              <td>Item part number</td>
-                              <td>LE 014 - 20pcs Crème Bakes (Pack of 2)</td>
-                            </tr>
-                            <tr>
-                              <td>Net Quantity</td>
-                              <td>40.00 count</td>
-                            </tr>
+                            {product.configDTO.listOtherConfigDTO.length > 0 && product.configDTO.listOtherConfigDTO.map((v) => (
+                              <tr key={v.id}>
+                                <td>{v.name}</td>
+                                <td>{v.value}</td>
+                              </tr>
+                            ))
+                            }
+
                           </tbody>
                         </table>
                       </div>
                     </div>
-                    <div
-                      className="tab-pane fade"
-                      id="care"
-                      role="tabpanel"
-                      aria-labelledby="care-tab"
-                    >
-                      <div className="information-box">
-                        <ul>
-                          <li>
-                            Store cream cakes in a refrigerator. Fondant cakes
-                            should be stored in an air conditioned environment.
-                          </li>
-                          <li>
-                            Slice and serve the cake at room temperature and make
-                            sure it is not exposed to heat.
-                          </li>
-                          <li>Use a serrated knife to cut a fondant cake.</li>
-                          <li>
-                            Sculptural elements and figurines may contain wire
-                            supports or toothpicks or wooden skewers for support.
-                          </li>
-                          <li>
-                            Please check the placement of these items before serving
-                            to small children.
-                          </li>
-                          <li>The cake should be consumed within 24 hours.</li>
-                          <li>Enjoy your cake!</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div
-                      className="tab-pane fade"
+
+                    <div className="tab-pane fade"
                       id="review"
                       role="tabpanel"
                       aria-labelledby="review-tab"
@@ -1583,296 +937,44 @@ export default function ProductSection({ product }) {
             style={{ visibility: 'visible', animationName: 'fadeInUp' }}
           >
             <div className="right-sidebar-box">
-              <div className="vendor-box">
-                <div className="verndor-contain">
-                  <div className="vendor-image">
-                    <img
-                      src="../assets/images/product/vendor.png"
-                      className="blur-up lazyloaded"
-                      alt=""
-                    />
-                  </div>
-                  <div className="vendor-name">
-                    <h5 className="fw-500">Noodles Co.</h5>
-                    <div className="product-rating mt-1">
-                      <ul className="rating">
-                        <li>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-star fill"
-                          >
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                          </svg>
-                        </li>
-                        <li>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-star fill"
-                          >
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                          </svg>
-                        </li>
-                        <li>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-star fill"
-                          >
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                          </svg>
-                        </li>
-                        <li>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-star fill"
-                          >
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                          </svg>
-                        </li>
-                        <li>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-star"
-                          >
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                          </svg>
-                        </li>
-                      </ul>
-                      <span>(36 Reviews)</span>
-                    </div>
-                  </div>
-                </div>
-                <p className="vendor-detail">
-                  Noodles &amp; Company is an American fast-casual restaurant that
-                  offers international and American noodle dishes and pasta.
-                </p>
-                <div className="vendor-list">
-                  <ul>
-                    <li>
-                      <div className="address-contact">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width={24}
-                          height={24}
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="feather feather-map-pin"
-                        >
-                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                          <circle cx={12} cy={10} r={3} />
-                        </svg>
-                        <h5>
-                          Address:{' '}
-                          <span className="text-content">1288 Franklin Avenue</span>
-                        </h5>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="address-contact">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width={24}
-                          height={24}
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="feather feather-headphones"
-                        >
-                          <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
-                          <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
-                        </svg>
-                        <h5>
-                          Contact Seller:{' '}
-                          <span className="text-content">(+1)-123-456-789</span>
-                        </h5>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
               {/* Trending Product */}
               <div className="pt-25">
                 <div className="category-menu">
                   <h3>Trending Products</h3>
                   <ul className="product-list product-right-sidebar border-0 p-0">
-                    <li>
-                      <div className="offer-product">
-                        <a
-                          href="product-left-thumbnail.html"
-                          className="offer-image"
-                        >
-                          <img
-                            src="../assets/images/vegetable/product/23.png"
-                            className="img-fluid blur-up lazyloaded"
-                            alt=""
-                          />
-                        </a>
-                        <div className="offer-detail">
-                          <div>
-                            <a href="product-left-thumbnail.html">
-                              <h6 className="name">Meatigo Premium Goat Curry</h6>
-                            </a>
-                            <span>450 G</span>
-                            <h6 className="price theme-color">$ 70.00</h6>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="offer-product">
-                        <a
-                          href="product-left-thumbnail.html"
-                          className="offer-image"
-                        >
-                          <img
-                            src="../assets/images/vegetable/product/24.png"
-                            className="blur-up lazyloaded"
-                            alt=""
-                          />
-                        </a>
-                        <div className="offer-detail">
-                          <div>
-                            <a href="product-left-thumbnail.html">
-                              <h6 className="name">
-                                Dates Medjoul Premium Imported
+                    {listDiscountProducts.map(v => (
+                      <li key={v.id}>
+                        <div className="offer-product">
+                          <Link
+                            to={`/product-detail/${v.id}`}
+                            className="offer-image"
+                          >
+                            <img
+                              src={v.listImage[0]}
+                              className="img-fluid blur-up lazyloaded"
+                              alt=""
+                            />
+                          </Link>
+                          <div className="offer-detail">
+                            <div>
+                              <Link to={`/product-detail/${v.id}`}>
+                                <h6 className="name">{v.name}</h6>
+                              </Link>
+                              {product?.discountDTO && (
+                                <div>
+                                  <del className="text-content">{formatCurrency(product.unitPrice)}</del>
+                                </div>
+                              )}
+                              <h6 className="price theme-color">
+                                {formatCurrency(parseInt(product.unitPrice * (100 - (product?.discountDTO?.percentage || 0)) / 100, 10))}
                               </h6>
-                            </a>
-                            <span>450 G</span>
-                            <h6 className="price theme-color">$ 40.00</h6>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="offer-product">
-                        <a
-                          href="product-left-thumbnail.html"
-                          className="offer-image"
-                        >
-                          <img
-                            src="../assets/images/vegetable/product/25.png"
-                            className="blur-up lazyloaded"
-                            alt=""
-                          />
-                        </a>
-                        <div className="offer-detail">
-                          <div>
-                            <a href="product-left-thumbnail.html">
-                              <h6 className="name">Good Life Walnut Kernels</h6>
-                            </a>
-                            <span>200 G</span>
-                            <h6 className="price theme-color">$ 52.00</h6>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="mb-0">
-                      <div className="offer-product">
-                        <a
-                          href="product-left-thumbnail.html"
-                          className="offer-image"
-                        >
-                          <img
-                            src="../assets/images/vegetable/product/26.png"
-                            className="blur-up lazyloaded"
-                            alt=""
-                          />
-                        </a>
-                        <div className="offer-detail">
-                          <div>
-                            <a href="product-left-thumbnail.html">
-                              <h6 className="name">Apple Red Premium Imported</h6>
-                            </a>
-                            <span>1 KG</span>
-                            <h6 className="price theme-color">$ 80.00</h6>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
+                      </li>
+                    ))
+                    }
                   </ul>
-                </div>
-              </div>
-              {/* Banner Section */}
-              <div className="ratio_156 pt-25">
-                <div
-                  className="home-contain bg-size blur-up lazyloaded"
-                  style={{
-                    backgroundImage:
-                      'url("../assets/images/vegetable/banner/8.jpg")',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center center',
-                    backgroundRepeat: 'no-repeat',
-                    display: 'block'
-                  }}
-                >
-                  <img
-                    src="../assets/images/vegetable/banner/8.jpg"
-                    className="bg-img blur-up lazyload"
-                    alt=""
-                    style={{ display: 'none' }}
-                  />
-                  <div className="home-detail p-top-left home-p-medium">
-                    <div>
-                      <h6 className="text-yellow home-banner">Seafood</h6>
-                      <h3 className="text-uppercase fw-normal">
-                        <span className="theme-color fw-bold">Freshes</span>{' '}
-                        Products
-                      </h3>
-                      <h3 className="fw-light">every hour</h3>
-                      <button
-                        onClick="location.href = 'shop-left-sidebar.html';"
-                        className="btn btn-animation btn-md fw-bold mend-auto"
-                      >
-                        Shop Now <i className="fa-solid fa-arrow-right icon" />
-                      </button>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

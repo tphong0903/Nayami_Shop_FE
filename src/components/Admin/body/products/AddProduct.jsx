@@ -30,7 +30,9 @@ export default function AddProduct() {
     discountDTO: {
       id: 0,
       percentage: 0,
-      productID: null
+      productID: null,
+      startDate: null,
+      endDate: null,
     },
     ratingAvg: 0,
     quantity: 0,
@@ -61,7 +63,7 @@ export default function AddProduct() {
         headers: { 'Content-Type': 'multipart/form-data;' }
       });
 
-      if (response.status === 200) {
+      if (response.data.status === 200) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',
@@ -73,6 +75,15 @@ export default function AddProduct() {
         setTimeout(() => {
           navigate('/admin/products');
         }, 3000);
+      }
+      else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi!',
+          text: 'Có lỗi xảy ra, vui lòng thử lại! ❌',
+          timer: 3000,
+          showConfirmButton: false,
+        });
       }
     } catch (error) {
       Swal.fire({
@@ -92,20 +103,6 @@ export default function AddProduct() {
         listOtherConfigDTO: [...prev.configDTO.listOtherConfigDTO, { id: '', name: '', value: '' }]
       }
     }));
-  };
-
-  const handleChange = (index, field, value) => {
-    setFormData(prev => {
-      const newOptions = [...prev.configDTO.listOtherConfigDTO];
-      newOptions[index] = { ...newOptions[index], [field]: value };
-      return {
-        ...prev,
-        configDTO: {
-          ...prev.configDTO,
-          listOtherConfigDTO: newOptions
-        }
-      };
-    });
   };
 
   const handleDeleteOption = (index) => {
@@ -308,8 +305,11 @@ export default function AddProduct() {
                         <div className="col-sm-9">
                           <input
                             type="text"
-                            onChange={(e) => setFormData({ ...formData, originalPrice: e.target.value })}
-                            value={formData.originalPrice}
+                            onChange={(e) => {
+                              const value = e.target.value.replace(/\D/g, '');
+                              setFormData({ ...formData, originalPrice: value })
+                            }}
+                            value={new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', currencyDisplay: 'code' }).format(formData.originalPrice || 0).replace('VND', '').trim()}
                             className="form-control"
                             placeholder="VND"
                             id="inputOriginalPrice"
@@ -325,8 +325,11 @@ export default function AddProduct() {
                         <div className="col-sm-9">
                           <input
                             type="text"
-                            onChange={(e) => setFormData({ ...formData, unitPrice: e.target.value })}
-                            value={formData.unitPrice}
+                            onChange={(e) => {
+                              const value = e.target.value.replace(/\D/g, '');
+                              setFormData({ ...formData, unitPrice: value })
+                            }}
+                            value={new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', currencyDisplay: 'code' }).format(formData.unitPrice || 0).replace('VND', '').trim()}
                             className="form-control"
                             placeholder="VND"
                             id="inputUnitPrice"
@@ -432,7 +435,7 @@ export default function AddProduct() {
                                 className="form-control"
                                 placeholder="Enter Option Name"
                                 value={option.name}
-                                onChange={(e) => handleChange(index, 'name', e.target.value)}
+                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                               />
                             </div>
                             <div className="col-sm-5">
@@ -441,7 +444,7 @@ export default function AddProduct() {
                                 className="form-control"
                                 placeholder="Enter Option Value"
                                 value={option.value}
-                                onChange={(e) => handleChange(index, 'value', e.target.value)}
+                                onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                               />
                             </div>
                             <div className="col-sm-2">
