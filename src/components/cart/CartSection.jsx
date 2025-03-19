@@ -20,7 +20,7 @@ export default function CartSection() {
     fetchProducts();
   }, []);
 
-  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjM1MzM2OSwiZXhwIjoxNzQyMzU0ODA5fQ.mUA_VlR6m3vt6KWnkqGAgTBj69gmrB6_h49gEWyEVME';
+  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTFAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDIzOTI4MzcsImV4cCI6MTc0MjM5NDI3N30.s7loI2jT7ZYEdUNyAmOtoKmOUyNuXQO8C_yvPAzW3nU';
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   const fetchProducts = async () => {
@@ -103,7 +103,7 @@ export default function CartSection() {
 
   const handleApplyCoupon = async (couponCode) => {
     try {
-      const response = await axios.get(`/api/coupons/${couponCode}`);
+      const response = await axios.get(`/api/coupons/customer/${couponCode}`);
       const { type, value, constraintMoney } = response.data.data;
 
       if (constraintMoney > total) {

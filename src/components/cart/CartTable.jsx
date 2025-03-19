@@ -65,7 +65,7 @@ export default function CartTable({ products, loading, error, onQuantityChange, 
     <div className="col-xxl-9">
       <div className="cart-table">
         <div className="table-responsive">
-          <table className="table">
+          <table className="table-auto w-full border-collapse" style={{ tableLayout: 'fixed' }}>
             <tbody>
               {products.map((product, index) => (
                 <Product

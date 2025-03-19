@@ -1,12 +1,29 @@
-import { useEffect, React } from 'react';
+import { useEffect, useState, React } from 'react';
 
-const PaymentOptionsSection = () => {
+const PaymentOptionsSection = ({ onPaymentMethodChange }) => {
+  const [paymentMethod, setPaymentMethod] = useState('cash'); // Default to cash
+
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://cdn.lordicon.com/lordicon.js';
     script.async = true;
     document.body.appendChild(script);
   }, []);
+
+  useEffect(() => {
+    if (onPaymentMethodChange) {
+      onPaymentMethodChange(paymentMethod);
+    }
+  }, []);
+
+  const handlePaymentChange = (method) => {
+    setPaymentMethod(method);
+
+    if (onPaymentMethodChange) {
+      onPaymentMethodChange(method);
+    }
+  };
+
   return (
     <li>
       <div className="checkout-icon">
@@ -20,7 +37,7 @@ const PaymentOptionsSection = () => {
       </div>
       <div className="checkout-box">
         <div className="checkout-title">
-          <h4>Payment Option</h4>
+          <h4>Phương thức thanh toán</h4>
         </div>
 
         <div className="checkout-detail">
@@ -39,9 +56,10 @@ const PaymentOptionsSection = () => {
                         type="radio"
                         name="flexRadioDefault"
                         id="cash"
-                        defaultChecked
+                        checked={paymentMethod === 'COD'}
+                        onChange={() => handlePaymentChange('COD')}
                       />{' '}
-                      Cash On Delivery
+                      Thanh toán khi nhận hàng
                     </label>
                   </div>
                 </div>
@@ -51,14 +69,16 @@ const PaymentOptionsSection = () => {
               <div className="accordion-header" id="flush-headingThree">
                 <div className="accordion-button collapsed">
                   <div className="custom-form-check form-check mb-0">
-                    <label className="form-check-label" htmlFor="wallet">
+                    <label className="form-check-label" htmlFor="banking">
                       <input
                         className="form-check-input mt-0"
                         type="radio"
                         name="flexRadioDefault"
-                        id="wallet"
+                        id="banking"
+                        checked={paymentMethod === 'ONLINE_BANKING'}
+                        onChange={() => handlePaymentChange('ONLINE_BANKING')}
                       />
-                      My Wallet
+                      Thanh toán qua ngân hàng điện tử
                     </label>
                   </div>
                 </div>

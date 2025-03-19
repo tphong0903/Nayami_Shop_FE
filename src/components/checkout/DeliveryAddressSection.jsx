@@ -8,7 +8,9 @@ const DeliveryAddressSection = ({
   initialAddress,
   onAddAddress,
   onUpdateAddress,
-  onDeleteAddress
+  onDeleteAddress,
+  onAddressSelect
+
 }) => {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [newAddress, setNewAddress] = useState({
@@ -24,11 +26,27 @@ const DeliveryAddressSection = ({
   const [wards, setWards] = useState([]);
   // Add local state to manage addresses
   const [addresses, setAddresses] = useState(addressList);
+  const [selectedAddressIndex, setSelectedAddressIndex] = useState(0);
+  const [initialSelectionDone, setInitialSelectionDone] = useState(false);
 
-  // Update local addresses when addressList prop changes
   useEffect(() => {
     setAddresses(addressList);
-  }, [addressList]);
+
+    if (addressList && addressList.length > 0 && !initialSelectionDone) {
+      if (onAddressSelect) {
+        onAddressSelect(addressList[0]);
+        setInitialSelectionDone(true);
+      }
+    }
+  }, [addressList, onAddressSelect, initialSelectionDone]);
+
+  const handleAddressSelect = (index) => {
+    setSelectedAddressIndex(index);
+
+    if (onAddressSelect && addresses[index]) {
+      onAddressSelect(addresses[index]);
+    }
+  };
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -58,12 +76,10 @@ const DeliveryAddressSection = ({
     if (initialAddress && provinces.length > 0) {
       setNewAddress(initialAddress);
 
-      // Filter provinces that match the initialAddress province
       const selectedProvincesList = provinces.filter(p => p.provinceName === initialAddress.province);
       if (selectedProvincesList.length > 0) {
         setDistricts(selectedProvincesList);
 
-        // Filter districts that match the initialAddress district
         const selectedDistrictsList = selectedProvincesList.filter(d => d.districtName === initialAddress.district);
         if (selectedDistrictsList.length > 0) {
           setWards(selectedDistrictsList);
@@ -150,7 +166,6 @@ const DeliveryAddressSection = ({
     setDistricts(selectedProvince);
     setWards([]);
   };
-
   const handleDistrictChange = (e) => {
     const districtName = e.target.value;
     const selectedDistrict = districts.filter(w => w.districtName === districtName);
@@ -376,7 +391,9 @@ const DeliveryAddressSection = ({
                             type="radio"
                             name="address"
                             id={`address-${index}`}
-                            defaultChecked={index === 0}
+                            checked={selectedAddressIndex === index}
+                            onChange={() => handleAddressSelect(index)}
+
                           />
                         </div>
                       </div>

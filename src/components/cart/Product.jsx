@@ -67,13 +67,16 @@ const Product = ({ product, index, onQuantityChange, onDeleteProduct }) => {
           </Link>
         </div>
       </td>
-      <td className="uproduct-info w-4/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
-        <ul className="name break-words whitespace-normal w-full overflow-hidden text-ellipsis">
-          <Link to={`/product/${product.id}`}>
+
+      <td className="uproduct-info w-4/14 min-w-0 text-center align-middle max-w-[250px] break-words">
+        <p className="break-words overflow-hidden text-ellipsis">
+          <Link to={`/product/${product.id}`} className="inline-block w-full">
             {product.productName}
           </Link>
-        </ul>
+        </p>
       </td>
+
+
       <td className="unitprice w-2/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
         <h4 className="table-title text-content">Đơn giá</h4>
         <h5>

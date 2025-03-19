@@ -1,15 +1,40 @@
-import React from 'react';
+/* eslint-disable no-console */
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useEffect } from 'react';
 
-const OrderSummary = ({ carts, discount }) => {
+const OrderSummary = ({ carts, discount, paymentMethod, selectedAddress, shippingFee }) => {
   // Kiểm tra nếu carts rỗng hoặc null
   if (!carts || carts.length === 0) {
     return <p>Không có sản phẩm nào trong giỏ hàng.</p>;
   }
 
-  // Tính tổng giá trị đơn hàng
   const subtotal = carts.reduce((sum, item) => sum + item.totalPrice, 0);
-  const shipping = 0; // Ví dụ phí vận chuyển cố định
+  const shipping = shippingFee;
   const total = subtotal + shipping - (discount || 0);
+
+  useEffect(() => {
+    console.log('Selected address:', selectedAddress);
+
+    if (paymentMethod === 'cash') {
+      console.log('Payment method selected: Cash on delivery (COD)');
+      console.log('Selected address:', selectedAddress);
+      console.log('Order Summary:');
+      console.log('Products:', carts);
+      console.log('Subtotal:', subtotal.toLocaleString() + 'đ');
+      console.log('Shipping:', shipping.toLocaleString() + 'đ');
+      console.log('Discount:', (discount || 0).toLocaleString() + 'đ');
+      console.log('Total:', total.toLocaleString() + 'đ');
+    }
+    else {
+      console.log('Payment method selected: Online payment');
+      console.log('Order Summary:');
+      console.log('Products:', carts);
+      console.log('Subtotal:', subtotal.toLocaleString() + 'đ');
+      console.log('Shipping:', shipping.toLocaleString() + 'đ');
+      console.log('Discount:', (discount || 0).toLocaleString() + 'đ');
+      console.log('Total:', total.toLocaleString() + 'đ');
+    }
+  }, [paymentMethod, carts, subtotal, shipping, discount, total]);
 
   return (
     <div className="summery-box-2">
@@ -40,7 +65,6 @@ const OrderSummary = ({ carts, discount }) => {
           <h4>Phí vận chuyển</h4>
           <h4 className="price">{shipping.toLocaleString()}đ</h4>
         </li>
-
 
         <li>
           <h4>Giảm giá</h4>
