@@ -10,12 +10,11 @@ import DealBoxSection from '~/components/product/DealBoxSection';
 import { useEffect, useState } from 'react';
 import axios from 'axios'
 import Swal from 'sweetalert2'
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export default function ProductPage() {
   const [product, setProduct] = useState()
   const { id } = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);

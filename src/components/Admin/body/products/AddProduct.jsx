@@ -63,7 +63,7 @@ export default function AddProduct() {
         headers: { 'Content-Type': 'multipart/form-data;' }
       });
 
-      if (response.data.status === 200) {
+      if (response.data.status === 201) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',

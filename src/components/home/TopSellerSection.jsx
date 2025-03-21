@@ -1,6 +1,7 @@
 import { Rating } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { formatCurrency } from '~/utils/formatCurrency';
 
 
@@ -36,21 +37,21 @@ export default function TopSellerSection() {
                           <label>50%</label>
                         </div>
                       </div>
-                      <a href="product-left-thumbnail.html">
+                      <Link to={`/product-detail/${v.id}`}>
                         <img
                           src={v.listImage[0]}
                           className="img-fluid"
                           alt=""
                         />
-                      </a>
+                      </Link>
                     </div>
                     <div className="product-detail">
+                      <Link to={`/product-detail/${v.id}`}>
+                        <h5 className="name" style={{ width: '100%' }}>{v.name}</h5>
+                      </Link>
                       <ul className="rating">
                         <Rating size='small' name="read-only" value={v?.ratingAvg ?? 0} readOnly />
                       </ul>
-                      <a href="product-left-thumbnail.html">
-                        <h5 className="name" style={{ width: '100%' }}>{v.name}</h5>
-                      </a>
                       <div>
                         {v?.discountDTO ? (
                           <h5 >

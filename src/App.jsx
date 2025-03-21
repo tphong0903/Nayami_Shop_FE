@@ -23,7 +23,6 @@ function App() {
 
   useEffect(() => {
     feather.replace();
-
   }, []);
   return (
     <>
