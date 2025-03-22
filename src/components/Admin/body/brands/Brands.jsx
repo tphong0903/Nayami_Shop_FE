@@ -11,6 +11,7 @@ const BrandList = () => {
     fetchBrands();
   }, []);
 
+
   const fetchBrands = async () => {
     try {
       const response = await axios.get('/api/brands');

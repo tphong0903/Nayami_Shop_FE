@@ -24,6 +24,7 @@
     "datatables.net-react": "^1.0.0",
     "feather-icons": "^4.29.2",
     "jquery": "^3.7.1",
+    "jwt-decode": "^4.0.0",
     "nayami-shop-fe": "file:",
     "react": "^18.3.1",
     "react-apexcharts": "^1.7.0",
