@@ -1,7 +1,61 @@
-
+import { Rating, Slider } from '@mui/material'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import ClearIcon from '@mui/icons-material/Clear';
 export default function LeftFillter() {
+  const [listSelectedOption, setListSelectedOption] = useState({
+    listBrandsSelected: [],
+    listCategoriesSelected: [],
+    listDiscountsSelected: [],
+    listRatingSelected: [],
+  })
+  const [listBrands, setListBrands] = useState([])
+  const [listCategories, setListCategories] = useState([])
+  const [listDiscounts, setListDiscounts] = useState([])
+  const [listRating, setListRating] = useState([])
+  const [valuePrice, setValuePrice] = useState([0, 100000000]);
+
+  const clearAllSelectedOptions = () => {
+    setListSelectedOption({
+      listBrandsSelected: [],
+      listCategoriesSelected: [],
+      listDiscountsSelected: [],
+      listRatingSelected: []
+    });
+  };
+  const handleChange = (event, newValue) => {
+    setValuePrice(newValue);
+  };
+
+  const handleSelected = (id, option, name) => {
+    setListSelectedOption(prevState => {
+      let currentList = prevState[option];
+
+      let exists = currentList.some(item => item.id === id);
+
+      let updatedList = exists
+        ? currentList.filter(item => item.id !== id)
+        : [...currentList, { id, name }];
+
+      return {
+        ...prevState,
+        [option]: updatedList
+      };
+    });
+  };
+
+  useEffect(() => {
+    axios
+      .get('/api/products/filter')
+      .then((response) => {
+        setListBrands(response.data.data.listBrandDTO);
+        setListCategories(response.data.data.listCategoryDTO);
+        setListDiscounts(response.data.data.listQuantityProductOfDiscount);
+        setListRating(response.data.data.listQuantityProductOfRating);
+      })
+  }, []);
   return (
-    <div className="col-custome-3 wow fadeInUp">
+    <div className="col-custome-3 wow fadeInUp" style={{ width: '22%' }}>
       <div className="left-box">
         <div className="shop-left-sidebar">
           <div className="back-button">
@@ -12,24 +66,21 @@ export default function LeftFillter() {
           <div className="filter-category">
             <div className="filter-title">
               <h2>Filters</h2>
-              <a href="javascript:void(0)">Clear All</a>
+              <a href="javascript:void(0)" onClick={clearAllSelectedOptions}>Clear All</a>
             </div>
             <ul>
-              <li>
-                <a href="javascript:void(0)">Vegetable</a>
-              </li>
-              <li>
-                <a href="javascript:void(0)">Fruit</a>
-              </li>
-              <li>
-                <a href="javascript:void(0)">Fresh</a>
-              </li>
-              <li>
-                <a href="javascript:void(0)">Milk</a>
-              </li>
-              <li>
-                <a href="javascript:void(0)">Meat</a>
-              </li>
+              {Object.entries(listSelectedOption).map(([key, list]) => (
+                list.map((item) => (
+                  <li key={item.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px' }}>
+                    <div style={{ flexGrow: 2 }} >
+                      <span className="option-name" style={{ fontSize: '14px', fontWeight: '500' }}>{item.name}</span>
+                    </div>
+                    <div>
+                      <ClearIcon fontSize="small" className="clear-icon" onClick={() => handleSelected(item.id, key, item.name)} />
+                    </div>
+                  </li>
+                ))
+              ))}
             </ul>
           </div>
           <div className="accordion custome-accordion" id="accordionExample">
@@ -43,7 +94,7 @@ export default function LeftFillter() {
                   aria-expanded="true"
                   aria-controls="collapseOne"
                 >
-                  <span>Categories</span>
+                  <span>Danh mục</span>
                 </button>
               </h2>
               <div
@@ -52,226 +103,24 @@ export default function LeftFillter() {
                 aria-labelledby="panelsStayOpen-headingOne"
               >
                 <div className="accordion-body">
-                  <div className="form-floating theme-form-floating-2 search-box">
-                    <input
-                      type="search"
-                      className="form-control"
-                      id="search"
-                      placeholder="Search .."
-                    />
-                    <label htmlFor="search">Search</label>
-                  </div>
                   <ul className="category-list custom-padding custom-height">
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="fruit"
-                        />
-                        <label className="form-check-label" htmlFor="fruit">
-                          <span className="name">
-                            Fruits &amp; Vegetables
-                          </span>
-                          <span className="number">(15)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="cake"
-                        />
-                        <label className="form-check-label" htmlFor="cake">
-                          <span className="name">
-                            Bakery, Cake &amp; Dairy
-                          </span>
-                          <span className="number">(12)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="behe"
-                        />
-                        <label className="form-check-label" htmlFor="behe">
-                          <span className="name">Beverages</span>
-                          <span className="number">(20)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="snacks"
-                        />
-                        <label className="form-check-label" htmlFor="snacks">
-                          <span className="name">
-                            Snacks &amp; Branded Foods
-                          </span>
-                          <span className="number">(05)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="beauty"
-                        />
-                        <label className="form-check-label" htmlFor="beauty">
-                          <span className="name">Beauty &amp; Household</span>
-                          <span className="number">(30)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="pets"
-                        />
-                        <label className="form-check-label" htmlFor="pets">
-                          <span className="name">
-                            Kitchen, Garden &amp; Pets
-                          </span>
-                          <span className="number">(50)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="egg"
-                        />
-                        <label className="form-check-label" htmlFor="egg">
-                          <span className="name">Eggs, Meat &amp; Fish</span>
-                          <span className="number">(19)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="food"
-                        />
-                        <label className="form-check-label" htmlFor="food">
-                          <span className="name">
-                            Gourment &amp; World Food
-                          </span>
-                          <span className="number">(30)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="care"
-                        />
-                        <label className="form-check-label" htmlFor="care">
-                          <span className="name">Baby Care</span>
-                          <span className="number">(20)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="fish"
-                        />
-                        <label className="form-check-label" htmlFor="fish">
-                          <span className="name">Fish &amp; Seafood</span>
-                          <span className="number">(10)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="marinades"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="marinades"
-                        >
-                          <span className="name">Marinades</span>
-                          <span className="number">(05)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="lamb"
-                        />
-                        <label className="form-check-label" htmlFor="lamb">
-                          <span className="name">Mutton &amp; Lamb</span>
-                          <span className="number">(09)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="other"
-                        />
-                        <label className="form-check-label" htmlFor="other">
-                          <span className="name">Port &amp; other Meats</span>
-                          <span className="number">(06)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="pour"
-                        />
-                        <label className="form-check-label" htmlFor="pour">
-                          <span className="name">Pourltry</span>
-                          <span className="number">(01)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="salami"
-                        />
-                        <label className="form-check-label" htmlFor="salami">
-                          <span className="name">
-                            Sausages, bacon &amp; Salami
-                          </span>
-                          <span className="number">(03)</span>
-                        </label>
-                      </div>
-                    </li>
+                    {listCategories.map(v => (
+                      <li key={v.id}>
+                        <div className="form-check ps-0 m-0 category-list-box">
+                          <input
+                            className="checkbox_animated"
+                            type="checkbox"
+                            id="fruit"
+                            onClick={() => handleSelected(v.id, 'listCategoriesSelected', v.categoryName)}
+                            checked={listSelectedOption['listCategoriesSelected'].some(item => item.id === v.id)}
+                          />
+                          <label className="form-check-label" htmlFor="fruit">
+                            <span className="name">{v.categoryName}</span>
+                            <span className="number">({v.quantityProduct})</span>
+                          </label>
+                        </div>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -286,7 +135,7 @@ export default function LeftFillter() {
                   aria-expanded="false"
                   aria-controls="collapseTwo"
                 >
-                  <span>Food Preference</span>
+                  <span>Thương hiệu</span>
                 </button>
               </h2>
               <div
@@ -296,41 +145,29 @@ export default function LeftFillter() {
               >
                 <div className="accordion-body">
                   <ul className="category-list custom-padding">
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="veget"
-                        />
-                        <label className="form-check-label" htmlFor="veget">
-                          <span className="name">Vegetarian</span>
-                          <span className="number">(08)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="non"
-                        />
-                        <label className="form-check-label" htmlFor="non">
-                          <span className="name">Non Vegetarian</span>
-                          <span className="number">(09)</span>
-                        </label>
-                      </div>
-                    </li>
+                    {listBrands.map(v => (
+                      <li key={v.id}>
+                        <div className="form-check ps-0 m-0 category-list-box">
+                          <input
+                            className="checkbox_animated"
+                            type="checkbox"
+                            id="veget"
+                            onClick={() => handleSelected(v.id, 'listBrandsSelected', v.name)}
+                            checked={listSelectedOption['listBrandsSelected'].some(item => item.id === v.id)}
+                          />
+                          <label className="form-check-label" htmlFor="veget">
+                            <span className="name">{v.name}</span>
+                            <span className="number">({v.quantityProduct})</span>
+                          </label>
+                        </div>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
             </div>
             <div className="accordion-item">
-              <h2
-                className="accordion-header"
-                id="panelsStayOpen-headingThree"
-              >
+              <h2 className="accordion-header" id="panelsStayOpen-headingThree">
                 <button
                   className="accordion-button collapsed"
                   type="button"
@@ -339,7 +176,7 @@ export default function LeftFillter() {
                   aria-expanded="false"
                   aria-controls="collapseThree"
                 >
-                  <span>Price</span>
+                  <span>Giá</span>
                 </button>
               </h2>
               <div
@@ -349,10 +186,15 @@ export default function LeftFillter() {
               >
                 <div className="accordion-body">
                   <div className="range-slider">
-                    <input
-                      type="text"
-                      className="js-range-slider"
-                      defaultValue=""
+                    <Slider
+                      getAriaLabel={() => 'Temperature range'}
+                      value={valuePrice}
+                      onChange={handleChange}
+                      valueLabelDisplay="auto"
+                      step={500000}
+                      min={0}
+                      max={100000000}
+                      valueLabelFormat={(value) => value.toLocaleString('vi-VN') + ' VND'}
                     />
                   </div>
                 </div>
@@ -368,7 +210,7 @@ export default function LeftFillter() {
                   aria-expanded="false"
                   aria-controls="collapseSix"
                 >
-                  <span>Rating</span>
+                  <span>Đánh giá</span>
                 </button>
               </h2>
               <div
@@ -378,155 +220,28 @@ export default function LeftFillter() {
               >
                 <div className="accordion-body">
                   <ul className="category-list custom-padding">
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                        />
-                        <div className="form-check-label">
-                          <ul className="rating">
-                            <li>
-                              <i data-feather="star" className="fill" />
-                            </li>
-                            <li>
-                              <i data-feather="star" className="fill" />
-                            </li>
-                            <li>
-                              <i data-feather="star" className="fill" />
-                            </li>
-                            <li>
-                              <i data-feather="star" className="fill" />
-                            </li>
-                            <li>
-                              <i data-feather="star" className="fill" />
-                            </li>
-                          </ul>
-                          <span className="text-content">(5 Star)</span>
+                    {[...Array(5)].map((_, i) => (
+                      <li key={i}>
+                        <div className="form-check ps-0 m-0 category-list-box">
+                          <input className="checkbox_animated" type="checkbox"
+                            onClick={() => handleSelected(i, 'listRatingSelected', i + ' sao')}
+                            checked={listSelectedOption['listRatingSelected'].some(item => item.id === i)}
+                          />
+                          <div className="form-check-label">
+                            <ul className="rating">
+                              <Rating name="read-only" value={i} readOnly />
+                            </ul>
+                            <span className="text-content">({listRating[i]})</span>
+                          </div>
                         </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                        />
-                        <div className="form-check-label">
-                          <ul className="rating">
-                            <li>
-                              <i data-feather="star" className="fill" />
-                            </li>
-                            <li>
-                              <i data-feather="star" className="fill" />
-                            </li>
-                            <li>
-                              <i data-feather="star" className="fill" />
-                            </li>
-                            <li>
-                              <i data-feather="star" className="fill" />
-                            </li>
-                            <li>
-                              <i data-feather="star" />
-                            </li>
-                          </ul>
-                          <span className="text-content">(4 Star)</span>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                        />
-                        <div className="form-check-label">
-                          <ul className="rating">
-                            <li>
-                              <i data-feather="star" className="fill" />
-                            </li>
-                            <li>
-                              <i data-feather="star" className="fill" />
-                            </li>
-                            <li>
-                              <i data-feather="star" className="fill" />
-                            </li>
-                            <li>
-                              <i data-feather="star" />
-                            </li>
-                            <li>
-                              <i data-feather="star" />
-                            </li>
-                          </ul>
-                          <span className="text-content">(3 Star)</span>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                        />
-                        <div className="form-check-label">
-                          <ul className="rating">
-                            <li>
-                              <i data-feather="star" className="fill" />
-                            </li>
-                            <li>
-                              <i data-feather="star" className="fill" />
-                            </li>
-                            <li>
-                              <i data-feather="star" />
-                            </li>
-                            <li>
-                              <i data-feather="star" />
-                            </li>
-                            <li>
-                              <i data-feather="star" />
-                            </li>
-                          </ul>
-                          <span className="text-content">(2 Star)</span>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                        />
-                        <div className="form-check-label">
-                          <ul className="rating">
-                            <li>
-                              <i data-feather="star" className="fill" />
-                            </li>
-                            <li>
-                              <i data-feather="star" />
-                            </li>
-                            <li>
-                              <i data-feather="star" />
-                            </li>
-                            <li>
-                              <i data-feather="star" />
-                            </li>
-                            <li>
-                              <i data-feather="star" />
-                            </li>
-                          </ul>
-                          <span className="text-content">(1 Star)</span>
-                        </div>
-                      </div>
-                    </li>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
             </div>
             <div className="accordion-item">
-              <h2
-                className="accordion-header"
-                id="panelsStayOpen-headingFour"
-              >
+              <h2 className="accordion-header" id="panelsStayOpen-headingFour">
                 <button
                   className="accordion-button collapsed"
                   type="button"
@@ -535,7 +250,7 @@ export default function LeftFillter() {
                   aria-expanded="false"
                   aria-controls="collapseFour"
                 >
-                  <span>Discount</span>
+                  <span>Khuyến mãi</span>
                 </button>
               </h2>
               <div
@@ -550,14 +265,16 @@ export default function LeftFillter() {
                         <input
                           className="checkbox_animated"
                           type="checkbox"
+                          onClick={() => handleSelected(1, 'listDiscountsSelected', '0% - 5%')}
+                          checked={listSelectedOption['listDiscountsSelected'].some(item => item.id === 1)}
                           id="flexCheckDefault"
                         />
                         <label
                           className="form-check-label"
                           htmlFor="flexCheckDefault"
                         >
-                          <span className="name">upto 5%</span>
-                          <span className="number">(06)</span>
+                          <span className="name">0% - 5%</span>
+                          <span className="number">({listDiscounts[0]})</span>
                         </label>
                       </div>
                     </li>
@@ -567,13 +284,15 @@ export default function LeftFillter() {
                           className="checkbox_animated"
                           type="checkbox"
                           id="flexCheckDefault1"
+                          onClick={() => handleSelected(2, 'listDiscountsSelected', '5% - 10%')}
+                          checked={listSelectedOption['listDiscountsSelected'].some(item => item.id === 2)}
                         />
                         <label
                           className="form-check-label"
                           htmlFor="flexCheckDefault1"
                         >
                           <span className="name">5% - 10%</span>
-                          <span className="number">(08)</span>
+                          <span className="number">({listDiscounts[1]})</span>
                         </label>
                       </div>
                     </li>
@@ -583,13 +302,15 @@ export default function LeftFillter() {
                           className="checkbox_animated"
                           type="checkbox"
                           id="flexCheckDefault2"
+                          onClick={() => handleSelected(3, 'listDiscountsSelected', '10% - 15%')}
+                          checked={listSelectedOption['listDiscountsSelected'].some(item => item.id === 3)}
                         />
                         <label
                           className="form-check-label"
                           htmlFor="flexCheckDefault2"
                         >
                           <span className="name">10% - 15%</span>
-                          <span className="number">(10)</span>
+                          <span className="number">({listDiscounts[2]})</span>
                         </label>
                       </div>
                     </li>
@@ -599,13 +320,15 @@ export default function LeftFillter() {
                           className="checkbox_animated"
                           type="checkbox"
                           id="flexCheckDefault3"
+                          onClick={() => handleSelected(4, 'listDiscountsSelected', '15% - 25%')}
+                          checked={listSelectedOption['listDiscountsSelected'].some(item => item.id === 4)}
                         />
                         <label
                           className="form-check-label"
                           htmlFor="flexCheckDefault3"
                         >
                           <span className="name">15% - 25%</span>
-                          <span className="number">(14)</span>
+                          <span className="number">({listDiscounts[3]})</span>
                         </label>
                       </div>
                     </li>
@@ -615,13 +338,15 @@ export default function LeftFillter() {
                           className="checkbox_animated"
                           type="checkbox"
                           id="flexCheckDefault4"
+                          onClick={() => handleSelected(5, 'listDiscountsSelected', 'Hơn 25%')}
+                          checked={listSelectedOption['listDiscountsSelected'].some(item => item.id === 5)}
                         />
                         <label
                           className="form-check-label"
                           htmlFor="flexCheckDefault4"
                         >
-                          <span className="name">More than 25%</span>
-                          <span className="number">(13)</span>
+                          <span className="name">Hơn 25%</span>
+                          <span className="number">({listDiscounts[4]})</span>
                         </label>
                       </div>
                     </li>
@@ -630,10 +355,7 @@ export default function LeftFillter() {
               </div>
             </div>
             <div className="accordion-item">
-              <h2
-                className="accordion-header"
-                id="panelsStayOpen-headingFive"
-              >
+              <h2 className="accordion-header" id="panelsStayOpen-headingFive">
                 <button
                   className="accordion-button collapsed"
                   type="button"
@@ -985,6 +707,7 @@ export default function LeftFillter() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
+
   )
 }

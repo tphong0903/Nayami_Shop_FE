@@ -28,6 +28,14 @@ export default function SideBar({ value, setSidebarOpen }) {
     if (sidebarElement) {
       new SimpleBar(sidebarElement);
     }
+    const script = document.createElement('script');
+    script.src = '/src/assets/Admin/js/sidebareffect.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
   return (
@@ -174,11 +182,13 @@ export default function SideBar({ value, setSidebarOpen }) {
               <li className="sidebar-list">
                 <a className="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsCouponsOpen)}>
                   <i className="ri-price-tag-3-line" />
-                  <span>Coupons</span>
+                  <span>Discount</span>
                   <i className={`ri-arrow-${isCouponsOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
                 </a>
                 {isCouponsOpen && (
                   <ul className="sidebar-submenu">
+                    <li><a href="/admin/discounts">Discount List</a></li>
+                    <li><a href="/admin/add-discounts">Create Discount</a></li>
                     <li><a href="coupon-list.html">Coupon List</a></li>
                     <li><a href="create-coupon.html">Create Coupon</a></li>
                   </ul>

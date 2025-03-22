@@ -1,146 +1,150 @@
-import Hinh1 from '~/assets/images/vegetable/product/1.png'
+import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
-export default function Product() {
+const Product = ({ product, index, onQuantityChange, onDeleteProduct }) => {
+  const handleDelete = (e) => {
+    e.preventDefault();
+
+    Swal.fire({
+      title: 'Bạn có chắc chắn không?',
+      text: 'Hành động này không thể hoàn tác!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Có, xoá ngay!',
+      cancelButtonText: 'Huỷ'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        onDeleteProduct(product.id);
+      }
+    });
+  };
+
+  const handleQuantityChange = (newQuantity) => {
+    if (newQuantity <= 0) {
+      Swal.fire({
+        title: 'Xoá sản phẩm?',
+        text: 'Bạn có muốn xoá sản phẩm này khỏi giỏ hàng không?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Có, xoá ngay!',
+        cancelButtonText: 'Không, giữ lại'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          onDeleteProduct(product.id);
+        } else {
+          // Reset về 1 nếu người dùng huỷ xoá
+          onQuantityChange(index, 1);
+        }
+      });
+    } else {
+      onQuantityChange(index, newQuantity);
+    }
+  };
+
   return (
-    <tr className="product-box-contain">
-      <td className="product-detail">
+    <tr className="product-box-contain h-full">
+      <td className="select-product w-1/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
+        <input
+          type="checkbox"
+          checked={true}
+          name="select_product"
+          className="w-4 h-4 cursor-pointer checkbox_animated checkall"
+        />
+      </td>
+      <td className="product-detail !w-4/14">
         <div className="product border-0">
-          <a
-            href="product-left-thumbnail.html"
-            className="product-image"
-          >
+          <Link to={`/product/${product.id}`} className="product-image">
             <img
-              src={Hinh1}
-              className="img-fluid blur-up lazyload"
-              alt=""
+              src={product.listImage}
+              alt={product.productName}
+              width={101}
+              height={101}
             />
-          </a>
-          <div className="product-detail">
-            <ul>
-              <li className="name">
-                <a href="product-left-thumbnail.html">
-                  Bell pepper
-                </a>
-              </li>
-              <li className="text-content">
-                <span className="text-title">Sold By:</span> Fresho
-              </li>
-              <li className="text-content">
-                <span className="text-title">Quantity</span> - 500 g
-              </li>
-              <li>
-                <h5 className="text-content d-inline-block">
-                  Price :
-                </h5>
-                <span>$35.10</span>
-                <span className="text-content">$45.68</span>
-              </li>
-              <li>
-                <h5 className="saving theme-color">
-                  Saving : $20.68
-                </h5>
-              </li>
-              <li className="quantity-price-box">
-                <div className="cart_qty">
-                  <div className="input-group">
-                    <button
-                      type="button"
-                      className="btn qty-left-minus"
-                      data-type="minus"
-                      data-field=""
-                    >
-                      <i
-                        className="fa fa-minus ms-0"
-                        aria-hidden="true"
-                      />
-                    </button>
-                    <input
-                      className="form-control input-number qty-input"
-                      type="text"
-                      name="quantity"
-                      defaultValue={0}
-                    />
-                    <button
-                      type="button"
-                      className="btn qty-right-plus"
-                      data-type="plus"
-                      data-field=""
-                    >
-                      <i
-                        className="fa fa-plus ms-0"
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <h5>Total: $35.10</h5>
-              </li>
-            </ul>
-          </div>
+          </Link>
         </div>
       </td>
-      <td className="price">
-        <h4 className="table-title text-content">Price</h4>
-        <h5>
-          $35.10 <del className="text-content">$45.68</del>
-        </h5>
-        <h6 className="theme-color">You Save : $20.68</h6>
+
+      <td className="uproduct-info w-4/14 min-w-0 text-center align-middle max-w-[250px] break-words">
+        <p className="break-words overflow-hidden text-ellipsis">
+          <Link to={`/product/${product.id}`} className="inline-block w-full">
+            {product.productName}
+          </Link>
+        </p>
       </td>
-      <td className="quantity">
-        <h4 className="table-title text-content">Qty</h4>
-        <div className="quantity-price">
-          <div className="cart_qty">
-            <div className="input-group">
-              <button
-                type="button"
-                className="btn qty-left-minus"
-                data-type="minus"
-                data-field=""
-              >
-                <i
-                  className="fa fa-minus ms-0"
-                  aria-hidden="true"
+
+
+      <td className="unitprice w-2/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
+        <h4 className="table-title text-content">Đơn giá</h4>
+        <h5>
+          {new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          }).format(product.unitPrice)}
+        </h5>
+      </td>
+      <td className="quantity w-2/14 align-middle text-center">
+        <div className="d-flex flex-column align-items-center justify-content-center">
+          <h4 className="table-title text-content">Số lượng</h4>
+          <div className="quantity-price">
+            <div className="cart_qty">
+              <div className="input-group d-flex align-items-center">
+                <button
+                  type="button"
+                  className="btn qty-left-minus"
+                  onClick={() => handleQuantityChange((product.quantity || 1) - 1)}
+                >
+                  <i className="fa fa-minus ms-0" aria-hidden="true" />
+                </button>
+                <input
+                  className="form-control input-number qty-input text-center"
+                  type="text"
+                  name="quantity"
+                  value={product.quantity || 1}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value) || 0;
+                    handleQuantityChange(value);
+                  }}
                 />
-              </button>
-              <input
-                className="form-control input-number qty-input"
-                type="text"
-                name="quantity"
-                defaultValue={0}
-              />
-              <button
-                type="button"
-                className="btn qty-right-plus"
-                data-type="plus"
-                data-field=""
-              >
-                <i className="fa fa-plus ms-0" aria-hidden="true" />
-              </button>
+                <button
+                  type="button"
+                  className="btn qty-right-plus"
+                  onClick={() => handleQuantityChange((product.quantity || 1) + 1)}
+                >
+                  <i className="fa fa-plus ms-0" aria-hidden="true" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </td>
-      <td className="subtotal">
-        <h4 className="table-title text-content">Total</h4>
-        <h5>$35.10</h5>
+
+      <td className="subtotal w-2/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
+        <h4 className="table-title text-content">Tổng</h4>
+        <h5>
+          {new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          }).format(product.totalPrice)}
+        </h5>
       </td>
-      <td className="save-remove">
-        <h4 className="table-title text-content">Action</h4>
-        <a
-          className="save notifi-wishlist"
-          href="javascript:void(0)"
-        >
-          Save for later
-        </a>
-        <a
-          className="remove close_button"
-          href="javascript:void(0)"
-        >
-          Remove
-        </a>
+      <td className="save-remove -1/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
+        <h4 className="table-title text-content">Hành động</h4>
+        <li>
+          <a
+            href="#"
+            className="text-danger"
+            onClick={handleDelete}
+          >
+            <i className="ri-delete-bin-line" />
+          </a>
+        </li>
       </td>
     </tr>
-  )
-}
+  );
+};
+
+export default Product;

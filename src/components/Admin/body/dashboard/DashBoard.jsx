@@ -1,7 +1,32 @@
-
+import Chart from 'react-apexcharts';
 export default function DashBoard() {
+  const options = {
+    chart: {
+      type: 'area',
+      toolbar: { show: false },
+    },
+    dataLabels: { enabled: false },
+    stroke: { curve: 'smooth' },
+    xaxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+    },
+    yaxis: { title: { text: 'Số lượng' } },
+    colors: ['#0da487', '#33FF77'],
+    fill: {
+      type: 'gradient',
+      gradient: { shadeIntensity: 0.4, opacityFrom: 0.9, opacityTo: 0.3 },
+    },
+    markers: {
+      size: 5,
+      colors: ['FFFFFF'],
+      strokeColor: '#0da487',
+      strokeWidth: 3
+    },
+  };
 
-
+  const series = [
+    { name: 'Doanh thu', data: [30, 50, 35, 60, 70, 90, 100] },
+  ];
   return (
     <div className="page-body">
       <div className="container-fluid">
@@ -93,215 +118,6 @@ export default function DashBoard() {
               </div>
             </div>
           </div>
-          <div className="col-12">
-            <div className="card o-hidden card-hover">
-              <div className="card-header border-0 pb-1">
-                <div className="card-header-title p-0">
-                  <h4>Category</h4>
-                </div>
-              </div>
-              <div className="card-body p-0">
-                <div className="category-slider no-arrow">
-                  <div>
-                    <div className="dashboard-category">
-                      <a href="javascript:void(0)" className="category-image">
-                        <img
-                          src="/src/assets/Admin/svg/vegetable.svg"
-                          className="img-fluid"
-                          alt=""
-                        />
-                      </a>
-                      <a href="javascript:void(0)" className="category-name">
-                        <h6>Vegetables &amp; Fruit</h6>
-                      </a>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="dashboard-category">
-                      <a href="javascript:void(0)" className="category-image">
-                        <img
-                          src="/src/assets/Admin/svg/cup.svg"
-                          className="img-fluid"
-                          alt=""
-                        />
-                      </a>
-                      <a href="javascript:void(0)" className="category-name">
-                        <h6>Beverages</h6>
-                      </a>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="dashboard-category">
-                      <a href="javascript:void(0)" className="category-image">
-                        <img
-                          src="/src/assets/Admin/svg/meats.svg"
-                          className="img-fluid"
-                          alt=""
-                        />
-                      </a>
-                      <a href="javascript:void(0)" className="category-name">
-                        <h6>Meats &amp; Seafood</h6>
-                      </a>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="dashboard-category">
-                      <a href="javascript:void(0)" className="category-image">
-                        <img
-                          src="/src/assets/Admin/svg/breakfast.svg"
-                          className="img-fluid"
-                          alt=""
-                        />
-                      </a>
-                      <a href="javascript:void(0)" className="category-name">
-                        <h6>Breakfast</h6>
-                      </a>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="dashboard-category">
-                      <a href="javascript:void(0)" className="category-image">
-                        <img
-                          src="/src/assets/Admin/svg/frozen.svg"
-                          className="img-fluid"
-                          alt=""
-                        />
-                      </a>
-                      <a href="javascript:void(0)" className="category-name">
-                        <h6>Frozen Foods</h6>
-                      </a>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="dashboard-category">
-                      <a href="javascript:void(0)" className="category-image">
-                        <img
-                          src="/src/assets/Admin/svg/milk.svg"
-                          className="img-fluid"
-                          alt=""
-                        />
-                      </a>
-                      <a href="javascript:void(0)" className="category-name">
-                        <h6>Milk &amp; Dairies</h6>
-                      </a>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="dashboard-category">
-                      <a href="javascript:void(0)" className="category-image">
-                        <img
-                          src="/src/assets/Admin/svg/pet.svg"
-                          className="img-fluid"
-                          alt=""
-                        />
-                      </a>
-                      <a href="javascript:void(0)" className="category-name">
-                        <h6>Pet Food</h6>
-                      </a>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="dashboard-category">
-                      <a href="javascript:void(0)" className="category-image">
-                        <img
-                          src="/src/assets/Admin/svg/vegetable.svg"
-                          className="img-fluid"
-                          alt=""
-                        />
-                      </a>
-                      <a href="javascript:void(0)" className="category-name">
-                        <h6>Vegetables &amp; Fruit</h6>
-                      </a>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="dashboard-category">
-                      <a href="javascript:void(0)" className="category-image">
-                        <img
-                          src="/src/assets/Admin/svg/cup.svg"
-                          className="img-fluid"
-                          alt=""
-                        />
-                      </a>
-                      <a href="javascript:void(0)" className="category-name">
-                        <h6>Beverages</h6>
-                      </a>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="dashboard-category">
-                      <a href="javascript:void(0)" className="category-image">
-                        <img
-                          src="/src/assets/Admin/svg/meats.svg"
-                          className="img-fluid"
-                          alt=""
-                        />
-                      </a>
-                      <a href="javascript:void(0)" className="category-name">
-                        <h6>Meats &amp; Seafood</h6>
-                      </a>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="dashboard-category">
-                      <a href="javascript:void(0)" className="category-image">
-                        <img
-                          src="/src/assets/Admin/svg/breakfast.svg"
-                          className="img-fluid"
-                          alt=""
-                        />
-                      </a>
-                      <a href="javascript:void(0)" className="category-name">
-                        <h6>Breakfast</h6>
-                      </a>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="dashboard-category">
-                      <a href="javascript:void(0)" className="category-image">
-                        <img
-                          src="/src/assets/Admin/svg/frozen.svg"
-                          className="img-fluid"
-                          alt=""
-                        />
-                      </a>
-                      <a href="javascript:void(0)" className="category-name">
-                        <h6>Frozen Foods</h6>
-                      </a>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="dashboard-category">
-                      <a href="javascript:void(0)" className="category-image">
-                        <img
-                          src="/src/assets/Admin/svg/milk.svg"
-                          className="img-fluid"
-                          alt=""
-                        />
-                      </a>
-                      <a href="javascript:void(0)" className="category-name">
-                        <h6>Milk &amp; Dairies</h6>
-                      </a>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="dashboard-category">
-                      <a href="javascript:void(0)" className="category-image">
-                        <img
-                          src="/src/assets/Admin/svg/pet.svg"
-                          className="img-fluid"
-                          alt=""
-                        />
-                      </a>
-                      <a href="javascript:void(0)" className="category-name">
-                        <h6>Pet Food</h6>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
           {/* chart card section End */}
           {/* Earning chart star*/}
           <div className="col-xl-6">
@@ -312,7 +128,7 @@ export default function DashBoard() {
                 </div>
               </div>
               <div className="card-body p-0">
-                <div id="report-chart" />
+                <Chart options={options} series={series} type='area' height={350} />;
               </div>
             </div>
           </div>
