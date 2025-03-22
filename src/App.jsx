@@ -17,40 +17,46 @@ import Categories from './components/Admin/body/categories/Categories';
 import AddCategory from './components/Admin/body/categories/AddCategory';
 import Brands from './components/Admin/body/brands/Brands';
 import AddBrand from './components/Admin/body/brands/AddBrand';
-function App() {
+import Login from './pages/Login';
+import ProtectedRoute from './components/midlleware/ProtectedRoute';
+import Signup from '~/pages/Signup.jsx';
+import Logout from '~/pages/Logout.jsx';
+import setupAxiosInterceptors from './apis/axiosInterceptor.js';
 
+setupAxiosInterceptors();
+function App() {
   useEffect(() => {
     feather.replace();
 
   }, []);
   return (
     <>
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/product-detail" element={<ProductPage />} />
-          <Route path="/shop" element={<ShopPage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/dashboard" element={<UserDashboard />} />
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/product-detail" element={<ProductPage />} />
+        <Route path="/shop" element={<ShopPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/dashboard" element={<UserDashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/register" element={<Signup/>} />
           <Route path="/admin" element={<AdminPage />}>
             <Route index element={<DashBoard />} />
             <Route path="products" element={<Products />} />
             <Route path="add-new-product" element={<AddProduct />} />
             <Route path="edit-product/:id" element={<AddProduct />} />
-
             <Route path="users" element={<Users />} />
             <Route path="add-new-user" element={<AddUser />} />
             <Route path="categories" element={<Categories />} />
-            <Route path="/admin/add-new-category/" element={<AddCategory />} />
-            <Route path="/admin/update-new-category/:id" element={<AddCategory />} />
+            <Route path="add-new-category" element={<AddCategory />} />
+            <Route path="update-new-category/:id" element={<AddCategory />} />
             <Route path="brands" element={<Brands />} />
-            <Route path="/admin/add-new-brand/" element={<AddBrand />} />
-            <Route path="/admin/update-new-brand/:id" element={<AddBrand />} />
-
+            <Route path="add-new-brand" element={<AddBrand />} />
+            <Route path="update-new-brand/:id" element={<AddBrand />} />
           </Route>
-        </Routes>
-      </Router>
-
+      </Routes>
+    </Router>
     </>
   )
 }

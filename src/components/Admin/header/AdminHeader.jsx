@@ -149,7 +149,7 @@ export default function AdminHeader({ setSidebarOpen }) {
                   <a
                     data-bs-toggle="modal"
                     data-bs-target="#staticBackdrop"
-                    href="javascript:void(0)"
+                    href="/logout"
                   >
                     <LogoutOutlined />
                     <span>Log out</span>
