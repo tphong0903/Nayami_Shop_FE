@@ -8,7 +8,7 @@ import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function AddProduct() {
+export default function AddProduct({ view }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const isEditMode = !!id;
@@ -49,6 +49,36 @@ export default function AddProduct() {
 
   const handleSave = async () => {
     const editorContent = editorRef.current?.getInstance().getMarkdown() || '';
+
+    if (!formData.name.trim()) {
+      Swal.fire('Lỗi!', 'Tên sản phẩm không được để trống!', 'error');
+      return;
+    }
+
+    if (!formData.productStatus.trim()) {
+      Swal.fire('Lỗi!', 'Trạng thái không được để trống!', 'error');
+      return;
+    }
+    if (!formData.categoryDTO.id) {
+      Swal.fire('Lỗi!', 'Bạn phải chọn danh mục sản phẩm!', 'error');
+      return;
+    }
+    if (!formData.brandDTO.id) {
+      Swal.fire('Lỗi!', 'Bạn phải chọn thương hiệu!', 'error');
+      return;
+    }
+    if (!formData.originalPrice || formData.originalPrice <= 0) {
+      Swal.fire('Lỗi!', 'Giá gốc phải lớn hơn 0!', 'error');
+      return;
+    }
+    if (!formData.unitPrice || formData.unitPrice <= 0) {
+      Swal.fire('Lỗi!', 'Giá bán phải lớn hơn 0!', 'error');
+      return;
+    }
+    if (!formData.quantity || formData.quantity < 0) {
+      Swal.fire('Lỗi!', 'Số lượng sản phẩm không hợp lệ!', 'error');
+      return;
+    }
     const updatedFormData = {
       ...formData,
       description: editorContent
@@ -104,7 +134,19 @@ export default function AddProduct() {
       }
     }));
   };
-
+  const handleChange = (index, field, value) => {
+    setFormData(prev => {
+      const newOptions = [...prev.configDTO.listOtherConfigDTO];
+      newOptions[index] = { ...newOptions[index], [field]: value };
+      return {
+        ...prev,
+        configDTO: {
+          ...prev.configDTO,
+          listOtherConfigDTO: newOptions
+        }
+      };
+    });
+  };
   const handleDeleteOption = (index) => {
     setFormData(prev => ({
       ...prev,
@@ -211,7 +253,7 @@ export default function AddProduct() {
                 <div className="card">
                   <div className="card-body">
                     <div className="card-header-2">
-                      <h5>Product Information</h5>
+                      <h5>Thông tin sản phẩm</h5>
                     </div>
                     <form className="theme-form theme-form-2 mega-form">
                       <div className="mb-4 row align-items-center">
@@ -223,7 +265,7 @@ export default function AddProduct() {
                             className="form-control"
                             type="text"
                             value={formData.name}
-                            placeholder="Product Name"
+                            placeholder="Tên sản phẩm"
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                           />
                         </div>
@@ -239,7 +281,7 @@ export default function AddProduct() {
                             name="state"
                             onChange={(e) => setFormData({ ...formData, productStatus: e.target.value })}
                           >
-                            <option disabled="">Static Menu</option>
+                            <option disabled=""></option>
                             <option value={'COMING_SOON'}>Coming soon</option>
                             <option value={'ON_SELL'}>Còn kinh doanh</option>
                             <option value={'OUT_OF_STOCK'}>Hết hàng</option>
@@ -259,7 +301,7 @@ export default function AddProduct() {
                             onChange={(e) => setFormData({ ...formData, categoryDTO: { id: e.target.value } })}
 
                           >
-                            <option disabled="">Category Menu</option>
+                            <option disabled="">Danh mục</option>
                             {listCategorys.map(cate => (<option key={cate.id} value={cate.id}>{cate.categoryName}</option>))}
                           </select>
                         </div>
@@ -293,7 +335,7 @@ export default function AddProduct() {
                           <select className="js-example-basic-single w-100" name="brandName"
                             onChange={(e) => setFormData({ ...formData, brandDTO: { id: e.target.value } })}
                             value={formData.brandDTO.id}>
-                            <option disabled="">Brand Menu</option>
+                            <option disabled="">Thương hiệu</option>
                             {listBrands.map(brand => (<option key={brand.id} value={brand.id} >{brand.name}</option>))}
                           </select>
                         </div>
@@ -372,7 +414,7 @@ export default function AddProduct() {
                 <div className="card">
                   <div className="card-body">
                     <div className="card-header-2">
-                      <h5>Description</h5>
+                      <h5>Mô tả sản phẩm</h5>
                     </div>
                     <Editor
                       initialValue=""
@@ -388,12 +430,12 @@ export default function AddProduct() {
                 <div className="card">
                   <div className="card-body">
                     <div className="card-header-2">
-                      <h5>Product Images</h5>
+                      <h5>Hình ảnh sản phẩm</h5>
                     </div>
                     <form className="theme-form theme-form-2 mega-form">
                       <div className="mb-4 row align-items-center">
                         <label className="col-sm-3 col-form-label form-label-title">
-                          Images
+                          Hình ảnh
                         </label>
                         <div className="col-sm-9">
                           <input
@@ -423,7 +465,7 @@ export default function AddProduct() {
                 <div className="card">
                   <div className="card-body">
                     <div className="card-header-2">
-                      <h5>Product Variations</h5>
+                      <h5>Cấu hình sản phẩm</h5>
                     </div>
                     <form className="theme-form theme-form-2 mega-form">
                       {formData.configDTO.listOtherConfigDTO.map((option, index) => (
@@ -434,8 +476,8 @@ export default function AddProduct() {
                                 type="text"
                                 className="form-control"
                                 placeholder="Enter Option Name"
-                                value={option.name}
-                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                value={option.name || ''}
+                                onChange={(e) => handleChange(index, 'name', e.target.value)}
                               />
                             </div>
                             <div className="col-sm-5">
@@ -443,8 +485,8 @@ export default function AddProduct() {
                                 type="text"
                                 className="form-control"
                                 placeholder="Enter Option Value"
-                                value={option.value}
-                                onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                                value={option.value || ''}
+                                onChange={(e) => handleChange(index, 'value', e.target.value)}
                               />
                             </div>
                             <div className="col-sm-2">
@@ -455,7 +497,7 @@ export default function AddProduct() {
                       ))}
                     </form>
                     <button onClick={addOption} className="btn btn-primary mt-3">
-                      <i className="ri-add-line me-2" /> Add Another Option
+                      <i className="ri-add-line me-2" /> Thêm tùy chọn
                     </button>
                   </div>
                 </div>
@@ -463,15 +505,17 @@ export default function AddProduct() {
                   <div className="card-body">
                     <div className="row align-items-center">
                       <div className="col-sm-12 d-flex justify-content-end">
-                        <button type="submit" className="btn btn-primary me-3" onClick={handleSave}>
-                          {isEditMode ? 'Update Product' : 'Add Product'}
-                        </button>
+                        {view === false &&
+                          <button type="submit" className="btn btn-primary me-3" onClick={handleSave}>
+                            {isEditMode ? 'Lưu' : 'Thêm'}
+                          </button>
+                        }
                         <button
                           type="button"
                           className="btn btn-secondary"
                           onClick={() => navigate('/admin/products')}
                         >
-                          Cancel
+                          Quay lại
                         </button>
                       </div>
                     </div>

@@ -76,13 +76,13 @@ export default function SideBar({ value, setSidebarOpen }) {
               <li className="sidebar-list">
                 <a className="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsProductOpen)}>
                   <i className="ri-store-3-line" />
-                  <span>Product</span>
+                  <span>Sản phẩm</span>
                   <i className={`ri-arrow-${isProductOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
                 </a>
                 {isProductOpen && (
                   <ul className="sidebar-submenu">
-                    <li><Link to="/admin/products">Products</Link></li>
-                    <li><Link to="/admin/add-new-product">Add New Products</Link></li>
+                    <li><Link to="/admin/products">Danh sách sản phẩm</Link></li>
+                    <li><Link to="/admin/add-new-product">Thêm sản phẩm</Link></li>
                   </ul>
                 )}
               </li>
@@ -182,13 +182,13 @@ export default function SideBar({ value, setSidebarOpen }) {
               <li className="sidebar-list">
                 <a className="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsCouponsOpen)}>
                   <i className="ri-price-tag-3-line" />
-                  <span>Discount</span>
+                  <span>Khuyến mãi</span>
                   <i className={`ri-arrow-${isCouponsOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
                 </a>
                 {isCouponsOpen && (
                   <ul className="sidebar-submenu">
-                    <li><a href="/admin/discounts">Discount List</a></li>
-                    <li><a href="/admin/add-discounts">Create Discount</a></li>
+                    <li><a href="/admin/discounts">Danh sách khuyến mãi</a></li>
+                    <li><a href="/admin/add-discounts">Tạo khuyến mãi</a></li>
                     <li><a href="coupon-list.html">Coupon List</a></li>
                     <li><a href="create-coupon.html">Create Coupon</a></li>
                   </ul>
