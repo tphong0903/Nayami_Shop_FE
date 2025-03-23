@@ -10,7 +10,6 @@ export default function ShopPage() {
     <>
       <Header />
       <BreadCrumb title='Sản Phẩm' page='Sản phẩm' />
-      <CategorySection />
       <ProductSection />
       <Footer />
     </>

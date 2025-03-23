@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios';
-import Hinh1 from '~/assets/images/veg-2/product/1.png'
 import { Rating } from '@mui/material';
 import { formatCurrency } from '~/utils/formatCurrency';
+import { Link } from 'react-router-dom';
 
 export default function ProductSection() {
   const [listOurProducts, setListOurProducts] = useState([])
@@ -107,26 +107,28 @@ export default function ProductSection() {
                 <div key={v.id} className="col-xxl-2 col-lg-3 col-md-4 col-6 wow fadeInUp">
                   <div className="product-box-4" style={{ minHeight: '400px', display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}>
                     <div className="product-image">
-                      <div className="label-flex">
-                        <div className='discount'>
-                          <label>50%</label>
+                      {v?.discountDTO &&
+                        <div className="label-flex">
+                          <div className='discount'>
+                            <label>{v.discountDTO.percentage}%</label>
+                          </div>
                         </div>
-                      </div>
-                      <a href="product-left-thumbnail.html">
+                      }
+                      <Link to={`/product-detail/${v.id}`} >
                         <img
                           src={v.listImage[0]}
                           className="img-fluid"
                           alt=""
                         />
-                      </a>
+                      </Link>
                     </div>
                     <div className="product-detail">
+                      <Link sto={`/product-detail/${v.id}`} >
+                        <h5 className="name" style={{ width: '100%' }}>{v.name}</h5>
+                      </Link>
                       <ul className="rating">
                         <Rating size='small' name="read-only" value={v?.ratingAvg ?? 0} readOnly />
                       </ul>
-                      <a href="product-left-thumbnail.html">
-                        <h5 className="name" style={{ width: '100%' }}>{v.name}</h5>
-                      </a>
                       <div>
                         {v?.discountDTO ? (
                           <h5 >
