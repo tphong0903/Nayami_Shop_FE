@@ -23,11 +23,11 @@ export default function ProductItem({ product, deleteProduct }) {
         </td>
         <td>
           <ul>
-            {/* <li>
-              <Link to={`/view-product/${product.id}`}>
+            <li>
+              <Link to={`/admin/view-product/${product.id}`}>
                 <i className="ri-eye-line" />
               </Link>
-            </li> */}
+            </li>
             <li>
               <Link to={`/admin/edit-product/${product.id}`}>
                 <i className="ri-pencil-line" />
