@@ -5,8 +5,16 @@ import SearchIcon from '@mui/icons-material/Search';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import PermPhoneMsgOutlinedIcon from '@mui/icons-material/PermPhoneMsgOutlined';
-import { Hearing, ShoppingCartOutlined } from '@mui/icons-material';
+import { ShoppingCartOutlined } from '@mui/icons-material';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 export default function TopNav() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    navigate(`/shop?search=${encodeURIComponent(searchQuery)}`);
+  };
   return (
     <>
       <div className="top-nav top-header sticky-header">
@@ -41,8 +49,10 @@ export default function TopNav() {
                         placeholder="I'm searching for..."
                         aria-label="Recipient's username"
                         aria-describedby="button-addon2"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                       />
-                      <button className="btn" type="button" id="button-addon2">
+                      <button className="btn" type="button" id="button-addon2" onClick={handleSearch}>
                         <SearchIcon />
                       </button>
                     </div>
