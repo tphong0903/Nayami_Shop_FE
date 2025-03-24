@@ -4,7 +4,9 @@ import axios from 'axios';
 const OrderTab = () => {
   const [activeTab, setActiveTab] = useState('all');
   const [orders, setOrders] = useState([]);
-  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjgyODE5NywiZXhwIjoxNzQyODI5NjM3fQ.WTbnMhW1EkRzZadVFmsX_JPtlnMBr0IZvrkw2TD60YA'; // Thay thế bằng token thực tế
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjgzNTkwMiwiZXhwIjoxNzQyODM3MzQyfQ.eQ45VtBwvASE4TEvX0y_BHymOrEZiZl4rSkz6T_pEZM';
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -18,8 +20,7 @@ const OrderTab = () => {
           status: order.status.toLowerCase()
         }));
         setOrders(formattedOrders);
-        
-        console.log('Danh sách đơn hàng:', formattedOrders);
+
       } catch (error) {
         console.error('Lỗi khi lấy danh sách đơn hàng:', error);
       }
@@ -28,14 +29,21 @@ const OrderTab = () => {
     fetchOrders();
   }, []);
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
   const getStatusBadgeClass = (status) => {
     switch (status) {
     case 'completed': return 'badge bg-success';
     case 'confrimed': return 'badge bg-primary';
+    case 'unpaid' : return 'badge bg-danger';
+    case 'shipping': return 'badge bg-secondary';
     case 'shipped': return 'badge bg-info';
     case 'cancelled': return 'badge bg-danger';
     case 'pending': return 'badge bg-warning';
+    case 'guarantee': return 'badge bg-secondary';
+
     default: return 'badge bg-secondary';
     }
   };
@@ -44,9 +52,12 @@ const OrderTab = () => {
     switch (status) {
     case 'completed': return 'Hoàn thành';
     case 'confrimed': return 'Đang chờ vận chuyển';
-    case 'shipped': return 'Đang giao';
+    case 'unpaid': return 'Chờ thanh toán';
+    case 'shipping': return 'Chờ giao hàng';
+    case 'shipped': return 'Đã giao';
     case 'cancelled': return 'Đã hủy';
     case 'pending': return 'Chờ xác nhận';
+    case 'guarantee': return 'Bảo hành'
     default: return status;
     }
   };
@@ -60,6 +71,30 @@ const OrderTab = () => {
       <div className="dashboard-title mb-4">
         <h3>Đơn hàng của tôi</h3>
       </div>
+      {/* Search functionality */}
+      <div className="search-box mb-4">
+        <div className="input-group">
+          <span className="input-group-text bg-white">
+            <i className="fa fa-search"></i>
+          </span>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Tìm kiếm theo tên sản phẩm..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+          {searchTerm && (
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              onClick={() => setSearchTerm('')}
+            >
+              <i className="fa fa-times"></i>
+            </button>
+          )}
+        </div>
+      </div>
 
       <div className="order-tabs mb-4">
         <ul className="nav nav-tabs" id="orderTab" role="tablist">
@@ -69,6 +104,14 @@ const OrderTab = () => {
               onClick={() => setActiveTab('all')}
             >
               Tất cả
+            </button>
+          </li>
+          <li className="nav-item" role="presentation">
+            <button
+              className={`nav-link ${activeTab === 'unpaid' ? 'active' : ''}`}
+              onClick={() => setActiveTab('unpaid')}
+            >
+              Chờ thanh toán
             </button>
           </li>
           <li className="nav-item" role="presentation">
@@ -84,7 +127,15 @@ const OrderTab = () => {
               className={`nav-link ${activeTab === 'confrimed' ? 'active' : ''}`}
               onClick={() => setActiveTab('confrimed')}
             >
-              Đang xử lý
+              Đang chờ vận chuyển
+            </button>
+          </li>
+          <li className="nav-item" role="presentation">
+            <button
+              className={`nav-link ${activeTab === 'shipping' ? 'active' : ''}`}
+              onClick={() => setActiveTab('shipping')}
+            >
+              Đang giao hàng
             </button>
           </li>
           <li className="nav-item" role="presentation">
@@ -92,7 +143,7 @@ const OrderTab = () => {
               className={`nav-link ${activeTab === 'shipped' ? 'active' : ''}`}
               onClick={() => setActiveTab('shipped')}
             >
-              Đang giao
+              Đã giao
             </button>
           </li>
           <li className="nav-item" role="presentation">
@@ -101,6 +152,14 @@ const OrderTab = () => {
               onClick={() => setActiveTab('completed')}
             >
               Hoàn thành
+            </button>
+          </li>
+          <li className="nav-item" role="presentation">
+            <button
+              className={`nav-link ${activeTab === 'guarantee' ? 'active' : ''}`}
+              onClick={() => setActiveTab('guarantee')}
+            >
+              Bảo hành
             </button>
           </li>
           <li className="nav-item" role="presentation">
@@ -129,6 +188,9 @@ const OrderTab = () => {
                   {(order.status !== 'pending' && order.status !== 'cancelled') && (
                     <h5 className="mb-0 text-primary">Đơn hàng #{order.orderNumber}</h5>
 
+                  )}
+                  {(order.status === 'unpaid') && (
+                    <h5 className="mb-0 text-primary">Đơn hàng #{order.orderNumber}</h5>
                   )}
                   <p className="text-muted mb-0">Ngày đặt: {new Date(order.createdAt).toLocaleDateString('vi-VN')}</p>
                 </div>
@@ -167,7 +229,7 @@ const OrderTab = () => {
                   )}
 
                   {order.status === 'pending' && (
-                    <button className="btn btn-outline-danger btn-sm">Hủy đơn hàng</button>
+                    <button className="btn btn-primary -danger btn-sm">Hủy đơn hàng</button>
                   )}
                 </div>
               </div>
