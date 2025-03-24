@@ -1,12 +1,14 @@
 import { Rating, Slider } from '@mui/material'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import ClearIcon from '@mui/icons-material/Clear';
 import { Link } from 'react-router-dom';
-export default function LeftFillter({ setListProduct, currentPage, setTotalPage, setCurrentPage, sortBy }) {
+import { useLocation, useNavigate } from 'react-router-dom';
+
+export default function LeftFillter({ setListProduct, currentPage, setTotalPage, setCurrentPage, sortBy, searchQuery }) {
   const [listSelectedOption, setListSelectedOption] = useState({
-    listBrandsSelected: [],
     listCategoriesSelected: [],
+    listBrandsSelected: [],
     listDiscountsSelected: [],
     listRatingSelected: [],
   })
@@ -15,6 +17,32 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
   const [listDiscounts, setListDiscounts] = useState([])
   const [listRating, setListRating] = useState([])
   const [valuePrice, setValuePrice] = useState([0, 100000000]);
+  const [debouncedPrice, setDebouncedPrice] = useState(valuePrice);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
+  const categoryId = searchParams.get('categoryId') || '';
+  const categoryName = searchParams.get('categoryName') || '';
+  const brandId = searchParams.get('brandId') || '';
+  const brandName = searchParams.get('brandName') || '';
+  const hasAppliedFilters = useRef(false);
+  useEffect(() => {
+    if (categoryId || brandId) {
+      hasAppliedFilters.current = true;
+      if (categoryId) {
+        clearAllSelectedOptions();
+        handleSelected(categoryId, 'listCategoriesSelected', categoryName);
+      }
+      if (brandId) {
+        handleSelected(brandId, 'listBrandsSelected', brandName);
+      }
+    }
+    searchParams.delete('categoryId');
+    searchParams.delete('categoryName');
+    searchParams.delete('brandId');
+    searchParams.delete('brandName');
+    navigate({ search: searchParams.toString() }, { replace: true });
+  }, [categoryId, brandId]);
 
   const clearAllSelectedOptions = () => {
     setListSelectedOption({
@@ -24,9 +52,18 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
       listRatingSelected: []
     });
   };
+
   const handleChange = (event, newValue) => {
     setValuePrice(newValue);
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedPrice(valuePrice);
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, [valuePrice]);
 
   const handleSelected = (id, option, name) => {
     setListSelectedOption(prevState => {
@@ -103,6 +140,9 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
       params.push(`sortBy=${encodeURIComponent(sortBy)}`);
     }
     params.push(`pageNo=${currentPage}`)
+    params.push(`price=${debouncedPrice[0]}`);
+    params.push(`price=${debouncedPrice[1]}`);
+    params.push(`search=${searchQuery}`);
 
     if (params.length > 0) {
       url += '?' + params.join('&');
@@ -114,7 +154,9 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
         setListProduct(Array.isArray(data) ? data : []);
         setTotalPage(response.data.data.page.totalPages)
       })
-  }, [listSelectedOption, setListProduct, currentPage, sortBy]);
+  }, [listSelectedOption, setListProduct, currentPage, sortBy, debouncedPrice, searchQuery]);
+
+
   return (
     <div className="col-custome-3 wow fadeInUp" style={{ width: '22%' }}>
       <div className="left-box">
