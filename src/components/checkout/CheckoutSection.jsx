@@ -43,7 +43,7 @@ const CheckoutSection = () => {
         icon: 'error'
       })};
   }
-  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjYxMDIzNiwiZXhwIjoxNzQyNjExNjc2fQ.Ee81yytLoCeqdnfjX11yvqohGs0nhPXLpnETubbFLS8';
+  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjcwNDc0NCwiZXhwIjoxNzQyNzA2MTg0fQ.vxD6_IyQ-eRXHDqHBHhJwDIOGEXQUppqTcg0e3ysI-0';
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   useEffect(() => {
