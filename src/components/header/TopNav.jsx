@@ -8,23 +8,21 @@ import PermPhoneMsgOutlinedIcon from '@mui/icons-material/PermPhoneMsgOutlined';
 import { ShoppingCartOutlined } from '@mui/icons-material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Hearing, ShoppingCartOutlined } from '@mui/icons-material';
 import { useEffect } from 'react';
 export default function TopNav() {
-const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
   const handleSearch = () => {
     navigate(`/shop?search=${encodeURIComponent(searchQuery)}`);
   };
 
-  const checkIfTokenExist = () =>
-  {
+  const checkIfTokenExist = () => {
     const token = localStorage.getItem('access_token')
     return token ? token : false;
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(checkIfTokenExist());
   })
 
@@ -209,21 +207,21 @@ const [searchQuery, setSearchQuery] = useState('');
                           <PersonOutlineOutlinedIcon sx={{ fontSize: 30 }} />
                         </div>
                       </div>
-                      { checkIfTokenExist() == false ? (
-                      <div className="onhover-div onhover-div-login">
-                        <ul className="user-box-name">
-                          <li className="product-box-contain">
-                            <i />
-                            <a href="/login">Log In</a>
-                          </li>
-                          <li className="product-box-contain">
-                            <a href="/register">Register</a>
-                          </li>
-                          <li className="product-box-contain">
-                            <a href="/forgot-password">Forgot Password</a>
-                          </li>
-                        </ul>
-                      </div>
+                      {checkIfTokenExist() == false ? (
+                        <div className="onhover-div onhover-div-login">
+                          <ul className="user-box-name">
+                            <li className="product-box-contain">
+                              <i />
+                              <a href="/login">Log In</a>
+                            </li>
+                            <li className="product-box-contain">
+                              <a href="/register">Register</a>
+                            </li>
+                            <li className="product-box-contain">
+                              <a href="/forgot-password">Forgot Password</a>
+                            </li>
+                          </ul>
+                        </div>
                       ) : (
                         <div className="delivery-detail">
                           <h6>Hello,</h6>
