@@ -11,10 +11,11 @@ const BrandList = () => {
     fetchBrands();
   }, []);
 
+
   const fetchBrands = async () => {
     try {
       const response = await axios.get('/api/brands');
-      setBrands(response.data);
+      setBrands(response.data.data);
     } catch (err) {
       console.error('Error fetching brands:', err);
     }

@@ -8,13 +8,26 @@ import PermPhoneMsgOutlinedIcon from '@mui/icons-material/PermPhoneMsgOutlined';
 import { ShoppingCartOutlined } from '@mui/icons-material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Hearing, ShoppingCartOutlined } from '@mui/icons-material';
+import { useEffect } from 'react';
 export default function TopNav() {
-  const [searchQuery, setSearchQuery] = useState('');
+const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
   const handleSearch = () => {
     navigate(`/shop?search=${encodeURIComponent(searchQuery)}`);
   };
+
+  const checkIfTokenExist = () =>
+  {
+    const token = localStorage.getItem('access_token')
+    return token ? token : false;
+  }
+
+  useEffect(()=>{
+    console.log(checkIfTokenExist());
+  })
+
   return (
     <>
       <div className="top-nav top-header sticky-header">
@@ -120,7 +133,7 @@ export default function TopNav() {
                             <li className="product-box-contain">
                               <div className="drop-cart">
                                 <a
-                                  href="product-left-thumbnail.html"
+                                  href=""
                                   className="drop-image"
                                 >
                                   <img
@@ -195,25 +208,36 @@ export default function TopNav() {
                         <div className="delivery-icon">
                           <PersonOutlineOutlinedIcon sx={{ fontSize: 30 }} />
                         </div>
-                        <div className="delivery-detail">
-                          <h6>Hello,</h6>
-                          <h5>My Account</h5>
-                        </div>
                       </div>
+                      { checkIfTokenExist() == false ? (
                       <div className="onhover-div onhover-div-login">
                         <ul className="user-box-name">
                           <li className="product-box-contain">
                             <i />
-                            <a href="login.html">Log In</a>
+                            <a href="/login">Log In</a>
                           </li>
                           <li className="product-box-contain">
-                            <a href="sign-up.html">Register</a>
+                            <a href="/register">Register</a>
                           </li>
                           <li className="product-box-contain">
-                            <a href="forgot.html">Forgot Password</a>
+                            <a href="/forgot-password">Forgot Password</a>
                           </li>
                         </ul>
                       </div>
+                      ) : (
+                        <div className="delivery-detail">
+                          <h6>Hello,</h6>
+                          <h5>My Account</h5>
+                          <div className="onhover-div onhover-div-login">
+                            <ul className="user-box-name">
+                              <li className="product-box-contain">
+                                <a href="/logout">Log out</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      )
+                      }
                     </li>
                   </ul>
                 </div>
