@@ -8,6 +8,7 @@ export default function SideSummery({
   discount,
   total,
   onApplyCoupon,
+  isChecked
 }) {
   const [couponCode, setCouponCode] = useState('');
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ export default function SideSummery({
       });
     } else {
       if (products && Array.isArray(products)) {
+        const selectedProducts = products.filter(product => product.isChecked);
         const checkoutData = {
           couponId: couponCode || null,
           cartId: products.map((product) => product.id).filter(id => id),
