@@ -1,11 +1,12 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DeliveryAddressSection from '../checkout/DeliveryAddressSection';
 import PaymentOptionsSection from '~/components/checkout/PaymentOptionsSection';
 import OrderSummary from '~/components/checkout/OrderSummary';
 import Swal from 'sweetalert2';
+import { useSearchParams } from 'react-router-dom';
+
 
 const CheckoutSection = () => {
   const [checkoutData, setCheckoutData] = useState(null);
@@ -15,6 +16,7 @@ const CheckoutSection = () => {
   const [paymentMethod, setPaymentMethod] = useState('cash');
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [shippingFee, setShippingFee] = useState(0);
+  const [searchParams] = useSearchParams();
 
   const handlePaymentMethodChange = (method) => {
     setPaymentMethod(method);
@@ -24,6 +26,21 @@ const CheckoutSection = () => {
     fetchShippingFee(address);
     setSelectedAddress(address);
   };
+  const fetchStatusPayment=() => {
+    const status = searchParams.get('status');
+    const cancel = searchParams.get('cancel');
+    const orderCode = searchParams.get('orderCode');
+
+    if (status && orderCode) {
+      axios.get('api/bills/callback', { params: { status, cancel, orderCode } })
+        .then(response => {
+          console.log('Payment status updated:', response.data);
+        })
+        .catch(error => {
+          console.error('Error updating payment status:', error);
+        });
+    }
+  }
   const fetchShippingFee = async (address) => {
     const addressData={
       province: address.province,
@@ -43,11 +60,10 @@ const CheckoutSection = () => {
         icon: 'error'
       })};
   }
-  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjgzNjk5MSwiZXhwIjoxNzQyODM4NDMxfQ.oGXki_oGv4STNDJ3PFVeyfbwvfw2SxqKEf8Lj-qcnFA';
+  const token = localStorage.getItem('access_token');
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   useEffect(() => {
-    // Lấy dữ liệu từ localStorage
     const storedData = localStorage.getItem('checkoutData');
     if (storedData) {
       const parsedData = JSON.parse(storedData);
@@ -63,15 +79,16 @@ const CheckoutSection = () => {
         window.location.href = '/cart';
       });
     }
+    fetchStatusPayment();
   }, []);
 
   const fetchOrderDetails = async (data) => {
     try {
       const response = await axios.post('/api/bills/checkout', data);
       const reponseDetail=response.data.data;
-      setAddress(reponseDetail.listAddress);
+      setAddress(reponseDetail?.listAddress);
       setCarts(reponseDetail.listCartItem);
-      setDiscount(checkoutData.discount);
+      setDiscount(checkoutData?.discount);
 
     } catch (error) {
       console.error('Lỗi khi lấy thông tin đơn hàng:', error);
