@@ -44,11 +44,11 @@ export default function TopNav() {
       console.error('Error fetching cart data:', error);
     }
   };
-  const removeCartItem = async (itemId) => {
+  const removeCartItem = async (cartId) => {
     try {
       const token = localStorage.getItem('access_token');
       if (token) {
-        await axios.delete(`api/cart/item/${itemId}`, {
+        await axios.delete(`api/cart/${cartId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

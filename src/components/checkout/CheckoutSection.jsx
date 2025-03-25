@@ -36,6 +36,14 @@ const CheckoutSection = () => {
       axios.get('api/bills/callback', { params: { status, cancel, orderCode } })
         .then(response => {
           console.log('Payment status updated:', response.data);
+          Swal.fire({
+            title: 'Thanh toán thành công',
+            text: 'Đơn hàng của bạn đã được thanh toán thành công',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            window.location.href = '/';
+          });
         })
         .catch(error => {
           console.error('Error updating payment status:', error);
@@ -73,6 +81,7 @@ const CheckoutSection = () => {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   useEffect(() => {
+    fetchStatusPayment();
     const storedData = localStorage.getItem('checkoutData');
     if (storedData) {
       const parsedData = JSON.parse(storedData);
@@ -88,7 +97,6 @@ const CheckoutSection = () => {
         window.location.href = '/cart';
       });
     }
-    fetchStatusPayment();
   }, []);
 
   const fetchOrderDetails = async (data) => {

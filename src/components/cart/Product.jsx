@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-
-const Product = ({ product, index, onQuantityChange, onDeleteProduct }) => {
+import { useState } from 'react';
+const Product = ({ product, index, onQuantityChange, onDeleteProduct, isChecked, onCheckChange }) => {
   const handleDelete = (e) => {
     e.preventDefault();
 
@@ -15,6 +15,7 @@ const Product = ({ product, index, onQuantityChange, onDeleteProduct }) => {
       confirmButtonText: 'Có, xoá ngay!',
       cancelButtonText: 'Huỷ'
     }).then((result) => {
+      window.dispatchEvent(new CustomEvent('cart-updated'));
       if (result.isConfirmed) {
         onDeleteProduct(product.id);
       }
@@ -35,8 +36,8 @@ const Product = ({ product, index, onQuantityChange, onDeleteProduct }) => {
       }).then((result) => {
         if (result.isConfirmed) {
           onDeleteProduct(product.id);
+          window.dispatchEvent(new CustomEvent('cart-updated'));
         } else {
-          // Reset về 1 nếu người dùng huỷ xoá
           onQuantityChange(index, 1);
         }
       });
@@ -50,7 +51,8 @@ const Product = ({ product, index, onQuantityChange, onDeleteProduct }) => {
       <td className="select-product w-1/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
         <input
           type="checkbox"
-          checked={true}
+          checked={isChecked}
+          onChange={() => onCheckChange(product.id)}
           name="select_product"
           className="w-4 h-4 cursor-pointer checkbox_animated checkall"
         />

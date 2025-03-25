@@ -11,6 +11,8 @@ export default function CartSection() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [coupon, setCoupon] = useState(0);
+  const [isChecked, setIsChecked] = useState(true);
+
   const navigate = useNavigate();
 
   const subtotal = products.reduce((sum, product) => sum + product.totalPrice, 0);
@@ -65,6 +67,8 @@ export default function CartSection() {
         await axios.put(`/api/cart/${product.id}`, {
           quantity: newQuantity
         });
+        fetchProducts();
+
       } catch (error) {
         console.error('Lỗi khi cập nhật số lượng:', error);
         Swal.fire({
@@ -90,6 +94,8 @@ export default function CartSection() {
         showConfirmButton: false,
         timer: 1500
       });
+      window.dispatchEvent(new CustomEvent('cart-updated'));
+
     } catch (err) {
       console.error('Lỗi khi xóa sản phẩm:', err);
       Swal.fire({
@@ -157,6 +163,7 @@ export default function CartSection() {
             error={error}
             onQuantityChange={handleQuantityChange}
             onDeleteProduct={handleDeleteProduct}
+            isChecked={isChecked}
           />
           <SideSummery
             products={products}
@@ -164,6 +171,7 @@ export default function CartSection() {
             discount={coupon}
             total={total}
             onApplyCoupon={handleApplyCoupon}
+            isChecked={isChecked}
           />
         </div>
       </div>
