@@ -63,6 +63,8 @@ export default function ProductSection() {
         timer: 1500,
         showConfirmButton: false
       });
+      window.dispatchEvent(new CustomEvent('cart-updated'));
+
     } catch (error) {
       console.error('Error adding to cart:', error);
       Swal.fire({

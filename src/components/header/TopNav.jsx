@@ -9,12 +9,55 @@ import { ShoppingCartOutlined } from '@mui/icons-material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import axios from 'axios';
 export default function TopNav() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [cartItems, setCartItems] = useState([]);
+  const [cartTotal, setCartTotal] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
 
   const handleSearch = () => {
     navigate(`/shop?search=${encodeURIComponent(searchQuery)}`);
+  };
+  const fetchCartData = async () => {
+    try {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        const response = await axios.get('api/cart', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (response.data) {
+          setCartItems(response.data.data || []);
+          let totalPrice = 0;
+          if (response.data.data && response.data.data.length > 0) {
+            totalPrice = response.data.data.reduce((sum, item) => sum + (item.totalPrice || 0), 0);
+          }
+          setCartTotal(totalPrice);
+          setCartCount(response.data.data.length || 0);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching cart data:', error);
+    }
+  };
+  const removeCartItem = async (itemId) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        await axios.delete(`api/cart/item/${itemId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        fetchCartData();
+      }
+    } catch (error) {
+      console.error('Error removing item from cart:', error);
+    }
   };
 
   const checkIfTokenExist = () => {
@@ -22,10 +65,23 @@ export default function TopNav() {
     return token ? token : false;
   }
 
-  useEffect(() => {
-    console.log(checkIfTokenExist());
-  })
 
+  useEffect(() => {
+    fetchCartData();
+
+    const handleCartUpdate = () => {
+      fetchCartData();
+    };
+
+    window.addEventListener('cart-updated', handleCartUpdate);
+
+    const interval = setInterval(fetchCartData, 60000);
+
+    return () => {
+      window.removeEventListener('cart-updated', handleCartUpdate);
+      clearInterval(interval);
+    };
+  }, []);
   return (
     <>
       <div className="top-nav top-header sticky-header">
@@ -122,82 +178,61 @@ export default function TopNav() {
                         >
                           <ShoppingCartOutlined />
                           <span className="position-absolute top-0 start-100 translate-middle badge">
-                            2
-                            <span className="visually-hidden">unread messages</span>
+                            {cartCount}
+                            <span className="visually-hidden">items in cart</span>
                           </span>
                         </button>
                         <div className="onhover-div">
                           <ul className="cart-list">
-                            <li className="product-box-contain">
-                              <div className="drop-cart">
-                                <a
-                                  href=""
-                                  className="drop-image"
-                                >
-                                  <img
-                                    src="../assets/images/vegetable/product/1.png"
-                                    className="blur-up lazyload"
-                                    alt=""
-                                  />
-                                </a>
-                                <div className="drop-contain">
-                                  <a href="product-left-thumbnail.html">
-                                    <h5>Fantasy Crunchy Choco Chip Cookies</h5>
-                                  </a>
-                                  <h6>
-                                    <span>1 x</span> $80.58
-                                  </h6>
-                                  <button className="close-button close_button">
-                                    <i className="fa-solid fa-xmark" />
-                                  </button>
-                                </div>
-                              </div>
-                            </li>
-                            <li className="product-box-contain">
-                              <div className="drop-cart">
-                                <a
-                                  href="product-left-thumbnail.html"
-                                  className="drop-image"
-                                >
-                                  <img
-                                    src="../assets/images/vegetable/product/2.png"
-                                    className="blur-up lazyload"
-                                    alt=""
-                                  />
-                                </a>
-                                <div className="drop-contain">
-                                  <a href="product-left-thumbnail.html">
-                                    <h5>
-                                      Peanut Butter Bite Premium Butter Cookies 600
-                                      g
-                                    </h5>
-                                  </a>
-                                  <h6>
-                                    <span>1 x</span> $25.68
-                                  </h6>
-                                  <button className="close-button close_button">
-                                    <i className="fa-solid fa-xmark" />
-                                  </button>
-                                </div>
-                              </div>
-                            </li>
+                            {cartItems.length > 0 ? (
+                              cartItems.map((item) => (
+                                <li key={item.id} className="product-box-contain">
+                                  <div className="drop-cart">
+                                    <Link
+                                      to={`/product/${item.id}`}
+                                      className="drop-image"
+                                    >
+                                      <img
+                                        src={item.listImage || '../assets/images/placeholder.png'}
+                                        alt={item.name}
+                                      />
+                                    </Link>
+                                    <div className="drop-contain">
+                                      <Link to={`/product/${item.productId}`}>
+                                        <h5>{item.productName}</h5>
+                                      </Link>
+                                      <h6>
+                                        <span>{item.quantity} x</span> {item.unitPrice?.toLocaleString('vi-VN')}₫
+                                      </h6>
+                                      <button
+                                        className="close-button close_button"
+                                        onClick={() => removeCartItem(item.id)}
+                                      >
+                                        <i className="fa-solid fa-xmark" />
+                                      </button>
+                                    </div>
+                                  </div>
+                                </li>
+                              ))
+                            ) : (
+                              <li className="text-center py-3">Your cart is empty</li>
+                            )}
                           </ul>
-                          <div className="price-box">
-                            <h5>Total :</h5>
-                            <h4 className="theme-color fw-bold">$106.58</h4>
-                          </div>
-                          <div className="button-group">
-                            <Link to="/cart" className="btn btn-sm cart-button">
-                              View Cart
-                            </Link>
-                            <a
-                              href="checkout.html"
-                              className="btn btn-sm cart-button theme-bg-color
-                                              text-white"
-                            >
-                              Checkout
-                            </a>
-                          </div>
+                          {cartItems.length > 0 && (
+                            <>
+                              <div className="price-box">
+                                <h5>Total :</h5>
+                                <h4 className="theme-color fw-bold">{cartTotal.toLocaleString('vi-VN')}₫</h4>
+                              </div>
+                              <div className="button-group">
+                                <Link to="/cart" className="btn btn-sm cart-button theme-bg-color text-white w-100">
+                                  Giỏ hàng
+                                </Link>
+                              </div>
+
+
+                            </>
+                          )}
                         </div>
                       </div>
                     </li>
