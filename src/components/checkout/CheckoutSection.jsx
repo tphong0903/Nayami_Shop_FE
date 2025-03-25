@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -38,6 +39,14 @@ const CheckoutSection = () => {
         })
         .catch(error => {
           console.error('Error updating payment status:', error);
+          Swal.fire({
+            title: 'Lỗi thanh toán',
+            text: error.response?.data?.message || 'Đã xảy ra lỗi khi cập nhật trạng thái thanh toán',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            window.location.href = '/';
+          });
         });
     }
   }
