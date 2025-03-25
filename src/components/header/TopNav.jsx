@@ -5,23 +5,26 @@ import SearchIcon from '@mui/icons-material/Search';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import PermPhoneMsgOutlinedIcon from '@mui/icons-material/PermPhoneMsgOutlined';
-import { Hearing, ShoppingCartOutlined } from '@mui/icons-material';
+import { ShoppingCartOutlined } from '@mui/icons-material';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 export default function TopNav() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
+  const handleSearch = () => {
+    navigate(`/shop?search=${encodeURIComponent(searchQuery)}`);
+  };
 
-  const checkIfTokenExist = () =>
-  {
+  const checkIfTokenExist = () => {
     const token = localStorage.getItem('access_token')
     return token ? token : false;
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(checkIfTokenExist());
   })
-
-
-
 
   return (
     <>
@@ -57,8 +60,10 @@ export default function TopNav() {
                         placeholder="I'm searching for..."
                         aria-label="Recipient's username"
                         aria-describedby="button-addon2"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                       />
-                      <button className="btn" type="button" id="button-addon2">
+                      <button className="btn" type="button" id="button-addon2" onClick={handleSearch}>
                         <SearchIcon />
                       </button>
                     </div>
@@ -202,21 +207,21 @@ export default function TopNav() {
                           <PersonOutlineOutlinedIcon sx={{ fontSize: 30 }} />
                         </div>
                       </div>
-                      { checkIfTokenExist() == false ? (
-                      <div className="onhover-div onhover-div-login">
-                        <ul className="user-box-name">
-                          <li className="product-box-contain">
-                            <i />
-                            <a href="/login">Log In</a>
-                          </li>
-                          <li className="product-box-contain">
-                            <a href="/register">Register</a>
-                          </li>
-                          <li className="product-box-contain">
-                            <a href="/forgot-password">Forgot Password</a>
-                          </li>
-                        </ul>
-                      </div>
+                      {checkIfTokenExist() == false ? (
+                        <div className="onhover-div onhover-div-login">
+                          <ul className="user-box-name">
+                            <li className="product-box-contain">
+                              <i />
+                              <a href="/login">Log In</a>
+                            </li>
+                            <li className="product-box-contain">
+                              <a href="/register">Register</a>
+                            </li>
+                            <li className="product-box-contain">
+                              <a href="/forgot-password">Forgot Password</a>
+                            </li>
+                          </ul>
+                        </div>
                       ) : (
                         <div className="delivery-detail">
                           <h6>Hello,</h6>

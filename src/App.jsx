@@ -38,19 +38,20 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/product-detail" element={<ProductPage />} />
+          <Route path="/product-detail/:id" element={<ProductPage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/register" element={<Signup/>} />
+          <Route path="/register" element={<Signup />} />
           <Route path="/checkout" element={<CheckOutPage />} />
           <Route path="/admin" element={<AdminPage />}>
             <Route index element={<DashBoard />} />
             <Route path="products" element={<Products />} />
-            <Route path="add-new-product" element={<AddProduct />} />
-            <Route path="edit-product/:id" element={<AddProduct />} />
+            <Route path="add-new-product" element={<AddProduct view={false} />} />
+            <Route path="edit-product/:id" element={<AddProduct view={false} />} />
+            <Route path="view-product/:id" element={<AddProduct view={true} />} />
             <Route path="discounts" element={<DiscountCampain />} />
             <Route path="add-discounts" element={<AddDiscountCampain />} />
             <Route path="edit-discounts/:id" element={<AddDiscountCampain />} />

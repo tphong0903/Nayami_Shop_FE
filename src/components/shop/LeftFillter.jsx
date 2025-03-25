@@ -1,11 +1,14 @@
 import { Rating, Slider } from '@mui/material'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import ClearIcon from '@mui/icons-material/Clear';
-export default function LeftFillter() {
+import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+export default function LeftFillter({ setListProduct, currentPage, setTotalPage, setCurrentPage, sortBy, searchQuery }) {
   const [listSelectedOption, setListSelectedOption] = useState({
-    listBrandsSelected: [],
     listCategoriesSelected: [],
+    listBrandsSelected: [],
     listDiscountsSelected: [],
     listRatingSelected: [],
   })
@@ -14,6 +17,32 @@ export default function LeftFillter() {
   const [listDiscounts, setListDiscounts] = useState([])
   const [listRating, setListRating] = useState([])
   const [valuePrice, setValuePrice] = useState([0, 100000000]);
+  const [debouncedPrice, setDebouncedPrice] = useState(valuePrice);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
+  const categoryId = searchParams.get('categoryId') || '';
+  const categoryName = searchParams.get('categoryName') || '';
+  const brandId = searchParams.get('brandId') || '';
+  const brandName = searchParams.get('brandName') || '';
+  const hasAppliedFilters = useRef(false);
+  useEffect(() => {
+    if (categoryId || brandId) {
+      hasAppliedFilters.current = true;
+      if (categoryId) {
+        clearAllSelectedOptions();
+        handleSelected(categoryId, 'listCategoriesSelected', categoryName);
+      }
+      if (brandId) {
+        handleSelected(brandId, 'listBrandsSelected', brandName);
+      }
+    }
+    searchParams.delete('categoryId');
+    searchParams.delete('categoryName');
+    searchParams.delete('brandId');
+    searchParams.delete('brandName');
+    navigate({ search: searchParams.toString() }, { replace: true });
+  }, [categoryId, brandId]);
 
   const clearAllSelectedOptions = () => {
     setListSelectedOption({
@@ -23,9 +52,18 @@ export default function LeftFillter() {
       listRatingSelected: []
     });
   };
+
   const handleChange = (event, newValue) => {
     setValuePrice(newValue);
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedPrice(valuePrice);
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, [valuePrice]);
 
   const handleSelected = (id, option, name) => {
     setListSelectedOption(prevState => {
@@ -42,18 +80,83 @@ export default function LeftFillter() {
         [option]: updatedList
       };
     });
+    setCurrentPage(1)
   };
 
   useEffect(() => {
-    axios
-      .get('/api/products/filter')
-      .then((response) => {
-        setListBrands(response.data.data.listBrandDTO);
-        setListCategories(response.data.data.listCategoryDTO);
-        setListDiscounts(response.data.data.listQuantityProductOfDiscount);
-        setListRating(response.data.data.listQuantityProductOfRating);
-      })
+    const fetchFilterOptions = async () => {
+      try {
+        const response = await axios.get('/api/products/filterOption');
+        const { listBrandDTO, listCategoryDTO, listQuantityProductOfDiscount, listQuantityProductOfRating } = response.data.data;
+
+        setListBrands(listBrandDTO);
+        setListCategories(listCategoryDTO);
+        setListDiscounts(listQuantityProductOfDiscount);
+        setListRating(listQuantityProductOfRating);
+      } catch (error) {
+        console.error('Lỗi khi fetch bộ lọc:', error);
+      }
+    };
+
+    fetchFilterOptions();
   }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    let url = '/api/products/filter'
+    let params = [];
+    if (listSelectedOption['listBrandsSelected'].length > 0) {
+      params.push(
+        listSelectedOption.listBrandsSelected
+          .map((brand) => `brands=${encodeURIComponent(brand.name)}`)
+          .join('&')
+      );
+    }
+
+    if (listSelectedOption['listCategoriesSelected'].length > 0) {
+      params.push(
+        listSelectedOption.listCategoriesSelected
+          .map((category) => `categories=${encodeURIComponent(category.name)}`)
+          .join('&')
+      );
+    }
+
+    if (listSelectedOption['listDiscountsSelected'].length > 0) {
+      params.push(
+        listSelectedOption.listDiscountsSelected
+          .map((discount) => `discounts=${encodeURIComponent(discount.id)}`)
+          .join('&')
+      );
+    }
+
+    if (listSelectedOption['listRatingSelected'].length > 0) {
+      params.push(
+        listSelectedOption.listRatingSelected
+          .map((rating) => `rating=${encodeURIComponent(rating.id)}`)
+          .join('&')
+      );
+    }
+    if (sortBy !== 'none') {
+      params.push(`sortBy=${encodeURIComponent(sortBy)}`);
+    }
+    params.push(`pageNo=${currentPage}`)
+    params.push(`price=${debouncedPrice[0]}`);
+    params.push(`price=${debouncedPrice[1]}`);
+    params.push(`search=${searchQuery}`);
+
+    if (params.length > 0) {
+      url += '?' + params.join('&');
+    }
+    axios
+      .get(url)
+      .then((response) => {
+        const data = response.data.data.content;
+        setListProduct(Array.isArray(data) ? data : []);
+        setTotalPage(response.data.data.page.totalPages)
+      })
+  }, [listSelectedOption, setListProduct, currentPage, sortBy, debouncedPrice, searchQuery]);
+
+
   return (
     <div className="col-custome-3 wow fadeInUp" style={{ width: '22%' }}>
       <div className="left-box">
@@ -66,7 +169,7 @@ export default function LeftFillter() {
           <div className="filter-category">
             <div className="filter-title">
               <h2>Filters</h2>
-              <a href="javascript:void(0)" onClick={clearAllSelectedOptions}>Clear All</a>
+              <Link onClick={clearAllSelectedOptions}>Clear All</Link>
             </div>
             <ul>
               {Object.entries(listSelectedOption).map(([key, list]) => (
@@ -220,7 +323,7 @@ export default function LeftFillter() {
               >
                 <div className="accordion-body">
                   <ul className="category-list custom-padding">
-                    {[...Array(5)].map((_, i) => (
+                    {[...Array(6)].map((_, i) => (
                       <li key={i}>
                         <div className="form-check ps-0 m-0 category-list-box">
                           <input className="checkbox_animated" type="checkbox"
@@ -354,356 +457,7 @@ export default function LeftFillter() {
                 </div>
               </div>
             </div>
-            <div className="accordion-item">
-              <h2 className="accordion-header" id="panelsStayOpen-headingFive">
-                <button
-                  className="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseFive"
-                  aria-expanded="false"
-                  aria-controls="collapseFive"
-                >
-                  <span>Pack Size</span>
-                </button>
-              </h2>
-              <div
-                id="collapseFive"
-                className="accordion-collapse collapse show"
-                aria-labelledby="panelsStayOpen-headingFive"
-              >
-                <div className="accordion-body">
-                  <ul className="category-list custom-padding custom-height">
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault5"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault5"
-                        >
-                          <span className="name">400 to 500 g</span>
-                          <span className="number">(05)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault6"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault6"
-                        >
-                          <span className="name">500 to 700 g</span>
-                          <span className="number">(02)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault7"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault7"
-                        >
-                          <span className="name">700 to 1 kg</span>
-                          <span className="number">(04)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault8"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault8"
-                        >
-                          <span className="name">
-                            120 - 150 g each Vacuum 2 pcs
-                          </span>
-                          <span className="number">(06)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault9"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault9"
-                        >
-                          <span className="name">1 pc</span>
-                          <span className="number">(09)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault10"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault10"
-                        >
-                          <span className="name">1 to 1.2 kg</span>
-                          <span className="number">(06)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault11"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault11"
-                        >
-                          <span className="name">2 x 24 pcs Multipack</span>
-                          <span className="number">(03)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault12"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault12"
-                        >
-                          <span className="name">2x6 pcs Multipack</span>
-                          <span className="number">(04)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault13"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault13"
-                        >
-                          <span className="name">4x6 pcs Multipack</span>
-                          <span className="number">(05)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault14"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault14"
-                        >
-                          <span className="name">5x6 pcs Multipack</span>
-                          <span className="number">(09)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault15"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault15"
-                        >
-                          <span className="name">Combo 2 Items</span>
-                          <span className="number">(10)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault16"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault16"
-                        >
-                          <span className="name">Combo 3 Items</span>
-                          <span className="number">(14)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault17"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault17"
-                        >
-                          <span className="name">2 pcs</span>
-                          <span className="number">(19)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault18"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault18"
-                        >
-                          <span className="name">3 pcs</span>
-                          <span className="number">(14)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault19"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault19"
-                        >
-                          <span className="name">
-                            2 pcs Vacuum (140 g to 180 g each )
-                          </span>
-                          <span className="number">(13)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault20"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault20"
-                        >
-                          <span className="name">4 pcs</span>
-                          <span className="number">(18)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault21"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault21"
-                        >
-                          <span className="name">
-                            4 pcs Vacuum (140 g to 180 g each )
-                          </span>
-                          <span className="number">(07)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault22"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault22"
-                        >
-                          <span className="name">6 pcs</span>
-                          <span className="number">(09)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault23"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault23"
-                        >
-                          <span className="name">6 pcs carton</span>
-                          <span className="number">(11)</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="form-check ps-0 m-0 category-list-box">
-                        <input
-                          className="checkbox_animated"
-                          type="checkbox"
-                          id="flexCheckDefault24"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault24"
-                        >
-                          <span className="name">6 pcs Pouch</span>
-                          <span className="number">(16)</span>
-                        </label>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+
           </div>
         </div>
       </div>
