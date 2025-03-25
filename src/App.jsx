@@ -20,7 +20,6 @@ import Brands from './components/Admin/body/brands/Brands';
 import AddBrand from './components/Admin/body/brands/AddBrand';
 
 import Login from './pages/Login';
-import ProtectedRoute from './components/midlleware/ProtectedRoute';
 import Signup from '~/pages/Signup.jsx';
 import Logout from '~/pages/Logout.jsx';
 import setupAxiosInterceptors from './apis/axiosInterceptor.js';
@@ -30,10 +29,9 @@ import AddDiscountCampain from './components/Admin/body/discounts/AddDiscountCam
 import Coupons from './components/Admin/body/coupons/Coupons';
 import AddCoupon from './components/Admin/body/coupons/AddCoupon';
 function App() {
-
+  setupAxiosInterceptors();
   useEffect(() => {
     feather.replace();
-
   }, []);
   return (
     <>
@@ -60,18 +58,13 @@ function App() {
             <Route path="add-new-user" element={<AddUser />} />
             <Route path="categories" element={<Categories />} />
             <Route path="add-new-category" element={<AddCategory />} />
-            <Route
-              path="/admin/update-new-category/:id"
-              element={<AddCategory />}
-            />
+            <Route path="/admin/update-new-category/:id" element={<AddCategory />}/>
             <Route path="brands" element={<Brands />} />
             <Route path="add-new-brand" element={<AddBrand />} />
             <Route path="update-new-brand/:id" element={<AddBrand />} />
             <Route path="coupons" element={<Coupons />} />
             <Route path="add-new-coupon" element={<AddCoupon />} />
             <Route path="update-coupon/:id" element={<AddCoupon />} />
-
-
           </Route>
         </Routes>
       </Router>
