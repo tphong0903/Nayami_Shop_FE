@@ -41,7 +41,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/product-detail" element={<ProductPage />} />
+          <Route path="/product-detail/:id" element={<ProductPage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/dashboard" element={<UserDashboard />}>
@@ -50,7 +50,7 @@ function App() {
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/register" element={<Signup/>} />
+          <Route path="/register" element={<Signup />} />
           <Route path="/checkout" element={<CheckOutPage />} />
           <Route path="/admin" element={<AdminPage />}>
             <Route index element={<DashBoard />} />

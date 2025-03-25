@@ -1,6 +1,23 @@
-
+import MenuIcon from '@mui/icons-material/Menu';
+import axios from 'axios';
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 export default function MenuNav() {
+  const [listCategorys, setCategorys] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('/api/categories/brands')
+      .then((response) => {
+        setCategorys(response.data.data);
+      })
+      .catch(() => {
+        Swal.fire('Lỗi!', 'Không thể tải danh sách Danh mục.', 'error');
+      });
+  }, []);
+
   return (
     <>
       <div className="container-fluid-lg">
@@ -9,8 +26,8 @@ export default function MenuNav() {
             <div className="header-nav">
               <div className="header-nav-left">
                 <button className="dropdown-category">
-                  <i data-feather="align-left" />
-                  <span>All Categories</span>
+                  <MenuIcon />
+                  <span>Danh mục</span>
                 </button>
                 <div className="category-dropdown">
                   <div className="category-title">
@@ -23,433 +40,30 @@ export default function MenuNav() {
                     </button>
                   </div>
                   <ul className="category-list">
-                    <li className="onhover-category-list">
-                      <a href="javascript:void(0)" className="category-name">
-                        <img src="../assets/svg/1/vegetable.svg" alt="" />
-                        <h6>Vegetables &amp; Fruit</h6>
-                        <i className="fa-solid fa-angle-right" />
-                      </a>
-                      <div className="onhover-category-box">
-                        <div className="list-1">
-                          <div className="category-title-box">
-                            <h5>Organic Vegetables</h5>
+                    {listCategorys.map(v => (
+                      <li className="onhover-category-list" key={v.id}>
+                        <Link to={`/shop?categoryId=${v.id}&categoryName=${encodeURIComponent(v.categoryName)}`} className="category-name">
+                          <h6>{v.categoryName}</h6>
+                          <i className="fa-solid fa-angle-right" />
+                        </Link>
+                        <div className="onhover-category-box">
+                          <div className="list-1">
+                            <div className="category-title-box">
+                              <h5>Thương Hiệu</h5>
+                            </div>
+                            <ul>
+                              {v.brandDTOList.map(b => (
+                                <li key={b.id}>
+                                  <Link to={`/shop?categoryId=${v.id}&categoryName=${encodeURIComponent(v.categoryName)}&brandId=${b.id}&brandName=${encodeURIComponent(b.name)}&`}>{b.name}</Link>
+                                </li>
+                              ))
+                              }
+                            </ul>
                           </div>
-                          <ul>
-                            <li>
-                              <a href="javascript:void(0)">Potato &amp; Tomato</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Cucumber &amp; Capsicum
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Leafy Vegetables</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Root Vegetables</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Beans &amp; Okra</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Cabbage &amp; Cauliflower
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Gourd &amp; Drumstick</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Specialty</a>
-                            </li>
-                          </ul>
                         </div>
-                        <div className="list-2">
-                          <div className="category-title-box">
-                            <h5>Fresh Fruit</h5>
-                          </div>
-                          <ul>
-                            <li>
-                              <a href="javascript:void(0)">Banana &amp; Papaya</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Kiwi, Citrus Fruit</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Apples &amp; Pomegranate
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Seasonal Fruits</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Mangoes</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Fruit Baskets</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="onhover-category-list">
-                      <a href="javascript:void(0)" className="category-name">
-                        <img src="../assets/svg/1/cup.svg" alt="" />
-                        <h6>Beverages</h6>
-                        <i className="fa-solid fa-angle-right" />
-                      </a>
-                      <div className="onhover-category-box w-100">
-                        <div className="list-1">
-                          <div className="category-title-box">
-                            <h5>Energy &amp; Soft Drinks</h5>
-                          </div>
-                          <ul>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Soda &amp; Cocktail Mix
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Soda &amp; Cocktail Mix
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Sports &amp; Energy Drinks
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Non Alcoholic Drinks</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Packaged Water</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Spring Water</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Flavoured Water</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="onhover-category-list">
-                      <a href="javascript:void(0)" className="category-name">
-                        <img src="../assets/svg/1/meats.svg" alt="" />
-                        <h6>Meats &amp; Seafood</h6>
-                        <i className="fa-solid fa-angle-right" />
-                      </a>
-                      <div className="onhover-category-box">
-                        <div className="list-1">
-                          <div className="category-title-box">
-                            <h5>Meat</h5>
-                          </div>
-                          <ul>
-                            <li>
-                              <a href="javascript:void(0)">Fresh Meat</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Frozen Meat</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Marinated Meat</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Fresh &amp; Frozen Meat
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="list-2">
-                          <div className="category-title-box">
-                            <h5>Seafood</h5>
-                          </div>
-                          <ul>
-                            <li>
-                              <a href="javascript:void(0)">Fresh Water Fish</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Dry Fish</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Frozen Fish &amp; Seafood
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Marine Water Fish</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Canned Seafood</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Prawans &amp; Shrimps</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Other Seafood</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="onhover-category-list">
-                      <a href="javascript:void(0)" className="category-name">
-                        <img src="../assets/svg/1/breakfast.svg" alt="" />
-                        <h6>Breakfast &amp; Dairy</h6>
-                        <i className="fa-solid fa-angle-right" />
-                      </a>
-                      <div className="onhover-category-box">
-                        <div className="list-1">
-                          <div className="category-title-box">
-                            <h5>Breakfast Cereals</h5>
-                          </div>
-                          <ul>
-                            <li>
-                              <a href="javascript:void(0)">Oats &amp; Porridge</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Kids Cereal</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Muesli</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Flakes</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Granola &amp; Cereal Bars
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Instant Noodles</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Pasta &amp; Macaroni</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Frozen Non-Veg Snacks</a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="list-2">
-                          <div className="category-title-box">
-                            <h5>Dairy</h5>
-                          </div>
-                          <ul>
-                            <li>
-                              <a href="javascript:void(0)">Milk</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Curd</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Paneer, Tofu &amp; Cream
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Butter &amp; Margarine
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Condensed, Powdered Milk
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Buttermilk &amp; Lassi
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Yogurt &amp; Shrikhand
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Flavoured, Soya Milk</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="onhover-category-list">
-                      <a href="javascript:void(0)" className="category-name">
-                        <img src="../assets/svg/1/frozen.svg" alt="" />
-                        <h6>Frozen Foods</h6>
-                        <i className="fa-solid fa-angle-right" />
-                      </a>
-                      <div className="onhover-category-box w-100">
-                        <div className="list-1">
-                          <div className="category-title-box">
-                            <h5>Noodle, Pasta</h5>
-                          </div>
-                          <ul>
-                            <li>
-                              <a href="javascript:void(0)">Instant Noodles</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Hakka Noodles</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Cup Noodles</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Vermicelli</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Instant Pasta</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="onhover-category-list">
-                      <a href="javascript:void(0)" className="category-name">
-                        <img src="../assets/svg/1/biscuit.svg" alt="" />
-                        <h6>Biscuits &amp; Snacks</h6>
-                        <i className="fa-solid fa-angle-right" />
-                      </a>
-                      <div className="onhover-category-box">
-                        <div className="list-1">
-                          <div className="category-title-box">
-                            <h5>Biscuits &amp; Cookies</h5>
-                          </div>
-                          <ul>
-                            <li>
-                              <a href="javascript:void(0)">Salted Biscuits</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Marie, Health, Digestive
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Cream Biscuits &amp; Wafers
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Glucose &amp; Milk Biscuits
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Cookies</a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="list-2">
-                          <div className="category-title-box">
-                            <h5>Bakery Snacks</h5>
-                          </div>
-                          <ul>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Bread Sticks &amp; Lavash
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Cheese &amp; Garlic Bread
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Puffs, Patties, Sandwiches
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Breadcrumbs &amp; Croutons
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="onhover-category-list">
-                      <a href="javascript:void(0)" className="category-name">
-                        <img src="../assets/svg/1/grocery.svg" alt="" />
-                        <h6>Grocery &amp; Staples</h6>
-                        <i className="fa-solid fa-angle-right" />
-                      </a>
-                      <div className="onhover-category-box">
-                        <div className="list-1">
-                          <div className="category-title-box">
-                            <h5>Grocery</h5>
-                          </div>
-                          <ul>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Lemon, Ginger &amp; Garlic
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Indian &amp; Exotic Herbs
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Organic Vegetables</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Organic Fruits</a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="list-2">
-                          <div className="category-title-box">
-                            <h5>Organic Staples</h5>
-                          </div>
-                          <ul>
-                            <li>
-                              <a href="javascript:void(0)">Organic Dry Fruits</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Organic Dals &amp; Pulses
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Organic Millet &amp; Flours
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Organic Sugar, Jaggery
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Organic Masalas &amp; Spices
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Organic Rice, Other Rice
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">Organic Flours</a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                Organic Edible Oil, Ghee
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
+                      </li>
+                    ))
+                    }
                   </ul>
                 </div>
               </div>
