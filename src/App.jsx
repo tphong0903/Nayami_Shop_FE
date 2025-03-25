@@ -29,6 +29,8 @@ import DiscountCampain from './components/Admin/body/discounts/DiscountCampain';
 import AddDiscountCampain from './components/Admin/body/discounts/AddDiscountCampain';
 import Coupons from './components/Admin/body/coupons/Coupons';
 import AddCoupon from './components/Admin/body/coupons/AddCoupon';
+import OrderTab from './components/info/OrderTab';
+import DashboardHome from './components/info/DashboardHome';
 function App() {
 
   useEffect(() => {
@@ -42,7 +44,10 @@ function App() {
           <Route path="/product-detail/:id" element={<ProductPage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/cart" element={<CartPage />} />
-          <Route path="/dashboard" element={<UserDashboard />} />
+          <Route path="/dashboard" element={<UserDashboard />}>
+            <Route index element={<DashboardHome />} />
+            <Route path="orders" element={<OrderTab />} />
+          </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Signup />} />

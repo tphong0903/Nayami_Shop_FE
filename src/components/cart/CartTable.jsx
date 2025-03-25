@@ -26,14 +26,14 @@ export default function CartTable({ products, loading, error, onQuantityChange, 
       <div className="col-xxl-9">
         <div className="cart-table">
           <div className="table-responsive">
-            <div className="text-center p-5">
+            <div className="d-flex flex-column justify-content-center align-items-center text-center min-vh-100">
               <i className="fa fa-exclamation-circle fa-3x text-danger mb-3"></i>
               <p className="text-danger">{error}</p>
               <button
                 className="btn btn-primary mt-3"
                 onClick={() => window.location.reload()}
               >
-                Thử lại
+          Thử lại
               </button>
             </div>
           </div>

@@ -20,7 +20,7 @@ export default function CartSection() {
     fetchProducts();
   }, []);
 
-  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTFAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDIzOTI4MzcsImV4cCI6MTc0MjM5NDI3N30.s7loI2jT7ZYEdUNyAmOtoKmOUyNuXQO8C_yvPAzW3nU';
+  const token = localStorage.getItem('access_token');
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   const fetchProducts = async () => {

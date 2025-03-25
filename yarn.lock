@@ -3461,6 +3461,7 @@ __metadata:
     react-select: "npm:^5.10.1"
     react-slick: "npm:^0.30.3"
     simplebar: "npm:^6.3.0"
+    slick-carousel: "npm:^1.8.1"
     sweetalert2: "npm:^11.17.2"
     vite: "npm:^6.0.5"
   languageName: unknown
@@ -4410,6 +4411,15 @@ __metadata:
   dependencies:
     simplebar-core: "npm:^1.3.0"
   checksum: 10c0/e74f2637065d3f447124342b6223dbf7098966fff2c3185b62d056a38295c1b846496024d7ee4c3b17c0497dfd9c800d2231d3890c33e4e50ec0c53558872529
+  languageName: node
+  linkType: hard
+
+"slick-carousel@npm:^1.8.1":
+  version: 1.8.1
+  resolution: "slick-carousel@npm:1.8.1"
+  peerDependencies:
+    jquery: ">=1.8.0"
+  checksum: 10c0/e8c9c9a454c107cfee88689477b453449ed66d5343cf495d3135ec25ea736a0df862f625a9cdc8abd6262629ecef3343c5de686694831f99b13dfe837a1aa587
   languageName: node
   linkType: hard
 
