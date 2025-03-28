@@ -24,7 +24,7 @@ export default function TopNav() {
     try {
       const token = localStorage.getItem('access_token');
       if (token) {
-        const response = await axios.get('api/cart', {
+        const response = await axios.get(`${window.location.origin}/api/cart`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
