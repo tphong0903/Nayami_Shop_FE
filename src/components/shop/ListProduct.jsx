@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FormControl, InputLabel, MenuItem, Pagination, Rating, Select } from '@mui/material';
 import { formatCurrency } from '~/utils/formatCurrency';
+import { addToCart } from '~/apis/addtoCart';
 
 
 export default function ListProduct({ listProduct, totalPage, setCurrentPage, sortBy, setSortBy }) {
@@ -117,6 +118,8 @@ export default function ListProduct({ listProduct, totalPage, setCurrentPage, so
                   <br />
                   <button
                     className="btn btn-animation btn-md fw-bold mend-auto cart-button w-100"
+                    onClick={() => addToCart(v.id, 1)}
+
                   >
                     Giỏ hàng <i className="fa-solid fa-arrow-right icon" />
                   </button>

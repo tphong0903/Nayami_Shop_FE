@@ -6,6 +6,7 @@ import Slider from 'react-slick';
 import { formatCurrency } from '~/utils/formatCurrency';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { addToCart } from '~/apis/addtoCart';
 
 var settings = {
   focusOnSelect: true,
@@ -157,7 +158,8 @@ export default function ProductSection({ product }) {
                       </div>
                     </div>
                     <button
-                      onClick="location.href = 'shop-left-sidebar.html';"
+                      onClick={() => addToCart(product.id, 1)}
+
                       className="btn btn-animation btn-md fw-bold mend-auto cart-button w-100"
                     >
                       Giỏ hàng <i className="fa-solid fa-arrow-right icon" />

@@ -37,7 +37,6 @@ export default function ProductSection() {
     try {
       const token = localStorage.getItem('access_token');
       if (!token) {
-        // Use SweetAlert2 for better looking alerts
         Swal.fire({
           title: 'Yêu cầu đăng nhập',
           text: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng',
