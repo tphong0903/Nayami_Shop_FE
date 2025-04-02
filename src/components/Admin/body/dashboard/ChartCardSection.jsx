@@ -1,6 +1,21 @@
-
+import axios from 'axios';
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { formatCurrency } from '~/utils/formatCurrency';
 
 export default function ChartCardSection() {
+  const [chartCardData, setChartCardData] = useState()
+  useEffect(() => {
+    axios
+      .get('/api/dashboard/chartCard')
+      .then((response) => {
+        setChartCardData(response.data.data)
+      })
+      .catch(() => {
+        Swal.fire('Lỗi!', 'Không thể data.', 'error')
+      })
+  }, []);
   return (
     <>
       <div className="col-sm-6 col-xxl-3 col-lg-6">
@@ -10,11 +25,7 @@ export default function ChartCardSection() {
               <div className="media-body p-0">
                 <span className="m-0">TỔNG DOANH THU</span>
                 <h4 className="mb-0 counter">
-                  $6659
-                  <span className="badge badge-light-primary grow">
-                    <i data-feather="trending-up" />
-                    8.5%
-                  </span>
+                  {formatCurrency(chartCardData?.totalRevenue ?? 0).replace('VND', '').trim()}
                 </h4>
               </div>
               <div className="align-self-center text-center">
@@ -31,11 +42,7 @@ export default function ChartCardSection() {
               <div className="media-body p-0">
                 <span className="m-0">TỔNG LỢI NHUẬN</span>
                 <h4 className="mb-0 counter">
-                  9856
-                  <span className="badge badge-light-danger grow">
-                    <i data-feather="trending-down" />
-                    8.5%
-                  </span>
+                  {formatCurrency(chartCardData?.totalProfit ?? 0).replace('VND', '').trim()}
                 </h4>
               </div>
               <div className="align-self-center text-center">
@@ -52,13 +59,14 @@ export default function ChartCardSection() {
               <div className="media-body p-0">
                 <span className="m-0">SẢN PHẨM</span>
                 <h4 className="mb-0 counter">
-                  893
-                  <a
-                    href="add-new-product.html"
+                  {chartCardData?.quantityProduct ?? 0}
+                  <Link
+                    to={'/admin/add-new-product'}
                     className="badge badge-light-secondary grow"
+                    style={{ display: 'block' }}
                   >
                     ADD NEW
-                  </a>
+                  </Link>
                 </h4>
               </div>
               <div className="align-self-center text-center">
@@ -75,11 +83,8 @@ export default function ChartCardSection() {
               <div className="media-body p-0">
                 <span className="m-0">ĐƠN CẦN XỬ LÝ</span>
                 <h4 className="mb-0 counter">
-                  4.6k
-                  <span className="badge badge-light-success grow">
-                    <i data-feather="trending-down" />
-                    8.5%
-                  </span>
+                  {chartCardData?.quantityBillNeedToProcess ?? 0}
+
                 </h4>
               </div>
               <div className="align-self-center text-center">
