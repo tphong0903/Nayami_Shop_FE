@@ -19,6 +19,7 @@ export default function CartSection() {
   const total = subtotal - coupon;
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchProducts();
   }, []);
 
