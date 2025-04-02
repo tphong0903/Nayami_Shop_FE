@@ -27,10 +27,8 @@ export default function CartSection() {
 
   const fetchProducts = async () => {
     try {
-      setLoading(true);
       const response = await axios.get('/api/cart');
       setProducts(response.data.data);
-      setLoading(false);
     } catch (err) {
       if (err.response?.status === 403) {
         Swal.fire({
@@ -50,7 +48,6 @@ export default function CartSection() {
         });
       }
       setError('Lỗi khi tải dữ liệu giỏ hàng');
-      setLoading(false);
       console.error('Lỗi khi tải sản phẩm:', err);
     }
   };
@@ -77,7 +74,6 @@ export default function CartSection() {
           icon: 'error',
           confirmButtonText: 'OK'
         });
-        fetchProducts();
       }
     }
   };
