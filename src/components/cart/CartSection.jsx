@@ -8,14 +8,14 @@ import SideSummery from './SideSummery';
 
 export default function CartSection() {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [coupon, setCoupon] = useState(0);
-  const [isChecked, setIsChecked] = useState(true);
+  const [selectAll, setSelectAll] = useState(true);
 
   const navigate = useNavigate();
 
-  const subtotal = products.reduce((sum, product) => sum + product.totalPrice, 0);
+  const checkedProducts = products.filter(product => product.isChecked);
+  const subtotal = checkedProducts.reduce((sum, product) => sum + product.totalPrice, 0);
   const total = subtotal - coupon;
 
   useEffect(() => {
@@ -28,7 +28,12 @@ export default function CartSection() {
   const fetchProducts = async () => {
     try {
       const response = await axios.get('/api/cart');
-      setProducts(response.data.data);
+
+      const productsWithCheck = response.data.data.map(product => ({
+        ...product,
+        isChecked: true
+      }));
+      setProducts(productsWithCheck);
     } catch (err) {
       if (err.response?.status === 403) {
         Swal.fire({
@@ -50,6 +55,34 @@ export default function CartSection() {
       setError('Lỗi khi tải dữ liệu giỏ hàng');
       console.error('Lỗi khi tải sản phẩm:', err);
     }
+  };
+
+  const handleCheckChange = (productId) => {
+    const updatedProducts = products.map(product =>
+      product.id === productId
+        ? { ...product, isChecked: !product.isChecked }
+        : product
+    );
+
+    setProducts(updatedProducts);
+
+    const allChecked = updatedProducts.every(product => product.isChecked);
+    setSelectAll(allChecked);
+
+    setCoupon(0);
+  };
+
+  const handleSelectAll = (isChecked) => {
+    setSelectAll(isChecked);
+
+    const updatedProducts = products.map(product => ({
+      ...product,
+      isChecked: isChecked
+    }));
+
+    setProducts(updatedProducts);
+
+    setCoupon(0);
   };
 
   const handleQuantityChange = async (index, newQuantity) => {
@@ -136,7 +169,6 @@ export default function CartSection() {
         confirmButtonText: 'OK'
       });
 
-      fetchProducts();
     } catch (err) {
       console.error('Lỗi khi áp dụng mã giảm giá:', err);
       setCoupon(0);
@@ -155,11 +187,12 @@ export default function CartSection() {
         <div className="row g-sm-5 g-3">
           <CartTable
             products={products}
-            loading={loading}
             error={error}
             onQuantityChange={handleQuantityChange}
             onDeleteProduct={handleDeleteProduct}
-            isChecked={isChecked}
+            onCheckChange={handleCheckChange}
+            selectAll={selectAll}
+            onSelectAll={handleSelectAll}
           />
           <SideSummery
             products={products}
@@ -167,7 +200,6 @@ export default function CartSection() {
             discount={coupon}
             total={total}
             onApplyCoupon={handleApplyCoupon}
-            isChecked={isChecked}
           />
         </div>
       </div>

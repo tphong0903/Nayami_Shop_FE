@@ -10,7 +10,6 @@ const DeliveryAddressSection = ({
   onUpdateAddress,
   onDeleteAddress,
   onAddressSelect
-
 }) => {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [newAddress, setNewAddress] = useState({
@@ -24,35 +23,19 @@ const DeliveryAddressSection = ({
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
-  // Add local state to manage addresses
   const [addresses, setAddresses] = useState(addressList);
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(0);
   const [initialSelectionDone, setInitialSelectionDone] = useState(false);
-
-  useEffect(() => {
-    setAddresses(addressList);
-
-    if (addressList && addressList.length > 0 && !initialSelectionDone) {
-      if (onAddressSelect) {
-        onAddressSelect(addressList[0]);
-        setInitialSelectionDone(true);
-      }
-    }
-  }, [addressList, onAddressSelect, initialSelectionDone]);
-
-  const handleAddressSelect = (index) => {
-    setSelectedAddressIndex(index);
-
-    if (onAddressSelect && addresses[index]) {
-      onAddressSelect(addresses[index]);
-    }
-  };
+  const [isValid, setIsValid] = useState(null);
 
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://cdn.lordicon.com/lordicon.js';
     script.async = true;
     document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
   useEffect(() => {
@@ -64,13 +47,16 @@ const DeliveryAddressSection = ({
       .catch(error => console.error('Lỗi tải danh sách tỉnh:', error));
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewAddress({
-      ...newAddress,
-      [name]: value
-    });
-  };
+  useEffect(() => {
+    setAddresses(addressList);
+
+    if (addressList && addressList.length > 0 && !initialSelectionDone) {
+      if (onAddressSelect) {
+        onAddressSelect(addressList[0]);
+        setInitialSelectionDone(true);
+      }
+    }
+  }, [addressList, onAddressSelect, initialSelectionDone]);
 
   useEffect(() => {
     if (initialAddress && provinces.length > 0) {
@@ -87,6 +73,49 @@ const DeliveryAddressSection = ({
       }
     }
   }, [initialAddress, provinces]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewAddress({
+      ...newAddress,
+      [name]: value
+    });
+    if (name === 'phone') {
+      if (value.trim() === '') {
+        setIsValid(false);
+      } else {
+        setIsValid(/^(0|\+84)[3-9][0-9]{8}$/.test(value));
+      }
+    }
+
+  };
+
+  const handleAddressSelect = (index) => {
+    setSelectedAddressIndex(index);
+
+    if (onAddressSelect && addresses[index]) {
+      onAddressSelect(addresses[index]);
+    }
+  };
+
+  const handleProvinceChange = (e) => {
+    const provinceName = e.target.value;
+    const selectedProvince = provinces.filter(d => d.provinceName === provinceName);
+    setNewAddress({ ...newAddress, province: provinceName, district: '', ward: '' });
+    setDistricts(selectedProvince);
+    setWards([]);
+  };
+
+  const handleDistrictChange = (e) => {
+    const districtName = e.target.value;
+    const selectedDistrict = districts.filter(w => w.districtName === districtName);
+    setNewAddress({ ...newAddress, district: districtName, ward: '' });
+    setWards(selectedDistrict);
+  };
+
+  const handleWardChange = (e) => {
+    setNewAddress({ ...newAddress, ward: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -106,7 +135,6 @@ const DeliveryAddressSection = ({
         setAddresses(addresses.map(address =>
           address.id === updatedAddress.id ? updatedAddress : address
         ));
-        console.log('Updated address:', updatedAddress);
 
         if (onUpdateAddress) {
           onUpdateAddress(updatedAddress);
@@ -125,8 +153,8 @@ const DeliveryAddressSection = ({
         });
 
         const newAddressData = response.data.data;
-
-        setAddresses([...addresses, newAddressData]);
+        const updatedAddresses = [...addresses, newAddressData];
+        setAddresses(updatedAddresses);
 
         if (onAddAddress) {
           onAddAddress(newAddressData);
@@ -157,24 +185,6 @@ const DeliveryAddressSection = ({
         text: error.response?.data?.message || 'Có lỗi xảy ra, vui lòng thử lại!',
       });
     }
-  };
-
-  const handleProvinceChange = (e) => {
-    const provinceName = e.target.value;
-    const selectedProvince = provinces.filter(d => d.provinceName === provinceName);
-    setNewAddress({ ...newAddress, province: provinceName, district: '', ward: '' });
-    setDistricts(selectedProvince);
-    setWards([]);
-  };
-  const handleDistrictChange = (e) => {
-    const districtName = e.target.value;
-    const selectedDistrict = districts.filter(w => w.districtName === districtName);
-    setNewAddress({ ...newAddress, district: districtName, ward: '' });
-    setWards(selectedDistrict);
-  };
-
-  const handleWardChange = (e) => {
-    setNewAddress({ ...newAddress, ward: e.target.value });
   };
 
   const handleEditAddress = (address) => {
@@ -218,8 +228,15 @@ const DeliveryAddressSection = ({
         if (result.isConfirmed) {
           await axios.delete(`/api/addresses/${addressId}`);
 
-          // Update local state by removing the deleted address
-          setAddresses(addresses.filter(address => address.id !== addressId));
+          const updatedAddresses = addresses.filter(address => address.id !== addressId);
+          setAddresses(updatedAddresses);
+
+          if (selectedAddressIndex >= updatedAddresses.length) {
+            setSelectedAddressIndex(updatedAddresses.length > 0 ? 0 : -1);
+            if (updatedAddresses.length > 0 && onAddressSelect) {
+              onAddressSelect(updatedAddresses[0]);
+            }
+          }
 
           if (onDeleteAddress) {
             onDeleteAddress(addressId);
@@ -357,6 +374,7 @@ const DeliveryAddressSection = ({
                             required
                             placeholder="Số điện thoại liên hệ"
                           />
+                          {isValid === false && <p style={{ color: 'red' }}>Số điện thoại không hợp lệ!</p>}
                         </div>
                         <div className="col-12 mt-4">
                           <div className="d-flex justify-content-between">
@@ -367,8 +385,8 @@ const DeliveryAddressSection = ({
                             >
                               Hủy
                             </button>
-                            <button type="submit" className="btn theme-bg-color text-white">
-                              Lưu địa chỉ
+                            <button type="submit" className="btn theme-bg-color text-white" disabled={!isValid}>
+                              {newAddress.id ? 'Cập nhật địa chỉ' : 'Lưu địa chỉ'}
                             </button>
                           </div>
                         </div>
@@ -381,8 +399,8 @@ const DeliveryAddressSection = ({
 
             {addresses && addresses.length > 0 ? (
               addresses.map((address, index) => (
-                <div key={index} className="col-xxl-6 col-lg-12 col-md-6">
-                  <div className="delivery-address-box">
+                <div key={address.id || index} className="col-xxl-6 col-lg-12 col-md-6">
+                  <div className={`delivery-address-box ${selectedAddressIndex === index ? 'selected' : ''}`}>
                     <div>
                       <div className="d-flex justify-content-between align-items-start mb-2">
                         <div className="form-check">
@@ -393,7 +411,6 @@ const DeliveryAddressSection = ({
                             id={`address-${index}`}
                             checked={selectedAddressIndex === index}
                             onChange={() => handleAddressSelect(index)}
-
                           />
                         </div>
                       </div>
