@@ -182,7 +182,7 @@ export default function TopNav() {
                             <span className="visually-hidden">items in cart</span>
                           </span>
                         </button>
-                        <div className="onhover-div">
+                        <div className="onhover-div" style={{ width: '350px', maxWidth: '90vw' }}>
                           <ul className="cart-list">
                             {cartItems.length > 0 ? (
                               cartItems.map((item) => (
@@ -201,9 +201,17 @@ export default function TopNav() {
                                       <Link to={`/product/${item.productId}`}>
                                         <h5>{item.productName}</h5>
                                       </Link>
-                                      <h6>
-                                        <span>{item.quantity} x</span> {item.unitPrice?.toLocaleString('vi-VN')}₫
-                                      </h6>
+                                      {item.percentDiscount && item.percentDiscount > 0 ? (
+                                        <h6>
+                                          <span>{item.quantity} x</span>
+                                          <span className="text-theme-color">{((item.unitPrice * (1 - item.percentDiscount / 100)) || 0).toLocaleString('vi-VN')}₫</span>
+                                          <span className="text-muted text-decoration-line-through ms-1">{item.unitPrice?.toLocaleString('vi-VN')}₫</span>
+                                        </h6>
+                                      ) : (
+                                        <h6>
+                                          <span>{item.quantity} x</span> {item.unitPrice?.toLocaleString('vi-VN')}₫
+                                        </h6>
+                                      )}
                                       <button
                                         className="close-button close_button"
                                         onClick={() => removeCartItem(item.id)}
@@ -215,7 +223,7 @@ export default function TopNav() {
                                 </li>
                               ))
                             ) : (
-                              <li className="text-center py-3">Your cart is empty</li>
+                              <li className="text-center py-3">Giỏ hàng đang trống</li>
                             )}
                           </ul>
                           {cartItems.length > 0 && (

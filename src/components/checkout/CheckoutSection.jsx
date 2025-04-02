@@ -121,6 +121,7 @@ const CheckoutSection = () => {
       const parsedData = JSON.parse(storedData);
       setCheckoutData(parsedData);
       fetchOrderDetails(parsedData);
+      setDiscount(parsedData.discount);
     } else {
       Swal.fire({
         title: 'Lỗi',
@@ -139,7 +140,6 @@ const CheckoutSection = () => {
       const responseDetail = response.data.data;
       setAddressList(responseDetail?.listAddress || []);
       setCarts(responseDetail.listCartItem);
-      setDiscount(checkoutData?.discount);
 
     } catch (error) {
       console.error('Lỗi khi lấy thông tin đơn hàng:', error);
