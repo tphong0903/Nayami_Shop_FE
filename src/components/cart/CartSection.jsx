@@ -28,6 +28,7 @@ export default function CartSection() {
   const fetchProducts = async () => {
     try {
       const response = await axios.get('/api/cart');
+
       const productsWithCheck = response.data.data.map(product => ({
         ...product,
         isChecked: true
@@ -106,7 +107,6 @@ export default function CartSection() {
           icon: 'error',
           confirmButtonText: 'OK'
         });
-        fetchProducts();
       }
     }
   };
