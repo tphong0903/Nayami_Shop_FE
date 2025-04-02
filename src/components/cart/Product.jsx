@@ -83,12 +83,13 @@ const Product = ({ product, index, onQuantityChange, onDeleteProduct, isChecked,
       </td>
 
       <td className="uproduct-info w-4/14 min-w-0 text-center align-middle max-w-[250px] break-words">
-        <p className="break-words overflow-hidden line-clamp-4">
+        <p className="break-words overflow-hidden" style={{ display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 4 }}>
           <Link to={`/product/${product.id}`} className="inline-block w-full">
             {product.productName}
           </Link>
         </p>
       </td>
+
 
       <td className="unitprice w-2/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
         {hasDiscount ? (
