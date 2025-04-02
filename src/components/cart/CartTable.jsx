@@ -85,7 +85,8 @@ export default function CartTable({
                     className="w-4 h-4 cursor-pointer checkbox_animated"
                   />
                 </th>
-                <th className="w-4/14 text-center" colSpan={3}>Sản phẩm</th>
+                <th className="w-2/14 text-center">Hình ảnh</th>
+                <th className="w-2/14 text-center">Sản phẩm</th>
                 <th className="w-2/14 text-center">Đơn giá</th>
                 <th className="w-2/14 text-center">Số lượng</th>
                 <th className="w-2/14 text-center">Tổng</th>

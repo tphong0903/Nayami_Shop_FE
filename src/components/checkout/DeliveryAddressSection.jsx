@@ -37,7 +37,13 @@ const DeliveryAddressSection = ({
       document.body.removeChild(script);
     };
   }, []);
-
+  useEffect(() => {
+    if (newAddress.phone) {
+      setIsValid(/^(0|\+84)[3-9][0-9]{8}$/.test(newAddress.phone));
+    } else {
+      setIsValid(null);
+    }
+  }, [newAddress.phone]);
   useEffect(() => {
     fetch('https://raw.githubusercontent.com/quangdang1412/ProjectIT_2024/refs/heads/main/src/main/resources/static/province/province.json')
       .then(response => response.json())
@@ -89,6 +95,7 @@ const DeliveryAddressSection = ({
     }
 
   };
+  
 
   const handleAddressSelect = (index) => {
     setSelectedAddressIndex(index);
@@ -385,7 +392,7 @@ const DeliveryAddressSection = ({
                             >
                               Hủy
                             </button>
-                            <button type="submit" className="btn theme-bg-color text-white" disabled={!isValid}>
+                            <button type="submit" className="btn theme-bg-color text-white" disabled={isValid === false}>
                               {newAddress.id ? 'Cập nhật địa chỉ' : 'Lưu địa chỉ'}
                             </button>
                           </div>
