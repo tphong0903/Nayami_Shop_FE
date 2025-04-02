@@ -51,7 +51,6 @@ const CheckoutSection = () => {
       prevAddresses.filter(address => address.id !== addressId)
     );
 
-    // If the deleted address was selected, set selected address to null
     if (selectedAddress && selectedAddress.id === addressId) {
       setSelectedAddress(null);
       setShippingFee(0);
@@ -163,7 +162,15 @@ const CheckoutSection = () => {
       });
       return;
     }
-
+    if (!paymentMethod) {
+      Swal.fire({
+        title: 'Thông báo',
+        text: 'Vui lòng chọn phương thức thanh toán',
+        icon: 'warning',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
     try {
       const orderData = {
         ...checkoutData,

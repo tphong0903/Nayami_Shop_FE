@@ -71,7 +71,7 @@ const Product = ({ product, index, onQuantityChange, onDeleteProduct, isChecked,
       </td>
 
       <td className="uproduct-info w-4/14 min-w-0 text-center align-middle max-w-[250px] break-words">
-        <p className="break-words overflow-hidden text-ellipsis">
+        <p className="break-words overflow-hidden text-ellipsis" >
           <Link to={`/product/${product.id}`} className="inline-block w-full">
             {product.productName}
           </Link>

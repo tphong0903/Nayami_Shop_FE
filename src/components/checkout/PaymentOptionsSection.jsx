@@ -1,7 +1,7 @@
 import { useEffect, useState, React } from 'react';
 
 const PaymentOptionsSection = ({ onPaymentMethodChange }) => {
-  const [paymentMethod, setPaymentMethod] = useState('cash'); // Default to cash
+  const [paymentMethod, setPaymentMethod] = useState('COD');
 
   useEffect(() => {
     const script = document.createElement('script');
