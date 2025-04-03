@@ -1,17 +1,32 @@
 import MyDatePicker from './MyDatePicker';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { formatCurrency } from '~/utils/formatCurrency';
 
 export default function BestSelling() {
   const startOfMonth = dayjs().startOf('month');
   const endOfMonth = dayjs().endOf('month');
   const [dateRange, setDateRange] = useState([startOfMonth, endOfMonth]);
-  const [filteredSeries, setFilteredSeries] = useState([]);
-  const originalSeries = [
-    { name: 'Doanh thu', data: [30, 50, 35, 60, 70, 90, 100] },
-  ];
+  const [listProduct, setListProduct] = useState([])
+  const getBestSellingByTime = (startDate, endDate) => {
+    const dashboardDateDTO = {
+      startDate: startDate.format('YYYY-MM-DD'),
+      endDate: endDate.format('YYYY-MM-DD'),
+    };
+
+    axios
+      .post('/api/dashboard/productBestSelling', dashboardDateDTO)
+      .then((response) => {
+        setListProduct(response.data.data)
+      })
+      .catch(() => {
+        Swal.fire('Lỗi!', 'Không thể lấy dữ liệu.', 'error');
+      });
+  };
   useEffect(() => {
-    setFilteredSeries(originalSeries);
+    getBestSellingByTime(dateRange[0], dateRange[1]);
   }, [dateRange]);
   return (
     <div className="col-xl-6 col-md-12">
@@ -29,131 +44,49 @@ export default function BestSelling() {
                 className="best-selling-table w-image
                                       w-image
                                       w-image table border-0"
-              >
+              ><thead>
+                  <tr>
+                    <th>Sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Số lượng đã bán</th>
+                  </tr>
+                </thead>
                 <tbody>
-                  <tr>
-                    <td>
-                      <div className="best-product-box">
-                        <div className="product-image">
-                          <img
-                            src="/src/assets/Admin/images/product/1.png"
-                            className="img-fluid"
-                            alt="Product"
-                          />
+                  {listProduct.map(p => (
+                    <tr key={p.id}>
+                      <td>
+                        <div className="best-product-box">
+                          <div className="product-image">
+                            <img
+                              src={p.url}
+                              className="img-fluid"
+                              alt="Product"
+                            />
+                          </div>
+                          <div className="product-name">
+                            <h5>{p.name}</h5>
+                          </div>
                         </div>
-                        <div className="product-name">
-                          <h5>Aata Buscuit</h5>
-                          <h6>26-08-2022</h6>
+                      </td>
+                      <td>
+                        <div className="product-detail-box">
+                          <h5>{formatCurrency(p.unitPrice)}</h5>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Price</h6>
-                        <h5>$29.00</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Orders</h6>
-                        <h5>62</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Stock</h6>
-                        <h5>510</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Amount</h6>
-                        <h5>$1,798</h5>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="best-product-box">
-                        <div className="product-image">
-                          <img
-                            src="/src/assets/Admin/images/product/2.png"
-                            className="img-fluid"
-                            alt="Product"
-                          />
+                      </td>
+                      <td>
+                        <div className="product-detail-box">
+                          <h5>{p.quantity}</h5>
                         </div>
-                        <div className="product-name">
-                          <h5>Aata Buscuit</h5>
-                          <h6>26-08-2022</h6>
+                      </td>
+                      <td>
+                        <div className="product-detail-box">
+                          <h5>{p.quantitySold}</h5>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Price</h6>
-                        <h5>$29.00</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Orders</h6>
-                        <h5>62</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Stock</h6>
-                        <h5>510</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Amount</h6>
-                        <h5>$1,798</h5>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="best-product-box">
-                        <div className="product-image">
-                          <img
-                            src="/src/assets/Admin/images/product/3.png"
-                            className="img-fluid"
-                            alt="Product"
-                          />
-                        </div>
-                        <div className="product-name">
-                          <h5>Aata Buscuit</h5>
-                          <h6>26-08-2022</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Price</h6>
-                        <h5>$29.00</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Orders</h6>
-                        <h5>62</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Stock</h6>
-                        <h5>510</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Amount</h6>
-                        <h5>$1,798</h5>
-                      </div>
-                    </td>
-                  </tr>
+                      </td>
+                    </tr>
+                  ))
+                  }
                 </tbody>
               </table>
             </div>

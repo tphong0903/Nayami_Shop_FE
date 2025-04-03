@@ -29,7 +29,7 @@ export default function RevenueChart() {
         setChartDataY([{ name: 'Doanh thu', data: newChartDataY }]);
         setChartDataX(newChartDataX);
       })
-      .catch((error) => {
+      .catch(() => {
         Swal.fire('Lỗi!', 'Không thể lấy dữ liệu.', 'error');
       });
   };

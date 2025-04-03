@@ -6,44 +6,6 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { formatCurrency } from '~/utils/formatCurrency';
 
-const options = {
-  chart: {
-    type: 'area',
-    toolbar: { show: false },
-  },
-  dataLabels: { enabled: false },
-  stroke: { curve: 'smooth' },
-  xaxis: {
-    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-  },
-  yaxis: {
-    title: {
-      text: 'Lợi nhuận',
-      style: {
-        fontFamily: '"Public Sans",sans-serif',
-        fontSize: '14px',
-      },
-    },
-    labels: {
-      style: {
-        fontFamily: '"Public Sans",sans-serif',
-        fontSize: '12px',
-      },
-      formatter: (value) => `${value} VND`,
-    },
-  },
-  colors: ['#0da487', '#33FF77'],
-  fill: {
-    type: 'gradient',
-    gradient: { shadeIntensity: 0.4, opacityFrom: 0.9, opacityTo: 0.3 },
-  },
-  markers: {
-    size: 5,
-    colors: ['#FFFFFF'],
-    strokeColor: '#0da487',
-    strokeWidth: 3
-  },
-};
 
 export default function ProfitChart() {
   const startOfMonth = dayjs().startOf('month');
@@ -67,7 +29,7 @@ export default function ProfitChart() {
         setChartDataY([{ name: 'Doanh thu', data: newChartDataY }]);
         setChartDataX(newChartDataX);
       })
-      .catch((error) => {
+      .catch(() => {
         Swal.fire('Lỗi!', 'Không thể lấy dữ liệu.', 'error');
       });
   };
@@ -86,7 +48,7 @@ export default function ProfitChart() {
     },
     yaxis: {
       title: {
-        text: 'Doanh thu',
+        text: 'Lợi nhuận',
         style: {
           fontFamily: '"Public Sans",sans-serif',
           fontSize: '14px',
