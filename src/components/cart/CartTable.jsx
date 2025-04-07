@@ -1,7 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import Product from './Product';
 
-export default function CartTable({ products, loading, error, onQuantityChange, onDeleteProduct }) {
+export default function CartTable({
+  products,
+  loading,
+  error,
+  onQuantityChange,
+  onDeleteProduct,
+  onCheckChange,
+  selectAll,
+  onSelectAll
+}) {
   const navigate = useNavigate();
 
   if (loading) {
@@ -33,7 +42,7 @@ export default function CartTable({ products, loading, error, onQuantityChange, 
                 className="btn btn-primary mt-3"
                 onClick={() => window.location.reload()}
               >
-          Thử lại
+                Thử lại
               </button>
             </div>
           </div>
@@ -66,6 +75,24 @@ export default function CartTable({ products, loading, error, onQuantityChange, 
       <div className="cart-table">
         <div className="table-responsive">
           <table className="table-auto w-full border-collapse" style={{ tableLayout: 'fixed' }}>
+            <thead>
+              <tr className="table-head">
+                <th className="w-1/14 text-center align-middle" style={{ minWidth: 'unset' }}>
+                  <input
+                    type="checkbox"
+                    checked={selectAll}
+                    onChange={(e) => onSelectAll(e.target.checked)}
+                    className="w-4 h-4 cursor-pointer checkbox_animated"
+                  />
+                </th>
+                <th className="w-2/14 text-center">Hình ảnh</th>
+                <th className="w-2/14 text-center">Sản phẩm</th>
+                <th className="w-2/14 text-center">Đơn giá</th>
+                <th className="w-2/14 text-center">Số lượng</th>
+                <th className="w-2/14 text-center">Tổng</th>
+                <th className="w-1/14 text-center">Hành động</th>
+              </tr>
+            </thead>
             <tbody>
               {products.map((product, index) => (
                 <Product
@@ -74,6 +101,7 @@ export default function CartTable({ products, loading, error, onQuantityChange, 
                   index={index}
                   onQuantityChange={onQuantityChange}
                   onDeleteProduct={onDeleteProduct}
+                  onCheckChange={onCheckChange}
                 />
               ))}
             </tbody>

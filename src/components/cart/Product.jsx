@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { useState } from 'react';
+
 const Product = ({ product, index, onQuantityChange, onDeleteProduct, isChecked, onCheckChange }) => {
   const handleDelete = (e) => {
     e.preventDefault();
@@ -51,7 +51,7 @@ const Product = ({ product, index, onQuantityChange, onDeleteProduct, isChecked,
       <td className="select-product w-1/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
         <input
           type="checkbox"
-          checked={isChecked}
+          checked={product.isChecked}
           onChange={() => onCheckChange(product.id)}
           name="select_product"
           className="w-4 h-4 cursor-pointer checkbox_animated checkall"
@@ -71,7 +71,7 @@ const Product = ({ product, index, onQuantityChange, onDeleteProduct, isChecked,
       </td>
 
       <td className="uproduct-info w-4/14 min-w-0 text-center align-middle max-w-[250px] break-words">
-        <p className="break-words overflow-hidden text-ellipsis">
+        <p className="break-words overflow-hidden text-ellipsis" >
           <Link to={`/product/${product.id}`} className="inline-block w-full">
             {product.productName}
           </Link>
