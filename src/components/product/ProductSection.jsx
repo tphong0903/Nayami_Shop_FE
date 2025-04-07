@@ -7,6 +7,7 @@ import { formatCurrency } from '~/utils/formatCurrency';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { addToCart } from '~/apis/addtoCart';
+import { ReadMoreTwoTone } from '@mui/icons-material';
 
 var settings = {
   focusOnSelect: true,
@@ -18,13 +19,14 @@ var settings = {
   arrows: false
 };
 
-export default function ProductSection({ product }) {
+export default function ProductSection({ product, user, rate }) {
   const [listImage, setListImage] = useState([]);
   const [listDiscountProducts, setListDiscountProducts] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [rateInfo, setRateInfo] = useState()
 
   useEffect(() => {
-    if (!product) {
+    if (!product || !user || !rate) {
       return;
     }
 
@@ -41,6 +43,11 @@ export default function ProductSection({ product }) {
         setListDiscountProducts(response.data.data.slice(0, 5))
       })
   }, []);
+
+  useEffect(() => {
+    setRateInfo(rate)
+    console.log(rateInfo)
+  }, rateInfo)
 
 
   if (!product) {
@@ -319,91 +326,8 @@ export default function ProductSection({ product }) {
                               <h4 className="fw-500">Customer reviews</h4>
                             </div>
                             <div className="d-flex">
-                              <div className="product-rating">
-                                <ul className="rating">
-                                  <li>
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width={24}
-                                      height={24}
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      strokeWidth={2}
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      className="feather feather-star fill"
-                                    >
-                                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                    </svg>
-                                  </li>
-                                  <li>
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width={24}
-                                      height={24}
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      strokeWidth={2}
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      className="feather feather-star fill"
-                                    >
-                                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                    </svg>
-                                  </li>
-                                  <li>
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width={24}
-                                      height={24}
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      strokeWidth={2}
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      className="feather feather-star fill"
-                                    >
-                                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                    </svg>
-                                  </li>
-                                  <li>
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width={24}
-                                      height={24}
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      strokeWidth={2}
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      className="feather feather-star"
-                                    >
-                                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                    </svg>
-                                  </li>
-                                  <li>
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width={24}
-                                      height={24}
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      strokeWidth={2}
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      className="feather feather-star"
-                                    >
-                                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                    </svg>
-                                  </li>
-                                </ul>
-                              </div>
-                              <h6 className="ms-3">4.2 Out Of 5</h6>
+                              <Rating defaultValue={product?.ratingAvg ?? 0} precision={1} size='medium' readOnly />
+                              <h6 className="ms-3">{`${product?.ratingAvg ?? 0}`} Out Of 5</h6>
                             </div>
                             <div className="rating-box">
                               <ul>
@@ -414,12 +338,13 @@ export default function ProductSection({ product }) {
                                       <div
                                         className="progress-bar"
                                         role="progressbar"
-                                        style={{ width: '68%' }}
-                                        aria-valuenow={100}
+                                        // style={{ width: `${Math.ceil(rate.filter(val => val.rating == 5).length / rate.length * 100)}%  ` }}
+                                        // aria-valuenow={Math.ceil(rate.filter(val => val.rating == 5).length / rate.length * 100)}
                                         aria-valuemin={0}
                                         aria-valuemax={100}
                                       >
-                                        68%
+                                        {/* {Math.ceil(rate.filter(val => val.rating == 5).length / rate.length * 100)}% */}
+                                        50%
                                       </div>
                                     </div>
                                   </div>
@@ -506,6 +431,7 @@ export default function ProductSection({ product }) {
                                     type="text"
                                     className="form-control"
                                     id="name"
+                                    value={user ? user.userName : ""}
                                     placeholder="Name"
                                   />
                                   <label htmlFor="name">Your Name</label>
@@ -518,31 +444,16 @@ export default function ProductSection({ product }) {
                                     className="form-control"
                                     id="email"
                                     placeholder="Email Address"
+                                    value={user ? user.email : ""}
                                   />
                                   <label htmlFor="email">Email Address</label>
                                 </div>
                               </div>
-                              <div className="col-md-6">
-                                <div className="form-floating theme-form-floating">
-                                  <input
-                                    type="url"
-                                    className="form-control"
-                                    id="website"
-                                    placeholder="Website"
-                                  />
-                                  <label htmlFor="website">Website</label>
-                                </div>
+                              <div className="col-md-6 text-center">
+                                <label htmlFor="review1">Review Title</label>
                               </div>
                               <div className="col-md-6">
-                                <div className="form-floating theme-form-floating">
-                                  <input
-                                    type="url"
-                                    className="form-control"
-                                    id="review1"
-                                    placeholder="Give your review a title"
-                                  />
-                                  <label htmlFor="review1">Review Title</label>
-                                </div>
+                                <Rating />
                               </div>
                               <div className="col-12">
                                 <div className="form-floating theme-form-floating">
@@ -983,7 +894,7 @@ export default function ProductSection({ product }) {
           </div>
         </div>
       </div>
-    </section>
+    </section >
 
   );
 }

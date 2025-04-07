@@ -1,6 +1,6 @@
 import Hinh1 from '../assets/images/inner-page/log-in.png'
-import GoogleImage from  '../assets/images/inner-page/google.png'
-import FaceBookImage from  '../assets/images/inner-page/facebook.png'
+import GoogleImage from '../assets/images/inner-page/google.png'
+import FaceBookImage from '../assets/images/inner-page/facebook.png'
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
@@ -9,9 +9,9 @@ import Swal from 'sweetalert2';
 
 export default function SectionLogin() {
 
-  const [email,setEmail] = useState('');
-  const [password,setPassword] = useState('');
-  const [remember,setRemember] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [remember, setRemember] = useState(false);
   const navigate = useNavigate();
 
 
@@ -50,14 +50,14 @@ export default function SectionLogin() {
 
   const login = async (event) => {
     event.preventDefault();
-    try{
+    try {
       const response = await axios.post('/api/login', {
         email: email,
         password: password
       });
       const accessToken = response.data.data.accessToken;
       const refreshToken = response.data.data.refreshToken;
-      saveToken(accessToken,refreshToken);
+      saveToken(response.data.data, accessToken, refreshToken);
       Swal.fire({
         icon: 'success',
         title: 'Thành công',
@@ -66,8 +66,7 @@ export default function SectionLogin() {
         showConfirmButton: true,
       });
       redirectUserBasedOnRole(accessToken);
-    }catch(err)
-    {
+    } catch (err) {
       console.log(err)
       Swal.fire({
         icon: 'error',
@@ -78,10 +77,11 @@ export default function SectionLogin() {
       });
     }
   }
-  const saveToken = (accessToken,refreshToken) => {
-      console.log('Store token in local storage');
-      localStorage.setItem('access_token',accessToken);
-      localStorage.setItem('refresh_token',refreshToken);
+  const saveToken = (response, accessToken, refreshToken) => {
+    console.log('Store token in local storage');
+    localStorage.setItem('access_token', accessToken);
+    localStorage.setItem('refresh_token', refreshToken);
+    localStorage.setItem('id', 5);
   };
   const handleChangeRememberMe = (event) => {
     setRemember(!remember);

@@ -31,6 +31,8 @@ import Coupons from './components/Admin/body/coupons/Coupons';
 import AddCoupon from './components/Admin/body/coupons/AddCoupon';
 import OrderTab from './components/info/OrderTab';
 import DashboardHome from './components/info/DashboardHome';
+import Promotions from './components/Admin/body/promotions/Promotions';
+import AddPromotion from './components/Admin/body/promotions/AddPromotion';
 function App() {
 
   useEffect(() => {
@@ -75,6 +77,9 @@ function App() {
             <Route path="coupons" element={<Coupons />} />
             <Route path="add-new-coupon" element={<AddCoupon />} />
             <Route path="update-coupon/:id" element={<AddCoupon />} />
+            <Route path="promotions" element={<Promotions />} />
+            <Route path="add-new-promotion" element={<AddPromotion />} />
+            <Route path="update-promotion/:id" element={<AddPromotion />} />
 
 
           </Route>

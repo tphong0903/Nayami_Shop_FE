@@ -11,7 +11,7 @@ export default function SideBar({ value, setSidebarOpen }) {
   const [isUsersOpen, setIsUsersOpen] = useState(false);
   const [isRolesOpen, setIsRolesOpen] = useState(false);
   const [isOrdersOpen, setIsOrdersOpen] = useState(false);
-  const [isLocalizationOpen, setIsLocalizationOpen] = useState(false);
+  const [isPromotionOpen, setIsPromotionOpen] = useState(false);
   const [isCouponsOpen, setIsCouponsOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
@@ -165,15 +165,15 @@ export default function SideBar({ value, setSidebarOpen }) {
 
               {/* Localization Menu */}
               <li className="sidebar-list">
-                <a className="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsLocalizationOpen)}>
+                <a className="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsPromotionOpen)}>
                   <i className="ri-focus-3-line" />
-                  <span>Localization</span>
-                  <i className={`ri-arrow-${isLocalizationOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
+                  <span>Quảng cáo</span>
+                  <i className={`ri-arrow-${isPromotionOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
                 </a>
-                {isLocalizationOpen && (
+                {isPromotionOpen && (
                   <ul className="sidebar-submenu">
-                    <li><a href="translation.html">Translation</a></li>
-                    <li><a href="currency-rates.html">Currency Rates</a></li>
+                    <li><Link to="/admin/promotions">Danh sách quảng cáo</Link></li>
+                    <li><Link to="/admin/add-new-promotion">Thêm quảng cáo</Link></li>
                   </ul>
                 )}
               </li>

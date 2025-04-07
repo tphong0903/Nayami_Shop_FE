@@ -16,6 +16,9 @@ export default function ProductPage() {
   const [product, setProduct] = useState()
   const { id } = useParams();
 
+  const [user, setUser] = useState()
+  const [rate, setRate] = useState()
+
   useEffect(() => {
     window.scrollTo(0, 0);
     setProduct(null);
@@ -27,12 +30,28 @@ export default function ProductPage() {
       .catch((error) => {
         Swal.fire('Lỗi!', 'Không thể tải sản phẩm.', 'error')
       })
-  }, [id])
+
+    axios.get(`/api/users/${localStorage.getItem("id")}`)
+      .then(res => {
+        setUser(res.data)
+      })
+
+    axios
+      .get(`/api/comments/${id}`)
+      .then((response) => {
+        console.log(response.data.data)
+        setRate(response.data.data)
+      })
+      .catch((error) => {
+        Swal.fire('Lỗi!', 'Không thể tải sản phẩm.', 'error')
+      })
+
+  }, [])
   return (
     <>
       <Header />
       <BreadCrumbSection title='Chi tiết sản phẩm' page={product?.name} />
-      <ProductSection product={product} />
+      <ProductSection product={product} user={user} rate={rate} />
       <ReletedProductSection product={product} />
       <Footer />
       <QuickViewSection />

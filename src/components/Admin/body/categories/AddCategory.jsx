@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const CategoryForm = () => {
   const { id } = useParams();
@@ -63,7 +64,18 @@ const CategoryForm = () => {
       } else {
         await axios.post('/api/categories', payload, {
           headers: { 'Content-Type': 'application/json' },
-        });
+        })
+          .then(res => {
+            if (res.data.status == 400) {
+              Swal.fire({
+                title: "Insert fail",
+                text: "Category has existed",
+                icon: "error",
+                confirmButtonText: "OK",
+                timer: 3000
+              })
+            }
+          });
       }
 
       navigate('/admin/categories');
