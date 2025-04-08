@@ -1,6 +1,21 @@
-import React from 'react'
+import axios from 'axios';
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { formatCurrency } from '~/utils/formatCurrency';
 
 export default function OutOfStock() {
+  const [listProduct, setListProduct] = useState([])
+  useEffect(() => {
+    axios
+      .get('/api/dashboard/productOutOfStock')
+      .then((response) => {
+        setListProduct(response.data.data)
+      })
+      .catch(() => {
+        Swal.fire('Lỗi!', 'Không thể lấy dữ liệu.', 'error');
+      });
+  }, []);
   return (
     <div className="col-xl-6">
       <div className="card o-hidden card-hover">
@@ -11,145 +26,49 @@ export default function OutOfStock() {
         </div>
         <div className="card-body p-0">
           <div>
-            <div className="table-responsive">
-              <table className="best-selling-table table border-0">
+            <div className="table-responsive" style={{ maxHeight: '350px', overflowY: 'auto' }}>
+              <table
+                className="best-selling-table w-image
+                                      w-image
+                                      w-image table border-0"
+              ><thead>
+                  <tr>
+                    <th>Sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                  </tr>
+                </thead>
                 <tbody>
-                  <tr>
-                    <td>
-                      <div className="best-product-box">
-                        <div className="product-name">
-                          <h5>Aata Buscuit</h5>
-                          <h6>#64548</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Date Placed</h6>
-                        <h5>5/1/22</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Price</h6>
-                        <h5>$250.00</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Order Status</h6>
-                        <h5>Completed</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Payment</h6>
-                        <h5 className="text-danger">Unpaid</h5>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="best-product-box">
-                        <div className="product-name">
-                          <h5>Aata Buscuit</h5>
-                          <h6>26-08-2022</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Date Placed</h6>
-                        <h5>5/1/22</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Price</h6>
-                        <h5>$250.00</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Order Status</h6>
-                        <h5>Completed</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Payment</h6>
-                        <h5 className="theme-color">Paid</h5>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="best-product-box">
-                        <div className="product-name">
-                          <h5>Aata Buscuit</h5>
-                          <h6>26-08-2022</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Date Placed</h6>
-                        <h5>5/1/22</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Price</h6>
-                        <h5>$250.00</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Order Status</h6>
-                        <h5>Completed</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Payment</h6>
-                        <h5 className="theme-color">Paid</h5>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="best-product-box">
-                        <div className="product-name">
-                          <h5>Aata Buscuit</h5>
-                          <h6>26-08-2022</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Date Placed</h6>
-                        <h5>5/1/22</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Price</h6>
-                        <h5>$250.00</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Order Status</h6>
-                        <h5>Completed</h5>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="product-detail-box">
-                        <h6>Payment</h6>
-                        <h5 className="theme-color">Paid</h5>
-                      </div>
-                    </td>
-                  </tr>
+                  {
+                    listProduct.map(p => (
+                      <tr key={p.id}>
+                        <td>
+                          <div className="best-product-box">
+                            <div className="product-image">
+                              <img
+                                src={p.listImage[0]}
+                                className="img-fluid"
+                                alt="Product"
+                              />
+                            </div>
+                            <Link className="product-name" to={`/admin/edit-product/${p.id}`}>
+                              <h5>{p.name}</h5>
+                            </Link>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="product-detail-box">
+                            <h5>{formatCurrency(p.unitPrice)}</h5>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="product-detail-box">
+                            <h5>{p.quantity}</h5>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  }
                 </tbody>
               </table>
             </div>

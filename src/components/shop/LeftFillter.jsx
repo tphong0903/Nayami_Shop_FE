@@ -168,8 +168,8 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
           </div>
           <div className="filter-category">
             <div className="filter-title">
-              <h2>Filters</h2>
-              <Link onClick={clearAllSelectedOptions}>Clear All</Link>
+              <h2>Lọc</h2>
+              <Link onClick={clearAllSelectedOptions}>Xóa tất cả</Link>
             </div>
             <ul>
               {Object.entries(listSelectedOption).map(([key, list]) => (

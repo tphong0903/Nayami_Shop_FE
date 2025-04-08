@@ -1,5 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 
 import Slider from 'react-slick';
 import Laptop from '~/assets/ImageCategoris/laptop.png';
@@ -43,7 +42,7 @@ export default function CategorySection() {
     <section className="category-section-3">
       <div className="container-fluid-lg">
         <div className="title">
-          <h2>Shop By Categories</h2>
+          <h2>Danh mục</h2>
         </div>
         <div className="row">
           <div className="col-12">
