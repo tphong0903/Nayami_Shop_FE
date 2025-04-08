@@ -46,6 +46,18 @@ const Product = ({ product, index, onQuantityChange, onDeleteProduct, isChecked,
     }
   };
 
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    }).format(amount);
+  };
+
+  const hasDiscount = product.percentDiscount && product.percentDiscount > 0;
+  const discountedPrice = hasDiscount
+    ? product.unitPrice * (1 - product.percentDiscount / 100)
+    : product.unitPrice;
+
   return (
     <tr className="product-box-contain h-full">
       <td className="select-product w-1/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
@@ -71,7 +83,7 @@ const Product = ({ product, index, onQuantityChange, onDeleteProduct, isChecked,
       </td>
 
       <td className="uproduct-info w-4/14 min-w-0 text-center align-middle max-w-[250px] break-words">
-        <p className="break-words overflow-hidden text-ellipsis" >
+        <p className="break-words overflow-hidden" style={{ display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 4 }}>
           <Link to={`/product/${product.id}`} className="inline-block w-full">
             {product.productName}
           </Link>
@@ -80,17 +92,24 @@ const Product = ({ product, index, onQuantityChange, onDeleteProduct, isChecked,
 
 
       <td className="unitprice w-2/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
-        <h4 className="table-title text-content">Đơn giá</h4>
-        <h5>
-          {new Intl.NumberFormat('vi-VN', {
-            style: 'currency',
-            currency: 'VND',
-          }).format(product.unitPrice)}
-        </h5>
+        {hasDiscount ? (
+          <div>
+            <h5 className="text-theme-color">
+              {formatCurrency(discountedPrice)}
+            </h5>
+            <h6 className="text-muted text-decoration-line-through">
+              {formatCurrency(product.unitPrice)}
+            </h6>
+          </div>
+        ) : (
+          <h5>
+            {formatCurrency(product.unitPrice)}
+          </h5>
+        )}
       </td>
+
       <td className="quantity w-2/14 align-middle text-center">
         <div className="d-flex flex-column align-items-center justify-content-center">
-          <h4 className="table-title text-content">Số lượng</h4>
           <div className="quantity-price">
             <div className="cart_qty">
               <div className="input-group d-flex align-items-center">
@@ -125,25 +144,18 @@ const Product = ({ product, index, onQuantityChange, onDeleteProduct, isChecked,
       </td>
 
       <td className="subtotal w-2/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
-        <h4 className="table-title text-content">Tổng</h4>
         <h5>
-          {new Intl.NumberFormat('vi-VN', {
-            style: 'currency',
-            currency: 'VND',
-          }).format(product.totalPrice)}
+          {formatCurrency(product.totalPrice)}
         </h5>
       </td>
-      <td className="save-remove -1/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
-        <h4 className="table-title text-content">Hành động</h4>
-        <li>
-          <a
-            href="#"
-            className="text-danger"
-            onClick={handleDelete}
-          >
-            <i className="ri-delete-bin-line" />
-          </a>
-        </li>
+      <td className="save-remove w-1/14 min-w-0 text-center align-middle" style={{ minWidth: 'unset' }}>
+        <a
+          href="#"
+          className="text-danger"
+          onClick={handleDelete}
+        >
+          <i className="ri-delete-bin-line" />
+        </a>
       </td>
     </tr>
   );
