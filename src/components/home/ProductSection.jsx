@@ -65,7 +65,6 @@ export default function ProductSection() {
       window.dispatchEvent(new CustomEvent('cart-updated'));
 
     } catch (error) {
-      console.error('Error adding to cart:', error);
       Swal.fire({
         title: 'Lỗi',
         text: 'Không thể thêm sản phẩm vào giỏ hàng',
@@ -79,7 +78,7 @@ export default function ProductSection() {
     <section className="product-section">
       <div className="container-fluid-lg">
         <div className="title title-flex-2">
-          <h2>Our Products</h2>
+          <h2>Sản phẩm</h2>
           <div style={{
             overflowX: 'auto', whiteSpace: 'nowra'
           }}>
@@ -93,7 +92,7 @@ export default function ProductSection() {
                   type="button"
                   onClick={() => getProductForTab('All')}
                 >
-                  All
+                  Tất cả
                 </button>
               </li>
               <li className="nav-item">

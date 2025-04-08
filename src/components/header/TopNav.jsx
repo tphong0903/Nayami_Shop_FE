@@ -1,6 +1,7 @@
 
 import { Link } from 'react-router-dom'
-import LogoShop from '../../assets/images/logo/1.png'
+import LogoShop1 from '../../assets/images/logo/1.png'
+import LogoShop from '../../assets/images/mainImage.jpg'
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
@@ -151,25 +152,7 @@ export default function TopNav() {
                         </div>
                       </div>
                     </li>
-                    <li className="right-side">
-                      <a href="contact-us.html" className="delivery-login-box">
-                        <div className="delivery-icon">
-                          <PermPhoneMsgOutlinedIcon style={{ color: 'black' }} />
-                        </div>
-                        <div className="delivery-detail">
-                          <h6>24/7 Delivery</h6>
-                          <h5>+91 888 104 2340</h5>
-                        </div>
-                      </a>
-                    </li>
-                    <li className="right-side">
-                      <a
-                        href="wishlist.html"
-                        className="btn p-0 position-relative header-wishlist"
-                      >
-                        <FavoriteBorderIcon />
-                      </a>
-                    </li>
+
                     <li className="right-side">
                       <div className="onhover-dropdown header-badge">
                         <button
@@ -221,7 +204,7 @@ export default function TopNav() {
                           {cartItems.length > 0 && (
                             <>
                               <div className="price-box">
-                                <h5>Total :</h5>
+                                <h5>Tổng :</h5>
                                 <h4 className="theme-color fw-bold">{cartTotal.toLocaleString('vi-VN')}₫</h4>
                               </div>
                               <div className="button-group">
@@ -259,8 +242,6 @@ export default function TopNav() {
                         </div>
                       ) : (
                         <div className="delivery-detail">
-                          <h6>Hello,</h6>
-                          <h5>My Account</h5>
                           <div className="onhover-div onhover-div-login">
                             <ul className="user-box-name">
                               <li className="product-box-contain">
