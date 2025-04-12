@@ -29,7 +29,7 @@ export default function MobileMenu() {
             </a>
           </li>
           <li>
-            <a href="cart.html">
+            <a href="/cart">
               <i className="iconly-Bag-2 icli fly-cate" />
               <span>Cart</span>
             </a>

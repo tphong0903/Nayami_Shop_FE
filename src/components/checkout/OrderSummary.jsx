@@ -49,7 +49,11 @@ const OrderSummary = ({ carts, discount, paymentMethod, selectedAddress, shippin
               src={item.listImage && item.listImage.length > 0 ? item.listImage[0] : '/assets/images/default-product.png'} className="img-fluid lazyloaded checkout-image"
               alt={item.productName}
             />
-            <h4>{item.productName} <span>X {item.quantity}</span></h4>
+            <div>
+              <h4 style={{ display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 2, overflow: 'hidden' }}>
+                {item.productName}</h4>
+              <p>Số lượng: {item.quantity}</p>
+            </div>
             <h4 className="price">{(item.totalPrice).toLocaleString()}đ</h4>
           </li>
         ))}

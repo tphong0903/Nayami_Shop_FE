@@ -20,7 +20,7 @@ export default function ListProduct({ listProduct, totalPage, setCurrentPage, so
         </div>
         <div className="top-filter-menu">
           <div className="category-dropdown">
-            <h5 className="text-content">Sort By :</h5>
+            <h5 className="text-content">Sắp xếp :</h5>
             <FormControl >
               <Select
                 labelId="demo-simple-select-label"

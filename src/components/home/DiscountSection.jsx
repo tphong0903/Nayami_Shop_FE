@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -6,7 +6,7 @@ import { Rating } from '@mui/material';
 import DealTimer from '../product/DealTimer';
 import { formatCurrency } from '~/utils/formatCurrency';
 
-export default function DiscountSection() {
+export default function DiscountSection({ ref }) {
   const [slidesToShow, setSlidesToShow] = useState(getSlidesToShow());
   const [listDiscountProducts, setListDiscountProducts] = useState([]);
   useEffect(() => {
@@ -46,10 +46,10 @@ export default function DiscountSection() {
     slidesToScroll: 1,
   };
   return (
-    <section className="deal-section">
+    <section className="deal-section" ref={ref}>
       <div className="container-fluid-lg">
         <div className="title">
-          <h2>Deal Of The Day</h2>
+          <h2>Khuyến mãi</h2>
         </div>
         <div className="row">
           <div className="col-12">
