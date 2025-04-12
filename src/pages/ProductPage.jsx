@@ -34,6 +34,7 @@ export default function ProductPage() {
     axios.get(`/api/users/${localStorage.getItem("id")}`)
       .then(res => {
         setUser(res.data)
+        console.log(res.data)
       })
 
     axios
@@ -43,7 +44,7 @@ export default function ProductPage() {
         setRate(response.data.data)
       })
       .catch((error) => {
-        Swal.fire('Lỗi!', 'Không thể tải sản phẩm.', 'error')
+        Swal.fire('Lỗi!', 'Không thể tải đánh giá.', 'error')
       })
 
   }, [])

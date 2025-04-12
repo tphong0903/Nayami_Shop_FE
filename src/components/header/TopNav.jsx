@@ -264,8 +264,12 @@ export default function TopNav() {
                           <div className="onhover-div onhover-div-login">
                             <ul className="user-box-name">
                               <li className="product-box-contain">
+                                <Link to="/history">Order History</Link>
+                              </li>
+                              <li className="product-box-contain">
                                 <a href="/logout">Log out</a>
                               </li>
+
                             </ul>
                           </div>
                         </div>

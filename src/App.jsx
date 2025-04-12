@@ -33,6 +33,8 @@ import OrderTab from './components/info/OrderTab';
 import DashboardHome from './components/info/DashboardHome';
 import Promotions from './components/Admin/body/promotions/Promotions';
 import AddPromotion from './components/Admin/body/promotions/AddPromotion';
+import OrderHistory from './components/history/OrderHistory';
+import OrderHistoryPage from './pages/OrderHistoryPage';
 function App() {
 
   useEffect(() => {
@@ -54,6 +56,7 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Signup />} />
           <Route path="/checkout" element={<CheckOutPage />} />
+          <Route path="/history" element={<OrderHistoryPage />} />
           <Route path="/admin" element={<AdminPage />}>
             <Route index element={<DashBoard />} />
             <Route path="products" element={<Products />} />

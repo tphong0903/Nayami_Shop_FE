@@ -5,7 +5,7 @@ import DealTimer from './DealTimer';
 import Slider from 'react-slick';
 import { formatCurrency } from '~/utils/formatCurrency';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { addToCart } from '~/apis/addtoCart';
 import { ReadMoreTwoTone } from '@mui/icons-material';
 
@@ -20,15 +20,31 @@ var settings = {
 };
 
 export default function ProductSection({ product, user, rate }) {
+  const params = useParams();
+  const navigate = useNavigate();
+
   const [listImage, setListImage] = useState([]);
   const [listDiscountProducts, setListDiscountProducts] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [rateInfo, setRateInfo] = useState()
+
+  const [submitInfo, setSubmitInfo] = useState({
+    description: "No description",
+    rating: 0,
+    userName: user?.id ?? 0,
+    userEmail: user?.email ?? "",
+    productId: params.id
+  })
+
+  useEffect(() => {
+    setSubmitInfo(prev => ({ ...prev, userName: user?.userName ?? 0, userEmail: user?.email ?? "" }))
+  }, [user])
 
   useEffect(() => {
     if (!product || !user || !rate) {
       return;
     }
+
+    console.log(rate)
 
     setListImage(product.listImage || []);
     if (listImage.length > 0) {
@@ -44,10 +60,35 @@ export default function ProductSection({ product, user, rate }) {
       })
   }, []);
 
-  useEffect(() => {
-    setRateInfo(rate)
-    console.log(rateInfo)
-  }, rateInfo)
+  const updateSubmitData = (e) => {
+    const { name, value } = e.target;
+    setSubmitInfo(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  }
+
+  const submitReview = () => {
+    console.log(submitInfo)
+    axios.post("/api/comments", submitInfo)
+      .then(res => {
+        console.log(res.data)
+      })
+      .then(() => {
+        window.location.reload()
+      })
+  }
+
+  const formatDateTime = (timestamp) => {
+    return new Date(timestamp).toLocaleString('en-US', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    }).replace(/(\d+) (\w+), (\d+) (.*)/, '$1 $2, $3 at $4');
+  }
 
 
   if (!product) {
@@ -132,7 +173,7 @@ export default function ProductSection({ product, user, rate }) {
                   </div>
                   <div>
                     <Rating name="read-only" value={product?.ratingAvg ?? 0} readOnly />
-                    <span className="review" style={{ margin: '10px', fontSize: '15px', }}>23 Customer Review</span>
+                    <span className="review" style={{ margin: '10px', fontSize: '15px', }}>{rate?.length ?? 0} Customer Review</span>
                   </div>
                   {product && product?.discountDTO && (
                     <DealTimer product={product} />
@@ -338,13 +379,12 @@ export default function ProductSection({ product, user, rate }) {
                                       <div
                                         className="progress-bar"
                                         role="progressbar"
-                                        // style={{ width: `${Math.ceil(rate.filter(val => val.rating == 5).length / rate.length * 100)}%  ` }}
+                                        style={{ width: `${Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 5).length / rate.length * 100 : 0)}%  ` }}
                                         // aria-valuenow={Math.ceil(rate.filter(val => val.rating == 5).length / rate.length * 100)}
                                         aria-valuemin={0}
                                         aria-valuemax={100}
                                       >
-                                        {/* {Math.ceil(rate.filter(val => val.rating == 5).length / rate.length * 100)}% */}
-                                        50%
+                                        {Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 5).length / rate.length * 100 : 0)}%
                                       </div>
                                     </div>
                                   </div>
@@ -356,12 +396,12 @@ export default function ProductSection({ product, user, rate }) {
                                       <div
                                         className="progress-bar"
                                         role="progressbar"
-                                        style={{ width: '67%' }}
+                                        style={{ width: `${Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 4).length / rate.length * 100 : 0)}%  ` }}
                                         aria-valuenow={100}
                                         aria-valuemin={0}
                                         aria-valuemax={100}
                                       >
-                                        67%
+                                        {Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 4).length / rate.length * 100 : 0)}%
                                       </div>
                                     </div>
                                   </div>
@@ -373,12 +413,12 @@ export default function ProductSection({ product, user, rate }) {
                                       <div
                                         className="progress-bar"
                                         role="progressbar"
-                                        style={{ width: '42%' }}
+                                        style={{ width: `${Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 3).length / rate.length * 100 : 0)}%  ` }}
                                         aria-valuenow={100}
                                         aria-valuemin={0}
                                         aria-valuemax={100}
                                       >
-                                        42%
+                                        {Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 3).length / rate.length * 100 : 0)}%
                                       </div>
                                     </div>
                                   </div>
@@ -390,12 +430,12 @@ export default function ProductSection({ product, user, rate }) {
                                       <div
                                         className="progress-bar"
                                         role="progressbar"
-                                        style={{ width: '30%' }}
+                                        style={{ width: `${Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 2).length / rate.length * 100 : 0)}%  ` }}
                                         aria-valuenow={100}
                                         aria-valuemin={0}
                                         aria-valuemax={100}
                                       >
-                                        30%
+                                        {Math.ceil(rate.filter(val => val.rating == 2).length / rate.length * 100)}%
                                       </div>
                                     </div>
                                   </div>
@@ -407,12 +447,12 @@ export default function ProductSection({ product, user, rate }) {
                                       <div
                                         className="progress-bar"
                                         role="progressbar"
-                                        style={{ width: '24%' }}
+                                        style={{ width: `${Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 1).length / rate.length * 100 : 0)}%  ` }}
                                         aria-valuenow={100}
                                         aria-valuemin={0}
                                         aria-valuemax={100}
                                       >
-                                        24%
+                                        {Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 1).length / rate.length * 100 : 0)}%
                                       </div>
                                     </div>
                                   </div>
@@ -453,21 +493,29 @@ export default function ProductSection({ product, user, rate }) {
                                 <label htmlFor="review1">Review Title</label>
                               </div>
                               <div className="col-md-6">
-                                <Rating />
+                                <Rating name='rating' onChange={(e) => { updateSubmitData(e) }} />
                               </div>
                               <div className="col-12">
                                 <div className="form-floating theme-form-floating">
                                   <textarea
                                     className="form-control"
+                                    name='description'
                                     placeholder="Leave a comment here"
                                     id="floatingTextarea2"
                                     style={{ height: 150 }}
                                     defaultValue={''}
+                                    onChange={(e) => { updateSubmitData(e) }}
                                   />
                                   <label htmlFor="floatingTextarea2">
                                     Write Your Comment
                                   </label>
                                 </div>
+                              </div>
+                              <div className="col-12">
+                                {rate.length > 0 && rate.map(item => item.userEmail).includes(user?.email)
+                                  ? <div className="btn btn-animation btn-md fw-bold disabled" onClick={submitReview}>Review</div>
+                                  : <div className="btn btn-animation btn-md fw-bold" onClick={submitReview}>Review</div>
+                                }
                               </div>
                             </div>
                           </div>
@@ -479,361 +527,50 @@ export default function ProductSection({ product, user, rate }) {
                             </div>
                             <div className="review-people">
                               <ul className="review-list">
-                                <li>
-                                  <div className="people-box">
-                                    <div>
-                                      <div className="people-image">
-                                        <img
-                                          src="../assets/images/review/1.jpg"
-                                          className="img-fluid blur-up lazyload"
-                                          alt=""
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="people-comment">
-                                      <a className="name" href="javascript:void(0)">
-                                        Tracey
-                                      </a>
-                                      <div className="date-time">
-                                        <h6 className="text-content">
-                                          14 Jan, 2022 at 12.58 AM
-                                        </h6>
-                                        <div className="product-rating">
-                                          <ul className="rating">
-                                            <li>
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={24}
-                                                height={24}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="feather feather-star fill"
-                                              >
-                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                              </svg>
-                                            </li>
-                                            <li>
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={24}
-                                                height={24}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="feather feather-star fill"
-                                              >
-                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                              </svg>
-                                            </li>
-                                            <li>
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={24}
-                                                height={24}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="feather feather-star fill"
-                                              >
-                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                              </svg>
-                                            </li>
-                                            <li>
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={24}
-                                                height={24}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="feather feather-star"
-                                              >
-                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                              </svg>
-                                            </li>
-                                            <li>
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={24}
-                                                height={24}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="feather feather-star"
-                                              >
-                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                              </svg>
-                                            </li>
-                                          </ul>
-                                        </div>
-                                      </div>
-                                      <div className="reply">
-                                        <p>
-                                          Icing cookie carrot cake chocolate cake
-                                          sugar plum jelly-o danish. Dragée dragée
-                                          shortbread tootsie roll croissant muffin
-                                          cake I love gummi bears. Candy canes ice
-                                          cream caramels tiramisu marshmallow cake
-                                          shortbread candy canes cookie.
-                                          <a href="javascript:void(0)">Reply</a>
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </li>
-                                <li>
-                                  <div className="people-box">
-                                    <div>
-                                      <div className="people-image">
-                                        <img
-                                          src="../assets/images/review/2.jpg"
-                                          className="img-fluid blur-up lazyload"
-                                          alt=""
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="people-comment">
-                                      <a className="name" href="javascript:void(0)">
-                                        Olivia
-                                      </a>
-                                      <div className="date-time">
-                                        <h6 className="text-content">
-                                          01 May, 2022 at 08.31 AM
-                                        </h6>
-                                        <div className="product-rating">
-                                          <ul className="rating">
-                                            <li>
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={24}
-                                                height={24}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="feather feather-star fill"
-                                              >
-                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                              </svg>
-                                            </li>
-                                            <li>
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={24}
-                                                height={24}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="feather feather-star fill"
-                                              >
-                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                              </svg>
-                                            </li>
-                                            <li>
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={24}
-                                                height={24}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="feather feather-star fill"
-                                              >
-                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                              </svg>
-                                            </li>
-                                            <li>
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={24}
-                                                height={24}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="feather feather-star"
-                                              >
-                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                              </svg>
-                                            </li>
-                                            <li>
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={24}
-                                                height={24}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="feather feather-star"
-                                              >
-                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                              </svg>
-                                            </li>
-                                          </ul>
-                                        </div>
-                                      </div>
-                                      <div className="reply">
-                                        <p>
-                                          Tootsie roll cake danish halvah powder
-                                          Tootsie roll candy marshmallow cookie
-                                          brownie apple pie pudding brownie
-                                          chocolate bar. Jujubes gummi bears I love
-                                          powder danish oat cake tart croissant.
-                                          <a href="javascript:void(0)">Reply</a>
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </li>
-                                <li>
-                                  <div className="people-box">
-                                    <div>
-                                      <div className="people-image">
-                                        <img
-                                          src="../assets/images/review/3.jpg"
-                                          className="img-fluid blur-up lazyload"
-                                          alt=""
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="people-comment">
-                                      <a className="name" href="javascript:void(0)">
-                                        Gabrielle
-                                      </a>
-                                      <div className="date-time">
-                                        <h6 className="text-content">
-                                          21 May, 2022 at 05.52 PM
-                                        </h6>
-                                        <div className="product-rating">
-                                          <ul className="rating">
-                                            <li>
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={24}
-                                                height={24}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="feather feather-star fill"
-                                              >
-                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                              </svg>
-                                            </li>
-                                            <li>
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={24}
-                                                height={24}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="feather feather-star fill"
-                                              >
-                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                              </svg>
-                                            </li>
-                                            <li>
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={24}
-                                                height={24}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="feather feather-star fill"
-                                              >
-                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                              </svg>
-                                            </li>
-                                            <li>
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={24}
-                                                height={24}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="feather feather-star"
-                                              >
-                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                              </svg>
-                                            </li>
-                                            <li>
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={24}
-                                                height={24}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="feather feather-star"
-                                              >
-                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                              </svg>
-                                            </li>
-                                          </ul>
-                                        </div>
-                                      </div>
-                                      <div className="reply">
-                                        <p>
-                                          Biscuit chupa chups gummies powder I love
-                                          sweet pudding jelly beans. Lemon drops
-                                          marzipan apple pie gingerbread macaroon
-                                          croissant cotton candy pastry wafer.
-                                          Carrot cake halvah I love tart caramels
-                                          pudding icing chocolate gummi bears. Gummi
-                                          bears danish cotton candy muffin marzipan
-                                          caramels awesome feel.{' '}
-                                          <a href="javascript:void(0)">Reply</a>
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </li>
+                                {
+                                  rate.length > 0
+                                    ? rate.map((item, index) => {
+                                      return (
+                                        <>
+                                          <li key={index}>
+                                            <div className="people-box">
+                                              <div>
+                                                <div className="people-image">
+                                                  <img
+                                                    src="../assets/images/review/1.jpg"
+                                                    className="img-fluid blur-up lazyload"
+                                                    alt=""
+                                                  />
+                                                </div>
+                                              </div>
+                                              <div className="people-comment">
+                                                <a className="name" href="javascript:void(0)">
+                                                  {item.userName}
+                                                </a>
+                                                <div className="date-time">
+                                                  <h6 className="text-content">
+                                                    {formatDateTime(item.createdAt)}
+                                                  </h6>
+                                                  <Rating defaultValue={item.rating} size='small' readOnly
+                                                    sx={{
+                                                      display: 'flex',
+                                                      flexDirection: 'column'
+                                                    }} />
+                                                </div>
+                                                <div className="reply">
+                                                  <p>
+                                                    {item.description}
+                                                    <a href="javascript:void(0)">Reply</a>
+                                                  </p>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </li>
+                                        </>
+                                      )
+                                    })
+                                    : <>No reviews</>
+                                }
                               </ul>
                             </div>
                           </div>

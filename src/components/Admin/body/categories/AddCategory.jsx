@@ -10,7 +10,7 @@ const CategoryForm = () => {
 
   // Form state
   const [formData, setFormData] = useState({
-    name: '',
+    categoryName: '',
   });
 
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ const CategoryForm = () => {
       const category = response.data.data;
 
       setFormData({
-        name: category.categoryName || '',
+        categoryName: category.categoryName || '',
       });
 
       setLoading(false);
@@ -46,7 +46,7 @@ const CategoryForm = () => {
   const handleNameChange = (e) => {
     setFormData({
       ...formData,
-      name: e.target.value,
+      categoryName: e.target.value,
     });
   };
   const handleSubmit = async (e) => {
@@ -55,7 +55,7 @@ const CategoryForm = () => {
     setError(null);
 
     try {
-      const payload = { categoryName: formData.name };
+      const payload = { categoryName: formData.categoryName, active: "true" };
 
       if (isEditMode) {
         await axios.put(`/api/categories/${id}`, payload, {
@@ -122,7 +122,7 @@ const CategoryForm = () => {
                             className="form-control"
                             type="text"
                             placeholder="Category Name"
-                            value={formData.name}
+                            value={formData.categoryName}
                             onChange={handleNameChange}
                             required
                           />
