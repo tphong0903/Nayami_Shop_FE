@@ -81,7 +81,7 @@ export default function SectionLogin() {
     console.log('Store token in local storage');
     localStorage.setItem('access_token', accessToken);
     localStorage.setItem('refresh_token', refreshToken);
-    localStorage.setItem('id', 5);
+    localStorage.setItem('id', 1);
   };
   const handleChangeRememberMe = (event) => {
     setRemember(!remember);

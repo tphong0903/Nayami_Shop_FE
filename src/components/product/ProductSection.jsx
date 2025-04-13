@@ -379,12 +379,12 @@ export default function ProductSection({ product, user, rate }) {
                                       <div
                                         className="progress-bar"
                                         role="progressbar"
-                                        style={{ width: `${Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 5).length / rate.length * 100 : 0)}%  ` }}
-                                        // aria-valuenow={Math.ceil(rate.filter(val => val.rating == 5).length / rate.length * 100)}
+                                        style={{ width: `${Math.ceil(rate?.length > 0 ? rate.filter(val => val.rating == 5).length / rate?.length * 100 : 0)}%  ` }}
+                                        // aria-valuenow={Math.ceil(rate.filter(val => val.rating == 5).length / rate?.length * 100)}
                                         aria-valuemin={0}
                                         aria-valuemax={100}
                                       >
-                                        {Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 5).length / rate.length * 100 : 0)}%
+                                        {Math.ceil(rate?.length > 0 ? rate.filter(val => val.rating == 5).length / rate?.length * 100 : 0)}%
                                       </div>
                                     </div>
                                   </div>
@@ -396,12 +396,12 @@ export default function ProductSection({ product, user, rate }) {
                                       <div
                                         className="progress-bar"
                                         role="progressbar"
-                                        style={{ width: `${Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 4).length / rate.length * 100 : 0)}%  ` }}
+                                        style={{ width: `${Math.ceil(rate?.length > 0 ? rate.filter(val => val.rating == 4).length / rate?.length * 100 : 0)}%  ` }}
                                         aria-valuenow={100}
                                         aria-valuemin={0}
                                         aria-valuemax={100}
                                       >
-                                        {Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 4).length / rate.length * 100 : 0)}%
+                                        {Math.ceil(rate?.length > 0 ? rate.filter(val => val.rating == 4).length / rate?.length * 100 : 0)}%
                                       </div>
                                     </div>
                                   </div>
@@ -413,12 +413,12 @@ export default function ProductSection({ product, user, rate }) {
                                       <div
                                         className="progress-bar"
                                         role="progressbar"
-                                        style={{ width: `${Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 3).length / rate.length * 100 : 0)}%  ` }}
+                                        style={{ width: `${Math.ceil(rate?.length > 0 ? rate.filter(val => val.rating == 3).length / rate?.length * 100 : 0)}%  ` }}
                                         aria-valuenow={100}
                                         aria-valuemin={0}
                                         aria-valuemax={100}
                                       >
-                                        {Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 3).length / rate.length * 100 : 0)}%
+                                        {Math.ceil(rate?.length > 0 ? rate.filter(val => val.rating == 3).length / rate?.length * 100 : 0)}%
                                       </div>
                                     </div>
                                   </div>
@@ -430,12 +430,12 @@ export default function ProductSection({ product, user, rate }) {
                                       <div
                                         className="progress-bar"
                                         role="progressbar"
-                                        style={{ width: `${Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 2).length / rate.length * 100 : 0)}%  ` }}
+                                        style={{ width: `${Math.ceil(rate?.length > 0 ? rate.filter(val => val.rating == 2).length / rate?.length * 100 : 0)}%  ` }}
                                         aria-valuenow={100}
                                         aria-valuemin={0}
                                         aria-valuemax={100}
                                       >
-                                        {Math.ceil(rate.filter(val => val.rating == 2).length / rate.length * 100)}%
+                                        {Math.ceil(rate?.length > 0 ? rate.filter(val => val.rating == 2).length / rate?.length * 100 : 0)}%
                                       </div>
                                     </div>
                                   </div>
@@ -447,12 +447,12 @@ export default function ProductSection({ product, user, rate }) {
                                       <div
                                         className="progress-bar"
                                         role="progressbar"
-                                        style={{ width: `${Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 1).length / rate.length * 100 : 0)}%  ` }}
+                                        style={{ width: `${Math.ceil(rate?.length > 0 ? rate.filter(val => val.rating == 1).length / rate?.length * 100 : 0)}%  ` }}
                                         aria-valuenow={100}
                                         aria-valuemin={0}
                                         aria-valuemax={100}
                                       >
-                                        {Math.ceil(rate.length > 0 ? rate.filter(val => val.rating == 1).length / rate.length * 100 : 0)}%
+                                        {Math.ceil(rate?.length > 0 ? rate.filter(val => val.rating == 1).length / rate?.length * 100 : 0)}%
                                       </div>
                                     </div>
                                   </div>
@@ -512,7 +512,7 @@ export default function ProductSection({ product, user, rate }) {
                                 </div>
                               </div>
                               <div className="col-12">
-                                {rate.length > 0 && rate.map(item => item.userEmail).includes(user?.email)
+                                {rate?.length > 0 && rate.map(item => item.userEmail).includes(user?.email)
                                   ? <div className="btn btn-animation btn-md fw-bold disabled" onClick={submitReview}>Review</div>
                                   : <div className="btn btn-animation btn-md fw-bold" onClick={submitReview}>Review</div>
                                 }
@@ -528,7 +528,7 @@ export default function ProductSection({ product, user, rate }) {
                             <div className="review-people">
                               <ul className="review-list">
                                 {
-                                  rate.length > 0
+                                  rate?.length > 0
                                     ? rate.map((item, index) => {
                                       return (
                                         <>

@@ -151,14 +151,12 @@ export default function SideBar({ value, setSidebarOpen }) {
               <li className="sidebar-list">
                 <a className="sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsOrdersOpen)}>
                   <i className="ri-archive-line" />
-                  <span>Orders</span>
+                  <span>Đơn hàng</span>
                   <i className={`ri-arrow-${isOrdersOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
                 </a>
                 {isOrdersOpen && (
                   <ul className="sidebar-submenu">
-                    <li><a href="order-list.html">Order List</a></li>
-                    <li><a href="order-detail.html">Order Detail</a></li>
-                    <li><a href="order-tracking.html">Order Tracking</a></li>
+                    <li><Link to="/admin/orders">Danh sách đơn hàng</Link></li>
                   </ul>
                 )}
               </li>

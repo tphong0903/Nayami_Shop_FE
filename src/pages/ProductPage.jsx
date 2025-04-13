@@ -31,10 +31,14 @@ export default function ProductPage() {
         Swal.fire('Lỗi!', 'Không thể tải sản phẩm.', 'error')
       })
 
-    axios.get(`/api/users/${localStorage.getItem("id")}`)
+    axios
+      .get(`/api/users/${localStorage.getItem("id")}`)
       .then(res => {
         setUser(res.data)
         console.log(res.data)
+      })
+      .catch((error) => {
+        Swal.fire('Lỗi!', 'Không thể tải user.', 'error')
       })
 
     axios

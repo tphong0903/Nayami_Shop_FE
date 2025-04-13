@@ -21,7 +21,7 @@ export default function HomeSection() {
 
   return (
     <section className="home-section-2 home-section-bg pt-0 overflow-hidden">
-      <div className="container-fluid p-0">
+      <div className="container p-0">
         <div className="row">
           <div className="col-12">
             <div className="slider-animate">
