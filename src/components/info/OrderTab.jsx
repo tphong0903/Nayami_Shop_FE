@@ -7,8 +7,7 @@ const OrderTab = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [timers, setTimers] = useState({});
 
-  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjgzNjk5MSwiZXhwIjoxNzQyODM4NDMxfQ.oGXki_oGv4STNDJ3PFVeyfbwvfw2SxqKEf8Lj-qcnFA';
-
+  const token = localStorage.getItem('token');
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -79,23 +78,21 @@ const OrderTab = () => {
   const getStatusBadgeClass = (status) => {
     switch (status) {
     case 'completed': return 'badge bg-success';
-    case 'confrimed': return 'badge bg-primary';
     case 'unpaid': return 'badge bg-danger';
-    case 'shipping': return 'badge bg-secondary';
+    case 'shipping': return 'badge bg-primary';
     case 'shipped': return 'badge bg-info';
-    case 'cancelled': return 'badge bg-danger';
+    case 'cancelled': return 'badge bg-dark';
     case 'pending': return 'badge bg-warning';
     case 'guarantee': return 'badge bg-secondary';
-    default: return 'badge bg-secondary';
+    default: return 'badge bg-light text-dark';
     }
   };
 
   const getStatusText = (status) => {
     switch (status) {
     case 'completed': return 'Hoàn thành';
-    case 'confrimed': return 'Đang chờ vận chuyển';
     case 'unpaid': return 'Chờ thanh toán';
-    case 'shipping': return 'Chờ giao hàng';
+    case 'shipping': return 'Đang chờ vận chuyển';
     case 'shipped': return 'Đã giao';
     case 'cancelled': return 'Đã hủy';
     case 'pending': return 'Chờ xác nhận';
@@ -104,7 +101,6 @@ const OrderTab = () => {
     }
   };
 
-  // Get payment method text
   const getPaymentMethodText = (method) => {
     switch (method) {
     case 'ONLINE_BANKING': return 'Chuyển khoản ngân hàng';
@@ -198,18 +194,10 @@ const OrderTab = () => {
           </li>
           <li className="nav-item" role="presentation">
             <button
-              className={`nav-link ${activeTab === 'confrimed' ? 'active' : ''}`}
-              onClick={() => setActiveTab('confrimed')}
-            >
-              Đang chờ vận chuyển
-            </button>
-          </li>
-          <li className="nav-item" role="presentation">
-            <button
               className={`nav-link ${activeTab === 'shipping' ? 'active' : ''}`}
               onClick={() => setActiveTab('shipping')}
             >
-              Đang giao hàng
+              Đang chờ vận chuyển
             </button>
           </li>
           <li className="nav-item" role="presentation">
@@ -317,7 +305,7 @@ const OrderTab = () => {
                       <img src={item.productImage} alt={item.productName} style={{ width: '80px', height: '80px', objectFit: 'cover' }} className="rounded" />
                     </div>
                     <div className="order-item-details flex-grow-1">
-                      <h6 className="product-name mb-1" style={{ maxWidth: '90%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <h6 className="product-name mb-1" style={{ maxWidth: '60%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {searchTerm && item.productName.toLowerCase().includes(searchTerm.toLowerCase()) ? (
                           <mark>{item.productName}</mark>
                         ) : (
@@ -354,6 +342,9 @@ const OrderTab = () => {
                     <button className="btn btn-danger btn-sm">
                       <i className="fa fa-times me-1"></i>Hủy đơn hàng
                     </button>
+                  )}
+                  {order.status === 'shipped' && (
+                    <button className="btn btn-danger btn-sm">Bảo hành</button>
                   )}
                 </div>
               </div>
