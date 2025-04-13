@@ -1,15 +1,34 @@
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 import HinhBanner from '~/assets/images/fashion/home-banner/1.jpg'
 export default function HomeSection() {
+
+  const [promotion, SetPromotions] = useState()
+
+  useEffect(() => {
+
+    axios.get("/api/promotions")
+      .then(response => {
+        console.log(response.data.data)
+        SetPromotions(response.data.data[0])
+      })
+
+  }, [])
+
+  useEffect(() => {
+    console.log(promotion)
+  }, [promotion])
+
   return (
     <section className="home-section-2 home-section-bg pt-0 overflow-hidden">
-      <div className="container-fluid p-0">
+      <div className="container p-0">
         <div className="row">
           <div className="col-12">
             <div className="slider-animate">
               <div>
                 <div className="home-contain rounded-0 p-0">
                   <img
-                    src={HinhBanner}
+                    src={promotion?.promotionImages[0].url}
                     className="img-fluid bg-img blur-up lazyload"
                     alt=""
                   />
@@ -17,11 +36,11 @@ export default function HomeSection() {
                     <div className="container-fluid-lg">
                       <div>
                         <h6 className="ls-expanded text-uppercase text-danger">
-                          Weekend Special offer
+                          {/* Weekend Special offer */}
                         </h6>
-                        <h1 className="heding-2">Premium Quality</h1>
-                        <h5 className="text-content">
-                          Fresh &amp; Top Quality Dry Fruits are available here!
+                        <h1 className="heding-2 text-danger">{promotion?.title}</h1>
+                        <h5 className="text-content text-secondary">
+                          {promotion?.description}
                         </h5>
                         <button
                           onclick="location.href = 'shop-left-sidebar.html';"

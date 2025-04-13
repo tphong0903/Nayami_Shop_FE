@@ -31,6 +31,12 @@ import Coupons from './components/Admin/body/coupons/Coupons';
 import AddCoupon from './components/Admin/body/coupons/AddCoupon';
 import OrderTab from './components/info/OrderTab';
 import DashboardHome from './components/info/DashboardHome';
+import Promotions from './components/Admin/body/promotions/Promotions';
+import AddPromotion from './components/Admin/body/promotions/AddPromotion';
+import OrderHistory from './components/history/OrderHistory';
+import OrderHistoryPage from './pages/OrderHistoryPage';
+import OrderList from './components/Admin/body/orders/OrderList';
+import OrderDetail from './components/Admin/body/orders/OrderDetail';
 function App() {
 
   useEffect(() => {
@@ -52,6 +58,7 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Signup />} />
           <Route path="/checkout" element={<CheckOutPage />} />
+          <Route path="/history" element={<OrderHistoryPage />} />
           <Route path="/admin" element={<AdminPage />}>
             <Route index element={<DashBoard />} />
             <Route path="products" element={<Products />} />
@@ -75,6 +82,11 @@ function App() {
             <Route path="coupons" element={<Coupons />} />
             <Route path="add-new-coupon" element={<AddCoupon />} />
             <Route path="update-coupon/:id" element={<AddCoupon />} />
+            <Route path="promotions" element={<Promotions />} />
+            <Route path="orders" element={<OrderList />} />
+            <Route path="orders/:id" element={<OrderDetail />} />
+            <Route path="add-new-promotion" element={<AddPromotion />} />
+            <Route path="update-promotion/:id" element={<AddPromotion />} />
 
 
           </Route>
