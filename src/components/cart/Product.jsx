@@ -73,7 +73,7 @@ const Product = ({ product, index, onQuantityChange, onDeleteProduct, isChecked,
         <div className="product border-0">
           <Link to={`/product/${product.id}`} className="product-image">
             <img
-              src={product.listImage}
+              src={product.listImage[0]}
               alt={product.productName}
               width={101}
               height={101}

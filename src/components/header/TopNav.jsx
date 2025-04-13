@@ -176,7 +176,7 @@ export default function TopNav() {
                                       className="drop-image"
                                     >
                                       <img
-                                        src={item.listImage || '../assets/images/placeholder.png'}
+                                        src={item.listImage[0] || '../assets/images/placeholder.png'}
                                         alt={item.name}
                                       />
                                     </Link>
