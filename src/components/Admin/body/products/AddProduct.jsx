@@ -48,6 +48,7 @@ export default function AddProduct({ view }) {
   });
 
   const handleSave = async () => {
+    console.log(formData)
     const editorContent = editorRef.current?.getInstance().getMarkdown() || '';
 
     if (!formData.name.trim()) {
@@ -116,6 +117,7 @@ export default function AddProduct({ view }) {
         });
       }
     } catch (error) {
+      console.log(error)
       Swal.fire({
         icon: 'error',
         title: 'Lỗi!',

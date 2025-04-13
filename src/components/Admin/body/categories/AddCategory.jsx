@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const CategoryForm = () => {
   const { id } = useParams();
@@ -9,7 +10,7 @@ const CategoryForm = () => {
 
   // Form state
   const [formData, setFormData] = useState({
-    name: '',
+    categoryName: '',
   });
 
   const [loading, setLoading] = useState(false);
@@ -31,7 +32,7 @@ const CategoryForm = () => {
       const category = response.data.data;
 
       setFormData({
-        name: category.categoryName || '',
+        categoryName: category.categoryName || '',
       });
 
       setLoading(false);
@@ -45,7 +46,7 @@ const CategoryForm = () => {
   const handleNameChange = (e) => {
     setFormData({
       ...formData,
-      name: e.target.value,
+      categoryName: e.target.value,
     });
   };
   const handleSubmit = async (e) => {
@@ -54,7 +55,7 @@ const CategoryForm = () => {
     setError(null);
 
     try {
-      const payload = { categoryName: formData.name };
+      const payload = { categoryName: formData.categoryName, active: "true" };
 
       if (isEditMode) {
         await axios.put(`/api/categories/${id}`, payload, {
@@ -63,7 +64,18 @@ const CategoryForm = () => {
       } else {
         await axios.post('/api/categories', payload, {
           headers: { 'Content-Type': 'application/json' },
-        });
+        })
+          .then(res => {
+            if (res.data.status == 400) {
+              Swal.fire({
+                title: "Insert fail",
+                text: "Category has existed",
+                icon: "error",
+                confirmButtonText: "OK",
+                timer: 3000
+              })
+            }
+          });
       }
 
       navigate('/admin/categories');
@@ -110,7 +122,7 @@ const CategoryForm = () => {
                             className="form-control"
                             type="text"
                             placeholder="Category Name"
-                            value={formData.name}
+                            value={formData.categoryName}
                             onChange={handleNameChange}
                             required
                           />

@@ -8,6 +8,7 @@ export default function SideSummery({
   discount,
   total,
   onApplyCoupon,
+  isChecked
 }) {
   const [couponCode, setCouponCode] = useState('');
   const navigate = useNavigate();
@@ -29,7 +30,22 @@ export default function SideSummery({
   };
 
   const handleCheckout = () => {
-    if (subtotal === 0) {
+    const selectedProducts = products && Array.isArray(products)
+      ? products.filter(product => product.isChecked)
+      : [];
+    if (selectedProducts.length === 0) {
+      Swal.fire({
+        title: 'Không có sản phẩm được chọn',
+        text: 'Vui lòng chọn ít nhất một sản phẩm để tiến hành thanh toán.',
+        icon: 'info',
+        confirmButtonText: 'OK',
+      });
+      return;
+    }
+
+    const selectedSubtotal = selectedProducts.reduce((sum, product) =>
+      sum + (product.price * product.quantity), 0);
+    if (selectedSubtotal === 0) {
       Swal.fire({
         title: 'Giỏ hàng trống',
         text: 'Bạn chưa có sản phẩm nào trong giỏ hàng. Hãy thêm sản phẩm trước khi thanh toán.',
@@ -39,18 +55,13 @@ export default function SideSummery({
         navigate('/');
       });
     } else {
-      if (products && Array.isArray(products)) {
-        const checkoutData = {
-          couponId: couponCode || null,
-          cartId: products.map((product) => product.id).filter(id => id),
-          discount: discount || null,
-        };
+      const checkoutData = {
+        couponId: couponCode || null,
+        cartId: selectedProducts.map(product => product.id).filter(id => id),
+        discount: discount || null,
+      };
 
-        localStorage.setItem('checkoutData', JSON.stringify(checkoutData));
-      } else {
-        console.error('Lỗi: products không hợp lệ', products);
-      }
-
+      localStorage.setItem('checkoutData', JSON.stringify(checkoutData));
       navigate('/checkout');
     }
   };

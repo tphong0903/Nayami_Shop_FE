@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Rating } from '@mui/material';
 import { formatCurrency } from '~/utils/formatCurrency';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export default function ProductSection() {
   const [listOurProducts, setListOurProducts] = useState([])
@@ -23,11 +24,61 @@ export default function ProductSection() {
     }
   };
 
+  const [quantity, setQuantity] = useState({});
+
+  const handleQuantityChange = (productId, value) => {
+    setQuantity({
+      ...quantity,
+      [productId]: value
+    });
+  };
+
+  const addToCart = async (productId) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      if (!token) {
+        Swal.fire({
+          title: 'Yêu cầu đăng nhập',
+          text: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng',
+          icon: 'warning',
+          confirmButtonText: 'Đồng ý'
+        });
+        return;
+      }
+
+      await axios.post('/api/cart', {
+        productId: productId,
+        quantity: quantity[productId] || 1
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      Swal.fire({
+        title: 'Thành công!',
+        text: 'Đã thêm sản phẩm vào giỏ hàng',
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false
+      });
+      window.dispatchEvent(new CustomEvent('cart-updated'));
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Lỗi',
+        text: 'Không thể thêm sản phẩm vào giỏ hàng',
+        icon: 'error',
+        confirmButtonText: 'Đồng ý'
+      });
+    }
+  };
+
   return (
     <section className="product-section">
       <div className="container-fluid-lg">
         <div className="title title-flex-2">
-          <h2>Our Products</h2>
+          <h2>Sản phẩm</h2>
           <div style={{
             overflowX: 'auto', whiteSpace: 'nowra'
           }}>
@@ -39,8 +90,9 @@ export default function ProductSection() {
                   data-bs-toggle="tab"
                   data-bs-target="#all"
                   type="button"
+                  onClick={() => getProductForTab('All')}
                 >
-                  All
+                  Tất cả
                 </button>
               </li>
               <li className="nav-item">
@@ -123,7 +175,7 @@ export default function ProductSection() {
                       </Link>
                     </div>
                     <div className="product-detail">
-                      <Link sto={`/product-detail/${v.id}`} >
+                      <Link to={`/product-detail/${v.id}`} >
                         <h5 className="name" style={{ width: '100%' }}>{v.name}</h5>
                       </Link>
                       <ul className="rating">
@@ -136,7 +188,6 @@ export default function ProductSection() {
                           </h5>
                         ) : (<h5>&nbsp; </h5>)}
                         <h5 className="price theme-color">
-
                           {formatCurrency(v.unitPrice * (100 - (v?.discountDTO?.percentage || 0)) / 100)}
                         </h5>
                       </div>
@@ -147,6 +198,7 @@ export default function ProductSection() {
                               className="qty-left-minus"
                               data-type="minus"
                               data-field=""
+                              onClick={() => handleQuantityChange(v.id, Math.max(1, (quantity[v.id] || 1) - 1))}
                             >
                               <i className="fa-solid fa-minus" />
                             </div>
@@ -154,18 +206,23 @@ export default function ProductSection() {
                               className="form-control input-number qty-input"
                               type="text"
                               name="quantity"
-                              defaultValue={0}
+                              value={quantity[v.id] || 1}
+                              onChange={(e) => handleQuantityChange(v.id, parseInt(e.target.value) || 1)}
                             />
                             <div
                               className="qty-right-plus"
                               data-type="plus"
                               data-field=""
+                              onClick={() => handleQuantityChange(v.id, (quantity[v.id] || 1) + 1)}
                             >
                               <i className="fa-solid fa-plus" />
                             </div>
                           </div>
                         </div>
-                        <button className="buy-button buy-button-2 btn btn-cart">
+                        <button
+                          className="buy-button buy-button-2 btn btn-cart"
+                          onClick={() => addToCart(v.id)}
+                        >
                           <i className="iconly-Buy icli text-white m-0" />
                         </button>
                       </div>
@@ -177,8 +234,6 @@ export default function ProductSection() {
           </div>
         </div>
       </div>
-    </section >
-
-
+    </section>
   )
 }

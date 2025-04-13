@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { Chip } from '@mui/material';
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
@@ -14,19 +15,26 @@ const CategoryList = () => {
   const fetchCategories = async () => {
     try {
       const response = await axios.get('/api/categories');
-      if(response.data.data != null)
-      {
-        setCategories(response.data.data);
-      }
+      setCategories(response.data.data);
+      console.log(response)
     } catch (err) {
       console.error('Error fetching categories:', err);
     }
   };
 
-  const deleteCategory = async (id) => {
+  const updateStatus = async (id, active) => {
+    const popUpTitle = () => {
+      return active ? 'Bạn có chắc chắn muốn ẩn?' : 'Bạn có chắc chắn muốn hiện?'
+    }
+
+    const category = categories.find(item => item.id == id)
+    category.active = !category.active
+    console.log(category)
+
+
     Swal.fire({
-      title: 'Bạn có chắc chắn muốn xoá?',
-      text: 'Sau khi xoá sẽ không thể khôi phục!',
+      title: popUpTitle(),
+      // text: 'Sau khi xoá sẽ không thể khôi phục!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
@@ -36,10 +44,11 @@ const CategoryList = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`/api/categories/${id}`);
-          setCategories((prevCategories) => prevCategories.filter(category => category.id !== id));
+          await axios.put(`/api/categories/${id}`, category);
+          window.location.reload()
+          // setCategories((prevCategories) => prevCategories.filter(category => category.id !== id));
 
-          Swal.fire('Đã xoá!', 'Danh mục đã được xoá thành công.', 'success');
+          // Swal.fire('Đã xoá!', 'Danh mục đã được xoá thành công.', 'success');
         } catch (err) {
           Swal.fire('Lỗi!', 'Không thể xoá danh mục.', 'error');
           console.error('Lỗi khi xoá danh mục:', err);
@@ -68,6 +77,7 @@ const CategoryList = () => {
                     <thead>
                       <tr>
                         <th>Category Name</th>
+                        <th>Status</th>
                         <th>Option</th>
                       </tr>
                     </thead>
@@ -77,6 +87,13 @@ const CategoryList = () => {
                         categories.map((category) => (
                           <tr key={category.id}>
                             <td>{category.categoryName}</td>
+                            <td>
+                              {
+                                category.active
+                                  ? <Chip label="active" color='success' />
+                                  : <Chip label="inactive" color='error' />
+                              }
+                            </td>
                             <td>
                               <ul>
                                 <li>
@@ -90,10 +107,10 @@ const CategoryList = () => {
                                     className="text-danger"
                                     onClick={(e) => {
                                       e.preventDefault();
-                                      deleteCategory(category.id);
+                                      updateStatus(category.id, category.active);
                                     }}
                                   >
-                                    <i className="ri-delete-bin-line" />
+                                    <i class="ri-eye-line"></i>
                                   </a>
 
                                 </li>

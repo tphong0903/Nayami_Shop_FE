@@ -1,31 +1,98 @@
 /* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DeliveryAddressSection from '../checkout/DeliveryAddressSection';
 import PaymentOptionsSection from '~/components/checkout/PaymentOptionsSection';
 import OrderSummary from '~/components/checkout/OrderSummary';
 import Swal from 'sweetalert2';
+import { useSearchParams } from 'react-router-dom';
+
 
 const CheckoutSection = () => {
   const [checkoutData, setCheckoutData] = useState(null);
-  const [address, setAddress] = useState(null);
-  const [carts, setCarts]=useState(null);
-  const [discount, setDiscount]=useState(null);
+  const [addressList, setAddressList] = useState([]);
+  const [carts, setCarts] = useState(null);
+  const [discount, setDiscount] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState('cash');
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [shippingFee, setShippingFee] = useState(0);
+  const [searchParams] = useSearchParams();
 
   const handlePaymentMethodChange = (method) => {
     setPaymentMethod(method);
   };
+
   const handleAddressSelect = (address) => {
     console.log('Address selected in parent:', address);
     fetchShippingFee(address);
     setSelectedAddress(address);
   };
+
+  const handleAddAddress = (newAddress) => {
+    setAddressList(prevAddresses => [...prevAddresses, newAddress]);
+  };
+
+  const handleUpdateAddress = (updatedAddress) => {
+    setAddressList(prevAddresses =>
+      prevAddresses.map(address =>
+        address.id === updatedAddress.id ? updatedAddress : address
+      )
+    );
+
+    if (selectedAddress && selectedAddress.id === updatedAddress.id) {
+      setSelectedAddress(updatedAddress);
+      fetchShippingFee(updatedAddress);
+    }
+  };
+
+  const handleDeleteAddress = (addressId) => {
+    setAddressList(prevAddresses =>
+      prevAddresses.filter(address => address.id !== addressId)
+    );
+
+    if (selectedAddress && selectedAddress.id === addressId) {
+      setSelectedAddress(null);
+      setShippingFee(0);
+    }
+  };
+
+  const fetchStatusPayment = () => {
+    const status = searchParams.get('status');
+    const cancel = searchParams.get('cancel');
+    const orderCode = searchParams.get('orderCode');
+
+    if (status && orderCode) {
+      axios.get('api/bills/callback', { params: { status, cancel, orderCode } })
+        .then(response => {
+          console.log('Payment status updated:', response.data);
+          Swal.fire({
+            title: 'Thanh toán thành công',
+            text: 'Đơn hàng của bạn đã được thanh toán thành công',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            window.location.href = '/';
+          });
+        })
+        .catch(error => {
+          console.error('Error updating payment status:', error);
+          Swal.fire({
+            title: 'Lỗi thanh toán',
+            text: error.response?.data?.message || 'Đã xảy ra lỗi khi cập nhật trạng thái thanh toán',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            window.location.href = '/';
+          });
+        });
+    }
+  }
+
   const fetchShippingFee = async (address) => {
-    const addressData={
+    if (!address) return;
+
+    const addressData = {
       province: address.province,
       district: address.district,
       ward: address.ward,
@@ -33,8 +100,8 @@ const CheckoutSection = () => {
     }
     try {
       const response = await axios.post('/api/ship/fee', addressData);
-      setShippingFee( response.data.fee.fee);
-      console.log('Phí vận chuyển:', shippingFee);
+      setShippingFee(response.data.fee.fee);
+      console.log('Phí vận chuyển:', response.data.fee.fee);
     } catch (error) {
       console.error('Lỗi khi lấy phí vận chuyển:', error);
       Swal.fire({
@@ -43,16 +110,18 @@ const CheckoutSection = () => {
         icon: 'error'
       })};
   }
-  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjM5MDkyMCwiZXhwIjoxNzQyMzkyMzYwfQ.YpAXK6E-r6PSb6KDf2RS3-Pip4gP069hvUyJ97faEGI';
+
+  const token = localStorage.getItem('access_token');
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   useEffect(() => {
-    // Lấy dữ liệu từ localStorage
+    fetchStatusPayment();
     const storedData = localStorage.getItem('checkoutData');
     if (storedData) {
       const parsedData = JSON.parse(storedData);
       setCheckoutData(parsedData);
       fetchOrderDetails(parsedData);
+      setDiscount(parsedData.discount);
     } else {
       Swal.fire({
         title: 'Lỗi',
@@ -68,10 +137,9 @@ const CheckoutSection = () => {
   const fetchOrderDetails = async (data) => {
     try {
       const response = await axios.post('/api/bills/checkout', data);
-      const reponseDetail=response.data.data;
-      setAddress(reponseDetail.listAddress);
-      setCarts(reponseDetail.listCartItem);
-      setDiscount(checkoutData.discount);
+      const responseDetail = response.data.data;
+      setAddressList(responseDetail?.listAddress || []);
+      setCarts(responseDetail.listCartItem);
 
     } catch (error) {
       console.error('Lỗi khi lấy thông tin đơn hàng:', error);
@@ -94,7 +162,15 @@ const CheckoutSection = () => {
       });
       return;
     }
-
+    if (!paymentMethod) {
+      Swal.fire({
+        title: 'Thông báo',
+        text: 'Vui lòng chọn phương thức thanh toán',
+        icon: 'warning',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
     try {
       const orderData = {
         ...checkoutData,
@@ -141,7 +217,12 @@ const CheckoutSection = () => {
             <div className="left-sidebar-checkout">
               <div className="checkout-detail-box">
                 <ul>
-                  <DeliveryAddressSection addressList={address} onAddressSelect={handleAddressSelect} // Use onAddressSelect here
+                  <DeliveryAddressSection
+                    addressList={addressList}
+                    onAddressSelect={handleAddressSelect}
+                    onAddAddress={handleAddAddress}
+                    onUpdateAddress={handleUpdateAddress}
+                    onDeleteAddress={handleDeleteAddress}
                   />
 
                   <PaymentOptionsSection onPaymentMethodChange={handlePaymentMethodChange} />
@@ -163,6 +244,7 @@ const CheckoutSection = () => {
               <button
                 className="btn theme-bg-color text-white btn-md w-100 mt-4 fw-bold"
                 onClick={handlePlaceOrder}
+                disabled={!selectedAddress}
               >
                 Đặt hàng
               </button>

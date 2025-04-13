@@ -5,6 +5,7 @@ import Slider from 'react-slick';
 import Swal from 'sweetalert2'
 import { Rating } from '@mui/material';
 import { formatCurrency } from '~/utils/formatCurrency';
+import { addToCart } from '~/apis/addtoCart';
 var settings = {
   dots: true,
   infinite: true,
@@ -80,7 +81,7 @@ export default function ReletedProductSection({ product }) {
                             </h5>
                             <br />
                             <button
-                              onClick="location.href = 'shop-left-sidebar.html';"
+                              onClick={() => addToCart(v.id, 1)}
                               className="btn btn-animation btn-md fw-bold mend-auto cart-button w-100"
                             >
                               Giỏ hàng <i className="fa-solid fa-arrow-right icon" />

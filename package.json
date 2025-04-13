@@ -15,6 +15,8 @@
     "@lordicon/react": "^1.10.1",
     "@mui/icons-material": "^6.4.0",
     "@mui/material": "^6.4.0",
+    "@mui/x-data-grid": "^7.28.3",
+    "@mui/x-date-pickers": "^7.28.3",
     "@toast-ui/react-editor": "^3.2.3",
     "apexcharts": "^4.5.0",
     "axios": "^1.8.3",
@@ -22,6 +24,7 @@
     "datatables.net-bs5": "^2.2.2",
     "datatables.net-dt": "^2.2.2",
     "datatables.net-react": "^1.0.0",
+    "dayjs": "^1.11.13",
     "feather-icons": "^4.29.2",
     "jquery": "^3.7.1",
     "jwt-decode": "^4.0.0",
@@ -34,6 +37,7 @@
     "react-select": "^5.10.1",
     "react-slick": "^0.30.3",
     "simplebar": "^6.3.0",
+    "slick-carousel": "^1.8.1",
     "sweetalert2": "^11.17.2"
   },
   "devDependencies": {

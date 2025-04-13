@@ -67,8 +67,9 @@ const BrandList = () => {
                   <table className="table all-package theme-table" id="table_id">
                     <thead>
                       <tr>
-                        <th>Brand Name</th>
-                        <th>Option</th>
+                        <th>Thương hiệu</th>
+                        <th>Trạng thái</th>
+                        <th>Tuỳ chọn</th>
                       </tr>
                     </thead>
 
@@ -77,7 +78,9 @@ const BrandList = () => {
                         brands.map((Brand) => (
                           <tr key={Brand.id}>
                             <td>{Brand.name}</td>
-                            <td>
+                            <td className={Brand.active === false ? 'status-danger' : 'status-close'}>
+                              <span>{Brand.active === false ? 'Inactive' : 'Active'}</span>
+                            </td>                            <td>
                               <ul>
                                 <li>
                                   <Link to={`/admin/update-new-brand/${Brand.id}`}>
@@ -103,7 +106,7 @@ const BrandList = () => {
                         ))
                       ) : (
                         <tr>
-                          <td colSpan="2">Không có danh mục nào</td>
+                          <td colSpan="2">Không có thương hiệu nào</td>
                         </tr>
                       )}
                     </tbody>

@@ -18,7 +18,7 @@ export default function TopSellerSection() {
     <section className="product-section">
       <div className="container-fluid-lg">
         <div className="title title-flex-2">
-          <h2>Top Selling</h2>
+          <h2>Sản phẩm bán chạy</h2>
         </div>
         <div className="tab-content" id="myTabContent">
           <div

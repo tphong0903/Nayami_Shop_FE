@@ -19,7 +19,7 @@ export default function Products() {
       .then((response) => {
         setProducts(response.data.data)
       })
-      .catch((error) => {
+      .catch(() => {
         Swal.fire('Lỗi!', 'Không thể tải danh sách sản phẩm.', 'error')
       })
   }, [])
