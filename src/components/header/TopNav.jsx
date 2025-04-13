@@ -225,7 +225,7 @@ export default function TopNav() {
                       ) : (
                         <div className="delivery-detail">
                           <h6>Hello,</h6>
-                          <h5>My Account</h5>
+                          <h5>{localStorage.getItem('fullName')}</h5>
                           <div className="onhover-div onhover-div-login">
                             <ul className="user-box-name">
                               <li className="product-box-contain">

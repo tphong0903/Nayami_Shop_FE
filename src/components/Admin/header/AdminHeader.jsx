@@ -147,8 +147,8 @@ export default function AdminHeader({ setSidebarOpen }) {
                 </li>
                 <li style={{ display: 'block', width: '100%' }}>
                   <a
-                    data-bs-toggle="modal"
-                    data-bs-target="#staticBackdrop"
+                    // data-bs-toggle="modal"
+                    // data-bs-target="#staticBackdrop"
                     href="/logout"
                   >
                     <LogoutOutlined />

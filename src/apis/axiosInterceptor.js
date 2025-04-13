@@ -1,85 +1,48 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
+import requestRefreshToken from '~/apis/requestAccessTokenInceptor.js';
 
-axios.interceptors.request.use(
-  (config) => {
-    try {
-      const access_token = localStorage.getItem('access_token');
-
-      if (access_token) {
-        // Kiểm tra xem token có chứa ký tự lạ không
-        if (/[^A-Za-z0-9-_=.]/.test(access_token)) {
-          Swal.fire({
-            icon: 'info',
-            title: 'Thông báo',
-            text: 'Bạn phải đăng nhập lại',
-            timer: 2000,
-            showConfirmButton: true,
-          }).then((result) => {
-            if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
-              window.location.href = '/logout';
-            }
-          });
-        }
-        if (!config.url.includes('/api/refresh')) {
-          console.log('set token');
-          config.headers['Authorization'] = `Bearer ${access_token}`;
-        }
-      }
-      return config;
-    } catch (error) {
-      console.error('Lỗi khi đặt Authorization token:', error);
-      return Promise.reject(error);
-    }
+const callApi = (token,url) => {
+  const headers = {
+    'Authorization': `Bearer ${token}`
   }
-);
-
-
+  axios.post(url,{},{headers:headers})
+    .then(res => {
+      console.log(res.data.data);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+}
+//request
+// Add a request interceptor
+axios.interceptors.request.use(function (config) {
+  // Do something before request is sent
+  console.log('request through inceptor');
+  return config;
+}, function (error) {
+  // Do something with request error
+  return Promise.reject(error);
+});
+//response
 axios.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log('Response inceptor');
+    console.log(response);
+    return response;
+  },
   async (error) => {
-    console.log(error);
-    if (error.response.status == 401) {
-      try {
-        const refreshToken = localStorage.getItem('refresh_token');
-        if (!refreshToken) {
-          console.warn('Không tìm thấy refresh token.');
-        }
-        else {
-          console.log('Start refresh token');
-          const res = await axios.post('/api/refresh', {}, {
-            headers: {
-              'Authorization': `Bearer ${refreshToken}`
-            }
-          });
-          console.log(res);
-          const newAccessToken = res.data.data;
-          console.log(`New access toke ${newAccessToken}`);
-          localStorage.setItem('access_token', newAccessToken);
-          console.log('Refresh token successfully.');
-          Swal.fire({
-            icon: 'info',
-            title: 'Thông báo',
-            text: 'Trang cần tải lại',
-            timer: 2000,
-            showConfirmButton: true,
-          }).then((result) => {
-            if (result.isConfirmed) {
-              window.location.reload();
-            }
-          });
-        }
-      } catch (err) {
-        console.log(err);
-        console.error('Làm mới token thất bại:', err);
-      }
-    } else {
-      console.log('Do not refresh token');
+    console.log('Response inceptor');
+    if (error.response?.status === 401) {
+      const originalRequest = error.config;
+      const res = await requestRefreshToken(originalRequest);
+      return res;
+    }else{
+      console.log(error)
     }
-    return Promise.reject(response);
   }
-);
-// Hàm khởi tạo interceptor
+)
+
 const setupAxiosInterceptors = () => {};
 export default setupAxiosInterceptors;

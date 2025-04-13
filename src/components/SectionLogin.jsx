@@ -16,11 +16,17 @@ export default function SectionLogin() {
 
 
 
-  const getUserRole = (token) => {
+  const getUserRole = (token) =>
+  {
     if (!token) return null;
     try {
       const decoded = jwtDecode(token);
-      console.log(decoded)
+      const role = decoded.roles;
+
+      //Set fullName of user in local storage
+      const fullName = decoded.fullName;
+      localStorage.setItem('fullName',fullName);
+
       return decoded.roles ? decoded.roles[0] : null;
     } catch (error) {
       console.error('Invalid token:', error);
@@ -176,7 +182,7 @@ export default function SectionLogin() {
 
               <div className="sign-up-box">
                 <h4>Don't have an account?</h4>
-                <a href="/signup">Sign Up</a>
+                <a href="/register">Sign Up</a>
               </div>
             </div>
           </div>

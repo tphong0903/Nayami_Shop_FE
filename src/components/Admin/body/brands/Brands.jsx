@@ -15,6 +15,7 @@ const BrandList = () => {
   const fetchBrands = async () => {
     try {
       const response = await axios.get('/api/brands');
+      console.log(response);
       setBrands(response.data.data);
     } catch (err) {
       console.error('Error fetching brands:', err);

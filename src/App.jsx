@@ -28,6 +28,9 @@ import DiscountCampain from './components/Admin/body/discounts/DiscountCampain';
 import AddDiscountCampain from './components/Admin/body/discounts/AddDiscountCampain';
 import Coupons from './components/Admin/body/coupons/Coupons';
 import AddCoupon from './components/Admin/body/coupons/AddCoupon';
+import ForgotPassword from '~/pages/ForgotPassword.jsx';
+import EnterNewPassword from '~/pages/EnterNewPassword.jsx';
+import ResetPassword from '~/pages/ResetPassword.jsx';
 function App() {
   setupAxiosInterceptors();
   useEffect(() => {
@@ -45,6 +48,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          {/*Cần check lại*/}
+          <Route path="/enter-new-password" element={<EnterNewPassword />} />
+          <Route path="/reset-password" element={<ResetPassword/>} />
           <Route path="/checkout" element={<CheckOutPage />} />
           <Route path="/admin" element={<AdminPage />}>
             <Route index element={<DashBoard />} />

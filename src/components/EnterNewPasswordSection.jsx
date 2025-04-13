@@ -1,0 +1,160 @@
+import { useState, useEffect } from 'react';
+import ForgotPasswordImage from '../assets/images/inner-page/forgot.png';
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+import Swal from 'sweetalert2';
+
+export default function EnterNewPasswordSection() {
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [token, setToken] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  console.log('Loading view reset password');
+  useEffect(() => {
+    const token = sessionStorage.getItem('resetPasswordToken');
+    if (token) {
+      setToken(token);
+    }
+  }, []);
+  const handleSubmit = async (e) =>
+  {
+    e.preventDefault();
+    console.log(`Token ${token}`);
+    console.log('Submitting ... ');
+    setError('');
+
+    if (newPassword !== confirmPassword) {
+      setError('Mật khẩu không khớp');
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      setError('Mật khẩu phải có độ dài lớn hơn 6');
+      return;
+    }
+
+    try
+    {
+      Swal.fire({
+      title: 'Đang gửi...',
+      html: 'Vui lòng chờ trong giây lát',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading(); // Hiển thị spinner xoay
+      },
+      });
+      const refreshAxios = axios.create();
+      const response = await refreshAxios.post('/api/reset-password/entered', {
+        newPassword: newPassword,
+      },{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log(response);
+      console.log(response.data.status);
+      if (response.data.status == 200) {
+        console.log('Thanh cong');
+        setSuccess(true);
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công',
+          text: 'Reset password thành công',
+          timer: 3000,
+          showConfirmButton: false,
+        });
+      } else {
+        setSuccess(false);
+        Swal.fire({
+          icon: 'error',
+          title: 'Thất bại',
+          text: 'Reset password thất bại',
+          timer: 3000,
+          showConfirmButton: false,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      setError('Error resetting password. Please try again.');
+      setSuccess(false);
+      Swal.fire({
+        icon: 'error',
+        title: 'Thất bại',
+        text: 'Reset password thất bại',
+        timer: 3000,
+        showConfirmButton: false,
+      });
+    }
+  };
+  return (
+    <section className="log-in-section section-b-space forgot-section">
+      <div className="container-fluid-lg w-100">
+        <div className="row">
+          <div className="col-xxl-6 col-xl-5 col-lg-6 d-lg-block d-none ms-auto">
+            <div className="image-contain">
+              <img src={ForgotPasswordImage} className="img-fluid" alt=""/>
+            </div>
+          </div>
+
+          <div className="col-xxl-4 col-xl-5 col-lg-6 col-sm-8 mx-auto">
+            <div className="d-flex align-items-center justify-content-center h-100">
+              <div className="log-in-box">
+                <div className="log-in-title">
+                  <h3>Welcome To Fastkart</h3>
+                  <h4>Reset your password</h4>
+                </div>
+
+                {success ? (
+                  <div className="alert alert-success">
+                    Password has been reset successfully. You can now <a href="/login">login</a> with your new password.
+                  </div>
+                ) : (
+                  <div className="input-box">
+                    {error && <div className="alert alert-danger">{error}</div>}
+                    <form className="row g-4" onSubmit={handleSubmit}>
+                      <div className="col-12">
+                        <div className="form-floating theme-form-floating log-in-form">
+                          <input
+                            type="password"
+                            className="form-control"
+                            id="newPassword"
+                            placeholder="Enter new password"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            required
+                          />
+                          <label htmlFor="newPassword">New password</label>
+                        </div>
+                      </div>
+                      <div className="col-12">
+                        <div className="form-floating theme-form-floating log-in-form">
+                          <input
+                            type="password"
+                            className="form-control"
+                            id="confirmPassword"
+                            placeholder="Enter again new password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                          />
+                          <label htmlFor="confirmPassword">Enter again new password</label>
+                        </div>
+                      </div>
+                      <div className="col-12">
+                        <button className="btn btn-animation w-100" type="submit">
+                          Reset Password
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
