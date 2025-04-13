@@ -54,9 +54,9 @@ const OrderTab = () => {
       let ordersUpdated = false;
       const updatedOrders = orders.map(order => {
         if (order.paymentMethod === 'ONLINE_BANKING' &&
-            order.paymentStatus === 'PENDING' &&
-            timers[order.id] &&
-            now > timers[order.id]) {
+          order.paymentStatus === 'PENDING' &&
+          timers[order.id] &&
+          now > timers[order.id]) {
           ordersUpdated = true;
           return { ...order, status: 'cancelled' };
         }
@@ -77,35 +77,35 @@ const OrderTab = () => {
 
   const getStatusBadgeClass = (status) => {
     switch (status) {
-    case 'completed': return 'badge bg-success';
-    case 'unpaid': return 'badge bg-danger';
-    case 'shipping': return 'badge bg-primary';
-    case 'shipped': return 'badge bg-info';
-    case 'cancelled': return 'badge bg-dark';
-    case 'pending': return 'badge bg-warning';
-    case 'guarantee': return 'badge bg-secondary';
-    default: return 'badge bg-light text-dark';
+      case 'completed': return 'badge bg-success';
+      case 'unpaid': return 'badge bg-danger';
+      case 'shipping': return 'badge bg-primary';
+      case 'shipped': return 'badge bg-info';
+      case 'cancelled': return 'badge bg-dark';
+      case 'pending': return 'badge bg-warning';
+      case 'guarantee': return 'badge bg-secondary';
+      default: return 'badge bg-light text-dark';
     }
   };
 
   const getStatusText = (status) => {
     switch (status) {
-    case 'completed': return 'Hoàn thành';
-    case 'unpaid': return 'Chờ thanh toán';
-    case 'shipping': return 'Đang chờ vận chuyển';
-    case 'shipped': return 'Đã giao';
-    case 'cancelled': return 'Đã hủy';
-    case 'pending': return 'Chờ xác nhận';
-    case 'guarantee': return 'Bảo hành';
-    default: return status;
+      case 'completed': return 'Hoàn thành';
+      case 'unpaid': return 'Chờ thanh toán';
+      case 'shipping': return 'Đang chờ vận chuyển';
+      case 'shipped': return 'Đã giao';
+      case 'cancelled': return 'Đã hủy';
+      case 'pending': return 'Chờ xác nhận';
+      case 'guarantee': return 'Bảo hành';
+      default: return status;
     }
   };
 
   const getPaymentMethodText = (method) => {
     switch (method) {
-    case 'ONLINE_BANKING': return 'Chuyển khoản ngân hàng';
-    case 'COD': return 'Thanh toán khi nhận hàng';
-    default: return method;
+      case 'ONLINE_BANKING': return 'Chuyển khoản ngân hàng';
+      case 'COD': return 'Thanh toán khi nhận hàng';
+      default: return method;
     }
   };
 
@@ -135,6 +135,12 @@ const OrderTab = () => {
       )
     )
     : filteredByTabOrders;
+
+  const cancelOrder = async (id) => {
+    await axios.post("/api/bills/cancel", { billID: id }).then(res => {
+      window.location.reload()
+    })
+  }
 
   return (
     <div className="dashboard-order">
@@ -251,7 +257,7 @@ const OrderTab = () => {
             <div key={order.id} className="order-card mb-4 border rounded">
               <div className="order-card-header d-flex justify-content-between align-items-center p-3 bg-light">
                 <div>
-                  {(order.status !== 'pending' && order.status !== 'cancelled' && order.status!== 'unpaid') && (
+                  {(order.status !== 'pending' && order.status !== 'cancelled' && order.status !== 'unpaid') && (
                     <h5 className="mb-0 text-primary">Đơn hàng #{order.orderNumber}</h5>
                   )}
                   <p className="text-muted mb-0">Ngày đặt: {new Date(order.createdAt).toLocaleDateString('vi-VN')}</p>
@@ -339,7 +345,7 @@ const OrderTab = () => {
                   )}
 
                   {order.status === 'pending' && (
-                    <button className="btn btn-danger btn-sm">
+                    <button className="btn btn-danger btn-sm" onClick={() => { cancelOrder(order.id) }}>
                       <i className="fa fa-times me-1"></i>Hủy đơn hàng
                     </button>
                   )}

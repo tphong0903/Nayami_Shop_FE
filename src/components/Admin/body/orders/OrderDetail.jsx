@@ -131,7 +131,7 @@ export default function OrderDetail() {
                                             <Box sx={{ display: 'flex', gap: 1, alignItems: "center" }}>
                                                 {orderDetail.status == "PENDING" && <Chip label={orderDetail.status} color="warning" />}
                                                 {orderDetail.status == "CANCELLED" && <Chip label={orderDetail.status} color="error" />}
-                                                {(orderDetail.status == "COMPLETED" || orderDetail.status == "CONFIRMED") && <Chip label={orderDetail.status} color="success" />}
+                                                {(orderDetail.status == "COMPLETED" || orderDetail.status == "SHIPPING") && <Chip label={orderDetail.status} color="success" />}
                                                 <IconButton
                                                     onClick={handleClick}
                                                 >
@@ -146,7 +146,7 @@ export default function OrderDetail() {
                                                         'aria-labelledby': 'options-button',
                                                     }}
                                                 >
-                                                    <MenuItem onClick={() => handleOptions("confirmed")}>Xác nhận đơn hàng</MenuItem>
+                                                    <MenuItem onClick={() => handleOptions("shipping")}>Xác nhận đơn hàng</MenuItem>
                                                     <MenuItem onClick={() => handleOptions("completed")}>Xác nhận giao hàng</MenuItem>
                                                     <MenuItem onClick={() => handleOptions("cancelled")}>Hủy đơn hàng </MenuItem>
                                                 </Menu>
