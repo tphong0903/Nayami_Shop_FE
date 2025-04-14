@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosHeaders } from 'axios';
 import Swal from 'sweetalert2';
 
 const CouponList = () => {
@@ -9,19 +9,21 @@ const CouponList = () => {
   const [error, setError] = useState(null);
   const [selectedCoupons, setSelectedCoupons] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  const token = localStorage.getItem('access_token');
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   useEffect(() => {
     fetchCoupons();
   }, []);
-  const deleteCoupon = async (id) => {
+  const changeStatusCoupon = async (id) => {
     Swal.fire({
-      title: 'Bạn có chắc chắn muốn xoá?',
-      text: 'Sau khi xoá sẽ không thể khôi phục!',
+      title: 'Bạn có chắc chắn muốn cập nhật?',
+      text: 'Bạn có muốn chuyển đổi trạng thái của mã giảm giá này!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Xoá',
+      confirmButtonText: 'Đồng ý',
       cancelButtonText: 'Hủy'
     }).then(async (result) => {
       if (result.isConfirmed) {
@@ -159,10 +161,11 @@ const CouponList = () => {
                                     <a href="#"
                                       onClick={(e) => {
                                         e.preventDefault();
-                                        deleteCoupon(coupon.id);
+                                        changeStatusCoupon(coupon.id);
                                       }}
                                       data-bs-toggle="modal" data-bs-target="#exampleModalToggle" className="text-danger">
-                                      <i className="ri-delete-bin-line"></i>
+                                      <i className={coupon.active=== false ? 'ri-eye-line' : 'ri-eye-off-line'} />
+
                                     </a>
                                   </li>
 

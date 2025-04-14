@@ -22,23 +22,23 @@ const BrandList = () => {
     }
   };
 
-  const deleteBrand = async (id) => {
+  const changeStatusBrand = async (id) => {
     Swal.fire({
-      title: 'Bạn có chắc chắn muốn xoá?',
-      text: 'Sau khi xoá sẽ không thể khôi phục!',
+      title: 'Bạn có chắc chắn muốn cập nhật?',
+      text: 'Bạn muốn chuyển đổi trạng thái của thương hiệu này!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Xoá',
+      confirmButtonText: 'Đồng ý',
       cancelButtonText: 'Hủy'
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           await axios.delete(`/api/brands/${id}`);
-          setBrands((prevBrands) => prevBrands.filter(Brand => Brand.id !== id));
+          fetchBrands();
 
-          Swal.fire('Đã xoá!', 'Danh mục đã được xoá thành công.', 'success');
+          Swal.fire('Đã chuyển trạng thái !', 'Đã chuyển trạng thái thành công.', 'success');
         } catch (err) {
           Swal.fire('Lỗi!', 'Không thể xoá danh mục.', 'error');
           console.error('Lỗi khi xoá danh mục:', err);
@@ -90,15 +90,14 @@ const BrandList = () => {
                                 <li>
                                   <a
                                     href="#"
-                                    className="text-danger"
+                                    className={Brand.active ? 'text-primary' : 'text-secondary'}
                                     onClick={(e) => {
                                       e.preventDefault();
-                                      deleteBrand(Brand.id);
+                                      changeStatusBrand(Brand.id);
                                     }}
                                   >
-                                    <i className="ri-delete-bin-line" />
+                                    <i className={Brand.active=== false ? 'ri-eye-line' : 'ri-eye-off-line'} />
                                   </a>
-
                                 </li>
                               </ul>
                             </td>

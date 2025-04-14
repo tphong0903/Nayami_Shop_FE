@@ -13,7 +13,8 @@ const BrandForm = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const token = localStorage.getItem('token');
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   useEffect(() => {
     if (isEditMode) {
       fetchBrandData();
