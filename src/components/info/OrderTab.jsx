@@ -51,6 +51,7 @@ const OrderTab = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchOrders();
   }, []);
 
@@ -85,7 +86,7 @@ const OrderTab = () => {
   };
 
   const getStatusBadgeClass = (status) => {
-    switch (status) {
+    switch (status?.toLowerCase()) {
     case 'completed':
       return 'badge bg-success';
     case 'unpaid':
@@ -95,7 +96,7 @@ const OrderTab = () => {
     case 'shipped':
       return 'badge bg-info';
     case 'cancelled':
-      return 'badge bg-dark';
+      return 'badge bg-danger';
     case 'pending':
       return 'badge bg-warning';
     case 'guarantee':
@@ -111,8 +112,10 @@ const OrderTab = () => {
       return 'Hoàn thành';
     case 'unpaid':
       return 'Chờ thanh toán';
-    case 'shipping':
+    case 'confrimed':
       return 'Đang chờ vận chuyển';
+    case 'shipping':
+      return 'Đang giao hàng';
     case 'shipped':
       return 'Đã giao';
     case 'cancelled':
@@ -205,7 +208,42 @@ const OrderTab = () => {
       }
     }
   };
-
+  const requestGuarantee = async (id) => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success mx-2',
+        cancelButton: 'btn btn-danger mx-2',
+      },
+      buttonsStyling: false,
+    });
+    const result = await swalWithBootstrapButtons.fire({
+      title: 'Yêu cầu bảo hành?',
+      text: 'Bạn có chắc chắn muốn yêu cầu bảo hành sản phẩm này?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Đồng ý yêu cầu',
+      cancelButtonText: 'Không, giữ lại',
+      reverseButtons: true,
+    });
+    if (result.isConfirmed) {
+      try {
+        await axios.post(`${window.location.origin}/api/bills/guarantee`, { billID: id });
+        swalWithBootstrapButtons.fire(
+          'Đã yêu cầu!',
+          'Yêu cầu bảo hành đã được gửi thành công.',
+          'success'
+        );
+        fetchOrders();
+      } catch (error) {
+        swalWithBootstrapButtons.fire(
+          'Lỗi!',
+          'Không thể yêu cầu bảo hành. Vui lòng thử lại sau.',
+          'error'
+        );
+        console.error('Error requesting guarantee:', error);
+      }
+    }
+  };
   const buyAgain = async (order) => {
     try {
       const token = localStorage.getItem('access_token');
@@ -323,10 +361,18 @@ const OrderTab = () => {
           </li>
           <li className="nav-item" role="presentation">
             <button
+              className={`nav-link ${activeTab === 'confrimed' ? 'active' : ''}`}
+              onClick={() => setActiveTab('confrimed')}
+            >
+              Đang chờ vận chuyển
+            </button>
+          </li>
+          <li className="nav-item" role="presentation">
+            <button
               className={`nav-link ${activeTab === 'shipping' ? 'active' : ''}`}
               onClick={() => setActiveTab('shipping')}
             >
-              Đang chờ vận chuyển
+              Đang giao hàng
             </button>
           </li>
           <li className="nav-item" role="presentation">
@@ -390,7 +436,7 @@ const OrderTab = () => {
                     order.status !== 'cancelled' &&
                     order.status !== 'unpaid' && (
                     <h5 className="mb-0 text-primary">
-                        Đơn hàng #{order.orderNumber}
+                        Mã giao hàng: #{order.orderNumber}
                     </h5>
                   )}
                   <p className="text-muted mb-0">
@@ -549,7 +595,9 @@ const OrderTab = () => {
                     </button>
                   )}
                   {order.status === 'shipped' && (
-                    <button className="btn btn-danger btn-sm">Bảo hành</button>
+                    <button className="btn btn-danger btn-sm" onClick={() => {
+                      requestGuarantee(order.id);
+                    }}>Yều cầu bảo hành</button>
                   )}
                 </div>
               </div>

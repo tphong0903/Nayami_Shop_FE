@@ -1,21 +1,11 @@
-import React from 'react';
+import {useEffect} from 'react';
 import { NavLink } from 'react-router-dom';
 
 const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
-  // Function to handle profile image upload
-  const readURL = (input) => {
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const updateImg = document.querySelector('.update_img');
-        if (updateImg) {
-          updateImg.src = e.target.result;
-        }
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-  };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className={`dashboard-left-sidebar ${!isOpen ? 'collapsed' : ''}`}>
       <div className="close-button d-flex d-lg-none">
