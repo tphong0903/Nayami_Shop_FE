@@ -9,6 +9,7 @@ const CouponList = () => {
   const [error, setError] = useState(null);
   const [selectedCoupons, setSelectedCoupons] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+
   const token = localStorage.getItem('access_token');
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 

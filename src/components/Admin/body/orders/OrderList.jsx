@@ -1,101 +1,127 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
-import { Box, Stack, ToggleButton, ToggleButtonGroup, Typography, Divider, Button, Accordion, AccordionSummary, AccordionDetails, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
-import { DataGrid } from '@mui/x-data-grid'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-export default function OrderList() {
-    const [orders, setOrders] = useState()
-    const navigate = useNavigate()
+const OrderList = () => {
+  const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        axios.get("/api/bills").then(
-            res => {
-                console.log(res.data.data)
-                const reformatData = res.data.data.map(item => {
-                    return ({
-                        id: item.id,
-                        totalPrice: item.totalPrice,
-                        paymentMethod: item.paymentMethod,
-                        status: item.status,
-                        orderNumber: item.orderNumber,
-                        customerName: item.customerName,
-                        city: item.city,
-                        currency: item.payment.currency,
-                        items: item.lineItems.length
-                    })
-                })
-                setOrders(reverseArrayByKey(reformatData, "id"))
-            }
-        )
-    }, [])
+  useEffect(() => {
+    fetchOrders();
+  }, []);
 
-    useEffect(() => {
-        console.log(orders)
-    }, [orders])
-
-    const reverseArrayByKey = (array, key) => {
-        return [...array].sort((a, b) => {
-            const valueA = a[key];
-            const valueB = b[key];
-            if (typeof valueA === 'number') return valueB - valueA;
-            if (typeof valueA === 'string') return valueB.localeCompare(valueA);
-            return 0;
-        });
-    };
-
-    const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'orderNumber', headerName: 'Order Number', width: 150, valueGetter: (value, row) => row.orderNumber || 'N/A' },
-        { field: 'customerName', headerName: 'Customer Name', width: 200 },
-        { field: 'totalPrice', headerName: 'Total Price', width: 150 },
-        { field: 'paymentMethod', headerName: 'Payment Method', width: 150 },
-        { field: 'status', headerName: 'Status', width: 120 },
-        { field: 'city', headerName: 'City', width: 200 },
-        { field: 'currency', headerName: 'Currency', width: 100 },
-        { field: 'items', headerName: 'Items', width: 100 },
-    ];
-
-    const paginationModel = { page: 0, pageSize: 5 };
-
-    const orderDetail = (id) => {
-        navigate(`/admin/orders/${id}`)
+  const fetchOrders = async () => {
+    try {
+      const response = await axios.get('/api/bills');
+      setOrders(response.data.data);
+    } catch (err) {
+      console.error('Error fetching orders:', err);
     }
-
-    return (<>
-        <div className="page-body">
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="col-sm-12">
-                        <div className="card card-table">
-                            <div className="card-body">
-                                <Paper sx={{ height: "80vh", width: '100%' }}>
-                                    <DataGrid
-                                        rows={orders}
-                                        columns={columns}
-                                        initialState={{ pagination: { paginationModel } }}
-                                        pagination
-                                        pageSizeOptions={[5, 10]}
-                                        disableRowSelectionOnClick
-                                        onRowClick={(params) => orderDetail(params.row.id)}
-                                        sx={{
-                                            border: 0,
-                                            '& .MuiDataGrid-row:hover': {
-                                                backgroundColor: '#e3f2fd',
-                                                cursor: 'pointer', // Change cursor to pointer on hover
-                                            },
-                                            '& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows, & .MuiTablePagination-actions': {
-                                                margin: 0,
-                                            }
-                                        }}
-                                    />
-                                </Paper>
-                            </div>
-                        </div>
-                    </div>
+  };
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    }).format(amount);
+  };
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('vi-VN', options);
+  };
+  const getStatusClassName = (status) => {
+    switch (status?.toLowerCase()) {
+    case 'completed':
+      return 'badge bg-success';
+    case 'unpaid':
+      return 'badge bg-danger';
+    case 'shipping':
+      return 'badge bg-primary';
+    case 'shipped':
+      return 'badge bg-info';
+    case 'cancelled':
+      return 'badge bg-dark';
+    case 'pending':
+      return 'badge bg-warning';
+    case 'guarantee':
+      return 'badge bg-secondary';
+    default:
+      return 'badge bg-light text-dark';
+    }
+  };
+  const handleRowClick = (orderId) => {
+    navigate(`/admin/orders/${orderId}`);
+  };
+  return (
+    <div className="page-body">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-sm-12">
+            <div className="card card-table">
+              <div className="card-body">
+                <div className="title-header option-title">
+                  <h5>Danh sách đơn hàng</h5>
                 </div>
+                <div>
+                  <div className="table-responsive">
+                    <table className="table all-package order-table theme-table" id="table_id">
+                      <thead>
+                        <tr>
+                          <th>Hình ảnh</th>
+                          <th>Mã đơn hàng</th>
+                          <th>Ngày</th>
+                          <th>Phương thức thanh toán</th>
+                          <th>Trạng thái</th>
+                          <th>Tổng tiền</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {orders.length > 0 ? (
+                          orders.map((order) => (
+                            <tr key={order.id} data-bs-toggle="offcanvas" href="#order-details" onClick={() => handleRowClick(order.id)}
+                            >
+                              <td>
+                                <a className="d-block">
+                                  <span className="order-image">
+                                    <img
+                                      src={order.lineItems[0].productImage}
+                                      className="img-fluid"
+                                      alt="product"
+                                    />
+                                  </span>
+                                </a>
+                              </td>
+                              <td>{`#${order.id}`}</td>
+                              <td>{formatDate(order.createdAt)}</td>
+                              <td>
+                                <span>
+                                  {order.paymentMethod}
+                                </span>
+                              </td>
+                              <td>
+                                <span className={`badge rounded-pill ${getStatusClassName(order.status)}`}>
+                                  {order.status}
+                                </span>
+                              </td>
+                              <td>{formatCurrency(order.totalPrice)}</td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="7">Không có đơn hàng nào</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-    </>)
-}
+      </div>
+    </div>
+  );
+};
+
+export default OrderList;
