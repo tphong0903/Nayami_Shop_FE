@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const OrderTab = () => {
   const [activeTab, setActiveTab] = useState('all');
@@ -8,42 +9,48 @@ const OrderTab = () => {
   const [timers, setTimers] = useState({});
 
   const token = localStorage.getItem('token');
+
+  const fetchOrders = async () => {
+    try {
+      const response = await axios.get('/api/bills/history', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const formattedOrders = response.data.data.map((order) => {
+        let lowerStatus = order.status.toLowerCase();
+        const isUnpaid =
+          order.paymentMethod === 'ONLINE_BANKING' &&
+          order.paymentStatus === 'PENDING';
+
+        return {
+          ...order,
+          status: isUnpaid ? 'unpaid' : lowerStatus,
+          originalStatus: lowerStatus,
+        };
+      });
+
+      setOrders(formattedOrders);
+
+      const newTimers = {};
+      formattedOrders.forEach((order) => {
+        if (
+          order.paymentMethod === 'ONLINE_BANKING' &&
+          order.paymentStatus === 'PENDING'
+        ) {
+          const orderTime = new Date(order.createdAt).getTime();
+          const deadline = orderTime + 24 * 60 * 60 * 1000;
+          newTimers[order.id] = deadline;
+        }
+      });
+      setTimers(newTimers);
+    } catch (error) {
+      console.error('Lỗi khi lấy danh sách đơn hàng:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await axios.get('/api/bills/history', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const formattedOrders = response.data.data.map(order => {
-          let lowerStatus = order.status.toLowerCase();
-          const isUnpaid = order.paymentMethod === 'ONLINE_BANKING' && order.paymentStatus === 'PENDING';
-
-          return {
-            ...order,
-            status: isUnpaid ? 'unpaid' : lowerStatus,
-            originalStatus: lowerStatus,
-          };
-        });
-
-        setOrders(formattedOrders);
-
-        const newTimers = {};
-        formattedOrders.forEach(order => {
-          if (order.paymentMethod === 'ONLINE_BANKING' && order.paymentStatus === 'PENDING') {
-            const orderTime = new Date(order.createdAt).getTime();
-            const deadline = orderTime + (24 * 60 * 60 * 1000);
-            newTimers[order.id] = deadline;
-          }
-        });
-        setTimers(newTimers);
-      } catch (error) {
-        console.error('Lỗi khi lấy danh sách đơn hàng:', error);
-      }
-    };
-
     fetchOrders();
   }, []);
 
@@ -52,11 +59,13 @@ const OrderTab = () => {
       const now = new Date().getTime();
 
       let ordersUpdated = false;
-      const updatedOrders = orders.map(order => {
-        if (order.paymentMethod === 'ONLINE_BANKING' &&
+      const updatedOrders = orders.map((order) => {
+        if (
+          order.paymentMethod === 'ONLINE_BANKING' &&
           order.paymentStatus === 'PENDING' &&
           timers[order.id] &&
-          now > timers[order.id]) {
+          now > timers[order.id]
+        ) {
           ordersUpdated = true;
           return { ...order, status: 'cancelled' };
         }
@@ -77,35 +86,54 @@ const OrderTab = () => {
 
   const getStatusBadgeClass = (status) => {
     switch (status) {
-      case 'completed': return 'badge bg-success';
-      case 'unpaid': return 'badge bg-danger';
-      case 'shipping': return 'badge bg-primary';
-      case 'shipped': return 'badge bg-info';
-      case 'cancelled': return 'badge bg-dark';
-      case 'pending': return 'badge bg-warning';
-      case 'guarantee': return 'badge bg-secondary';
-      default: return 'badge bg-light text-dark';
+    case 'completed':
+      return 'badge bg-success';
+    case 'unpaid':
+      return 'badge bg-danger';
+    case 'shipping':
+      return 'badge bg-primary';
+    case 'shipped':
+      return 'badge bg-info';
+    case 'cancelled':
+      return 'badge bg-dark';
+    case 'pending':
+      return 'badge bg-warning';
+    case 'guarantee':
+      return 'badge bg-secondary';
+    default:
+      return 'badge bg-light text-dark';
     }
   };
 
   const getStatusText = (status) => {
     switch (status) {
-      case 'completed': return 'Hoàn thành';
-      case 'unpaid': return 'Chờ thanh toán';
-      case 'shipping': return 'Đang chờ vận chuyển';
-      case 'shipped': return 'Đã giao';
-      case 'cancelled': return 'Đã hủy';
-      case 'pending': return 'Chờ xác nhận';
-      case 'guarantee': return 'Bảo hành';
-      default: return status;
+    case 'completed':
+      return 'Hoàn thành';
+    case 'unpaid':
+      return 'Chờ thanh toán';
+    case 'shipping':
+      return 'Đang chờ vận chuyển';
+    case 'shipped':
+      return 'Đã giao';
+    case 'cancelled':
+      return 'Đã hủy';
+    case 'pending':
+      return 'Chờ xác nhận';
+    case 'guarantee':
+      return 'Bảo hành';
+    default:
+      return status;
     }
   };
 
   const getPaymentMethodText = (method) => {
     switch (method) {
-      case 'ONLINE_BANKING': return 'Chuyển khoản ngân hàng';
-      case 'COD': return 'Thanh toán khi nhận hàng';
-      default: return method;
+    case 'ONLINE_BANKING':
+      return 'Chuyển khoản ngân hàng';
+    case 'COD':
+      return 'Thanh toán khi nhận hàng';
+    default:
+      return method;
     }
   };
 
@@ -121,26 +149,121 @@ const OrderTab = () => {
     const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    return `${hours.toString().padStart(2, '0')}:${minutes
+      .toString()
+      .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  const filteredByTabOrders = activeTab === 'all'
-    ? orders
-    : orders.filter(order => order.status === activeTab);
+  const filteredByTabOrders =
+    activeTab === 'all'
+      ? orders
+      : orders.filter((order) => order.status === activeTab);
 
   const filteredOrders = searchTerm
-    ? filteredByTabOrders.filter(order =>
-      order.items.some(item =>
+    ? filteredByTabOrders.filter((order) =>
+      order.items.some((item) =>
         item.productName.toLowerCase().includes(searchTerm.toLowerCase())
       )
     )
     : filteredByTabOrders;
 
   const cancelOrder = async (id) => {
-    await axios.post("/api/bills/cancel", { billID: id }).then(res => {
-      window.location.reload()
-    })
-  }
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success mx-2',
+        cancelButton: 'btn btn-danger mx-2',
+      },
+      buttonsStyling: false,
+    });
+
+    const result = await swalWithBootstrapButtons.fire({
+      title: 'Xác nhận hủy đơn hàng?',
+      text: 'Bạn có chắc chắn muốn hủy đơn hàng này?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Đồng ý hủy',
+      cancelButtonText: 'Không, giữ lại',
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axios.post(`${window.location.origin}/api/bills/cancel`, { billID: id });
+        swalWithBootstrapButtons.fire(
+          'Đã hủy!',
+          'Đơn hàng đã được hủy thành công.',
+          'success'
+        );
+        fetchOrders();
+      } catch (error) {
+        swalWithBootstrapButtons.fire(
+          'Lỗi!',
+          'Không thể hủy đơn hàng. Vui lòng thử lại sau.',
+          'error'
+        );
+        console.error('Error canceling order:', error);
+      }
+    }
+  };
+
+  const buyAgain = async (order) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      if (!token) {
+        Swal.fire({
+          title: 'Yêu cầu đăng nhập',
+          text: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng',
+          icon: 'warning',
+          confirmButtonText: 'Đồng ý',
+        });
+        return;
+      }
+
+      Swal.fire({
+        title: 'Đang thêm sản phẩm vào giỏ hàng',
+        text: 'Vui lòng đợi trong giây lát...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      const addItemPromises = order.items.map((item) =>
+        axios.post(
+          `${window.location.origin}/api/cart`,
+          {
+            productId: item.productId,
+            quantity: item.quantity,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+      );
+
+      await Promise.all(addItemPromises);
+
+      Swal.fire({
+        title: 'Thành công!',
+        text: 'Đã thêm tất cả sản phẩm vào giỏ hàng',
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
+      window.dispatchEvent(new CustomEvent('cart-updated'));
+    } catch (error) {
+      console.error('Lỗi khi thêm lại sản phẩm vào giỏ hàng:', error);
+      Swal.fire({
+        title: 'Lỗi',
+        text: 'Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại sau.',
+        icon: 'error',
+        confirmButtonText: 'Đồng ý',
+      });
+    }
+  };
 
   return (
     <div className="dashboard-order">
@@ -216,7 +339,9 @@ const OrderTab = () => {
           </li>
           <li className="nav-item" role="presentation">
             <button
-              className={`nav-link ${activeTab === 'completed' ? 'active' : ''}`}
+              className={`nav-link ${
+                activeTab === 'completed' ? 'active' : ''
+              }`}
               onClick={() => setActiveTab('completed')}
             >
               Hoàn thành
@@ -224,7 +349,9 @@ const OrderTab = () => {
           </li>
           <li className="nav-item" role="presentation">
             <button
-              className={`nav-link ${activeTab === 'guarantee' ? 'active' : ''}`}
+              className={`nav-link ${
+                activeTab === 'guarantee' ? 'active' : ''
+              }`}
               onClick={() => setActiveTab('guarantee')}
             >
               Bảo hành
@@ -232,7 +359,9 @@ const OrderTab = () => {
           </li>
           <li className="nav-item" role="presentation">
             <button
-              className={`nav-link ${activeTab === 'cancelled' ? 'active' : ''}`}
+              className={`nav-link ${
+                activeTab === 'cancelled' ? 'active' : ''
+              }`}
               onClick={() => setActiveTab('cancelled')}
             >
               Đã hủy
@@ -257,31 +386,57 @@ const OrderTab = () => {
             <div key={order.id} className="order-card mb-4 border rounded">
               <div className="order-card-header d-flex justify-content-between align-items-center p-3 bg-light">
                 <div>
-                  {(order.status !== 'pending' && order.status !== 'cancelled' && order.status !== 'unpaid') && (
-                    <h5 className="mb-0 text-primary">Đơn hàng #{order.orderNumber}</h5>
+                  {order.status !== 'pending' &&
+                    order.status !== 'cancelled' &&
+                    order.status !== 'unpaid' && (
+                    <h5 className="mb-0 text-primary">
+                        Đơn hàng #{order.orderNumber}
+                    </h5>
                   )}
-                  <p className="text-muted mb-0">Ngày đặt: {new Date(order.createdAt).toLocaleDateString('vi-VN')}</p>
                   <p className="text-muted mb-0">
-                    <i className={`fa ${order.paymentMethod === 'ONLINE_BANKING' ? 'fa-university' : 'fa-money-bill'} me-1`}></i>
+                    Ngày đặt:{' '}
+                    {new Date(order.createdAt).toLocaleDateString('vi-VN')}
+                  </p>
+                  <p className="text-muted mb-0">
+                    <i
+                      className={`fa ${
+                        order.paymentMethod === 'ONLINE_BANKING'
+                          ? 'fa-university'
+                          : 'fa-money-bill'
+                      } me-1`}
+                    ></i>
                     {getPaymentMethodText(order.paymentMethod)}
                   </p>
 
-                  {order.paymentMethod === 'ONLINE_BANKING' && order.paymentStatus === 'PENDING' && timers[order.id] && (
+                  {order.paymentMethod === 'ONLINE_BANKING' &&
+                    order.paymentStatus === 'PENDING' &&
+                    timers[order.id] && (
                     <div className="payment-countdown mt-2">
                       <div className="d-flex align-items-center">
                         <i className="fa fa-clock text-danger me-1"></i>
                         <span className="text-danger">
-                          Vui lòng thanh toán trong: <span className="fw-bold">{formatTimeRemaining(timers[order.id])}</span>
+                            Vui lòng thanh toán trong:{' '}
+                          <span className="fw-bold">
+                            {formatTimeRemaining(timers[order.id])}
+                          </span>
                         </span>
                       </div>
-                      <div className="progress mt-1" style={{ height: '5px' }}>
+                      <div
+                        className="progress mt-1"
+                        style={{ height: '5px' }}
+                      >
                         {(() => {
                           const now = new Date().getTime();
-                          const orderTime = new Date(order.createdAt).getTime();
+                          const orderTime = new Date(
+                            order.createdAt
+                          ).getTime();
                           const deadline = timers[order.id];
                           const totalTime = deadline - orderTime;
                           const timeLeft = deadline - now;
-                          const percentage = Math.max(0, Math.min(100, (timeLeft / totalTime) * 100));
+                          const percentage = Math.max(
+                            0,
+                            Math.min(100, (timeLeft / totalTime) * 100)
+                          );
 
                           return (
                             <div
@@ -299,28 +454,59 @@ const OrderTab = () => {
                   )}
                 </div>
                 <div className="d-flex align-items-center">
-                  <span className={getStatusBadgeClass(order.status)}>{getStatusText(order.status)}</span>
-                  <span className="ms-3 fw-bold text-secondary">₫{order.totalPrice.toLocaleString()}</span>
+                  <span className={getStatusBadgeClass(order.status)}>
+                    {getStatusText(order.status)}
+                  </span>
+                  <span className="ms-3 fw-bold text-secondary">
+                    ₫{order.totalPrice.toLocaleString()}
+                  </span>
                 </div>
               </div>
 
               <div className="order-card-body">
                 {order.items.map((item) => (
-                  <div key={item.id} className="order-item d-flex p-3 border-top">
+                  <div
+                    key={item.id}
+                    className="order-item d-flex p-3 border-top"
+                  >
                     <div className="order-item-img me-3">
-                      <img src={item.productImage} alt={item.productName} style={{ width: '80px', height: '80px', objectFit: 'cover' }} className="rounded" />
+                      <img
+                        src={item.productImage}
+                        alt={item.productName}
+                        style={{
+                          width: '80px',
+                          height: '80px',
+                          objectFit: 'cover',
+                        }}
+                        className="rounded"
+                      />
                     </div>
                     <div className="order-item-details flex-grow-1">
-                      <h6 className="product-name mb-1" style={{ maxWidth: '60%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {searchTerm && item.productName.toLowerCase().includes(searchTerm.toLowerCase()) ? (
-                          <mark>{item.productName}</mark>
-                        ) : (
-                          item.productName
-                        )}
+                      <h6
+                        className="product-name mb-1"
+                        style={{
+                          maxWidth: '60%',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {searchTerm &&
+                        item.productName
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase()) ? (
+                            <mark>{item.productName}</mark>
+                          ) : (
+                            item.productName
+                          )}
                       </h6>
-                      <p className="product-quantity mb-1">Số lượng: x{item.quantity}</p>
+                      <p className="product-quantity mb-1">
+                        Số lượng: x{item.quantity}
+                      </p>
                       <div className="product-price">
-                        <span className="sale-price fw-bold text-danger">₫{item.unitPrice.toLocaleString()}</span>
+                        <span className="sale-price fw-bold text-danger">
+                          ₫{item.unitPrice.toLocaleString()}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -329,23 +515,36 @@ const OrderTab = () => {
 
               <div className="order-card-footer d-flex justify-content-between align-items-center p-3 border-top bg-light">
                 <div>
-                  <span className="text-muted">{order.items.length} sản phẩm</span>
+                  <span className="text-muted">
+                    {order.items.length} sản phẩm
+                  </span>
                 </div>
                 <div>
-                  {order.paymentMethod === 'ONLINE_BANKING' && order.paymentStatus === 'PENDING' && (
+                  {order.paymentMethod === 'ONLINE_BANKING' &&
+                    order.paymentStatus === 'PENDING' && (
                     <button className="btn btn-danger btn-sm me-2">
-                      <i className="fa fa-credit-card me-1"></i>Thanh toán ngay
+                      <i className="fa fa-credit-card me-1"></i>Thanh toán
+                        ngay
                     </button>
                   )}
 
-                  {(order.status === 'completed' || order.status === 'cancelled') && (
-                    <button className="btn btn-primary btn-sm">
+                  {(order.status === 'completed' ||
+                    order.status === 'cancelled') && (
+                    <button
+                      className="btn btn-primary btn-sm"
+                      onClick={() => buyAgain(order)}
+                    >
                       <i className="fa fa-redo me-1"></i>Mua lại
                     </button>
                   )}
 
                   {order.status === 'pending' && (
-                    <button className="btn btn-danger btn-sm" onClick={() => { cancelOrder(order.id) }}>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => {
+                        cancelOrder(order.id);
+                      }}
+                    >
                       <i className="fa fa-times me-1"></i>Hủy đơn hàng
                     </button>
                   )}
