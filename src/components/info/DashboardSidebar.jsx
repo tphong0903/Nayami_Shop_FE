@@ -30,12 +30,21 @@ const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
 
         <div className="profile-contain">
           <div className="profile-image">
-            <div className="position-relative">
-              <img src="../assets/images/inner-page/user/1.jpg" className="blur-up lazyload update_img" alt="" />
-              <div className="cover-icon">
-                <i className="fa-solid fa-pen">
-                  <input type="file" onChange={(e) => readURL(e)} />
-                </i>
+            <div className="profile-image mb-4 mb-md-0 position-relative">
+              <div
+                className="d-flex align-items-center justify-content-center rounded-circle shadow-sm"
+                style={{
+                  width: '150px',
+                  height: '150px',
+                  border: '4px solid #fff',
+                  background: '#f0f0f0',
+                  fontSize: '4rem',
+                  fontWeight: '500',
+                  color: '#666',
+                  margin: '0 auto',
+                }}
+              >
+                {'A'}
               </div>
             </div>
           </div>
@@ -54,7 +63,7 @@ const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
             className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
             end
           >
-            <i data-feather="home"></i> Dashboard
+            <i data-feather="home"></i> Trang chủ
           </NavLink>
         </li>
 
@@ -63,7 +72,7 @@ const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
             to="/dashboard/orders"
             className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
           >
-            <i data-feather="shopping-bag"></i> Orders
+            <i data-feather="shopping-bag"></i> Đơn hàng
           </NavLink>
         </li>
 

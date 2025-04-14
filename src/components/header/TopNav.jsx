@@ -49,7 +49,7 @@ export default function TopNav() {
     try {
       const token = localStorage.getItem('access_token');
       if (token) {
-        await axios.delete(`api/cart/${cartId}`, {
+        await axios.delete(`${window.location.origin}/api/cart/${cartId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -256,7 +256,7 @@ export default function TopNav() {
                                 <Link to="/dashboard">Dashboard</Link>
                               </li>
                               <li className="product-box-contain">
-                                <Link to="/history">Order History</Link>
+                                <Link to="/dashboard/orders">Order History</Link>
                               </li>
                               <li className="product-box-contain">
                                 <a href="/logout">Log out</a>

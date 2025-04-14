@@ -71,7 +71,7 @@ const Product = ({ product, index, onQuantityChange, onDeleteProduct, isChecked,
       </td>
       <td className="product-detail !w-4/14">
         <div className="product border-0">
-          <Link to={`/product/${product.id}`} className="product-image">
+          <Link to={`/product-detail/${product.productId}`} className="product-image">
             <img
               src={product.listImage[0]}
               alt={product.productName}
