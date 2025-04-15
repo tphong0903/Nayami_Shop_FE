@@ -35,6 +35,7 @@ import Promotions from './components/Admin/body/promotions/Promotions';
 import AddPromotion from './components/Admin/body/promotions/AddPromotion';
 import OrderList from './components/Admin/body/orders/OrderList';
 import OrderDetail from './components/Admin/body/orders/OrderDetail';
+import AddressTab from './components/info/AddressTab';
 function App() {
 
   useEffect(() => {
@@ -51,6 +52,7 @@ function App() {
           <Route path="/dashboard" element={<UserDashboard />}>
             <Route index element={<DashboardHome />} />
             <Route path="orders" element={<OrderTab />} />
+            <Route path='addresses' element={<AddressTab />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
