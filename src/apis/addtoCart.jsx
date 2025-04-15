@@ -1,6 +1,8 @@
 // src/services/cartService.js
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import cartObserver from '~/utils/CartObserver';
+
 
 export const handleQuantityChange = (quantity, setQuantity, productId, value) => {
   setQuantity({
@@ -37,7 +39,8 @@ export const addToCart = async (productId, quantity) => {
       showConfirmButton: false
     });
 
-    window.dispatchEvent(new CustomEvent('cart-updated'));
+    cartObserver.notify({ updated: true });
+
 
   } catch (error) {
     console.error('Lỗi khi thêm vào giỏ hàng:', error);
