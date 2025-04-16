@@ -1,5 +1,7 @@
 
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Tooltip } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { formatCurrency } from '~/utils/formatCurrency';
 
 export default function ProductItem({ product, deleteProduct }) {
   return (
@@ -14,10 +16,26 @@ export default function ProductItem({ product, deleteProduct }) {
             />
           </div>
         </td>
-        <td>{product.name}</td>
+        <Tooltip title={product.name} arrow>
+          <td style={{
+            padding: '0px',
+            margin: '15px',
+            maxWidth: '300px',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'normal',
+            wordBreak: 'break-word',
+            cursor: 'pointer'
+          }}>
+            {product.name}
+          </td>
+        </Tooltip>
         <td>{product.categoryDTO.categoryName}</td>
         <td>{product.quantity}</td>
-        <td className="td-price">${product.unitPrice}</td>
+        <td className="td-price">{formatCurrency(product.unitPrice)}</td>
         <td className={product.displayStatus === false ? 'status-danger' : 'status-close'}>
           <span>{product.displayStatus === false ? 'Inactive' : 'Active'}</span>
         </td>

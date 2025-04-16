@@ -6,11 +6,15 @@ import { Link } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function LeftFillter({ setListProduct, currentPage, setTotalPage, setCurrentPage, sortBy, searchQuery }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [listSelectedOption, setListSelectedOption] = useState({
     listCategoriesSelected: [],
     listBrandsSelected: [],
     listDiscountsSelected: [],
     listRatingSelected: [],
+    listSearchQuery: []
   })
   const [listBrands, setListBrands] = useState([])
   const [listCategories, setListCategories] = useState([])
@@ -18,14 +22,13 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
   const [listRating, setListRating] = useState([])
   const [valuePrice, setValuePrice] = useState([0, 100000000]);
   const [debouncedPrice, setDebouncedPrice] = useState(valuePrice);
-  const location = useLocation();
-  const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const categoryId = searchParams.get('categoryId') || '';
   const categoryName = searchParams.get('categoryName') || '';
   const brandId = searchParams.get('brandId') || '';
   const brandName = searchParams.get('brandName') || '';
   const hasAppliedFilters = useRef(false);
+
   useEffect(() => {
     if (categoryId || brandId) {
       hasAppliedFilters.current = true;
@@ -49,13 +52,28 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
       listBrandsSelected: [],
       listCategoriesSelected: [],
       listDiscountsSelected: [],
-      listRatingSelected: []
+      listRatingSelected: [],
+      listSearchQuery: []
     });
   };
 
   const handleChange = (event, newValue) => {
     setValuePrice(newValue);
   };
+
+  useEffect(() => {
+    if (searchQuery && searchQuery.trim() !== '') {
+      setListSelectedOption(prevState => ({
+        ...prevState,
+        listSearchQuery: [{ id: 'search', name: searchQuery }]
+      }));
+    } else {
+      setListSelectedOption(prevState => ({
+        ...prevState,
+        listSearchQuery: []
+      }));
+    }
+  }, [searchQuery]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -80,6 +98,11 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
         [option]: updatedList
       };
     });
+    if (option === 'listSearchQuery') {
+      const params = new URLSearchParams(location.search);
+      params.delete('search');
+      navigate({ search: params.toString() }, { replace: true });
+    }
     setCurrentPage(1)
   };
 
@@ -139,6 +162,7 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
     if (sortBy !== 'none') {
       params.push(`sortBy=${encodeURIComponent(sortBy)}`);
     }
+
     params.push(`pageNo=${currentPage}`)
     params.push(`price=${debouncedPrice[0]}`);
     params.push(`price=${debouncedPrice[1]}`);
