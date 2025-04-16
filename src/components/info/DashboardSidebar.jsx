@@ -68,48 +68,13 @@ const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
 
         <li className="nav-item">
           <NavLink
-            to="/dashboard/wishlist"
-            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
-          >
-            <i data-feather="heart"></i> Wishlist
-          </NavLink>
-        </li>
-
-        <li className="nav-item">
-          <NavLink
-            to="/dashboard/cards"
-            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
-          >
-            <i data-feather="credit-card"></i> Saved Cards
-          </NavLink>
-        </li>
-
-        <li className="nav-item">
-          <NavLink
             to="/dashboard/addresses"
             className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
           >
-            <i data-feather="map-pin"></i> Addresses
+            <i data-feather="map-pin"></i> Địa chỉ
           </NavLink>
         </li>
 
-        <li className="nav-item">
-          <NavLink
-            to="/dashboard/profile"
-            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
-          >
-            <i data-feather="user"></i> Profile
-          </NavLink>
-        </li>
-
-        <li className="nav-item">
-          <NavLink
-            to="/dashboard/privacy"
-            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
-          >
-            <i data-feather="shield"></i> Privacy
-          </NavLink>
-        </li>
       </ul>
     </div>
   );

@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
+import cartObserver from '~/utils/CartObserver';
 export default function TopNav() {
   const [searchQuery, setSearchQuery] = useState('');
   const [cartItems, setCartItems] = useState([]);
@@ -68,16 +69,16 @@ export default function TopNav() {
   useEffect(() => {
     fetchCartData();
 
+    //register observer
     const handleCartUpdate = () => {
       fetchCartData();
     };
 
-    window.addEventListener('cart-updated', handleCartUpdate);
-
+    cartObserver.subscribe(handleCartUpdate);
     const interval = setInterval(fetchCartData, 60000);
 
     return () => {
-      window.removeEventListener('cart-updated', handleCartUpdate);
+      cartObserver.unsubscribe(handleCartUpdate);
       clearInterval(interval);
     };
   }, []);
