@@ -32,7 +32,6 @@ import OrderTab from './components/info/OrderTab';
 import DashboardHome from './components/info/DashboardHome';
 import Promotions from './components/Admin/body/promotions/Promotions';
 import AddPromotion from './components/Admin/body/promotions/AddPromotion';
-import OrderHistory from './components/history/OrderHistory';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import OrderList from './components/Admin/body/orders/OrderList';
 import OrderDetail from './components/Admin/body/orders/OrderDetail';
@@ -41,6 +40,8 @@ import ResetPassword from '~/pages/ResetPassword.jsx';
 import EnterNewPassword from '~/pages/EnterNewPassword.jsx';
 import UpdateUser from '~/components/Admin/body/users/UpdateUser.jsx';
 import EditPasswordUser from '~/components/Admin/body/users/EditPasswordUser.jsx';
+import ProtectedRouteAdmin from '~/components/midlleware/ProtectedRoute.jsx';
+import Error404 from '~/pages/error/Error404.jsx';
 function App() {
 setupAxiosInterceptors();
   useEffect(() => {
@@ -66,36 +67,42 @@ setupAxiosInterceptors();
           <Route path="/register" element={<Signup />} />
           <Route path="/checkout" element={<CheckOutPage />} />
           <Route path="/history" element={<OrderHistoryPage />} />
-          <Route path="/admin" element={<AdminPage />}>
-            <Route index element={<DashBoard />} />
-            <Route path="products" element={<Products />} />
-            <Route path="add-new-product" element={<AddProduct view={false} />} />
-            <Route path="edit-product/:id" element={<AddProduct view={false} />} />
-            <Route path="view-product/:id" element={<AddProduct view={true} />} />
-            <Route path="discounts" element={<DiscountCampain />} />
-            <Route path="add-discounts" element={<AddDiscountCampain />} />
-            <Route path="edit-discounts/:id" element={<AddDiscountCampain />} />
-            <Route path="users" element={<Users />} />
-            <Route path="add-new-user" element={<AddUser />} />
-            <Route path="edit-password-user/:id" element={<EditPasswordUser />} />
-            <Route path="update-user/:id" element={<UpdateUser/>} />
-            <Route path="categories" element={<Categories />} />
-            <Route path="add-new-category" element={<AddCategory />} />
-            <Route
-              path="/admin/update-new-category/:id"
-              element={<AddCategory />}
-            />
-            <Route path="brands" element={<Brands />} />
-            <Route path="add-new-brand" element={<AddBrand />} />
-            <Route path="update-new-brand/:id" element={<AddBrand />} />
-            <Route path="coupons" element={<Coupons />} />
-            <Route path="add-new-coupon" element={<AddCoupon />} />
-            <Route path="update-coupon/:id" element={<AddCoupon />} />
-            <Route path="promotions" element={<Promotions />} />
-            <Route path="orders" element={<OrderList />} />
-            <Route path="orders/:id" element={<OrderDetail />} />
-            <Route path="add-new-promotion" element={<AddPromotion />} />
-            <Route path="update-promotion/:id" element={<AddPromotion />} />
+          {/*Admin page*/}
+          <Route path="/admin" element={<ProtectedRouteAdmin />}>
+            <Route element={<AdminPage />}>
+              <Route index element={<DashBoard />} />
+              <Route path="products" element={<Products />} />
+              <Route path="add-new-product" element={<AddProduct view={false} />} />
+              <Route path="edit-product/:id" element={<AddProduct view={false} />} />
+              <Route path="view-product/:id" element={<AddProduct view={true} />} />
+              <Route path="discounts" element={<DiscountCampain />} />
+              <Route path="add-discounts" element={<AddDiscountCampain />} />
+              <Route path="edit-discounts/:id" element={<AddDiscountCampain />} />
+              <Route path="users" element={<Users />} />
+              <Route path="add-new-user" element={<AddUser />} />
+              <Route path="edit-password-user/:id" element={<EditPasswordUser />} />
+              <Route path="update-user/:id" element={<UpdateUser/>} />
+              <Route path="categories" element={<Categories />} />
+              <Route path="add-new-category" element={<AddCategory />} />
+              <Route
+                path="/admin/update-new-category/:id"
+                element={<AddCategory />}
+              />
+              <Route path="brands" element={<Brands />} />
+              <Route path="add-new-brand" element={<AddBrand />} />
+              <Route path="update-new-brand/:id" element={<AddBrand />} />
+              <Route path="coupons" element={<Coupons />} />
+              <Route path="add-new-coupon" element={<AddCoupon />} />
+              <Route path="update-coupon/:id" element={<AddCoupon />} />
+              <Route path="promotions" element={<Promotions />} />
+              <Route path="orders" element={<OrderList />} />
+              <Route path="orders/:id" element={<OrderDetail />} />
+              <Route path="add-new-promotion" element={<AddPromotion />} />
+              <Route path="update-promotion/:id" element={<AddPromotion />} />
+            </Route>
+          </Route>
+          <Route path="/error">
+              <Route path="404" element={<Error404 />} />
           </Route>
         </Routes>
       </Router>
