@@ -20,7 +20,6 @@ import Brands from './components/Admin/body/brands/Brands';
 import AddBrand from './components/Admin/body/brands/AddBrand';
 
 import Login from './pages/Login';
-import ProtectedRoute from './components/midlleware/ProtectedRoute';
 import Signup from '~/pages/Signup.jsx';
 import Logout from '~/pages/Logout.jsx';
 import setupAxiosInterceptors from './apis/axiosInterceptor.js';
@@ -37,8 +36,13 @@ import OrderHistory from './components/history/OrderHistory';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import OrderList from './components/Admin/body/orders/OrderList';
 import OrderDetail from './components/Admin/body/orders/OrderDetail';
+import ForgotPassword from '~/pages/ForgotPassword.jsx';
+import ResetPassword from '~/pages/ResetPassword.jsx';
+import EnterNewPassword from '~/pages/EnterNewPassword.jsx';
+import UpdateUser from '~/components/Admin/body/users/UpdateUser.jsx';
+import EditPasswordUser from '~/components/Admin/body/users/EditPasswordUser.jsx';
 function App() {
-
+setupAxiosInterceptors();
   useEffect(() => {
     feather.replace();
   }, []);
@@ -56,6 +60,9 @@ function App() {
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/enter-new-password" element={<EnterNewPassword />} />
           <Route path="/register" element={<Signup />} />
           <Route path="/checkout" element={<CheckOutPage />} />
           <Route path="/history" element={<OrderHistoryPage />} />
@@ -70,6 +77,8 @@ function App() {
             <Route path="edit-discounts/:id" element={<AddDiscountCampain />} />
             <Route path="users" element={<Users />} />
             <Route path="add-new-user" element={<AddUser />} />
+            <Route path="edit-password-user/:id" element={<EditPasswordUser />} />
+            <Route path="update-user/:id" element={<UpdateUser/>} />
             <Route path="categories" element={<Categories />} />
             <Route path="add-new-category" element={<AddCategory />} />
             <Route
@@ -87,8 +96,6 @@ function App() {
             <Route path="orders/:id" element={<OrderDetail />} />
             <Route path="add-new-promotion" element={<AddPromotion />} />
             <Route path="update-promotion/:id" element={<AddPromotion />} />
-
-
           </Route>
         </Routes>
       </Router>

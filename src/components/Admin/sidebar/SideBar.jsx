@@ -132,20 +132,20 @@ export default function SideBar({ value, setSidebarOpen }) {
                 )}
               </li>
 
-              {/* Roles Menu */}
-              <li className="sidebar-list">
-                <a className="sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsRolesOpen)}>
-                  <i className="ri-user-3-line" />
-                  <span>Roles</span>
-                  <i className={`ri-arrow-${isRolesOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
-                </a>
-                {isRolesOpen && (
-                  <ul className="sidebar-submenu">
-                    <li><a href="role.html">All Roles</a></li>
-                    <li><a href="create-role.html">Create Role</a></li>
-                  </ul>
-                )}
-              </li>
+              {/*/!* Roles Menu *!/*/}
+              {/*<li className="sidebar-list">*/}
+              {/*  <a className="sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsRolesOpen)}>*/}
+              {/*    <i className="ri-user-3-line" />*/}
+              {/*    <span>Roles</span>*/}
+              {/*    <i className={`ri-arrow-${isRolesOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />*/}
+              {/*  </a>*/}
+              {/*  {isRolesOpen && (*/}
+              {/*    <ul className="sidebar-submenu">*/}
+              {/*      <li><a href="role.html">All Roles</a></li>*/}
+              {/*      <li><a href="create-role.html">Create Role</a></li>*/}
+              {/*    </ul>*/}
+              {/*  )}*/}
+              {/*</li>*/}
 
               {/* Orders Menu */}
               <li className="sidebar-list">
