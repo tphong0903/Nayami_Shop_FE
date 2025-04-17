@@ -13,15 +13,21 @@ export default function Products() {
   const [products, setProducts] = useState([])
   const tableRef = useRef(null)
 
+
+
   useEffect(() => {
     axios
-      .get('/api/products')
+      .get('/api/products', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
       .then((response) => {
         setProducts(response.data.data)
       })
       .catch(() => {
         Swal.fire('Lỗi!', 'Không thể tải danh sách sản phẩm.', 'error')
-      })
+      });
   }, [])
 
   useEffect(() => {
