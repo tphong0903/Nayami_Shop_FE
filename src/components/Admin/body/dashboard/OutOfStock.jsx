@@ -1,3 +1,4 @@
+import { Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
@@ -52,7 +53,17 @@ export default function OutOfStock() {
                               />
                             </div>
                             <Link className="product-name" to={`/admin/edit-product/${p.id}`}>
-                              <h5>{p.name}</h5>
+                              <Tooltip title={p.name} arrow>
+                                <h5 style={{
+                                  maxWidth: '200px',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  whiteSpace: 'nowrap',
+                                  display: 'inline-block'
+                                }}>
+                                  {p.name}
+                                </h5>
+                              </Tooltip>
                             </Link>
                           </div>
                         </td>

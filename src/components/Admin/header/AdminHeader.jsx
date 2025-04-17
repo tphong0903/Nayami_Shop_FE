@@ -1,5 +1,5 @@
 import { Inventory2Outlined, LogoutOutlined, PeopleAltOutlined, PermPhoneMsgOutlined, TuneOutlined } from '@mui/icons-material';
-
+import LogoShop from '~/assets/images/mainImage.jpg'
 export default function AdminHeader({ setSidebarOpen }) {
   const toggleSidebar = () => {
     setSidebarOpen();
@@ -13,12 +13,12 @@ export default function AdminHeader({ setSidebarOpen }) {
             <a href="index.html">
               <img
                 className="img-fluid main-logo"
-                src="/src/assets/Admin//images/logo/1.png"
+                src={LogoShop}
                 alt="logo"
               />
               <img
                 className="img-fluid white-logo"
-                src="/src/assets/Admin//images/logo/1-white.png"
+                src={LogoShop}
                 alt="logo"
               />
             </a>
@@ -31,31 +31,6 @@ export default function AdminHeader({ setSidebarOpen }) {
             />
           </div>
         </div>
-        <form
-          className="form-inline search-full"
-          action="javascript:void(0)"
-          method="get"
-        >
-          <div className="form-group w-100">
-            <div className="Typeahead Typeahead--twitterUsers">
-              <div className="u-posRelative">
-                <input
-                  className="demo-input Typeahead-input form-control-plaintext w-100"
-                  type="text"
-                  placeholder="Search Fastkart .."
-                  name="q"
-                  title=""
-                  autoFocus
-                />
-                <i className="close-search" data-feather="x" />
-                <div className="spinner-border Typeahead-spinner" role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
-              </div>
-              <div className="Typeahead-menu" />
-            </div>
-          </div>
-        </form>
         <div className="nav-right col-6 pull-right right-header p-0">
           <ul className="nav-menus">
             <li>

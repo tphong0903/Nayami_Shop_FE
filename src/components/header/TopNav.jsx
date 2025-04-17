@@ -1,11 +1,9 @@
 
 import { Link } from 'react-router-dom'
-import LogoShop1 from '../../assets/images/logo/1.png'
 import LogoShop from '../../assets/images/mainImage.jpg'
 import SearchIcon from '@mui/icons-material/Search';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import PermPhoneMsgOutlinedIcon from '@mui/icons-material/PermPhoneMsgOutlined';
 import { ShoppingCartOutlined } from '@mui/icons-material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';

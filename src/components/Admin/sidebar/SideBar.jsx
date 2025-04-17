@@ -1,4 +1,4 @@
-
+import LogoShop from '~/assets/images/mainLogoMauTrang.png'
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SimpleBar from 'simplebar';
@@ -43,9 +43,9 @@ export default function SideBar({ value, setSidebarOpen }) {
       <div id="sidebarEffect"></div>
       <div>
         <div className="logo-wrapper logo-wrapper-center">
-          <a>
-            <img className="img-fluid for-white" src="/src/assets/Admin/images/logo/full-white.png" alt="logo" />
-          </a>
+          <Link to="/admin">
+            <img className="img-fluid for-white" src={LogoShop} alt="logo" />
+          </Link>
           <div className="back-btn" onClick={toggleSidebar}>
             <i className="fa fa-angle-left" />
           </div>
