@@ -1,16 +1,15 @@
 
 import { Link } from 'react-router-dom'
-import LogoShop1 from '../../assets/images/logo/1.png'
 import LogoShop from '../../assets/images/mainImage.jpg'
 import SearchIcon from '@mui/icons-material/Search';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import PermPhoneMsgOutlinedIcon from '@mui/icons-material/PermPhoneMsgOutlined';
 import { ShoppingCartOutlined } from '@mui/icons-material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
+import cartObserver from '~/utils/CartObserver';
 export default function TopNav() {
   const [searchQuery, setSearchQuery] = useState('');
   const [cartItems, setCartItems] = useState([]);
@@ -49,7 +48,7 @@ export default function TopNav() {
     try {
       const token = localStorage.getItem('access_token');
       if (token) {
-        await axios.delete(`api/cart/${cartId}`, {
+        await axios.delete(`${window.location.origin}/api/cart/${cartId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -70,16 +69,16 @@ export default function TopNav() {
   useEffect(() => {
     fetchCartData();
 
+    //register observer
     const handleCartUpdate = () => {
       fetchCartData();
     };
 
-    window.addEventListener('cart-updated', handleCartUpdate);
-
+    cartObserver.subscribe(handleCartUpdate);
     const interval = setInterval(fetchCartData, 60000);
 
     return () => {
-      window.removeEventListener('cart-updated', handleCartUpdate);
+      cartObserver.unsubscribe(handleCartUpdate);
       clearInterval(interval);
     };
   }, []);
@@ -253,7 +252,10 @@ export default function TopNav() {
                           <div className="onhover-div onhover-div-login">
                             <ul className="user-box-name">
                               <li className="product-box-contain">
-                                <Link to="/history">Order History</Link>
+                                <Link to="/dashboard">Dashboard</Link>
+                              </li>
+                              <li className="product-box-contain">
+                                <Link to="/dashboard/orders">Order History</Link>
                               </li>
                               <li className="product-box-contain">
                                 <a href="/logout">Log out</a>
