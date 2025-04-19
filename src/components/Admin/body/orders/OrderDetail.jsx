@@ -91,15 +91,15 @@ export default function OrderDetail() {
             cancelButtonText: "Hủy"
         }).then(async result => {
             if (result.isConfirmed) {
-                console.log({
-                    billID: parseInt(id),
-                    status: option
-                })
-                axios.post("/api/bills/status", {
+                await axios.post("/api/bills/status", {
                     billID: id,
+                    email: orderDetail.customer.email,
                     status: option
                 })
-                window.location.reload()
+                    .then(res => {
+                        console.log(res)
+                    })
+                // window.location.reload()
             }
         })
     }

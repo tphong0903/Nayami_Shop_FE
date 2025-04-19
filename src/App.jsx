@@ -20,10 +20,8 @@ import Brands from './components/Admin/body/brands/Brands';
 import AddBrand from './components/Admin/body/brands/AddBrand';
 
 import Login from './pages/Login';
-import ProtectedRoute from './components/midlleware/ProtectedRoute';
 import Signup from '~/pages/Signup.jsx';
 import Logout from '~/pages/Logout.jsx';
-import setupAxiosInterceptors from './apis/axiosInterceptor.js';
 
 import DiscountCampain from './components/Admin/body/discounts/DiscountCampain';
 import AddDiscountCampain from './components/Admin/body/discounts/AddDiscountCampain';
@@ -33,8 +31,6 @@ import OrderTab from './components/info/OrderTab';
 import DashboardHome from './components/info/DashboardHome';
 import Promotions from './components/Admin/body/promotions/Promotions';
 import AddPromotion from './components/Admin/body/promotions/AddPromotion';
-import OrderHistory from './components/history/OrderHistory';
-import OrderHistoryPage from './pages/OrderHistoryPage';
 import OrderList from './components/Admin/body/orders/OrderList';
 import OrderDetail from './components/Admin/body/orders/OrderDetail';
 function App() {
@@ -58,7 +54,6 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Signup />} />
           <Route path="/checkout" element={<CheckOutPage />} />
-          <Route path="/history" element={<OrderHistoryPage />} />
           <Route path="/admin" element={<AdminPage />}>
             <Route index element={<DashBoard />} />
             <Route path="products" element={<Products />} />

@@ -16,16 +16,16 @@ export default function SectionLogin() {
 
 
 
-  const getUserRole = (token) =>
-  {
+  const getUserRole = (token) => {
     if (!token) return null;
     try {
       const decoded = jwtDecode(token);
       const role = decoded.roles;
 
       //Set fullName of user in local storage
-      const fullName = decoded.fullName;
-      localStorage.setItem('fullName',fullName);
+      // const fullName = decoded.fullName;
+      localStorage.setItem('fullName', decoded.fullName);
+      localStorage.setItem('email', decoded.email);
 
       return decoded.roles ? decoded.roles[0] : null;
     } catch (error) {

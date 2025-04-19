@@ -110,7 +110,7 @@ const CategoryList = () => {
                                       updateStatus(category.id, category.active);
                                     }}
                                   >
-                                    <i class="ri-eye-line"></i>
+                                    <i className="ri-eye-line"></i>
                                   </a>
 
                                 </li>
