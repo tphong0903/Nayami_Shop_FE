@@ -20,10 +20,10 @@ const CouponForm = () => {
     constraintMoney: ''
   });
 
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const token = localStorage.getItem('token');
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-  // First, fetch users
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -61,7 +61,6 @@ const CouponForm = () => {
 
   const fetchCouponData = async () => {
     try {
-      setLoading(true);
       const response = await axios.get(`/api/coupons/${id}`);
       const coupon = response.data.data;
 
@@ -87,10 +86,8 @@ const CouponForm = () => {
         console.log('Selected customer data:', selectedCustomerData);
       }
 
-      setLoading(false);
     } catch (err) {
       setError('Failed to load coupon data');
-      setLoading(false);
       console.error('Error loading coupon:', err);
     }
   };
@@ -126,7 +123,6 @@ const CouponForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
 
     try {
@@ -157,8 +153,6 @@ const CouponForm = () => {
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to save coupon');
       console.error('Error submitting form:', err);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -361,13 +355,10 @@ const CouponForm = () => {
                           <button
                             type="submit"
                             className="btn btn-primary me-3"
-                            disabled={loading}
                           >
-                            {loading
-                              ? 'Saving...'
-                              : isEditMode
-                                ? 'Update Coupon'
-                                : 'Add Coupon'}
+                            { isEditMode
+                              ? 'Cập nhật Coupon'
+                              : 'Thêm Coupon'}
                           </button>
                           <button
                             type="button"

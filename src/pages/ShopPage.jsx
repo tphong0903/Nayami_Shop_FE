@@ -2,7 +2,6 @@
 import Header from '~/components/header/Header';
 import Footer from '~/components/footer/Footer';
 import BreadCrumb from '~/components/BreadCrumbSection';
-import CategorySection from '~/components/shop/CategorySection';
 import ProductSection from '~/components/shop/ProductSection';
 import '~/assets/UserCss.css'
 import { useLocation } from 'react-router-dom';

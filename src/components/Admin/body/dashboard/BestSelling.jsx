@@ -4,6 +4,8 @@ import dayjs from 'dayjs';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { formatCurrency } from '~/utils/formatCurrency';
+import { Link } from 'react-router-dom';
+import { Tooltip } from '@mui/material';
 
 export default function BestSelling() {
   const startOfMonth = dayjs().startOf('month');
@@ -64,9 +66,19 @@ export default function BestSelling() {
                               alt="Product"
                             />
                           </div>
-                          <div className="product-name">
-                            <h5>{p.name}</h5>
-                          </div>
+                          <Link className="product-name" to={`/admin/edit-product/${p.id}`}>
+                            <Tooltip title={p.name} arrow>
+                              <h5 style={{
+                                maxWidth: '200px',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                                display: 'inline-block'
+                              }}>
+                                {p.name}
+                              </h5>
+                            </Tooltip>
+                          </Link>
                         </div>
                       </td>
                       <td>

@@ -10,7 +10,7 @@ export default function ProductSection() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   useEffect(() => {
     axios
-      .get('/api/products')
+      .get('/api/products/displayStatus/1')
       .then((response) => {
         setListOurProducts(response.data.data.slice(0, 12));
         setFilteredProducts(response.data.data.slice(0, 12));
@@ -105,7 +105,7 @@ export default function ProductSection() {
                   onClick={() => getProductForTab('Laptop')}
                 >
                   {' '}
-                  Latop
+                  Laptop
                 </button>
               </li>
               <li className="nav-item">
