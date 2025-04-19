@@ -42,6 +42,8 @@ import UpdateUser from '~/components/Admin/body/users/UpdateUser.jsx';
 import EditPasswordUser from '~/components/Admin/body/users/EditPasswordUser.jsx';
 import ProtectedRouteAdmin from '~/components/midlleware/ProtectedRoute.jsx';
 import Error404 from '~/pages/error/Error404.jsx';
+import ChangeProfileLayout from '~/components/info/ChangeProfileLayout.jsx';
+import ChangePasswordUser from '~/components/info/ChangePasswordUser.jsx';
 function App() {
 setupAxiosInterceptors();
   useEffect(() => {
@@ -58,6 +60,8 @@ setupAxiosInterceptors();
           <Route path="/dashboard" element={<UserDashboard />}>
             <Route index element={<DashboardHome />} />
             <Route path="orders" element={<OrderTab />} />
+            <Route path="profile" element={<ChangeProfileLayout/>} />
+            <Route path="password" element={<ChangePasswordUser/>} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
@@ -67,6 +71,7 @@ setupAxiosInterceptors();
           <Route path="/register" element={<Signup />} />
           <Route path="/checkout" element={<CheckOutPage />} />
           <Route path="/history" element={<OrderHistoryPage />} />
+
           {/*Admin page*/}
           <Route path="/admin" element={<ProtectedRouteAdmin />}>
             <Route element={<AdminPage />}>
@@ -101,6 +106,7 @@ setupAxiosInterceptors();
               <Route path="update-promotion/:id" element={<AddPromotion />} />
             </Route>
           </Route>
+
           <Route path="/error">
               <Route path="404" element={<Error404 />} />
           </Route>

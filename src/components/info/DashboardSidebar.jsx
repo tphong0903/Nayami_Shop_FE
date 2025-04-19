@@ -1,11 +1,14 @@
-import {useEffect} from 'react';
-import { NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 
-const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
+const DashboardSidebar = ({ isOpen, toggleSidebar}) => {
 
+  const [stored,setStoredUser] = useState('');
+  const location = useLocation();
   useEffect(() => {
+     setStoredUser(JSON.parse(localStorage.getItem('user_information')));
     window.scrollTo(0, 0);
-  }, []);
+  },[location]);
   return (
     <div className={`dashboard-left-sidebar ${!isOpen ? 'collapsed' : ''}`}>
       <div className="close-button d-flex d-lg-none">
@@ -40,8 +43,8 @@ const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
           </div>
 
           <div className="profile-name">
-            <h3>Vicki E. Pope</h3>
-            <h6 className="text-content">vicki.pope@gmail.com</h6>
+            <h3>{stored?.userName || 'Loading...'}</h3>
+            <h6 className="text-content">{stored?.email || 'No email found'}</h6>
           </div>
         </div>
       </div>
