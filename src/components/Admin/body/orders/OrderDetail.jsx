@@ -73,11 +73,13 @@ export default function OrderDetail() {
       if (result.isConfirmed) {
         console.log({
           billID: parseInt(id),
-          status: option
+          status: option,
+          email: orderDetail.customer.email
         })
         axios.post('/api/bills/status', {
-          billID: id,
-          status: option
+          billID: parseInt(id),
+          status: option,
+          email: orderDetail.customer.email
         })
         window.location.reload()
       }

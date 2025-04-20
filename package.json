@@ -27,6 +27,7 @@
     "dayjs": "^1.11.13",
     "feather-icons": "^4.29.2",
     "jquery": "^3.7.1",
+    "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "nayami-shop-fe": "file:",
     "react": "^18.3.1",

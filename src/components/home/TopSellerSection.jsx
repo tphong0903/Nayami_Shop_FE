@@ -9,7 +9,7 @@ export default function TopSellerSection() {
   const [listProductsTopSelling, setListProductsTopSelling] = useState([]);
   useEffect(() => {
     axios
-      .get('/api/products/')
+      .get('/api/products')
       .then((response) => {
         setListProductsTopSelling(response.data.data.slice(0, 12));
       })

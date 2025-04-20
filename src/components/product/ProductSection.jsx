@@ -7,7 +7,6 @@ import { formatCurrency } from '~/utils/formatCurrency';
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { addToCart } from '~/apis/addtoCart';
-import { ReadMoreTwoTone } from '@mui/icons-material';
 
 var settings = {
   focusOnSelect: true,
@@ -19,7 +18,7 @@ var settings = {
   arrows: false
 };
 
-export default function ProductSection({ product, user, rate }) {
+export default function ProductSection({ product, user, rate, purchaseCheck }) {
   const params = useParams();
   const navigate = useNavigate();
 
@@ -30,7 +29,7 @@ export default function ProductSection({ product, user, rate }) {
   const [submitInfo, setSubmitInfo] = useState({
     description: "No description",
     rating: 0,
-    userName: user?.id ?? 0,
+    userName: user?.userName ?? "No name",
     userEmail: user?.email ?? "",
     productId: params.id
   })
@@ -40,7 +39,7 @@ export default function ProductSection({ product, user, rate }) {
   }, [user])
 
   useEffect(() => {
-    if (!product || !user || !rate) {
+    if (!product) {
       return;
     }
 
@@ -512,7 +511,7 @@ export default function ProductSection({ product, user, rate }) {
                                 </div>
                               </div>
                               <div className="col-12">
-                                {rate?.length > 0 && rate.map(item => item.userEmail).includes(user?.email)
+                                {(user && purchaseCheck == false) || !user || (rate?.length > 0 && rate.map(item => item.userEmail).includes(user?.email))
                                   ? <div className="btn btn-animation btn-md fw-bold disabled" onClick={submitReview}>Review</div>
                                   : <div className="btn btn-animation btn-md fw-bold" onClick={submitReview}>Review</div>
                                 }
