@@ -1,53 +1,61 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 import { useNavigate } from 'react-router';
 
-export default function AddUser() {
-  const navigate = useNavigate();
+export default function ChangeProfileLayout() {
+  const [id,setId] = useState('');
   const [formData, setFormData] = useState({
+    userId:'',
     userName: '',
     phoneNumber: '',
     email: '',
     password: '',
-    type:'CUSTOMER'
+    type:'CUSTOMER',
+    active: true
   });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user_information'));
+    if (storedUser) {
+      setId(storedUser.userId);
+      setFormData({
+        userId:storedUser.userId,
+        userName: storedUser.userName,
+        phoneNumber: storedUser.phoneNumber,
+        email: storedUser.email,
+        password: '',
+        type: storedUser.type || 'CUSTOMER',
+        active: storedUser.active
+      });
+    }
+
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault(); // ngăn reload trang
-  //
-  //   try {
-  //     const response = await axios.post('/api/users/create', formData);
-  //     console.log('User added:', response.data);
-  //     alert('User added successfully!');
-  //   } catch (error) {
-  //     console.error('Error adding user:', error);
-  //     alert('Error adding user');
-  //   }
-  // };
   const handleSubmit = async (e) => {
     e.preventDefault(); // Ngăn reload trang
-
     try {
-      const response = await axios.post('/api/users/create', formData);
+      console.log('Update user...: ',formData);
+      const response = await axios.put(`/api/users/update/${id}`, formData);
       const resData = response.data;
-
+      console.log(resData);
       if (resData.status === 200 || resData.status === 201) {
+        localStorage.setItem('user_information', JSON.stringify(formData));
         Swal.fire({
-          title: 'Insert sucessfully',
+          title: 'Update sucessfully',
           icon: 'success',
           confirmButtonText: 'OK',
           timer: 3000
         })
-        navigate('/admin/users');
+        navigate('/dashboard');
         console.log('Success:', resData);
       } else {
         const message = response.data.message;
@@ -72,10 +80,8 @@ export default function AddUser() {
     }
   };
   const goToHomePage = async () => {
-   navigate('/admin/users');
+    navigate('/dashboard');
   };
-
-
 
   return (
     <div className="page-body">
@@ -83,24 +89,16 @@ export default function AddUser() {
         <div className="row">
           <div className="col-12">
             <div className="row">
-              <div className="col-sm-8 m-auto">
+              <div className="col-sm-12 m-auto">
                 <div className="card">
                   <div className="card-body">
-                    <div className="title-header option-title">
-                      <h5>Add New User</h5>
-                    </div>
                     <div className="tab-content" id="pills-tabContent">
-                      <div
-                        className="tab-pane fade show active"
-                        id="pills-home"
-                        role="tabpanel">
-                        <form
-                          className="theme-form theme-form-2 mega-form"
-                          onSubmit={handleSubmit}
-                        >
+                      <div className="tab-pane fade show active" id="pills-home" role="tabpanel">
+                        <form className="theme-form theme-form-2 mega-form" onSubmit={handleSubmit}>
                           <div className="card-header-1">
                             <h5>User Information</h5>
                           </div>
+
                           <div className="row">
                             <div className="mb-4 row align-items-center">
                               <label className="form-label-title col-lg-2 col-md-3 mb-0">
@@ -117,6 +115,7 @@ export default function AddUser() {
                                 />
                               </div>
                             </div>
+
                             <div className="mb-4 row align-items-center">
                               <label className="col-lg-2 col-md-3 col-form-label form-label-title">
                                 Phone number
@@ -134,6 +133,7 @@ export default function AddUser() {
                                 />
                               </div>
                             </div>
+
                             <div className="mb-4 row align-items-center">
                               <label className="col-lg-2 col-md-3 col-form-label form-label-title">
                                 Email
@@ -149,27 +149,13 @@ export default function AddUser() {
                                 />
                               </div>
                             </div>
-                            <div className="mb-4 row align-items-center">
-                              <label className="col-lg-2 col-md-3 col-form-label form-label-title">
-                                Password
-                              </label>
-                              <div className="col-md-9 col-lg-10">
-                                <input
-                                  className="form-control"
-                                  type="password"
-                                  name="password"
-                                  value={formData.password}
-                                  onChange={handleChange}
-                                  required
-                                />
-                              </div>
-                            </div>
                           </div>
+
                           <div className="row mb-4 mt-5">
                             <div className="col-sm-3"></div>
                             <div className="col-sm-9 d-flex">
                               <button type="submit" className="btn btn-primary me-3">
-                                Add
+                                Update
                               </button>
                               <button type="button" className="btn btn-secondary" onClick={goToHomePage}>
                                 Cancel

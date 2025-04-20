@@ -17,6 +17,7 @@ export default function BestSelling() {
       startDate: startDate.format('YYYY-MM-DD'),
       endDate: endDate.format('YYYY-MM-DD'),
     };
+    console.log(dashboardDateDTO)
 
     axios
       .post('/api/dashboard/productBestSelling', dashboardDateDTO)

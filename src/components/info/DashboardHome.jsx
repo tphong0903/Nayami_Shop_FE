@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { formatCurrency } from '~/utils/formatCurrency';
 import axios from 'axios';
 
 const MOCK_USER_DATA = {
-  fullName: 'Nguyễn Văn A',
-  email: 'nguyenvana@example.com',
-  phone: '0987654321',
   avatar: '../assets/images/inner-page/user/1.jpg',
   totalOrders: 8,
   pendingOrders: 2,
@@ -46,8 +43,9 @@ const DashboardHome = () => {
   });
 
   const [activeTab, setActiveTab] = useState('profile');
-
+  const location = useLocation();
   useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user_information'));
     window.scrollTo(0, 0);
     const fetchOrders = async () => {
       try {
@@ -74,8 +72,9 @@ const DashboardHome = () => {
 
         setUserData({
           ...MOCK_USER_DATA,
-          fullName: MOCK_USER_DATA.fullName,
-          email: MOCK_USER_DATA.email,
+          fullName: storedUser.userName,
+          email: storedUser.email,
+          phone: storedUser.phoneNumber,
           totalOrders,
           pendingOrders,
           totalSpent,
@@ -92,7 +91,7 @@ const DashboardHome = () => {
     };
 
     fetchOrders();
-  }, []);
+  }, location);
 
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {

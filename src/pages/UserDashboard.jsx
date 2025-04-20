@@ -10,8 +10,7 @@ export default function UserDashboard() {
     <>
       <Header />
       <BreadCrumb title='Dashboard' page='Dashboard' />
-      <DashboardLayout>
-      </DashboardLayout>
+      <DashboardLayout/>
       <Footer />
     </>
   );
