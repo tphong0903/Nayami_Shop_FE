@@ -108,7 +108,8 @@ const CheckoutSection = () => {
         title: 'Lỗi',
         text: error.response?.data?.message || 'Không thể lấy phí vận chuyển',
         icon: 'error'
-      })};
+      })
+    };
   }
 
   const token = localStorage.getItem('access_token');
@@ -182,22 +183,31 @@ const CheckoutSection = () => {
       };
       console.log('Dữ liệu đơn hàng:', orderData);
       const response = await axios.post('/api/bills', orderData);
-
-      Swal.fire({
-        title: 'Thành công',
-        text: 'Đặt hàng thành công!',
-        icon: 'success',
-        confirmButtonText: 'OK'
-      }).then(() => {
-        localStorage.removeItem('checkoutData');
-        console.log('Đơn hàng đã được đặt:', response.data.data);
-        if (response.data.data.paymentUrl) {
-          window.location.href = response.data.data.paymentUrl;
-        }
-        else {
-          window.location.href = '/';
-        }
-      });
+      if (response.data.status == 200) {
+        Swal.fire({
+          title: 'Thành công',
+          text: 'Đặt hàng thành công!',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          localStorage.removeItem('checkoutData');
+          console.log('Đơn hàng đã được đặt:', response.data.data);
+          if (response.data.data.paymentUrl) {
+            window.location.href = response.data.data.paymentUrl;
+          }
+          else {
+            window.location.href = '/';
+          }
+        });
+      }
+      else {
+        Swal.fire({
+          title: 'Thất bại',
+          text: response.data.data,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
+      }
     } catch (error) {
       console.error('Lỗi khi đặt hàng:', error);
       Swal.fire({
