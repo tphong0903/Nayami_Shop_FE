@@ -1,6 +1,6 @@
 import axios from 'axios';
 const refreshAxios = axios.create();
-const  getNewAccessToken = async () => {
+const getNewAccessToken = async () => {
   const refreshToken = localStorage.getItem('refresh_token');
   try {
     const res = await refreshAxios.post('/api/refresh', null, {
@@ -19,13 +19,10 @@ const  getNewAccessToken = async () => {
 const requestRefreshToken = async (beforeRequest) => {
   try {
     const newAccessToken = await getNewAccessToken();
-    if(newAccessToken)
-    {
+    if (newAccessToken) {
       localStorage.setItem('access_token', newAccessToken);
-      if(newAccessToken)
-      {
+      if (newAccessToken) {
         beforeRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        console.log(newAccessToken);
         return axios(beforeRequest);
       }
     }

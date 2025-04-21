@@ -151,7 +151,7 @@ const AddressTab = () => {
       });
     }
   };
-  
+
   const handleEditAddress = (address) => {
     setNewAddress({
       id: address.id,
@@ -210,6 +210,7 @@ const AddressTab = () => {
       });
     }
   };
+
   const AddressCard = ({ address }) => {
     return (
       <div className="col-xxl-4 col-xl-6 col-lg-12 col-md-6">

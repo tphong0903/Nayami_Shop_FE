@@ -191,7 +191,7 @@ const OrderTab = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.post(`/api/bills/cancel`, { billID: id });
+        await axios.post('/api/bills/cancel', { billID: id });
         swalWithBootstrapButtons.fire(
           'Đã hủy!',
           'Đơn hàng đã được hủy thành công.',
@@ -443,8 +443,8 @@ const OrderTab = () => {
                   <p className="text-muted mb-0">
                     <i
                       className={`fa ${order.paymentMethod === 'ONLINE_BANKING'
-                          ? 'fa-university'
-                          : 'fa-money-bill'
+                        ? 'fa-university'
+                        : 'fa-money-bill'
                         } me-1`}
                     ></i>
                     {getPaymentMethodText(order.paymentMethod)}

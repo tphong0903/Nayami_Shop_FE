@@ -11,18 +11,14 @@ export default function EnterNewPasswordSection() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
-  console.log('Loading view reset password');
   useEffect(() => {
     const token = sessionStorage.getItem('resetPasswordToken');
     if (token) {
       setToken(token);
     }
   }, []);
-  const handleSubmit = async (e) =>
-  {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(`Token ${token}`);
-    console.log('Submitting ... ');
     setError('');
 
     if (newPassword !== confirmPassword) {
@@ -35,28 +31,24 @@ export default function EnterNewPasswordSection() {
       return;
     }
 
-    try
-    {
+    try {
       Swal.fire({
-      title: 'Đang gửi...',
-      html: 'Vui lòng chờ trong giây lát',
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading(); // Hiển thị spinner xoay
-      },
+        title: 'Đang gửi...',
+        html: 'Vui lòng chờ trong giây lát',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading(); // Hiển thị spinner xoay
+        },
       });
       const refreshAxios = axios.create();
       const response = await refreshAxios.post('/api/reset-password/entered', {
         newPassword: newPassword,
-      },{
+      }, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      console.log(response);
-      console.log(response.data.status);
       if (response.data.status == 200) {
-        console.log('Thanh cong');
         setSuccess(true);
         Swal.fire({
           icon: 'success',
@@ -94,7 +86,7 @@ export default function EnterNewPasswordSection() {
         <div className="row">
           <div className="col-xxl-6 col-xl-5 col-lg-6 d-lg-block d-none ms-auto">
             <div className="image-contain">
-              <img src={ForgotPasswordImage} className="img-fluid" alt=""/>
+              <img src={ForgotPasswordImage} className="img-fluid" alt="" />
             </div>
           </div>
 

@@ -18,7 +18,7 @@ var settings = {
   arrows: false
 };
 
-export default function ProductSection({ product, user, rate, purchaseCheck }) {
+export default function ProductSection({ product, user, rate, purchaseCheck, setProductId }) {
   const params = useParams();
   const navigate = useNavigate();
 
@@ -27,24 +27,21 @@ export default function ProductSection({ product, user, rate, purchaseCheck }) {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const [submitInfo, setSubmitInfo] = useState({
-    description: "No description",
+    description: 'No description',
     rating: 0,
-    userName: user?.userName ?? "No name",
-    userEmail: user?.email ?? "",
+    userName: user?.userName ?? 'No name',
+    userEmail: user?.email ?? '',
     productId: params.id
   })
 
   useEffect(() => {
-    setSubmitInfo(prev => ({ ...prev, userName: user?.userName ?? 0, userEmail: user?.email ?? "" }))
+    setSubmitInfo(prev => ({ ...prev, userName: user?.userName ?? 0, userEmail: user?.email ?? '' }))
   }, [user])
 
   useEffect(() => {
     if (!product) {
       return;
     }
-
-    console.log(rate)
-
     setListImage(product.listImage || []);
     if (listImage.length > 0) {
       setSelectedImage(listImage[0]);
@@ -68,8 +65,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck }) {
   }
 
   const submitReview = () => {
-    console.log(submitInfo)
-    axios.post("/api/comments", submitInfo)
+    axios.post('/api/comments', submitInfo)
       .then(res => {
         console.log(res.data)
       })
@@ -178,32 +174,6 @@ export default function ProductSection({ product, user, rate, purchaseCheck }) {
                     <DealTimer product={product} />
                   )}
                   <div className="note-box product-packege">
-                    <div className="cart_qty qty-box product-qty">
-                      <div className="input-group">
-                        <button
-                          type="button"
-                          className="qty-right-plus"
-                          data-type="plus"
-                          data-field=""
-                        >
-                          <i className="fa fa-plus" aria-hidden="true" />
-                        </button>
-                        <input
-                          className="form-control input-number qty-input"
-                          type="text"
-                          name="quantity"
-                          defaultValue={0}
-                        />
-                        <button
-                          type="button"
-                          className="qty-left-minus"
-                          data-type="minus"
-                          data-field=""
-                        >
-                          <i className="fa fa-minus" aria-hidden="true" />
-                        </button>
-                      </div>
-                    </div>
                     <button
                       onClick={() => addToCart(product.id, 1)}
 
@@ -214,27 +184,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck }) {
                   </div>
                   <div className="buy-box">
 
-                    <a href="compare.html">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width={24}
-                        height={24}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="feather feather-shuffle"
-                      >
-                        <polyline points="16 3 21 3 21 8" />
-                        <line x1={4} y1={20} x2={21} y2={3} />
-                        <polyline points="21 16 21 21 16 21" />
-                        <line x1={15} y1={15} x2={21} y2={21} />
-                        <line x1={4} y1={4} x2={9} y2={9} />
-                      </svg>
-                      <span>Add To Compare</span>
-                    </a>
+
                   </div>
                   <div className="pickup-box">
                     <div className="product-title">
@@ -470,7 +420,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck }) {
                                     type="text"
                                     className="form-control"
                                     id="name"
-                                    value={user ? user.userName : ""}
+                                    value={user ? user.userName : ''}
                                     placeholder="Name"
                                   />
                                   <label htmlFor="name">Your Name</label>
@@ -483,7 +433,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck }) {
                                     className="form-control"
                                     id="email"
                                     placeholder="Email Address"
-                                    value={user ? user.email : ""}
+                                    value={user ? user.email : ''}
                                   />
                                   <label htmlFor="email">Email Address</label>
                                 </div>

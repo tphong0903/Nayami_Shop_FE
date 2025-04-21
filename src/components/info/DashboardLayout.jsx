@@ -10,8 +10,6 @@ const DashboardLayout = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Initialize feather icons
-    console.log('Feather');
     if (typeof feather !== 'undefined') {
       feather.replace();
     }
