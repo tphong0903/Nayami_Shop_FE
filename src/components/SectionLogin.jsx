@@ -22,11 +22,6 @@ export default function SectionLogin() {
       const decoded = jwtDecode(token);
       const role = decoded.roles;
 
-      //Set fullName of user in local storage
-      // const fullName = decoded.fullName;
-      localStorage.setItem('fullName', decoded.fullName);
-      localStorage.setItem('email', decoded.email);
-
       return decoded.roles ? decoded.roles[0] : null;
     } catch (error) {
       console.error('Invalid token:', error);
@@ -83,15 +78,28 @@ export default function SectionLogin() {
       });
     }
   }
-  const saveToken = (response, accessToken, refreshToken) => {
+  const saveToken = async (response, accessToken, refreshToken) => {
     console.log('Store token in local storage');
     localStorage.setItem('access_token', accessToken);
     localStorage.setItem('refresh_token', refreshToken);
-    localStorage.setItem('id', 1);
   };
   const handleChangeRememberMe = (event) => {
     setRemember(!remember);
   }
+  const handleGoogleLogin = async () => {
+    try {
+      console.log('call oauth');
+      const response = await axios.get('/api/auth/social-login/google', {
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      const googleLoginUrl = response.data.data;
+      window.location.href = googleLoginUrl;
+    } catch (error) {
+      console.error('Failed to get Google login URL:', error);
+    }
+  };
 
 
   return (
@@ -162,15 +170,15 @@ export default function SectionLogin() {
               <div className="log-in-button">
                 <ul>
                   <li>
-                    <a href="https://www.google.com/" className="btn google-button w-100">
+                    <a
+                      className="btn google-button w-100"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleGoogleLogin();
+                      }}
+                    >
                       <img src={GoogleImage} className="lazyload" alt="Google Login" />
                       Log In with Google
-                    </a>
-                  </li>
-                  <li>
-                    <a href="https://www.facebook.com/" className="btn google-button w-100">
-                      <img src={FaceBookImage} className="lazyload" alt="Facebook Login" />
-                      Log In with Facebook
                     </a>
                   </li>
                 </ul>

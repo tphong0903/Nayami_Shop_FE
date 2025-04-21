@@ -8,7 +8,7 @@ const DashboardSidebar = ({ isOpen, toggleSidebar}) => {
   useEffect(() => {
      setStoredUser(JSON.parse(localStorage.getItem('user_information')));
     window.scrollTo(0, 0);
-  },[location]);
+  },[location.pathname]);
   return (
     <div className={`dashboard-left-sidebar ${!isOpen ? 'collapsed' : ''}`}>
       <div className="close-button d-flex d-lg-none">

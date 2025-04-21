@@ -91,7 +91,7 @@ const DashboardHome = () => {
     };
 
     fetchOrders();
-  }, location);
+  },[location.pathname]);
 
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {

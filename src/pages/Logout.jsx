@@ -13,8 +13,7 @@ export default function Logout() {
   useEffect(() => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    localStorage.removeItem('fullName');
-    localStorage.removeItem('id');
+    localStorage.removeItem('user_information');
     Swal.fire({
       icon: 'warning',
       title: 'Thông báo',

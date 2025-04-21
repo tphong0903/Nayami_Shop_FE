@@ -17,6 +17,7 @@ export default function ChangeProfileLayout() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('Get user from local storage');
     const storedUser = JSON.parse(localStorage.getItem('user_information'));
     if (storedUser) {
       setId(storedUser.userId);

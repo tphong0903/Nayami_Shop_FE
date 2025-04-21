@@ -43,6 +43,7 @@ import ProtectedRouteAdmin from '~/components/midlleware/ProtectedRoute.jsx';
 import Error404 from '~/pages/error/Error404.jsx';
 import ChangeProfileLayout from '~/components/info/ChangeProfileLayout.jsx';
 import ChangePasswordUser from '~/components/info/ChangePasswordUser.jsx';
+import OauthCallback from '~/pages/OauthCallback.jsx';
 function App() {
   setupAxiosInterceptors();
   useEffect(() => {
@@ -69,6 +70,7 @@ function App() {
           <Route path="/enter-new-password" element={<EnterNewPassword />} />
           <Route path="/register" element={<Signup />} />
           <Route path="/checkout" element={<CheckOutPage />} />
+          <Route path="/auth/google/callback" element={<OauthCallback />} />
           {/*Admin page*/}
           <Route path="/admin" element={<ProtectedRouteAdmin />}>
             <Route element={<AdminPage />}>
