@@ -394,7 +394,7 @@ const DashboardHome = () => {
               <div className="text-center p-4 empty-box">
                 <div className="mb-3">
                   <img
-                    src="../assets/images/svg/order.svg"
+                    src="../src/assets/images/svg/order.svg"
                     alt="No Orders"
                     className="img-fluid"
                     style={{ width: '80px', opacity: '0.5' }}
