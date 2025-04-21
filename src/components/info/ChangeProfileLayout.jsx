@@ -4,7 +4,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 
 export default function ChangeProfileLayout() {
-  const [id,setId] = useState('');
+  const [id, setId] = useState('');
+  const [isValid, setIsValid] = useState(true);
+
   const [formData, setFormData] = useState({
     userId:'',
     userName: '',
@@ -40,11 +42,15 @@ export default function ChangeProfileLayout() {
       ...prev,
       [name]: value,
     }));
+    if (name === 'phone') {
+      const phoneRegex = /^(0|\+84)[3|5|7|8|9][0-9]{8}$/;
+      setIsValid(phoneRegex.test(value));
+    }
   };
   const handleSubmit = async (e) => {
     e.preventDefault(); // Ngăn reload trang
     try {
-      console.log('Update user...: ',formData);
+      console.log('Update user...: ', formData);
       const response = await axios.put(`/api/users/update/${id}`, formData);
       const resData = response.data;
       console.log(resData);
@@ -132,6 +138,11 @@ export default function ChangeProfileLayout() {
                                   pattern="^(0|\+84)[0-9]{9,10}$"
                                   title="Phone number must start with 0 or +84 and contain 10-11 digits"
                                 />
+                                {isValid === false && (
+                                  <p style={{ color: 'red' }}>
+                          Số điện thoại không hợp lệ!
+                                  </p>
+                                )}
                               </div>
                             </div>
 
@@ -155,11 +166,11 @@ export default function ChangeProfileLayout() {
                           <div className="row mb-4 mt-5">
                             <div className="col-sm-3"></div>
                             <div className="col-sm-9 d-flex">
-                              <button type="submit" className="btn btn-primary me-3">
-                                Update
+                              <button type="submit" className="btn btn-primary me-3 " disabled={isValid === false}>
+                                Cập nhật
                               </button>
                               <button type="button" className="btn btn-secondary" onClick={goToHomePage}>
-                                Cancel
+                                Huỷ
                               </button>
                             </div>
                           </div>

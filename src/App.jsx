@@ -46,6 +46,7 @@ import ChangePasswordUser from '~/components/info/ChangePasswordUser.jsx';
 import OauthCallback from '~/pages/OauthCallback.jsx';
 import ProtectedRouteRegisterCustomer from '~/components/midlleware/ProtectedRouteRegisterCustomer.jsx';
 import ProtectedRouteUnregisterCustomer from '~/components/midlleware/ProtectedRouteUnregisterCustomer.jsx';
+import AddressTab from './components/info/AddressTab';
 function App() {
   setupAxiosInterceptors();
   useEffect(() => {
@@ -75,6 +76,7 @@ function App() {
               <Route path="orders" element={<OrderTab />} />
               <Route path="profile" element={<ChangeProfileLayout />} />
               <Route path="password" element={<ChangePasswordUser />} />
+              <Route path="addresses" element={<AddressTab />} />
             </Route>
             <Route path="/checkout" element={<CheckOutPage />} />
             <Route path="/cart" element={<CartPage />} />
