@@ -35,28 +35,26 @@ export default function ProductPage() {
       .then((response) => {
         setProduct(response.data.data)
       })
-      .catch((error) => {
+      .catch(() => {
         Swal.fire('Lỗi!', 'Không thể tải sản phẩm.', 'error')
       })
 
     if (decoded) {
       axios
-        .post(`/api/users`, { email: decoded.email })
+        .post('/api/users', { email: decoded.email })
         .then(res => {
           setUser(res.data)
-          console.log(res.data)
         })
-        .catch((error) => {
+        .catch(() => {
           Swal.fire('Lỗi!', 'Không thể tải user.', 'error')
         })
 
       axios
-        .post(`/api/users/check`, { proId: id, email: decoded.email })
+        .post('/api/users/check', { proId: id, email: decoded.email })
         .then(res => {
           setUserPurchaseCheck(res.data.data)
-          console.log(res.data.data)
         })
-        .catch((error) => {
+        .catch(() => {
           Swal.fire('Lỗi!', 'Không thể tải user.', 'error')
         })
     }
@@ -66,11 +64,11 @@ export default function ProductPage() {
       .then((response) => {
         setRate(response.data.data)
       })
-      .catch((error) => {
+      .catch(() => {
         Swal.fire('Lỗi!', 'Không thể tải đánh giá.', 'error')
       })
 
-  }, [])
+  }, [id])
   return (
     <>
       <Header />
