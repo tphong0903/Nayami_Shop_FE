@@ -29,7 +29,6 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(
   (response) => {
     console.log('Response inceptor');
-    console.log(response);
     return response;
   },
   async (error) => {
@@ -37,7 +36,6 @@ axios.interceptors.response.use(
     if (error.response?.status === 401) {
       const originalRequest = error.config;
       const res = await requestRefreshToken(originalRequest);
-      console.log(res);
       return res;
     }else{
       console.log(error)
