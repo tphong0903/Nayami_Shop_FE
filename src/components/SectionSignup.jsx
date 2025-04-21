@@ -1,6 +1,6 @@
 import Hinh1 from '../assets/images/inner-page/log-in.png'
-import GoogleImage from  '../assets/images/inner-page/google.png'
-import FaceBookImage from  '../assets/images/inner-page/facebook.png'
+import GoogleImage from '../assets/images/inner-page/google.png'
+import FaceBookImage from '../assets/images/inner-page/facebook.png'
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
@@ -8,23 +8,22 @@ import Swal from 'sweetalert2';
 
 export default function SectionSignup() {
 
-  const [email,setEmail] = useState('');
-  const [password,setPassword] = useState('');
-  const [fullname,setFullname] = useState('');
-  const [phone,setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [fullname, setFullname] = useState('');
+  const [phone, setPhone] = useState('');
   const navigate = useNavigate();
 
   const handleSubmitSignup = async event => {
     event.preventDefault();
-    try{
+    try {
       const response = await axios.post('/api/signup', {
         email: email,
         password: password,
         fullName: fullname,
         phoneNumber: phone
       });
-      if(response.data.status == 201)
-      {
+      if (response.data.status == 201) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công',
@@ -34,18 +33,17 @@ export default function SectionSignup() {
         });
         const ENPOINT_REDIRECT_PAGE = '/login'
         navigate(ENPOINT_REDIRECT_PAGE);
-      }else{
+      } else {
         window.alert(response.data.message);
       }
-    }catch(err)
-    {
+    } catch (err) {
       console.log(err)
       window.alert('Đăng ký không thành công');
     }
   }
 
   return (
-    <section className="log-in-section section-b-space">
+    <section className="log-in-section section-b-space" >
       <div className="container-fluid-lg w-100">
         <div className="row">
           <div className="col-xxl-6 col-xl-5 col-lg-6 d-lg-block d-none ms-auto">
@@ -71,7 +69,7 @@ export default function SectionSignup() {
                   </div>
                   <div className="col-12">
                     <div className="form-floating theme-form-floating">
-                      <input type="text" className="form-control" id="fullname" placeholder="Number phone" onChange={e => setPhone(e.target.value)}/>
+                      <input type="text" className="form-control" id="fullname" placeholder="Number phone" onChange={e => setPhone(e.target.value)} />
                       <label htmlFor="numberPhone">Number phone</label>
                     </div>
                   </div>

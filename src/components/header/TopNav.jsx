@@ -75,11 +75,9 @@ export default function TopNav() {
     };
 
     cartObserver.subscribe(handleCartUpdate);
-    const interval = setInterval(fetchCartData, 60000);
 
     return () => {
       cartObserver.unsubscribe(handleCartUpdate);
-      clearInterval(interval);
     };
   }, []);
   return (

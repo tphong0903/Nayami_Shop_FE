@@ -16,7 +16,6 @@
         @include pseudowh;
         top: 0;
         left: 0;
-        background-image: url(../images/bg.png);
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
@@ -110,8 +109,7 @@
                         font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1920 - 320)));
                         color: $title-color;
                         border-radius: 5px;
-                        padding: calc(10px + (16 - 10) * ((100vw - 320px) / (1920 - 320)))
-                            calc(18px + (30 - 18) * ((100vw - 320px) / (1920 - 320)));
+                        padding: calc(10px + (16 - 10) * ((100vw - 320px) / (1920 - 320))) calc(18px + (30 - 18) * ((100vw - 320px) / (1920 - 320)));
                         flex-wrap: wrap;
                         gap: calc(8px + (10 - 8) * ((100vw - 320px) / (1920 - 320)));
                         background-color: $light-color;

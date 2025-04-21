@@ -3,8 +3,7 @@ import ForgotPasswordImage from '../assets/images/inner-page/forgot.png';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-export default function ForgotPasswordSection()
-{
+export default function ForgotPasswordSection() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
@@ -23,13 +22,13 @@ export default function ForgotPasswordSection()
       const response = await axios.get('api/reset-password', {
         params: { email }, // Gửi email như một query param
       });
-      if(response.data.status === 200) {
+      if (response.data.status === 200) {
         sendEmailSuccessfully = true
       }
     } catch (error) {
       console.error('Lỗi:', error);
     }
-    if(sendEmailSuccessfully){
+    if (sendEmailSuccessfully) {
       Swal.fire({
         icon: 'success',
         title: 'Thành công',
@@ -37,7 +36,7 @@ export default function ForgotPasswordSection()
         timer: 3000,
         showConfirmButton: false,
       });
-    }else{
+    } else {
       Swal.fire({
         icon: 'error',
         title: 'Thất bại',

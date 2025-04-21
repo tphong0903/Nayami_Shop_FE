@@ -1,6 +1,5 @@
 import Hinh1 from '../assets/images/inner-page/log-in.png'
 import GoogleImage from '../assets/images/inner-page/google.png'
-import FaceBookImage from '../assets/images/inner-page/facebook.png'
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';

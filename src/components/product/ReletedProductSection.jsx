@@ -64,9 +64,9 @@ export default function ReletedProductSection({ product }) {
                         </div>
                         <div className="product-footer">
                           <div className="product-detail" >
-                            <a href="product-left-thumbnail.html">
+                            <Link to={`/product-detail/${v.id}`}>
                               <h5 className="name">{v.name}</h5>
-                            </a>
+                            </Link>
                             <div className=" mt-2">
                               <Rating name="read-only" size='small' value={v.ratingAvg} readOnly />
                             </div>
