@@ -187,8 +187,8 @@ export default function SideBar({ value, setSidebarOpen }) {
                   <ul className="sidebar-submenu">
                     <li><a href="/admin/discounts">Danh sách khuyến mãi</a></li>
                     <li><a href="/admin/add-discounts">Tạo khuyến mãi</a></li>
-                    <li><a href="coupon-list.html">Coupon List</a></li>
-                    <li><a href="create-coupon.html">Create Coupon</a></li>
+                    <li><a href="/admin/coupons">Danh sách mã giảm giá</a></li>
+                    <li><a href="/admin/add-new-coupon">Tạo mã giảm giá</a></li>
                   </ul>
                 )}
               </li>
