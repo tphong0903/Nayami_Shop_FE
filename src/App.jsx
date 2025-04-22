@@ -46,6 +46,7 @@ import ChangePasswordUser from '~/components/info/ChangePasswordUser.jsx';
 import OauthCallback from '~/pages/OauthCallback.jsx';
 import ProtectedRouteRegisterCustomer from '~/components/midlleware/ProtectedRouteRegisterCustomer.jsx';
 import ProtectedRouteUnregisterCustomer from '~/components/midlleware/ProtectedRouteUnregisterCustomer.jsx';
+import AddressTab from './components/info/AddressTab';
 function App() {
   setupAxiosInterceptors();
   useEffect(() => {
@@ -59,6 +60,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/product-detail/:id" element={<ProductPage />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/shop" element={<ShopPage />} />
+
           {/*Nhung nguoi da dang nhap thi khong duoc truy cap*/}
           <Route element={<ProtectedRouteUnregisterCustomer />}>
             <Route path="/login" element={<Login />} />
@@ -75,10 +78,10 @@ function App() {
               <Route path="orders" element={<OrderTab />} />
               <Route path="profile" element={<ChangeProfileLayout />} />
               <Route path="password" element={<ChangePasswordUser />} />
+              <Route path="addresses" element={<AddressTab />} />
             </Route>
             <Route path="/checkout" element={<CheckOutPage />} />
             <Route path="/cart" element={<CartPage />} />
-            <Route path="/shop" element={<ShopPage />} />
           </Route>
 
           {/* Admin pages */}

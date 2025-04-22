@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-empty */
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
@@ -6,7 +8,7 @@ import {
   FormControl,
   Select
 } from '@mui/material';
-import { Map, MoreVert } from '@mui/icons-material';
+import { Map } from '@mui/icons-material';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { formatCurrency } from '~/utils/formatCurrency';
@@ -14,13 +16,8 @@ import { formatCurrency } from '~/utils/formatCurrency';
 export default function OrderDetail() {
   const [orderDetail, setOrderDetail] = useState()
   const { id } = useParams()
-  const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -111,12 +108,6 @@ export default function OrderDetail() {
                             <tr>
                               <th colSpan={2}>Sản phẩm</th>
                               <th className="text-end" colSpan={2}>
-                                <a
-                                  href="javascript:void(0)"
-                                  className="theme-color"
-                                >
-                                  Edit Items
-                                </a>
                               </th>
                             </tr>
                           </thead>
@@ -232,7 +223,7 @@ export default function OrderDetail() {
                             </li>
                           </ul>
                           <div className="payment-mode">
-                            <h4>Thôn tin thanh toán</h4>
+                            <h4>Thông tin thanh toán</h4>
                             <p>Hình thức thanh toán: {orderDetail?.payment.paymentMethod}
                             </p>
                             <p>Trạng thái thanh toán:                               <FormControl fullWidth>
