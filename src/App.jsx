@@ -60,6 +60,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/product-detail/:id" element={<ProductPage />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/shop" element={<ShopPage />} />
+
           {/*Nhung nguoi da dang nhap thi khong duoc truy cap*/}
           <Route element={<ProtectedRouteUnregisterCustomer />}>
             <Route path="/login" element={<Login />} />
@@ -80,7 +82,6 @@ function App() {
             </Route>
             <Route path="/checkout" element={<CheckOutPage />} />
             <Route path="/cart" element={<CartPage />} />
-            <Route path="/shop" element={<ShopPage />} />
           </Route>
 
           {/* Admin pages */}

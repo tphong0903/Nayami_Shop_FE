@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Rating } from '@mui/material';
 import { formatCurrency } from '~/utils/formatCurrency';
 import { Link } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { addToCart } from '~/apis/addtoCart';
 
 export default function ProductSection() {
   const [listOurProducts, setListOurProducts] = useState([])
@@ -33,46 +33,6 @@ export default function ProductSection() {
     });
   };
 
-  const addToCart = async (productId) => {
-    try {
-      const token = localStorage.getItem('access_token');
-      if (!token) {
-        Swal.fire({
-          title: 'Yêu cầu đăng nhập',
-          text: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng',
-          icon: 'warning',
-          confirmButtonText: 'Đồng ý'
-        });
-        return;
-      }
-
-      await axios.post('/api/cart', {
-        productId: productId,
-        quantity: quantity[productId] || 1
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      Swal.fire({
-        title: 'Thành công!',
-        text: 'Đã thêm sản phẩm vào giỏ hàng',
-        icon: 'success',
-        timer: 1500,
-        showConfirmButton: false
-      });
-      window.dispatchEvent(new CustomEvent('cart-updated'));
-
-    } catch (error) {
-      Swal.fire({
-        title: 'Lỗi',
-        text: 'Không thể thêm sản phẩm vào giỏ hàng',
-        icon: 'error',
-        confirmButtonText: 'Đồng ý'
-      });
-    }
-  };
 
   return (
     <section className="product-section">
@@ -221,7 +181,7 @@ export default function ProductSection() {
                         </div>
                         <button
                           className="buy-button buy-button-2 btn btn-cart"
-                          onClick={() => addToCart(v.id)}
+                          onClick={() => addToCart(v.id, quantity[v.id] || 1)}
                         >
                           <i className="iconly-Buy icli text-white m-0" />
                         </button>
