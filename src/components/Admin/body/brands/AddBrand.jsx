@@ -84,7 +84,7 @@ const BrandForm = () => {
                   <div className="card-body">
                     <div className="card-header-2">
                       <h5>
-                        {isEditMode ? 'Edit Brand' : 'Brand Information'}
+                        {isEditMode ? 'Chỉnh Sửa Thương Hiệu' : 'Thông Tin Thương Hiệu'}
                       </h5>
                     </div>
 
@@ -101,13 +101,13 @@ const BrandForm = () => {
                       {/* Brand Name */}
                       <div className="mb-4 row align-items-center">
                         <label className="form-label-title col-sm-3 mb-0">
-                          Brand Name
+                          Tên thương hiệu
                         </label>
                         <div className="col-sm-9">
                           <input
                             className="form-control"
                             type="text"
-                            placeholder="Brand Name"
+                            placeholder="Tên"
                             value={formData.name}
                             onChange={handleNameChange}
                             required
@@ -125,15 +125,15 @@ const BrandForm = () => {
                             {loading
                               ? '..Saving.'
                               : isEditMode
-                                ? 'Update Brand'
-                                : 'Add Brand'}
+                                ? 'Cập nhật'
+                                : 'Thêm'}
                           </button>
                           <button
                             type="button"
                             className="btn btn-secondary"
                             onClick={() => navigate('/admin/brands')}
                           >
-                            Cancel
+                            Hủy
                           </button>
                         </div>
                       </div>

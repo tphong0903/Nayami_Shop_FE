@@ -129,7 +129,7 @@ export default function AddDiscountCampain() {
                           <div className="row">
                             <div className="mb-4 row align-items-center">
                               <label className="form-label-title col-lg-2 col-md-3 mb-0">
-                                Coupon Title
+                                Tên khuyến mãi
                               </label>
                               <div className="col-md-9 col-lg-10">
                                 <input className="form-control" type="text" value={discountCampainModel.name} onChange={(e) => setDiscountCampainModel(v => ({ ...v, name: e.target.value }))} />
@@ -137,7 +137,7 @@ export default function AddDiscountCampain() {
                             </div>
                             <div className="mb-4 row align-items-center">
                               <label className="col-lg-2 col-md-3 col-form-label form-label-title">
-                                Coupon Code
+                                Mô tả khuyến mãi
                               </label>
                               <div className="col-md-9 col-lg-10">
                                 <Editor
@@ -152,7 +152,7 @@ export default function AddDiscountCampain() {
                             </div>
                             <div className="mb-4 row align-items-center">
                               <label className="col-lg-2 col-md-3 col-form-label form-label-title">
-                                Start Date
+                                Ngày bắt đầu
                               </label>
                               <div className="col-md-9 col-lg-10">
                                 <input className="form-control" type="date" value={discountCampainModel.startDate} onChange={(e) => setDiscountCampainModel(v => ({ ...v, startDate: e.target.value }))} />
@@ -160,7 +160,7 @@ export default function AddDiscountCampain() {
                             </div>
                             <div className="mb-4 row align-items-center">
                               <label className="col-lg-2 col-md-3 col-form-label form-label-title">
-                                End Date
+                                Ngày kết thúc
                               </label>
                               <div className="col-md-9 col-lg-10">
                                 <input className="form-control" type="date" value={discountCampainModel.endDate} onChange={(e) => setDiscountCampainModel(v => ({ ...v, endDate: e.target.value }))} />
@@ -202,7 +202,7 @@ export default function AddDiscountCampain() {
                       <i className="ri-add-line me-2" /> Add Another Option
                     </button> */}
                     <button onClick={() => setOpenModal(v => !v)} className="btn btn-primary mt-3">
-                      <i className="ri-add-line me-2" /> Add Another Option
+                      <i className="ri-add-line me-2" /> Thêm mã khuyến mãi
                     </button>
                     {openModalEdit && (<AddDiscount discountDetail={selectedDiscountDetail} openModal={openModalEdit} setOpenModal={setOpenModalEdit} handleAddDiscountDetail={handleAddDiscountDetail} handleUpdateDiscountDetail={handleUpdateDiscountDetail} isEdit={1} />)}
                     {openModal && (<AddDiscount discountDetail={{ percentage: '', productID: [] }} openModal={openModal} setOpenModal={setOpenModal} handleAddDiscountDetail={handleAddDiscountDetail} isEdit={0} />)}
@@ -213,7 +213,7 @@ export default function AddDiscountCampain() {
                     <div className="row align-items-center">
                       <div className="col-sm-12 d-flex justify-content-end">
                         <button type="submit" className="btn btn-primary me-3" onClick={handleSave}>
-                          {isEditMode ? 'Update Discount' : 'Add Discount'}
+                          {isEditMode ? 'Cập nhật' : 'Thêm'}
                         </button>
                         <button
                           type="button"

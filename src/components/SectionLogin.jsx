@@ -67,7 +67,6 @@ export default function SectionLogin() {
       });
       redirectUserBasedOnRole(accessToken);
     } catch (err) {
-      console.log(err)
       Swal.fire({
         icon: 'error',
         title: 'Lỗi',
@@ -78,7 +77,6 @@ export default function SectionLogin() {
     }
   }
   const saveToken = async (response, accessToken, refreshToken) => {
-    console.log('Store token in local storage');
     localStorage.setItem('access_token', accessToken);
     localStorage.setItem('refresh_token', refreshToken);
   };
@@ -87,7 +85,6 @@ export default function SectionLogin() {
   }
   const handleGoogleLogin = async () => {
     try {
-      console.log('call oauth');
       const response = await axios.get('/api/auth/social-login/google', {
         headers: {
           'Accept': 'application/json'

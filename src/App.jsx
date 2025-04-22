@@ -4,6 +4,7 @@ import feather from 'feather-icons';
 import HomePage from './pages/HomePage'
 import ProductPage from './pages/ProductPage';
 import ShopPage from './pages/ShopPage';
+import AboutUsPage from './pages/AboutUsPage';
 import CartPage from './pages/CartPage';
 import CheckOutPage from './pages/CheckOutPage';
 import AdminPage from './pages/Admin/AdminPage';
@@ -44,9 +45,10 @@ import Error404 from '~/pages/error/Error404.jsx';
 import ChangeProfileLayout from '~/components/info/ChangeProfileLayout.jsx';
 import ChangePasswordUser from '~/components/info/ChangePasswordUser.jsx';
 import OauthCallback from '~/pages/OauthCallback.jsx';
+
 function App() {
-  setupAxiosInterceptors();
   useEffect(() => {
+    setupAxiosInterceptors();
     feather.replace();
   }, []);
   return (
@@ -57,6 +59,7 @@ function App() {
           <Route path="/product-detail/:id" element={<ProductPage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/about-us" element={<AboutUsPage />} />
           <Route path="/dashboard" element={<UserDashboard />}>
             <Route index element={<DashboardHome />} />
             <Route path="orders" element={<OrderTab />} />

@@ -10,7 +10,7 @@ export default function AddUser() {
     phoneNumber: '',
     email: '',
     password: '',
-    type:'CUSTOMER'
+    type: 'CUSTOMER'
   });
 
   const handleChange = (e) => {
@@ -48,7 +48,6 @@ export default function AddUser() {
           timer: 3000
         })
         navigate('/admin/users');
-        console.log('Success:', resData);
       } else {
         const message = response.data.message;
         Swal.fire({
@@ -58,11 +57,9 @@ export default function AddUser() {
           confirmButtonText: 'OK',
           timer: 3000
         })
-        console.error('API error:', resData);
       }
     } catch (error) {
       // Trường hợp server thực sự lỗi (ví dụ chết server, timeout, v.v)
-      console.error('Unexpected error:', error);
       Swal.fire({
         title: 'Insert fail',
         icon: 'error',
@@ -72,7 +69,7 @@ export default function AddUser() {
     }
   };
   const goToHomePage = async () => {
-   navigate('/admin/users');
+    navigate('/admin/users');
   };
 
 
@@ -87,7 +84,7 @@ export default function AddUser() {
                 <div className="card">
                   <div className="card-body">
                     <div className="title-header option-title">
-                      <h5>Add New User</h5>
+                      <h5>Thêm Người Dùng</h5>
                     </div>
                     <div className="tab-content" id="pills-tabContent">
                       <div
@@ -99,18 +96,18 @@ export default function AddUser() {
                           onSubmit={handleSubmit}
                         >
                           <div className="card-header-1">
-                            <h5>User Information</h5>
+                            <h5>Thông tin người dùng</h5>
                           </div>
                           <div className="row">
                             <div className="mb-4 row align-items-center">
                               <label className="form-label-title col-lg-2 col-md-3 mb-0">
-                                User name
+                                Tên người dùng
                               </label>
                               <div className="col-md-9 col-lg-10">
                                 <input
                                   className="form-control"
                                   type="text"
-                                  name="userName"
+                                  name="Tên"
                                   value={formData.userName}
                                   onChange={handleChange}
                                   required
@@ -119,13 +116,13 @@ export default function AddUser() {
                             </div>
                             <div className="mb-4 row align-items-center">
                               <label className="col-lg-2 col-md-3 col-form-label form-label-title">
-                                Phone number
+                                Số điện thoại
                               </label>
                               <div className="col-md-9 col-lg-10">
                                 <input
                                   className="form-control"
                                   type="text"
-                                  name="phoneNumber"
+                                  name="Số điện thoại"
                                   value={formData.phoneNumber}
                                   onChange={handleChange}
                                   required
@@ -151,7 +148,7 @@ export default function AddUser() {
                             </div>
                             <div className="mb-4 row align-items-center">
                               <label className="col-lg-2 col-md-3 col-form-label form-label-title">
-                                Password
+                                Mật khẩu
                               </label>
                               <div className="col-md-9 col-lg-10">
                                 <input
@@ -169,10 +166,10 @@ export default function AddUser() {
                             <div className="col-sm-3"></div>
                             <div className="col-sm-9 d-flex">
                               <button type="submit" className="btn btn-primary me-3">
-                                Add
+                                Thêm
                               </button>
                               <button type="button" className="btn btn-secondary" onClick={goToHomePage}>
-                                Cancel
+                                Hủy
                               </button>
                             </div>
                           </div>

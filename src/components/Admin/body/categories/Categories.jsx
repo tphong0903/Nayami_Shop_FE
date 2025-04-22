@@ -3,8 +3,9 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { Chip } from '@mui/material';
-
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import EditIcon from '@mui/icons-material/Edit';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
 
@@ -16,7 +17,6 @@ const CategoryList = () => {
     try {
       const response = await axios.get('/api/categories');
       setCategories(response.data.data);
-      console.log(response)
     } catch (err) {
       console.error('Error fetching categories:', err);
     }
@@ -45,10 +45,7 @@ const CategoryList = () => {
       if (result.isConfirmed) {
         try {
           await axios.put(`/api/categories/${id}`, category);
-          window.location.reload()
-          // setCategories((prevCategories) => prevCategories.filter(category => category.id !== id));
-
-          // Swal.fire('Đã xoá!', 'Danh mục đã được xoá thành công.', 'success');
+          fetchCategories();
         } catch (err) {
           Swal.fire('Lỗi!', 'Không thể xoá danh mục.', 'error');
           console.error('Lỗi khi xoá danh mục:', err);
@@ -64,10 +61,10 @@ const CategoryList = () => {
             <div className="card card-table">
               <div className="card-body">
                 <div className="title-header option-title">
-                  <h5>All Categories</h5>
+                  <h5>Danh mục</h5>
                   <div className="d-inline-flex">
                     <Link to="/admin/add-new-category" className="align-items-center btn btn-theme d-flex">
-                      <i className="ri-add-line me-2"></i> Add New
+                      <i className="ri-add-line me-2"></i> Thêm mới
                     </Link>
                   </div>
                 </div>
@@ -76,9 +73,9 @@ const CategoryList = () => {
                   <table className="table all-package theme-table" id="table_id">
                     <thead>
                       <tr>
-                        <th>Category Name</th>
-                        <th>Status</th>
-                        <th>Option</th>
+                        <th>Tên danh mục</th>
+                        <th>Trạng thái</th>
+                        <th>Tùy chỉnh</th>
                       </tr>
                     </thead>
 
@@ -87,18 +84,14 @@ const CategoryList = () => {
                         categories.map((category) => (
                           <tr key={category.id}>
                             <td>{category.categoryName}</td>
-                            <td>
-                              {
-                                category.active
-                                  ? <Chip label="active" color='success' />
-                                  : <Chip label="inactive" color='error' />
-                              }
+                            <td className={category.active === false ? 'status-danger' : 'status-close'}>
+                              <span>{category.active === false ? 'Inactive' : 'Active'}</span>
                             </td>
                             <td>
                               <ul>
                                 <li>
                                   <Link to={`/admin/update-new-category/${category.id}`}>
-                                    <i className="ri-pencil-line" />
+                                    <EditIcon />
                                   </Link>
                                 </li>
                                 <li>
@@ -110,7 +103,7 @@ const CategoryList = () => {
                                       updateStatus(category.id, category.active);
                                     }}
                                   >
-                                    <i className="ri-eye-line"></i>
+                                    {category.active === false ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
                                   </a>
 
                                 </li>

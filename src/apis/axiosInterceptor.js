@@ -1,49 +1,42 @@
+// src/apis/setupAxiosInterceptors.js
 import axios from 'axios';
-import { useNavigate } from 'react-router';
-import Swal from 'sweetalert2';
-import requestRefreshToken from '~/apis/requestAccessTokenInceptor.js';
+import requestRefreshToken from './requestAccessTokenInceptor';
 
-const callApi = (token,url) => {
-  const headers = {
-    'Authorization': `Bearer ${token}`
-  }
-  axios.post(url,{},{headers:headers})
-    .then(res => {
-      console.log(res.data.data);
-    })
-    .catch(err => {
-      console.log(err);
-    })
-}
-//request
-// Add a request interceptor
-axios.interceptors.request.use(function (config) {
-  // Do something before request is sent
-  console.log('request through inceptor');
-  return config;
-}, function (error) {
-  // Do something with request error
-  return Promise.reject(error);
-});
-//response
-axios.interceptors.response.use(
-  (response) => {
-    console.log('Response inceptor');
-    console.log(response);
-    return response;
-  },
-  async (error) => {
-    console.log('Response inceptor');
-    if (error.response?.status === 401) {
-      const originalRequest = error.config;
-      const res = await requestRefreshToken(originalRequest);
-      console.log(res);
-      return res;
-    }else{
-      console.log(error)
+const setupAxiosInterceptors = () => {
+  // Request interceptor
+  axios.interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
-  }
-)
+  );
 
-const setupAxiosInterceptors = () => {};
+  // Response interceptor
+  axios.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    async (error) => {
+      const originalRequest = error.config;
+      if (error.response?.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
+        try {
+          return await requestRefreshToken(originalRequest);
+        } catch (err) {
+          localStorage.clear();
+          window.location.href = '/login';
+          return Promise.reject(err);
+        }
+      }
+      return Promise.reject(error);
+    }
+  );
+};
+
 export default setupAxiosInterceptors;
