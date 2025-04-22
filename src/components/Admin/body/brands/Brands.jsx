@@ -80,7 +80,8 @@ const BrandList = () => {
                             <td>{Brand.name}</td>
                             <td className={Brand.active === false ? 'status-danger' : 'status-close'}>
                               <span>{Brand.active === false ? 'Inactive' : 'Active'}</span>
-                            </td>                            <td>
+                            </td>
+                            <td>
                               <ul>
                                 <li>
                                   <Link to={`/admin/update-new-brand/${Brand.id}`}>
@@ -96,7 +97,7 @@ const BrandList = () => {
                                       changeStatusBrand(Brand.id);
                                     }}
                                   >
-                                    <i className={Brand.active=== false ? 'ri-eye-line' : 'ri-eye-off-line'} />
+                                    <i className={Brand.active === false ? 'ri-eye-line' : 'ri-eye-off-line'} />
                                   </a>
                                 </li>
                               </ul>

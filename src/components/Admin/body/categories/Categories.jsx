@@ -87,12 +87,8 @@ const CategoryList = () => {
                         categories.map((category) => (
                           <tr key={category.id}>
                             <td>{category.categoryName}</td>
-                            <td>
-                              {
-                                category.active
-                                  ? <Chip label="active" color='success' />
-                                  : <Chip label="inactive" color='error' />
-                              }
+                            <td className={category.active === false ? 'status-danger' : 'status-close'}>
+                              <span>{category.active === false ? 'Inactive' : 'Active'}</span>
                             </td>
                             <td>
                               <ul>
@@ -110,7 +106,7 @@ const CategoryList = () => {
                                       updateStatus(category.id, category.active);
                                     }}
                                   >
-                                    <i className="ri-eye-line"></i>
+                                    <i className={category?.active === false ? 'ri-eye-line' : 'ri-eye-off-line'} />
                                   </a>
 
                                 </li>

@@ -57,6 +57,7 @@ function App() {
         <Routes>
           {/*Ai truy cap cung duoc, dang nhap role nao truy cap cung duoc het*/}
           <Route path="/" element={<HomePage />} />
+          <Route path="/shop" element={<ShopPage />} />
           <Route path="/product-detail/:id" element={<ProductPage />} />
           <Route path="/logout" element={<Logout />} />
           {/*Nhung nguoi da dang nhap thi khong duoc truy cap*/}
@@ -78,7 +79,6 @@ function App() {
             </Route>
             <Route path="/checkout" element={<CheckOutPage />} />
             <Route path="/cart" element={<CartPage />} />
-            <Route path="/shop" element={<ShopPage />} />
           </Route>
 
           {/* Admin pages */}
