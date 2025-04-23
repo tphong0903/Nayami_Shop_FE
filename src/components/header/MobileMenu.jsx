@@ -11,7 +11,7 @@ export default function MobileMenu() {
             </a>
           </li>
           <li className="mobile-category">
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="iconly-Category icli js-link" />
               <span>Category</span>
             </a>

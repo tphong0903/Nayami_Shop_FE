@@ -112,7 +112,7 @@ export default function OrderDetail() {
                               <th colSpan={2}>Sản phẩm</th>
                               <th className="text-end" colSpan={2}>
                                 <a
-                                  href="javascript:void(0)"
+                                  href="#"
                                   className="theme-color"
                                 >
                                   Edit Items

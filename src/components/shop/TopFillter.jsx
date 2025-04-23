@@ -10,7 +10,7 @@ export default function TopFillter() {
             data-bs-toggle="collapse"
             data-bs-target="#collapseExample"
           >
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="fa-solid fa-filter" /> Filter Menu
             </a>
           </div>
@@ -35,7 +35,7 @@ export default function TopFillter() {
                     <a
                       className="dropdown-item"
                       id="pop"
-                      href="javascript:void(0)"
+                      href="#"
                     >
                       Popularity
                     </a>
@@ -44,7 +44,7 @@ export default function TopFillter() {
                     <a
                       className="dropdown-item"
                       id="low"
-                      href="javascript:void(0)"
+                      href="#"
                     >
                       Low - High Price
                     </a>
@@ -53,7 +53,7 @@ export default function TopFillter() {
                     <a
                       className="dropdown-item"
                       id="high"
-                      href="javascript:void(0)"
+                      href="#"
                     >
                       High - Low Price
                     </a>
@@ -62,7 +62,7 @@ export default function TopFillter() {
                     <a
                       className="dropdown-item"
                       id="rating"
-                      href="javascript:void(0)"
+                      href="#"
                     >
                       Average Rating
                     </a>
@@ -71,7 +71,7 @@ export default function TopFillter() {
                     <a
                       className="dropdown-item"
                       id="aToz"
-                      href="javascript:void(0)"
+                      href="#"
                     >
                       A - Z Order
                     </a>
@@ -80,7 +80,7 @@ export default function TopFillter() {
                     <a
                       className="dropdown-item"
                       id="zToa"
-                      href="javascript:void(0)"
+                      href="#"
                     >
                       Z - A Order
                     </a>
@@ -89,7 +89,7 @@ export default function TopFillter() {
                     <a
                       className="dropdown-item"
                       id="off"
-                      href="javascript:void(0)"
+                      href="#"
                     >
                       % Off - Hight To Low
                     </a>
@@ -100,7 +100,7 @@ export default function TopFillter() {
             <div className="grid-option grid-option-2">
               <ul>
                 <li className="three-grid">
-                  <a href="javascript:void(0)">
+                  <a href="#">
                     <img
                       src="../assets/svg/grid-3.svg"
                       className="blur-up lazyload"
@@ -109,7 +109,7 @@ export default function TopFillter() {
                   </a>
                 </li>
                 <li className="grid-btn five-grid d-xxl-inline-block d-none">
-                  <a href="javascript:void(0)">
+                  <a href="#">
                     <img
                       src="../assets/svg/grid-4.svg"
                       className="blur-up lazyload d-lg-inline-block d-none"
@@ -118,7 +118,7 @@ export default function TopFillter() {
                   </a>
                 </li>
                 <li className="five-grid d-xxl-inline-block d-none active">
-                  <a href="javascript:void(0)">
+                  <a href="#">
                     <img
                       src="../assets/svg/grid-5.svg"
                       className="blur-up lazyload d-lg-inline-block d-none"
@@ -127,7 +127,7 @@ export default function TopFillter() {
                   </a>
                 </li>
                 <li className="list-btn">
-                  <a href="javascript:void(0)">
+                  <a href="#">
                     <img
                       src="../assets/svg/list.svg"
                       className="blur-up lazyload"

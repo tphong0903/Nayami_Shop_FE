@@ -73,7 +73,7 @@ export default function AdminHeader({ setSidebarOpen }) {
                   </p>
                 </li>
                 <li>
-                  <a className="btn btn-primary" href="javascript:void(0)">
+                  <a className="btn btn-primary" href="#">
                     Check all notification
                   </a>
                 </li>

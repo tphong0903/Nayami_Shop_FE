@@ -17,6 +17,7 @@
     "@mui/material": "^6.4.0",
     "@mui/x-data-grid": "^7.28.3",
     "@mui/x-date-pickers": "^7.28.3",
+    "@tailwindcss/vite": "^4.1.4",
     "@toast-ui/react-editor": "^3.2.3",
     "apexcharts": "^4.5.0",
     "axios": "^1.8.3",
@@ -40,7 +41,9 @@
     "react-slick": "^0.30.3",
     "simplebar": "^6.3.0",
     "slick-carousel": "^1.8.1",
-    "sweetalert2": "^11.17.2"
+    "sweetalert2": "^11.17.2",
+    "swiper": "^11.2.6",
+    "tailwindcss": "^4.1.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

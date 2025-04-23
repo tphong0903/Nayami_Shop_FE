@@ -12,6 +12,7 @@ export default function SideBar({ value, setSidebarOpen }) {
   const [isRolesOpen, setIsRolesOpen] = useState(false);
   const [isOrdersOpen, setIsOrdersOpen] = useState(false);
   const [isPromotionOpen, setIsPromotionOpen] = useState(false);
+  const [isCommentOpen, setIsCommentOpen] = useState(false);
   const [isCouponsOpen, setIsCouponsOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
@@ -74,7 +75,7 @@ export default function SideBar({ value, setSidebarOpen }) {
 
               {/* Product Menu */}
               <li className="sidebar-list">
-                <a className="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsProductOpen)}>
+                <a className="linear-icon-link sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsProductOpen)}>
                   <i className="ri-store-3-line" />
                   <span>Sản phẩm</span>
                   <i className={`ri-arrow-${isProductOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
@@ -89,7 +90,7 @@ export default function SideBar({ value, setSidebarOpen }) {
 
               {/* Category Menu */}
               <li className="sidebar-list">
-                <a className="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsCategoryOpen)}>
+                <a className="linear-icon-link sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsCategoryOpen)}>
                   <i className="ri-list-check-2" />
                   <span>Danh mục</span>
                   <i className={`ri-arrow-${isCategoryOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
@@ -104,7 +105,7 @@ export default function SideBar({ value, setSidebarOpen }) {
 
               {/* Brands Menu */}
               <li className="sidebar-list">
-                <a className="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsBrandsOpen)}>
+                <a className="linear-icon-link sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsBrandsOpen)}>
                   <i className="ri-list-settings-line" />
                   <span>Thương hiệu</span>
                   <i className={`ri-arrow-${isBrandsOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
@@ -119,7 +120,7 @@ export default function SideBar({ value, setSidebarOpen }) {
 
               {/* Users Menu */}
               <li className="sidebar-list">
-                <a className="sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsUsersOpen)}>
+                <a className="sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsUsersOpen)}>
                   <i className="ri-user-3-line" />
                   <span>Users</span>
                   <i className={`ri-arrow-${isUsersOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
@@ -134,7 +135,7 @@ export default function SideBar({ value, setSidebarOpen }) {
 
               {/*/!* Roles Menu *!/*/}
               {/*<li className="sidebar-list">*/}
-              {/*  <a className="sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsRolesOpen)}>*/}
+              {/*  <a className="sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsRolesOpen)}>*/}
               {/*    <i className="ri-user-3-line" />*/}
               {/*    <span>Roles</span>*/}
               {/*    <i className={`ri-arrow-${isRolesOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />*/}
@@ -149,7 +150,7 @@ export default function SideBar({ value, setSidebarOpen }) {
 
               {/* Orders Menu */}
               <li className="sidebar-list">
-                <a className="sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsOrdersOpen)}>
+                <a className="sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsOrdersOpen)}>
                   <i className="ri-archive-line" />
                   <span>Đơn hàng</span>
                   <i className={`ri-arrow-${isOrdersOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
@@ -163,7 +164,7 @@ export default function SideBar({ value, setSidebarOpen }) {
 
               {/* Localization Menu */}
               <li className="sidebar-list">
-                <a className="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsPromotionOpen)}>
+                <a className="linear-icon-link sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsPromotionOpen)}>
                   <i className="ri-focus-3-line" />
                   <span>Quảng cáo</span>
                   <i className={`ri-arrow-${isPromotionOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
@@ -175,10 +176,23 @@ export default function SideBar({ value, setSidebarOpen }) {
                   </ul>
                 )}
               </li>
+              {/* Comment Menu */}
+              <li className="sidebar-list">
+                <a className="linear-icon-link sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsCommentOpen)}>
+                  <i className="ri-archive-line" />
+                  <span>Đánh giá</span>
+                  <i className={`ri-arrow-${isCommentOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
+                </a>
+                {isCommentOpen && (
+                  <ul className="sidebar-submenu">
+                    <li><Link to="/admin/comments">Danh sách đánh giá</Link></li>
+                  </ul>
+                )}
+              </li>
 
               {/* Coupons Menu */}
               <li className="sidebar-list">
-                <a className="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsCouponsOpen)}>
+                <a className="linear-icon-link sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsCouponsOpen)}>
                   <i className="ri-price-tag-3-line" />
                   <span>Khuyến mãi</span>
                   <i className={`ri-arrow-${isCouponsOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
@@ -195,7 +209,7 @@ export default function SideBar({ value, setSidebarOpen }) {
 
               {/* Settings Menu */}
               <li className="sidebar-list">
-                <a className="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)" onClick={() => toggleMenu(setIsSettingsOpen)}>
+                <a className="linear-icon-link sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsSettingsOpen)}>
                   <i className="ri-settings-line" />
                   <span>Settings</span>
                   <i className={`ri-arrow-${isSettingsOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />

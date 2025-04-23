@@ -193,19 +193,19 @@ export default function ProductSection({ product, user, rate, purchaseCheck, set
                     <div className="product-info">
                       <ul className="product-info-list product-info-list-2">
                         <li>
-                          Thương hiệu : <a href="javascript:void(0)">{product.brandDTO.name}</a>
+                          Thương hiệu : <a href="#">{product.brandDTO.name}</a>
                         </li>
                         <li>
-                          Danh mục : <a href="javascript:void(0)">{product.categoryDTO.categoryName}</a>
+                          Danh mục : <a href="#">{product.categoryDTO.categoryName}</a>
                         </li>
                         <li>
-                          MFG : <a href="javascript:void(0)">Jun 4, 2022</a>
+                          MFG : <a href="#">Jun 4, 2022</a>
                         </li>
                         <li>
-                          Số lượng : <a href="javascript:void(0)">{product.quantity}</a>
+                          Số lượng : <a href="#">{product.quantity}</a>
                         </li>
                         <li>
-                          Tình trạng : <a href="javascript:void(0)">{
+                          Tình trạng : <a href="#">{
                             product.productStatus == 'COMING_SOON' ? 'Sắp kinh doanh' :
                               product.productStatus == 'OUT_OF_STOCK' ? 'Hết hàng' :
                                 product.productStatus == 'STOP_SELLING' ? 'Ngừng kinh doanh' : 'Đang bán'
@@ -493,7 +493,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, set
                                                 </div>
                                               </div>
                                               <div className="people-comment">
-                                                <a className="name" href="javascript:void(0)">
+                                                <a className="name" href="#">
                                                   {item.userName}
                                                 </a>
                                                 <div className="date-time">
@@ -509,7 +509,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, set
                                                 <div className="reply">
                                                   <p>
                                                     {item.description}
-                                                    <a href="javascript:void(0)">Reply</a>
+                                                    {/* <a href="#">Reply</a> */}
                                                   </p>
                                                 </div>
                                               </div>

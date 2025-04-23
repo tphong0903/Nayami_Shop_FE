@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import feather from 'feather-icons';
+import './App.css'
+
 import HomePage from './pages/HomePage'
 import ProductPage from './pages/ProductPage';
 import ShopPage from './pages/ShopPage';
@@ -46,6 +48,8 @@ import ChangePasswordUser from '~/components/info/ChangePasswordUser.jsx';
 import OauthCallback from '~/pages/OauthCallback.jsx';
 import ProtectedRouteRegisterCustomer from '~/components/midlleware/ProtectedRouteRegisterCustomer.jsx';
 import ProtectedRouteUnregisterCustomer from '~/components/midlleware/ProtectedRouteUnregisterCustomer.jsx';
+import ProductList from './components/Admin/body/comments/ProductList';
+import CommentsList from './components/Admin/body/comments/CommentsList';
 function App() {
   setupAxiosInterceptors();
   useEffect(() => {
@@ -110,6 +114,8 @@ function App() {
               <Route path="orders/:id" element={<OrderDetail />} />
               <Route path="add-new-promotion" element={<AddPromotion />} />
               <Route path="update-promotion/:id" element={<AddPromotion />} />
+              <Route path="comments" element={<ProductList />} />
+              <Route path="comments/:id" element={<CommentsList />} />
             </Route>
           </Route>
 

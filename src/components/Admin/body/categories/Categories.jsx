@@ -27,6 +27,10 @@ const CategoryList = () => {
       return active ? 'Bạn có chắc chắn muốn ẩn?' : 'Bạn có chắc chắn muốn hiện?'
     }
 
+    const acceptButton = () => {
+      return active ? 'Ẩn' : 'Hiện'
+    }
+
     const category = categories.find(item => item.id == id)
     category.active = !category.active
     console.log(category)
@@ -39,7 +43,7 @@ const CategoryList = () => {
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Xoá',
+      confirmButtonText: acceptButton(),
       cancelButtonText: 'Hủy'
     }).then(async (result) => {
       if (result.isConfirmed) {
