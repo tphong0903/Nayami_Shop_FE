@@ -3,29 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { formatCurrency } from '~/utils/formatCurrency';
 import axios from 'axios';
 
-const MOCK_USER_DATA = {
-  avatar: '../assets/images/inner-page/user/1.jpg',
-  totalOrders: 8,
-  pendingOrders: 2,
-  totalWishlist: 12,
-  totalSpent: 5600000,
-  billingAddress: {
-    name: 'Nguyễn Văn A',
-    street: '123 Đường ABC',
-    city: 'Hồ Chí Minh',
-    state: 'Quận 1',
-    zipCode: '70000',
-    phone: '0987654321',
-  },
-  shippingAddress: {
-    name: 'Nguyễn Văn A',
-    street: '123 Đường ABC',
-    city: 'Hồ Chí Minh',
-    state: 'Quận 1',
-    zipCode: '70000',
-    phone: '0987654321',
-  },
-};
 
 const DashboardHome = () => {
   const [userData, setUserData] = useState({
@@ -69,12 +46,13 @@ const DashboardHome = () => {
             totalAmount: order.totalPrice,
             status: order.status,
           }));
-
+        const fullName = storedUser.userName
+        const email = storedUser.email
+        const phone = storedUser.phoneNumber
         setUserData({
-          ...MOCK_USER_DATA,
-          fullName: storedUser.userName,
-          email: storedUser.email,
-          phone: storedUser.phoneNumber,
+          fullName,
+          email,
+          phone,
           totalOrders,
           pendingOrders,
           totalSpent,
@@ -83,9 +61,8 @@ const DashboardHome = () => {
       } catch (error) {
         console.error('Error fetching order history:', error);
         setUserData({
-          ...MOCK_USER_DATA,
-          fullName: MOCK_USER_DATA.fullName,
-          email: MOCK_USER_DATA.email,
+          userName: storedUser.userName,
+          email: storedUser.email,
         });
       }
     };

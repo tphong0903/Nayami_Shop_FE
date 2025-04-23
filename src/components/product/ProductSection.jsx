@@ -5,7 +5,7 @@ import DealTimer from './DealTimer';
 import Slider from 'react-slick';
 import { formatCurrency } from '~/utils/formatCurrency';
 import axios from 'axios';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { addToCart } from '~/apis/addtoCart';
 
 var settings = {
@@ -18,9 +18,8 @@ var settings = {
   arrows: false
 };
 
-export default function ProductSection({ product, user, rate, purchaseCheck, setProductId }) {
+export default function ProductSection({ product, user, rate, purchaseCheck }) {
   const params = useParams();
-  const navigate = useNavigate();
 
   const [listImage, setListImage] = useState([]);
   const [listDiscountProducts, setListDiscountProducts] = useState([]);
@@ -66,9 +65,6 @@ export default function ProductSection({ product, user, rate, purchaseCheck, set
 
   const submitReview = () => {
     axios.post('/api/comments', submitInfo)
-      .then(res => {
-        console.log(res.data)
-      })
       .then(() => {
         window.location.reload()
       })

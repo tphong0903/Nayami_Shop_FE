@@ -50,6 +50,7 @@ import ProtectedRouteRegisterCustomer from '~/components/midlleware/ProtectedRou
 import ProtectedRouteUnregisterCustomer from '~/components/midlleware/ProtectedRouteUnregisterCustomer.jsx';
 import ProductList from './components/Admin/body/comments/ProductList';
 import CommentsList from './components/Admin/body/comments/CommentsList';
+import AddressTab from './components/info/AddressTab';
 function App() {
   setupAxiosInterceptors();
   useEffect(() => {
@@ -64,6 +65,8 @@ function App() {
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/product-detail/:id" element={<ProductPage />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/shop" element={<ShopPage />} />
+
           {/*Nhung nguoi da dang nhap thi khong duoc truy cap*/}
           <Route element={<ProtectedRouteUnregisterCustomer />}>
             <Route path="/login" element={<Login />} />
@@ -80,6 +83,7 @@ function App() {
               <Route path="orders" element={<OrderTab />} />
               <Route path="profile" element={<ChangeProfileLayout />} />
               <Route path="password" element={<ChangePasswordUser />} />
+              <Route path="addresses" element={<AddressTab />} />
             </Route>
             <Route path="/checkout" element={<CheckOutPage />} />
             <Route path="/cart" element={<CartPage />} />
