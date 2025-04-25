@@ -57,7 +57,6 @@ import VoucherTab from './components/info/VoucherTab';
 
 function App() {
   useEffect(() => {
-    setupAxiosInterceptors();
     feather.replace();
   }, []);
   return (
