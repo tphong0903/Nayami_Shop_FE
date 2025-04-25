@@ -3,7 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { formatCurrency } from '~/utils/formatCurrency';
 import axios from 'axios';
 
-
+const token = localStorage.getItem('access_token');
+axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 const DashboardHome = () => {
   const [userData, setUserData] = useState({
     fullName: '',
@@ -18,7 +19,48 @@ const DashboardHome = () => {
     shippingAddress: null,
     totalSpent: 0,
   });
-
+  const getStatusBadgeClass = (status) => {
+    switch (status?.toLowerCase()) {
+    case 'completed':
+      return 'badge bg-success';
+    case 'unpaid':
+      return 'badge bg-danger';
+    case 'shipping':
+      return 'badge bg-primary';
+    case 'shipped':
+      return 'badge bg-info';
+    case 'cancelled':
+      return 'badge bg-danger';
+    case 'pending':
+      return 'badge bg-warning';
+    case 'guarantee':
+      return 'badge bg-secondary';
+    default:
+      return 'badge bg-light text-dark';
+    }
+  };
+  const getStatusText = (status) => {
+    switch (status?.toLowerCase()) {
+    case 'completed':
+      return 'Hoàn thành';
+    case 'unpaid':
+      return 'Chờ thanh toán';
+    case 'confrimed':
+      return 'Đang chờ vận chuyển';
+    case 'shipping':
+      return 'Đang giao hàng';
+    case 'shipped':
+      return 'Đã giao';
+    case 'cancelled':
+      return 'Đã hủy';
+    case 'pending':
+      return 'Chờ xác nhận';
+    case 'guarantee':
+      return 'Bảo hành';
+    default:
+      return status;
+    }
+  };
   const [activeTab, setActiveTab] = useState('profile');
   const location = useLocation();
   useEffect(() => {
@@ -34,10 +76,25 @@ const DashboardHome = () => {
         ).length;
 
         const totalSpent = orderHistory.reduce((total, order) => {
-          return total + (order.totalPrice || 0);
+          if (order.status === 'COMPLETED') {
+            return total + (order.totalPrice || 0);
+          }
+          return total;
         }, 0);
 
-        const recentOrders = orderHistory
+        const formattedOrders = response.data.data.map((order) => {
+          let lowerStatus = order.status.toLowerCase();
+          const isUnpaid =
+            order.paymentMethod === 'ONLINE_BANKING' &&
+            order.paymentStatus === 'PENDING';
+
+          return {
+            ...order,
+            status: isUnpaid ? 'unpaid' : lowerStatus,
+            originalStatus: lowerStatus,
+          };
+        });
+        const recentOrders = formattedOrders
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           .slice(0, 3)
           .map((order) => ({
@@ -68,7 +125,7 @@ const DashboardHome = () => {
     };
 
     fetchOrders();
-  },[location.pathname]);
+  }, [location.pathname]);
 
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {
@@ -344,12 +401,8 @@ const DashboardHome = () => {
                         <td>{formatDate(order.createdAt)}</td>
                         <td>{formatCurrency(order.totalAmount)}</td>
                         <td>
-                          <span
-                            className={`badge bg-${getStatusColor(
-                              order.status
-                            )}`}
-                          >
-                            {order.status}
+                          <span className={getStatusBadgeClass(order.status)}>
+                            {getStatusText(order.status)}
                           </span>
                         </td>
                       </tr>

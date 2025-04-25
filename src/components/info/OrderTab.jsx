@@ -65,7 +65,7 @@ const OrderTab = () => {
 
   useEffect(() => {
     const now = new Date().getTime();
-  
+
     let ordersUpdated = false;
     const updatedOrders = orders.map((order) => {
       if (
@@ -79,7 +79,7 @@ const OrderTab = () => {
       }
       return order;
     });
-  
+
     if (ordersUpdated) {
       setOrders(updatedOrders);
     }
