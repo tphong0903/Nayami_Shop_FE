@@ -1,9 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import feather from 'feather-icons';
-import './App.css'
+import './App.css';
 
-import HomePage from './pages/HomePage'
+import HomePage from './pages/HomePage';
 import ProductPage from './pages/ProductPage';
 import ShopPage from './pages/ShopPage';
 import AboutUsPage from './pages/AboutUsPage';
@@ -11,7 +11,7 @@ import CartPage from './pages/CartPage';
 import CheckOutPage from './pages/CheckOutPage';
 import AdminPage from './pages/Admin/AdminPage';
 import DashBoard from './components/Admin/body/dashboard/DashBoard';
-import Products from './components/Admin/body/products/Products'
+import Products from './components/Admin/body/products/Products';
 import AddProduct from './components/Admin/body/products/AddProduct';
 import UserDashboard from './pages/UserDashboard';
 
@@ -53,6 +53,7 @@ import ProtectedRouteUnregisterCustomer from '~/components/midlleware/ProtectedR
 import ProductList from './components/Admin/body/comments/ProductList';
 import CommentsList from './components/Admin/body/comments/CommentsList';
 import AddressTab from './components/info/AddressTab';
+import VoucherTab from './components/info/VoucherTab';
 
 function App() {
   useEffect(() => {
@@ -74,6 +75,7 @@ function App() {
             <Route path="orders" element={<OrderTab />} />
             <Route path="profile" element={<ChangeProfileLayout />} />
             <Route path="password" element={<ChangePasswordUser />} />
+            <Route path="vouchers" element={<VoucherTab />} />
           </Route>
           <Route path="/login" element={<Login />} />
 
@@ -99,6 +101,7 @@ function App() {
               <Route path="profile" element={<ChangeProfileLayout />} />
               <Route path="password" element={<ChangePasswordUser />} />
               <Route path="addresses" element={<AddressTab />} />
+              <Route path="vouchers" element={<VoucherTab />} />
             </Route>
             <Route path="/checkout" element={<CheckOutPage />} />
             <Route path="/cart" element={<CartPage />} />
@@ -109,15 +112,30 @@ function App() {
             <Route element={<AdminPage />}>
               <Route index element={<DashBoard />} />
               <Route path="products" element={<Products />} />
-              <Route path="add-new-product" element={<AddProduct view={false} />} />
-              <Route path="edit-product/:id" element={<AddProduct view={false} />} />
-              <Route path="view-product/:id" element={<AddProduct view={true} />} />
+              <Route
+                path="add-new-product"
+                element={<AddProduct view={false} />}
+              />
+              <Route
+                path="edit-product/:id"
+                element={<AddProduct view={false} />}
+              />
+              <Route
+                path="view-product/:id"
+                element={<AddProduct view={true} />}
+              />
               <Route path="discounts" element={<DiscountCampain />} />
               <Route path="add-discounts" element={<AddDiscountCampain />} />
-              <Route path="edit-discounts/:id" element={<AddDiscountCampain />} />
+              <Route
+                path="edit-discounts/:id"
+                element={<AddDiscountCampain />}
+              />
               <Route path="users" element={<Users />} />
               <Route path="add-new-user" element={<AddUser />} />
-              <Route path="edit-password-user/:id" element={<EditPasswordUser />} />
+              <Route
+                path="edit-password-user/:id"
+                element={<EditPasswordUser />}
+              />
               <Route path="update-user/:id" element={<UpdateUser />} />
               <Route path="categories" element={<Categories />} />
               <Route path="add-new-category" element={<AddCategory />} />

@@ -199,11 +199,10 @@ export default function SideBar({ value, setSidebarOpen }) {
                 </a>
                 {isCouponsOpen && (
                   <ul className="sidebar-submenu">
-                    <li><Link to={'/admin/discounts'}>Danh sách khuyến mãi</Link></li>
-                    <li><Link to={'/admin/add-discounts'}>Tạo khuyến mãi</Link></li>
-                    <li><Link to={'coupon-list.html'}>Coupon List</Link></li>
-                    <li><Link to={'create-coupon.html'}>Create Coupon</Link></li>
-
+                    <li><Link to="/admin/discounts">Danh sách khuyến mãi</Link></li>
+                    <li><Link to="/admin/add-discounts">Tạo khuyến mãi</Link></li>
+                    <li><Link to="/admin/coupons">Danh sách mã giảm giá</Link></li>
+                    <li><Link to="/admin/add-new-coupon">Tạo mã giảm giá</Link></li>
                   </ul>
                 )}
               </li>
