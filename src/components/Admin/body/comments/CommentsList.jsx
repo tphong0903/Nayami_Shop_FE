@@ -1,8 +1,8 @@
-import axios from "axios"
-import { useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import axios from 'axios'
+import { useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import { Rating } from '@mui/material'
-import Swal from "sweetalert2"
+import Swal from 'sweetalert2'
 
 export default function CommentsList() {
 
@@ -10,6 +10,7 @@ export default function CommentsList() {
     const [comments, setComments] = useState([])
     const [replyData, setReplyData] = useState({
         id: 0,
+        // eslint-disable-next-line quotes
         staff: "demotranbao111@gmail.com",
         reply: ''
     })
@@ -59,7 +60,7 @@ export default function CommentsList() {
             cancelButtonText: 'Hủy'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await axios.post(`/api/comments/active`, { id: id })
+                await axios.post('/api/comments/active', { id: id })
                     .then(() => {
                         fetchData()
                     })
@@ -68,17 +69,13 @@ export default function CommentsList() {
     }
 
     const sendReply = async () => {
-        console.log(replyData)
-        await axios.post(`/api/response`, replyData)
+        await axios.post('/api/response', replyData)
             .then(() => {
                 Swal.fire({
-                    title: "Phản hồi thành công",
-                    icon: "success",
+                    title: 'Phản hồi thành công',
+                    icon: 'success',
                     timer: 1500
-                }).then(() => {
-                    window.location.reload()
                 })
-
             })
     }
 
@@ -119,7 +116,7 @@ export default function CommentsList() {
                                                                             <Rating size='medium' name="read-only" value={item?.rating ?? 0} readOnly />
                                                                         </td>
                                                                         <td>{item.description}</td>
-                                                                        <td style={{ fontSize: "20px" }}>
+                                                                        <td style={{ fontSize: '20px' }}>
                                                                             {
                                                                                 item?.active
                                                                                     ? <i className="ri-checkbox-circle-line text-success"></i>

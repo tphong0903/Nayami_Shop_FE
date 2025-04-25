@@ -1,16 +1,9 @@
-import Hinh1 from '~/assets/images/inner-page/about-us/1.jpg'
-import Hinh2 from '~/assets/images/inner-page/about-us/2.jpg'
+
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import PercentIcon from '@mui/icons-material/Percent';
 import VerifiedIcon from '@mui/icons-material/Verified';
-import Laptop from '~/assets/ImageCategoris/laptop.png';
 import DienThoai from '~/assets/ImageCategoris/iphone-16-pro-max.png';
-import ManHinh from '~/assets/ImageCategoris/man-hinh-removebg-preview.png';
-import BanPhim from '~/assets/ImageCategoris/ban-phim-removebg-preview.png';
-import Chuot from '~/assets/ImageCategoris/chuot-removebg-preview.png';
-import TaiNghe from '~/assets/ImageCategoris/tai-nghe-removebg-preview.png';
-import Loa from '~/assets/ImageCategoris/loa-removebg-preview.png';
 import Camera from '~/assets/ImageCategoris/camera-removebg-preview.png';
 export default function AboutUs() {
   return (
