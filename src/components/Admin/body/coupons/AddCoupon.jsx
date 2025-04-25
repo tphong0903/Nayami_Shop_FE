@@ -21,7 +21,7 @@ const CouponForm = () => {
   });
 
   const [error, setError] = useState(null);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('access_token');
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   useEffect(() => {
