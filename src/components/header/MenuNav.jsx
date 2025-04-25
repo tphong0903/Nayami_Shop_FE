@@ -21,7 +21,7 @@ export default function MenuNav() {
 
   useEffect(() => {
     axios
-      .get('/api/categories/brands')
+      .get('/api/categories/active/brands')
       .then((response) => {
         setCategorys(response.data.data);
       })

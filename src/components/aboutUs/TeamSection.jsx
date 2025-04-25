@@ -4,11 +4,35 @@ import Phong from '~/assets/images/tphong.jpg';
 import NDQ from '~/assets/images/ndq.jpg';
 import HDQ from '~/assets/images/hdq.jpg';
 import Bao from '~/assets/images/bao.jpg';
+import { useEffect, useState } from 'react';
 export default function TeamSection() {
+  const [slidesToShow, setSlidesToShow] = useState(getSlidesToShow());
+
+  function getSlidesToShow() {
+    if (window.innerWidth < 480) {
+      return 1;
+    } else if (window.innerWidth < 768) {
+      return 2;
+    } else if (window.innerWidth < 1024) {
+      return 4;
+    } else {
+      return 4;
+    }
+  }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setSlidesToShow(getSlidesToShow());
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const settings = {
     dots: true,
+    infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: slidesToShow,
     slidesToScroll: 1,
   };
   return (
