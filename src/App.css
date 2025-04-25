@@ -1,0 +1,31 @@
+.swiper-button-next,
+.swiper-button-prev {
+    color: #23B674 !important;
+    padding: 10px;
+    border-radius: 9999px;
+    transition: 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    color: #20a368 !important;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #20a368 !important;
+}
+
+.zoom-image {
+    transition: transform 0.3s ease-in-out;
+}
+
+.zoom-image:hover {
+    transform: scale(1.1);
+}
+
+.gradient-text {
+    background: linear-gradient(45deg, #20a368, #1e9660);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}

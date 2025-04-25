@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 
 import { Link } from 'react-router-dom'
 import LogoShop from '../../assets/images/mainImage.jpg'
@@ -40,9 +41,7 @@ export default function TopNav() {
           setCartCount(response.data.data.length || 0);
         }
       }
-    } catch (error) {
-      console.error('Error fetching cart data:', error);
-    }
+    } catch (error) { /* empty */ }
   };
   const removeCartItem = async (cartId) => {
     try {
@@ -55,9 +54,7 @@ export default function TopNav() {
         });
         fetchCartData();
       }
-    } catch (error) {
-      console.error('Error removing item from cart:', error);
-    }
+    } catch (error) { /* empty */ }
   };
 
   const checkIfTokenExist = () => {
@@ -69,7 +66,6 @@ export default function TopNav() {
   useEffect(() => {
     fetchCartData();
 
-    //register observer
     const handleCartUpdate = () => {
       fetchCartData();
     };
@@ -78,6 +74,7 @@ export default function TopNav() {
 
     return () => {
       cartObserver.unsubscribe(handleCartUpdate);
+
     };
   }, []);
   return (
@@ -155,6 +152,7 @@ export default function TopNav() {
                         <button
                           type="button"
                           className="btn p-0 position-relative header-wishlist"
+                          onClick={() => {navigate('/cart')}}
                         >
                           <ShoppingCartOutlined />
                           <span className="position-absolute top-0 start-100 translate-middle badge">

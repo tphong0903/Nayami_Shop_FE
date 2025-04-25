@@ -1,4 +1,3 @@
-// src/services/cartService.js
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import cartObserver from '~/utils/CartObserver';

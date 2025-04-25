@@ -71,13 +71,13 @@ export default function Footer() {
                     <ul className="address">
                       <li>
                         <i data-feather="home" />
-                        <a href="javascript:void(0)">
+                        <a href="#">
                           1418 Riverwood Drive, CA 96052, US
                         </a>
                       </li>
                       <li>
                         <i data-feather="mail" />
-                        <a href="javascript:void(0)">support@fastkart.com</a>
+                        <a href="#">support@fastkart.com</a>
                       </li>
                     </ul>
                   </div>
