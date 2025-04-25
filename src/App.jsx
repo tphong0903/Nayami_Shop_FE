@@ -56,7 +56,6 @@ import AddressTab from './components/info/AddressTab';
 
 function App() {
   useEffect(() => {
-    setupAxiosInterceptors();
     feather.replace();
   }, []);
   return (
