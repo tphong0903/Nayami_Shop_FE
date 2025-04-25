@@ -5,7 +5,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { Link } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function LeftFillter({ setListProduct, currentPage, setTotalPage, setCurrentPage, sortBy, searchQuery }) {
+export default function LeftFillter({ setListProduct, currentPage, setTotalPage, setCurrentPage, sortBy, searchQuery, openFilter, setOpenFilter1 }) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -182,11 +182,11 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
 
 
   return (
-    <div className="col-custome-3 wow fadeInUp" style={{ width: '22%' }}>
-      <div className="left-box">
+    <div className="col-lg-3  wow fadeInUp">
+      <div className={`left-box wow fadeInUp ${openFilter ? 'show' : ''}`}>
         <div className="shop-left-sidebar">
           <div className="back-button">
-            <h3>
+            <h3 onClick={() => setOpenFilter1()}>
               <i className="fa-solid fa-arrow-left" /> Back
             </h3>
           </div>

@@ -9,14 +9,6 @@ import { formatCurrency } from '~/utils/formatCurrency';
 export default function DiscountSection({ ref }) {
   const [slidesToShow, setSlidesToShow] = useState(getSlidesToShow());
   const [listDiscountProducts, setListDiscountProducts] = useState([]);
-  useEffect(() => {
-    axios
-      .get('/api/products/discounts')
-      .then((response) => {
-        setListDiscountProducts(response.data.data.sort((a, b) => b.discount - a.discount).slice(0, 6));
-      })
-  }, []);
-
 
   function getSlidesToShow() {
     if (window.innerWidth < 480) {
@@ -38,6 +30,16 @@ export default function DiscountSection({ ref }) {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+  useEffect(() => {
+    axios
+      .get('/api/products/discounts')
+      .then((response) => {
+        setListDiscountProducts(response.data.data.sort((a, b) => b.discount - a.discount).slice(0, 6));
+        if (slidesToShow > listDiscountProducts.length)
+          setSlidesToShow(listDiscountProducts.length)
+      })
+  }, []);
+
   const settings = {
     dots: true,
     infinite: true,

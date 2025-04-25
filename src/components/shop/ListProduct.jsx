@@ -4,16 +4,16 @@ import { formatCurrency } from '~/utils/formatCurrency';
 import { addToCart } from '~/apis/addtoCart';
 
 
-export default function ListProduct({ listProduct, totalPage, setCurrentPage, sortBy, setSortBy }) {
+export default function ListProduct({ listProduct, totalPage, setCurrentPage, sortBy, setSortBy, setOpenFilter1 }) {
   const handleChangeSortBy = (event) => {
     setSortBy(event.target.value);
   };
   return (
-    <div className="col-custome-9 wow fadeInUp" style={{ width: '78%' }}>
+    <div className="col-lg-9 col-12 wow fadeInUp">
       <div className="show-button">
         <div className="filter-button-group mt-0">
           <div className="filter-button d-inline-block d-lg-none">
-            <a>
+            <a onClick={() => setOpenFilter1()}>
               <i className="fa-solid fa-filter" /> Filter Menu
             </a>
           </div>

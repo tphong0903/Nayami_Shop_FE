@@ -3,12 +3,35 @@ import Hinh1 from '~/assets/svg/3/work.svg';
 import Hinh2 from '~/assets/svg/3/buy.svg';
 import Hinh3 from '~/assets/svg/3/user.svg';
 import Slider from 'react-slick';
+import { useEffect, useState } from 'react';
 export default function ClientSection() {
+  const [slidesToShow, setSlidesToShow] = useState(getSlidesToShow());
+
+  function getSlidesToShow() {
+    if (window.innerWidth < 480) {
+      return 1;
+    } else if (window.innerWidth < 768) {
+      return 2;
+    } else if (window.innerWidth < 1024) {
+      return 3;
+    } else {
+      return 3;
+    }
+  }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setSlidesToShow(getSlidesToShow());
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: slidesToShow,
     slidesToScroll: 1,
   };
   return (
