@@ -39,7 +39,6 @@ const CategoryForm = () => {
     } catch (err) {
       setError('Failed to load category data');
       setLoading(false);
-      console.error('Error loading category:', err);
     }
   };
 
@@ -55,7 +54,7 @@ const CategoryForm = () => {
     setError(null);
 
     try {
-      const payload = { categoryName: formData.categoryName, active: "true" };
+      const payload = { categoryName: formData.categoryName, active: 'true' };
 
       if (isEditMode) {
         await axios.put(`/api/categories/${id}`, payload, {
@@ -68,10 +67,10 @@ const CategoryForm = () => {
           .then(res => {
             if (res.data.status == 400) {
               Swal.fire({
-                title: "Insert fail",
-                text: "Category has existed",
-                icon: "error",
-                confirmButtonText: "OK",
+                title: 'Insert fail',
+                text: 'Category has existed',
+                icon: 'error',
+                confirmButtonText: 'OK',
                 timer: 3000
               })
             }
@@ -98,7 +97,7 @@ const CategoryForm = () => {
                   <div className="card-body">
                     <div className="card-header-2">
                       <h5>
-                        {isEditMode ? 'Edit Category' : 'Category Information'}
+                        {isEditMode ? 'Chỉnh Sửa Danh Mục' : 'Thông Tin Danh Mục'}
                       </h5>
                     </div>
 
@@ -115,13 +114,13 @@ const CategoryForm = () => {
                       {/* Category Name */}
                       <div className="mb-4 row align-items-center">
                         <label className="form-label-title col-sm-3 mb-0">
-                          Category Name
+                          Tên danh mục
                         </label>
                         <div className="col-sm-9">
                           <input
                             className="form-control"
                             type="text"
-                            placeholder="Category Name"
+                            placeholder="Tên"
                             value={formData.categoryName}
                             onChange={handleNameChange}
                             required
@@ -139,15 +138,15 @@ const CategoryForm = () => {
                             {loading
                               ? '..Saving.'
                               : isEditMode
-                                ? 'Update Category'
-                                : 'Add Category'}
+                                ? 'Cập nhật'
+                                : 'Thêm'}
                           </button>
                           <button
                             type="button"
                             className="btn btn-secondary"
                             onClick={() => navigate('/admin/categories')}
                           >
-                            Cancel
+                            Hủy
                           </button>
                         </div>
                       </div>

@@ -122,13 +122,13 @@ export default function SideBar({ value, setSidebarOpen }) {
               <li className="sidebar-list">
                 <a className="sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsUsersOpen)}>
                   <i className="ri-user-3-line" />
-                  <span>Users</span>
+                  <span>Người dùng</span>
                   <i className={`ri-arrow-${isUsersOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
                 </a>
                 {isUsersOpen && (
                   <ul className="sidebar-submenu">
-                    <li><Link to="/admin/users">All Users</Link></li>
-                    <li><Link to="/admin/add-new-user">Add New User</Link></li>
+                    <li><Link to="/admin/users">Người dùng</Link></li>
+                    <li><Link to="/admin/add-new-user">Thêm người dùng</Link></li>
                   </ul>
                 )}
               </li>
@@ -199,10 +199,11 @@ export default function SideBar({ value, setSidebarOpen }) {
                 </a>
                 {isCouponsOpen && (
                   <ul className="sidebar-submenu">
-                    <li><a href="/admin/discounts">Danh sách khuyến mãi</a></li>
-                    <li><a href="/admin/add-discounts">Tạo khuyến mãi</a></li>
-                    <li><a href="/admin/coupons">Danh sách mã giảm giá</a></li>
-                    <li><a href="/admin/add-new-coupon">Tạo mã giảm giá</a></li>
+                    <li><Link to={'/admin/discounts'}>Danh sách khuyến mãi</Link></li>
+                    <li><Link to={'/admin/add-discounts'}>Tạo khuyến mãi</Link></li>
+                    <li><Link to={'coupon-list.html'}>Coupon List</Link></li>
+                    <li><Link to={'create-coupon.html'}>Create Coupon</Link></li>
+
                   </ul>
                 )}
               </li>
@@ -219,6 +220,17 @@ export default function SideBar({ value, setSidebarOpen }) {
                     <li><a href="profile-setting.html">Profile Setting</a></li>
                   </ul>
                 )}
+              </li>
+              {/* logout */}
+              <li className="sidebar-list">
+                <Link
+                  className="linear-icon-link sidebar-link sidebar-title"
+                  to={'/logout'}
+                  onClick={() => toggleMenu(setIsSettingsOpen)}
+                >
+                  <i className="ri-logout-box-r-line" />
+                  <span>Đăng xuất</span>
+                </Link>
               </li>
             </ul>
           </div>

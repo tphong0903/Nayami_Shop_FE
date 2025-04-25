@@ -143,7 +143,7 @@ export default function MenuNav() {
                   className="btn deal-button"
                 >
                   <BoltIcon />
-                  <span>Deal Today</span>
+                  <span>Khuyến mãi hôm nay</span>
                 </button>
               </div>
             </div>

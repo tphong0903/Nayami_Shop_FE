@@ -101,7 +101,7 @@ export default function AddDiscount({ discountDetail, openModal, setOpenModal, h
         </div>
         <div className="card-body">
           <div className="title-header option-title">
-            <h5>Product List</h5>
+            <h5>Danh sách sản phẩm</h5>
 
           </div>
           <div>
@@ -154,7 +154,7 @@ export default function AddDiscount({ discountDetail, openModal, setOpenModal, h
               </table>
             </div>
             <div className="col-sm-12 d-flex justify-content-end m-3">
-              <button type="submit" className="btn btn-primary me-3" onClick={() => saveDiscount()}>Save
+              <button type="submit" className="btn btn-primary me-3" onClick={() => saveDiscount()}>Lưu
                 {/* {isEditMode ? 'Update Product' : 'Add Product'} */}
               </button>
               <button
@@ -162,7 +162,7 @@ export default function AddDiscount({ discountDetail, openModal, setOpenModal, h
                 className="btn btn-secondary"
                 onClick={() => setOpenModal(v => !v)}
               >
-                Cancel
+                Hủy
               </button>
             </div>
           </div>

@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
-
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import EditIcon from '@mui/icons-material/Edit';
 export default function discountCampainItem({ discountCampainItem, deleteDiscountCampain }) {
   return (
     <>
@@ -19,12 +21,12 @@ export default function discountCampainItem({ discountCampainItem, deleteDiscoun
             </li> */}
             <li>
               <Link to={`/admin/edit-discounts/${discountCampainItem.id}`}>
-                <i className="ri-pencil-line" />
+                <EditIcon />
               </Link>
             </li>
             <li>
-              <Link onClick={() => { deleteDiscountCampain(discountCampainItem); }} data-bs-toggle="modal" data-bs-target="#exampleModalToggle">
-                <i className="ri-delete-bin-line" />
+              <Link onClick={() => { deleteDiscountCampain(discountCampainItem); }} className="text-danger" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">
+                {discountCampainItem.active === false ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
               </Link>
             </li>
           </ul>

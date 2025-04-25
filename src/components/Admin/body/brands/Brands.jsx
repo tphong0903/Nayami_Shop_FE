@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import EditIcon from '@mui/icons-material/Edit';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const BrandList = () => {
   const [brands, setBrands] = useState([]);
@@ -55,10 +58,10 @@ const BrandList = () => {
             <div className="card card-table">
               <div className="card-body">
                 <div className="title-header option-title">
-                  <h5>All Brands</h5>
+                  <h5>Thương hiệu</h5>
                   <div className="d-inline-flex">
                     <Link to="/admin/add-new-Brand" className="align-items-center btn btn-theme d-flex">
-                      <i className="ri-add-line me-2"></i> Add New
+                      <i className="ri-add-line me-2"></i> Thêm thương hiệu
                     </Link>
                   </div>
                 </div>
@@ -85,19 +88,20 @@ const BrandList = () => {
                               <ul>
                                 <li>
                                   <Link to={`/admin/update-new-brand/${Brand.id}`}>
-                                    <i className="ri-pencil-line" />
+                                    <EditIcon />
                                   </Link>
                                 </li>
                                 <li>
                                   <a
                                     href="#"
-                                    className={Brand.active ? 'text-primary' : 'text-secondary'}
+                                    className="text-danger"
                                     onClick={(e) => {
                                       e.preventDefault();
                                       changeStatusBrand(Brand.id);
                                     }}
                                   >
-                                    <i className={Brand.active === false ? 'ri-eye-line' : 'ri-eye-off-line'} />
+                                    {Brand.active === false ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
+
                                   </a>
                                 </li>
                               </ul>

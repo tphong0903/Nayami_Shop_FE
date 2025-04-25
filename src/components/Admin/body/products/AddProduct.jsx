@@ -255,7 +255,7 @@ export default function AddProduct({ view }) {
                 <div className="card">
                   <div className="card-body">
                     <div className="card-header-2">
-                      <h5>Thông tin sản phẩm</h5>
+                      <h5>Thông Tin Sản Phẩm</h5>
                     </div>
                     <form className="theme-form theme-form-2 mega-form">
                       <div className="mb-4 row align-items-center">
@@ -388,7 +388,7 @@ export default function AddProduct({ view }) {
                         </label>
                         <div className="col-sm-9">
                           <input
-                            type="text"
+                            type="number"
                             onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
                             value={formData.quantity}
                             className="form-control"

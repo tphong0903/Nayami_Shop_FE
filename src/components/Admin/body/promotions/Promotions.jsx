@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import BlockIcon from '@mui/icons-material/Block';
 import Swal from 'sweetalert2';
@@ -60,10 +60,10 @@ export default function Promotions() {
                             <div className="card card-table">
                                 <div className="card-body">
                                     <div className="title-header option-title">
-                                        <h5>All Promotions</h5>
+                                        <h5>Quảng cáo</h5>
                                         <div className="d-inline-flex">
                                             <Link to="/admin/add-new-promotion" className="align-items-center btn btn-theme d-flex">
-                                                <i className="ri-add-line me-2"></i> Add New
+                                                <i className="ri-add-line me-2"></i> Thêm quảng cáo
                                             </Link>
                                         </div>
                                     </div>
@@ -72,11 +72,11 @@ export default function Promotions() {
                                         <table className="table all-package theme-table" id="table_id">
                                             <thead>
                                                 <tr>
-                                                    <th>Promotion Title</th>
-                                                    <th>Promotion Description</th>
-                                                    <th>Start Date</th>
-                                                    <th>End Date</th>
-                                                    <th>Display Status</th>
+                                                    <th>Tên</th>
+                                                    <th>Mô tả</th>
+                                                    <th>Ngày bắt đầu</th>
+                                                    <th>Ngày kết thúc</th>
+                                                    <th>Trạng thái hiển thị</th>
                                                 </tr>
                                             </thead>
 

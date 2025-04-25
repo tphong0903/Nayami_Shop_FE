@@ -88,7 +88,7 @@ export default function DiscountCampain() {
                         <th>Tên</th>
                         <th>Ngày bắt đầu<SwapVertIcon /></th>
                         <th>Ngày kết thúc<SwapVertIcon /></th>
-                        <th>Trạng tháithái<SwapVertIcon /></th>
+                        <th>Trạng thái<SwapVertIcon /></th>
                         <th>Tùy chọn</th>
                       </tr>
                     </thead>
