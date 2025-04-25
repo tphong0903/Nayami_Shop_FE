@@ -126,10 +126,10 @@ export default function MenuNav() {
                         <li className="nav-item">
                           <Link
                             className="nav-link"
-                            to={'/'}
+                            to={'/about-us'}
                             style={{ fontWeight: '600', fontSize: '18px' }}
                           >
-                            CHÍNH SÁCH
+                            GIỚI THIỆU
                           </Link>
                         </li>
                       </ul>
