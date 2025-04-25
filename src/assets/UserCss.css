@@ -1,8 +1,129 @@
-@import '/src/assets/css/vendors/bootstrap.css';
-@import '/src/assets/css/animate.min.css';
-@import '/src/assets/css/vendors/font-awesome.css';
-@import '/src/assets/css/vendors/feather-icon.css';
-@import '/src/assets/css/vendors/slick/slick.css';
-@import '/src/assets/css/vendors/slick/slick-theme.css';
-@import '/src/assets/css/bulk-style.css';
-@import '/src/assets/css/style.css';
+@import "/src/assets/css/vendors/bootstrap.css";
+@import "/src/assets/css/animate.min.css";
+@import "/src/assets/css/vendors/font-awesome.css";
+@import "/src/assets/css/vendors/feather-icon.css";
+@import "/src/assets/css/vendors/slick/slick.css";
+@import "/src/assets/css/vendors/slick/slick-theme.css";
+@import "/src/assets/css/bulk-style.css";
+@import "/src/assets/css/style.css";
+
+/* Voucher Card Styles */
+.voucher-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  background: #fff;
+  transition: transform 0.3s ease;
+  border: 1px solid #e0e0e0;
+  /* Fixed size for voucher cards */
+  height: 180px;
+  width: 100%;
+}
+
+.voucher-card:hover {
+  transform: translateY(-5px);
+}
+
+.voucher-header {
+  padding: 12px 15px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px dashed #e0e0e0;
+  height: 50px;
+}
+
+.voucher-type {
+  display: flex;
+  align-items: center;
+}
+
+.voucher-icon {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: 500;
+}
+
+.voucher-icon i {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.voucher-content {
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 130px;
+}
+
+.voucher-detail {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.voucher-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.voucher-condition {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.voucher-expiry {
+  font-size: 13px;
+  color: #999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.voucher-action {
+  min-width: 100px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.voucher-action .btn {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  width: 100px;
+  white-space: nowrap;
+}
+
+/* Empty voucher state */
+.no-data-found {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.empty-box {
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+.empty-box h2 {
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+.empty-box p {
+  color: #666;
+  margin-bottom: 20px;
+}
