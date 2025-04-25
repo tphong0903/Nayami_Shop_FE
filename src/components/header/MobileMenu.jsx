@@ -1,41 +1,36 @@
-
+import { Link } from 'react-router-dom';
+import InfoIcon from '@mui/icons-material/Info';
 export default function MobileMenu() {
   return (
     <>
       <div className="mobile-menu d-md-none d-block mobile-cart">
         <ul>
           <li className="active">
-            <a href="index.html">
+            <Link to={'/'}>
               <i className="iconly-Home icli" />
               <span>Home</span>
-            </a>
+            </Link>
           </li>
           <li className="mobile-category">
-            <a href="#">
+            <Link to={'/shop'}>
               <i className="iconly-Category icli js-link" />
-              <span>Category</span>
-            </a>
+              <span>Sản phẩm</span>
+            </Link>
           </li>
           <li>
-            <a href="search.html" className="search-box">
-              <i className="iconly-Search icli" />
-              <span>Search</span>
-            </a>
-          </li>
-          <li>
-            <a href="wishlist.html" className="notifi-wishlist">
-              <i className="iconly-Heart icli" />
-              <span>My Wish</span>
-            </a>
-          </li>
-          <li>
-            <a href="/cart">
+            <Link to={'/cart'} >
               <i className="iconly-Bag-2 icli fly-cate" />
-              <span>Cart</span>
-            </a>
+              <span>Giỏ hàng</span>
+            </Link>
+          </li>
+          <li>
+            <Link to={'/about-us'} >
+              <InfoIcon sx={{ color: 'white' }} />
+              <span>Giới thiệu</span>
+            </Link>
           </li>
         </ul>
-      </div>
+      </div >
     </>
   )
 }

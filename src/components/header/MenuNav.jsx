@@ -21,7 +21,7 @@ export default function MenuNav() {
 
   useEffect(() => {
     axios
-      .get('/api/categories/brands')
+      .get('/api/categories/active/brands')
       .then((response) => {
         setCategorys(response.data.data);
       })
@@ -126,10 +126,10 @@ export default function MenuNav() {
                         <li className="nav-item">
                           <Link
                             className="nav-link"
-                            to={'/'}
+                            to={'/about-us'}
                             style={{ fontWeight: '600', fontSize: '18px' }}
                           >
-                            CHÍNH SÁCH
+                            GIỚI THIỆU
                           </Link>
                         </li>
                       </ul>

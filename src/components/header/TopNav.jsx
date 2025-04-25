@@ -152,12 +152,12 @@ export default function TopNav() {
                         <button
                           type="button"
                           className="btn p-0 position-relative header-wishlist"
-                          onClick={() => {navigate('/cart')}}
+                          onClick={() => { navigate('/cart') }}
                         >
                           <ShoppingCartOutlined />
                           <span className="position-absolute top-0 start-100 translate-middle badge">
                             {cartCount}
-                            <span className="visually-hidden">items in cart</span>
+                            <span className="visually-hidden">Sản phẩm</span>
                           </span>
                         </button>
                         <div className="onhover-div" style={{ width: '350px', maxWidth: '90vw' }}>
@@ -233,13 +233,13 @@ export default function TopNav() {
                           <ul className="user-box-name">
                             <li className="product-box-contain">
                               <i />
-                              <a href="/login">Log In</a>
+                              <a href="/login">Đăng nhập</a>
                             </li>
                             <li className="product-box-contain">
-                              <a href="/register">Register</a>
+                              <a href="/register">Đăng ký</a>
                             </li>
                             <li className="product-box-contain">
-                              <a href="/forgot-password">Forgot Password</a>
+                              <a href="/forgot-password">Quên mật khẩu</a>
                             </li>
                           </ul>
                         </div>
@@ -248,13 +248,13 @@ export default function TopNav() {
                           <div className="onhover-div onhover-div-login">
                             <ul className="user-box-name">
                               <li className="product-box-contain">
-                                <Link to="/dashboard">Dashboard</Link>
+                                <Link to="/dashboard">Thông tin</Link>
                               </li>
                               <li className="product-box-contain">
-                                <Link to="/dashboard/orders">Order History</Link>
+                                <Link to="/dashboard/orders">Đơn hàng</Link>
                               </li>
                               <li className="product-box-contain">
-                                <a href="/logout">Log out</a>
+                                <a href="/logout">Đăng xuất</a>
                               </li>
 
                             </ul>
