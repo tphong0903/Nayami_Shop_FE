@@ -104,6 +104,8 @@ const OrderTab = () => {
       return 'badge bg-warning';
     case 'guarantee':
       return 'badge bg-secondary';
+    case 'confirmed':
+      return 'badge bg-info';
     default:
       return 'badge bg-light text-dark';
     }
@@ -115,7 +117,7 @@ const OrderTab = () => {
       return 'Hoàn thành';
     case 'unpaid':
       return 'Chờ thanh toán';
-    case 'confrimed':
+    case 'confirmed':
       return 'Đang chờ vận chuyển';
     case 'shipping':
       return 'Đang giao hàng';
