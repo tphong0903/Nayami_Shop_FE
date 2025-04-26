@@ -13,9 +13,6 @@ const setupAxiosInterceptors = () => {
       }else{
         delete config.headers.Authorization;
       }
-      else {
-        delete config.headers['Authorization'];
-      }
       return config;
     },
     (error) => {
