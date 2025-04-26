@@ -26,6 +26,7 @@ export default function OrderDetail() {
   useEffect(() => {
     axios.get(`/api/bills/${id}`).then(res => {
       setOrderDetail(res.data.data)
+      console.log(res.data.data)
     })
   }, [id])
 
@@ -124,7 +125,7 @@ export default function OrderDetail() {
                                   <Link to={`/admin/view-product/${li.productId}`}>
                                     <img
                                       src={li.productImage}
-                                      className="img-fluid  lazyload"
+                                      className="img-fluid lazyload"
                                       alt=""
                                     />
                                   </Link>
@@ -190,7 +191,7 @@ export default function OrderDetail() {
                           <h4>Thông Tin Đơn Hàng</h4>
                           <ul className="order-details">
                             <li>Mã đơn hàng: {orderDetail?.id}</li>
-                            <li>Ngày đặt hàng: {extractDateTime(orderDetail?.createAt)}</li>
+                            <li>Ngày đặt hàng: {extractDateTime(orderDetail?.createdAt)}</li>
                             <li>Tổng tiền: {formatCurrency(orderDetail?.totalPrice + orderDetail?.shipping.shippingFee)}</li>
                             <li>
                               <FormControl fullWidth>
@@ -232,19 +233,20 @@ export default function OrderDetail() {
                             <h4>Thông tin thanh toán</h4>
                             <p>Hình thức thanh toán: {orderDetail?.payment.paymentMethod}
                             </p>
-                            <p>Trạng thái thanh toán:                               <FormControl fullWidth>
-                              <Select
-                                labelId="order-status-label"
-                                id="order-status"
-                                sx={{ fontWeight: 'bold' }}
-                                value={orderDetail?.payment.paymentStatus || ''}
-                                onChange={(e) => handleOptions(e.target.value, 1)}
-                              >
-                                <MenuItem value="PENDING" sx={{ fontWeight: 'bold' }}>Chờ thanh toán</MenuItem>
-                                <MenuItem value="COMPLETED" sx={{ fontWeight: 'bold' }}>Hoàn tất</MenuItem>
-                                <MenuItem value="CANCELLED" sx={{ fontWeight: 'bold' }}>Đã hủy</MenuItem>
-                              </Select>
-                            </FormControl>
+                            <p>Trạng thái thanh toán:
+                              <FormControl fullWidth>
+                                <Select
+                                  labelId="order-status-label"
+                                  id="order-status"
+                                  sx={{ fontWeight: 'bold' }}
+                                  value={orderDetail?.payment.paymentStatus || ''}
+                                  onChange={(e) => handleOptions(e.target.value, 1)}
+                                >
+                                  <MenuItem value="PENDING" sx={{ fontWeight: 'bold' }}>Chờ thanh toán</MenuItem>
+                                  <MenuItem value="COMPLETED" sx={{ fontWeight: 'bold' }}>Hoàn tất</MenuItem>
+                                  <MenuItem value="CANCELLED" sx={{ fontWeight: 'bold' }}>Đã hủy</MenuItem>
+                                </Select>
+                              </FormControl>
                             </p>
                           </div>
                         </div>

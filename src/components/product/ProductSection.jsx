@@ -1,4 +1,4 @@
-import { Rating } from '@mui/material';
+import { Rating, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Editor } from '@toast-ui/react-editor';
 import DealTimer from './DealTimer';
@@ -7,6 +7,7 @@ import { formatCurrency } from '~/utils/formatCurrency';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import { addToCart } from '~/apis/addtoCart';
+import { Box, Typography, Chip } from '@mui/material'
 
 var settings = {
   focusOnSelect: true,
@@ -18,7 +19,7 @@ var settings = {
   arrows: false
 };
 
-export default function ProductSection({ product, user, rate, purchaseCheck }) {
+export default function ProductSection({ product, user, rate, purchaseCheck, response }) {
   const params = useParams();
 
   const [listImage, setListImage] = useState([]);
@@ -30,7 +31,8 @@ export default function ProductSection({ product, user, rate, purchaseCheck }) {
     rating: 0,
     userName: user?.userName ?? 'No name',
     userEmail: user?.email ?? '',
-    productId: params.id
+    productId: params.id,
+    active: true
   })
 
   useEffect(() => {
@@ -79,6 +81,12 @@ export default function ProductSection({ product, user, rate, purchaseCheck }) {
       minute: '2-digit',
       hour12: true
     }).replace(/(\d+) (\w+), (\d+) (.*)/, '$1 $2, $3 at $4');
+  }
+
+  const checkResponse = (id) => {
+    return (response.find(item => {
+      return id == item.comment.id
+    })?.description)
   }
 
 
@@ -507,6 +515,46 @@ export default function ProductSection({ product, user, rate, purchaseCheck }) {
                                                     {item.description}
                                                     {/* <a href="#">Reply</a> */}
                                                   </p>
+                                                  {checkResponse(item.id) &&
+                                                    <Box
+                                                      sx={{
+                                                        padding: 3,
+                                                        backgroundColor: 'white',
+                                                        borderRadius: 2,
+                                                        border: '1px solid',
+                                                        borderColor: 'grey.200',
+                                                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                                                        // maxWidth: 400,
+                                                        margin: '3rem auto',
+                                                      }}
+                                                    >
+                                                      <Stack
+                                                        sx={{ alignItems: 'center' }}
+                                                        direction={'row'} spacing={'0.7rem'}
+                                                      >
+                                                        <Typography
+                                                          variant="subtitle1"
+                                                          sx={{
+                                                            fontWeight: 'bold',
+                                                            color: '#1DAA8E',
+                                                            marginBottom: 2,
+                                                          }}
+                                                        >
+                                                          Staff Response
+                                                        </Typography>
+                                                        <Chip label="QTV" color="success" />
+                                                      </Stack>
+
+                                                      <Typography
+                                                        variant="body2"
+                                                        sx={{
+                                                          color: 'grey.600',
+                                                        }}
+                                                      >
+                                                        {checkResponse(item.id)}
+                                                      </Typography>
+                                                    </Box>
+                                                  }
                                                 </div>
                                               </div>
                                             </div>

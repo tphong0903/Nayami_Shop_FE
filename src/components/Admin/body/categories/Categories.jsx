@@ -33,7 +33,6 @@ const CategoryList = () => {
 
     const category = categories.find(item => item.id == id)
     category.active = !category.active
-    console.log(category)
 
 
     Swal.fire({

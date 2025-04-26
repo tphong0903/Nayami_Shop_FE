@@ -119,7 +119,6 @@ export default function AddPromotion(view) {
 
     const createPromotion = async () => {
         const uploadedImages = [];
-        console.log(formData)
 
         try {
             for (const f of selectedImage) {

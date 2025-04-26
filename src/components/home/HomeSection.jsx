@@ -98,7 +98,7 @@ export default function HomeSection() {
 
                   // }, 500)
 
-                  : <>Loading</>
+                  : <></>
               }
 
             </Swiper>
