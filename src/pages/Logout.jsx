@@ -11,9 +11,7 @@ const logout = () => {
 export default function Logout() {
   const navigate = useNavigate();
   useEffect(() => {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('user_information');
+    localStorage.clear();
     Swal.fire({
       icon: 'warning',
       title: 'Thông báo',

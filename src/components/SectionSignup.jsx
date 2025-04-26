@@ -107,8 +107,8 @@ export default function SectionSignup() {
             <div className="col-xxl-4 col-xl-5 col-lg-6 col-sm-8 mx-auto">
               <div className="log-in-box">
                 <div className="log-in-title">
-                  <h3>Welcome To Fastkart</h3>
-                  <h4>Create New Account</h4>
+                  <h3>Chào mứng đến với Nayami</h3>
+                  <h4>Tạo tài khoản mới</h4>
                 </div>
 
                 <div className="input-box">
@@ -122,7 +122,7 @@ export default function SectionSignup() {
                             placeholder="Full Name"
                             onChange={e => setFullname(e.target.value)}
                         />
-                        <label htmlFor="fullname">Full Name</label>
+                        <label htmlFor="fullname">Họ và tên</label>
                         {errors.fullname && <div className="invalid-feedback d-block">{errors.fullname}</div>}
                       </div>
                     </div>
@@ -136,7 +136,7 @@ export default function SectionSignup() {
                             placeholder="Number phone"
                             onChange={e => setPhone(e.target.value)}
                         />
-                        <label htmlFor="phone">Number phone</label>
+                        <label htmlFor="phone">Số điện thoại</label>
                         {errors.phone && <div className="invalid-feedback d-block">{errors.phone}</div>}
                       </div>
                     </div>
@@ -150,7 +150,7 @@ export default function SectionSignup() {
                             placeholder="Email Address"
                             onChange={e => setEmail(e.target.value)}
                         />
-                        <label htmlFor="email">Email Address</label>
+                        <label htmlFor="email">Email</label>
                         {errors.email && <div className="invalid-feedback d-block">{errors.email}</div>}
                       </div>
                     </div>
@@ -164,13 +164,13 @@ export default function SectionSignup() {
                             placeholder="Password"
                             onChange={e => setPassword(e.target.value)}
                         />
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password">Mật khẩu</label>
                         {errors.password && <div className="invalid-feedback d-block">{errors.password}</div>}
                       </div>
                     </div>
 
                     <div className="col-12">
-                      <button className="btn btn-animation w-100" type="submit">Sign Up</button>
+                      <button className="btn btn-animation w-100" type="submit">Đăng ký</button>
                     </div>
                   </form>
                 </div>
@@ -180,8 +180,8 @@ export default function SectionSignup() {
                 </div>
 
                 <div className="sign-up-box">
-                  <h4>Already have an account?</h4>
-                  <a href="/login">Log In</a>
+                  <h4>Đã có tài khoản ?</h4>
+                  <a href="/login">Đăng nhập</a>
                 </div>
               </div>
             </div>

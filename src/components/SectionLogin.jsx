@@ -144,8 +144,8 @@ export default function SectionLogin() {
                     <div className="col-xxl-4 col-xl-5 col-lg-6 col-sm-8 mx-auto">
                         <div className="log-in-box">
                             <div className="log-in-title">
-                                <h3>Welcome To Fastkart</h3>
-                                <h4>Log In Your Account</h4>
+                                <h3>Chào mừng đến với Nayami</h3>
+                                <h4>Đăng nhập</h4>
                             </div>
 
                             <div className="input-box">
@@ -184,14 +184,14 @@ export default function SectionLogin() {
 
                                     <div className="col-12">
                                         <div className="forgot-box">
-                                            <a href="/forgot-password" className="forgot-password">Forgot Password?</a>
+                                            <a href="/forgot-password" className="forgot-password">Quên mật khẩu?</a>
                                         </div>
                                     </div>
 
                                     <div className="col-12">
                                         <button className="btn btn-animation w-100 justify-content-center"
                                                 type="submit">
-                                            Log In
+                                            Đăng nhập
                                         </button>
                                     </div>
                                 </form>
@@ -212,15 +212,15 @@ export default function SectionLogin() {
                                             }}
                                         >
                                             <img src={GoogleImage} className="lazyload" alt="Google Login"/>
-                                            Log In with Google
+                                            Đăng nhập qua Google
                                         </a>
                                     </li>
                                 </ul>
                             </div>
 
                             <div className="sign-up-box">
-                                <h4>Don't have an account?</h4>
-                                <a href="/register">Sign Up</a>
+                                <h4>Chưa có tài khoản?</h4>
+                                <a href="/register">Đăng ký</a>
                             </div>
                         </div>
                     </div>

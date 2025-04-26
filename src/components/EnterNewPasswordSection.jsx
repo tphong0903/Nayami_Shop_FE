@@ -94,13 +94,12 @@ export default function EnterNewPasswordSection() {
             <div className="d-flex align-items-center justify-content-center h-100">
               <div className="log-in-box">
                 <div className="log-in-title">
-                  <h3>Welcome To Fastkart</h3>
-                  <h4>Reset your password</h4>
+                  <h4>Cập nhật mật khẩu mới</h4>
                 </div>
 
                 {success ? (
                   <div className="alert alert-success">
-                    Password has been reset successfully. You can now <a href="/login">login</a> with your new password.
+                    Cập nhật thành công. Bạn có thể <a href="/login">đăng nhập</a> với mật khẩu mới.
                   </div>
                 ) : (
                   <div className="input-box">
@@ -112,12 +111,12 @@ export default function EnterNewPasswordSection() {
                             type="password"
                             className="form-control"
                             id="newPassword"
-                            placeholder="Enter new password"
+                            placeholder="Nhập mật khẩu mới"
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
                             required
                           />
-                          <label htmlFor="newPassword">New password</label>
+                          <label htmlFor="newPassword">Mật khâu mới</label>
                         </div>
                       </div>
                       <div className="col-12">
@@ -126,17 +125,17 @@ export default function EnterNewPasswordSection() {
                             type="password"
                             className="form-control"
                             id="confirmPassword"
-                            placeholder="Enter again new password"
+                            placeholder="Nhập lại mật khẩu mới"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             required
                           />
-                          <label htmlFor="confirmPassword">Enter again new password</label>
+                          <label htmlFor="confirmPassword">Nhập lại mật khẩu mới</label>
                         </div>
                       </div>
                       <div className="col-12">
                         <button className="btn btn-animation w-100" type="submit">
-                          Reset Password
+                          Cập nhật mật khẩu
                         </button>
                       </div>
                     </form>

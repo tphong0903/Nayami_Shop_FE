@@ -84,7 +84,7 @@ export default function AddUser() {
                 <div className="card">
                   <div className="card-body">
                     <div className="title-header option-title">
-                      <h5>Thêm Người Dùng</h5>
+                      <h5>Thêm khách hàng</h5>
                     </div>
                     <div className="tab-content" id="pills-tabContent">
                       <div
@@ -96,21 +96,21 @@ export default function AddUser() {
                           onSubmit={handleSubmit}
                         >
                           <div className="card-header-1">
-                            <h5>Thông tin người dùng</h5>
+                            <h5>Thông tin khách hàng</h5>
                           </div>
                           <div className="row">
                             <div className="mb-4 row align-items-center">
                               <label className="form-label-title col-lg-2 col-md-3 mb-0">
-                                Tên người dùng
+                                Tên khách hàng
                               </label>
                               <div className="col-md-9 col-lg-10">
                                 <input
-                                  className="form-control"
-                                  type="text"
-                                  name="Tên"
-                                  value={formData.userName}
-                                  onChange={handleChange}
-                                  required
+                                    className="form-control"
+                                    type="text"
+                                    name="userName"
+                                    value={formData.userName}
+                                    onChange={handleChange}
+                                    required
                                 />
                               </div>
                             </div>
@@ -120,15 +120,16 @@ export default function AddUser() {
                               </label>
                               <div className="col-md-9 col-lg-10">
                                 <input
-                                  className="form-control"
-                                  type="text"
-                                  name="Số điện thoại"
-                                  value={formData.phoneNumber}
-                                  onChange={handleChange}
-                                  required
-                                  pattern="^(0|\+84)[0-9]{9,10}$"
-                                  title="Phone number must start with 0 or +84 and contain 10-11 digits"
+                                    className="form-control"
+                                    type="text"
+                                    name="phoneNumber"
+                                    value={formData.phoneNumber}
+                                    onChange={handleChange}
+                                    required
+                                    pattern="^(0|\+84)[0-9]{9,10}$"
+                                    title="Phone number must start with 0 or +84 and contain 10-11 digits"
                                 />
+
                               </div>
                             </div>
                             <div className="mb-4 row align-items-center">

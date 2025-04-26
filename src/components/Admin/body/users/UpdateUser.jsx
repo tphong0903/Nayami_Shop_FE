@@ -61,7 +61,7 @@ export default function UpdateUser() {
       console.log(resData);
       if (resData.status === 200 || resData.status === 201) {
         Swal.fire({
-          title: 'Update sucessfully',
+          title: 'Cập nhật thành công',
           icon: 'success',
           confirmButtonText: 'OK',
           timer: 3000
@@ -71,7 +71,7 @@ export default function UpdateUser() {
       } else {
         const message = response.data.message;
         Swal.fire({
-          title: 'Insert fail',
+          title: 'Cập nhật không thành công',
           text: `${message}`,
           icon: 'error',
           confirmButtonText: 'OK',
@@ -83,7 +83,7 @@ export default function UpdateUser() {
       // Trường hợp server thực sự lỗi (ví dụ chết server, timeout, v.v)
       console.error('Unexpected error:', error);
       Swal.fire({
-        title: 'Insert fail',
+        title: 'Cập nhật không thành công',
         icon: 'error',
         confirmButtonText: 'OK',
         timer: 3000
@@ -105,7 +105,7 @@ export default function UpdateUser() {
                 <div className="card">
                   <div className="card-body">
                     <div className="title-header option-title">
-                      <h5>Edit user information</h5>
+                      <h5>Thay đổi thông tin khách hàng</h5>
                     </div>
                     <div className="tab-content" id="pills-tabContent">
                       <div
@@ -117,12 +117,12 @@ export default function UpdateUser() {
                           onSubmit={handleSubmit}
                         >
                           <div className="card-header-1">
-                            <h5>User Information</h5>
+                            <h5>Thông tin khách hàng</h5>
                           </div>
                           <div className="row">
                             <div className="mb-4 row align-items-center">
                               <label className="form-label-title col-lg-2 col-md-3 mb-0">
-                                User name
+                                Tên người dùng
                               </label>
                               <div className="col-md-9 col-lg-10">
                                 <input
@@ -137,7 +137,7 @@ export default function UpdateUser() {
                             </div>
                             <div className="mb-4 row align-items-center">
                               <label className="col-lg-2 col-md-3 col-form-label form-label-title">
-                                Phone number
+                                Số điện thoại
                               </label>
                               <div className="col-md-9 col-lg-10">
                                 <input
@@ -172,10 +172,10 @@ export default function UpdateUser() {
                             <div className="col-sm-3"></div>
                             <div className="col-sm-9 d-flex">
                               <button type="submit" className="btn btn-primary me-3">
-                                Update
+                                Cập nhật
                               </button>
                               <button type="button" className="btn btn-secondary" onClick={goToHomePage}>
-                                Cancel
+                                Hủy
                               </button>
                             </div>
                           </div>

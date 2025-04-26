@@ -26,13 +26,13 @@ export default function Users() {
       const updatedStatus = !currentUser.active
       currentUser.active = updatedStatus;
       Swal.fire({
-        title: currentUser.active.displayStatus == true ? 'Bạn có chắc chắn muốn vô hiệu hóa không?' : 'Bạn có chắc chắn muốn kích hoạt không?',
+        title: currentUser.active == true ? 'Bạn có chắc chắn muốn kích hoạt không?':'Bạn có chắc chắn muốn vô hiệu hóa không?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
         cancelButtonColor: '#3085d6',
-        confirmButtonText: currentUser.active.displayStatus == true ? 'Ẩn' : 'Hiển thị',
-        cancelButtonText: 'Hủy'
+        confirmButtonText: 'Có',
+        cancelButtonText: 'Không'
       }).then(async (result) => {
         if (result.isConfirmed) {
           // 3. Gửi PUT request với status mới

@@ -114,19 +114,19 @@ export default function EditPasswordUser() {
                 <div className="card">
                   <div className="card-body">
                     <div className="title-header option-title">
-                      <h5>Change User Password</h5>
+                      <h5>Thay đổi mật khẩu </h5>
                     </div>
                     <form
                       className="theme-form theme-form-2 mega-form"
                       onSubmit={handleSubmit}
                     >
                       <div className="card-header-1">
-                        <h5>New Password</h5>
+                        <h5>Mật khẩu mới</h5>
                       </div>
                       <div className="row">
                         <div className="mb-4 row align-items-center">
                           <label className="form-label-title col-lg-2 col-md-3 mb-0">
-                            New password
+                            Mật khẩu mới
                           </label>
                           <div className="col-md-9 col-lg-10">
                             <input
@@ -159,10 +159,10 @@ export default function EditPasswordUser() {
                         <div className="col-sm-3"></div>
                         <div className="col-sm-9 d-flex">
                           <button type="submit" className="btn btn-primary me-3">
-                            Update
+                            Cập nhật
                           </button>
                           <button type="button" className="btn btn-secondary" onClick={goToHomePage}>
-                            Cancel
+                            Hủy
                           </button>
                         </div>
                       </div>

@@ -61,8 +61,7 @@ export default function ForgotPasswordSection() {
             <div className="d-flex align-items-center justify-content-center h-100">
               <div className="log-in-box">
                 <div className="log-in-title">
-                  <h3>Welcome To Fastkart</h3>
-                  <h4>Forgot your password</h4>
+                  <h3>Quên mật khẩu</h3>
                 </div>
 
                 <div className="input-box">
@@ -78,13 +77,13 @@ export default function ForgotPasswordSection() {
                           onChange={(e) => setEmail(e.target.value)} // Cập nhật state khi nhập email
                           required
                         />
-                        <label htmlFor="email">Email Address</label>
+                        <label htmlFor="email">Địa chỉ email</label>
                       </div>
                     </div>
 
                     <div className="col-12">
                       <button className="btn btn-animation w-100" type="submit">
-                        Forgot Password
+                        Quên mật khẩu
                       </button>
                     </div>
                   </form>

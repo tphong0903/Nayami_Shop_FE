@@ -7,7 +7,7 @@ export default function Signup() {
   return (
     <>
       <Header />
-      <BreadCrumb title='Sign up' page='Sign up'/>
+      <BreadCrumb title='Đăng ký' page='Đăng ký'/>
       <SectionSignup />
       <Footer />
     </>

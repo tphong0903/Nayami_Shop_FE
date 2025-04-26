@@ -8,7 +8,7 @@ export default function Login() {
   return (
     <>
       <Header />
-      <BreadCrumb title='Login' page='Login' />
+      <BreadCrumb title='Đăng nhập' page='Đăng nhâp' />
       <SectionLogin />
       <Footer />
     </>
