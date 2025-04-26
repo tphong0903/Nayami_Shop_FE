@@ -27,7 +27,7 @@ const CouponForm = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('/api/users');
+        const response = await axios.get('/api/users/get-all-users');
         const userOptions = response.data.map((user) => ({
           value: user.userId.toString(),
           label: `${user.email} (${user.phoneNumber})`,

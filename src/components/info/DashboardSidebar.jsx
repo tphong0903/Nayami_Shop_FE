@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-const DashboardSidebar = ({ isOpen, toggleSidebar}) => {
-
-  const [stored,setStoredUser] = useState('');
+const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
+  const [stored, setStoredUser] = useState('');
   const location = useLocation();
   useEffect(() => {
-     setStoredUser(JSON.parse(localStorage.getItem('user_information')));
+    setStoredUser(JSON.parse(localStorage.getItem('user_information')));
     window.scrollTo(0, 0);
-  },[location.pathname]);
+  }, [location.pathname]);
   return (
     <div className={`dashboard-left-sidebar ${!isOpen ? 'collapsed' : ''}`}>
       <div className="close-button d-flex d-lg-none">
@@ -18,7 +17,11 @@ const DashboardSidebar = ({ isOpen, toggleSidebar}) => {
       </div>
       <div className="profile-box">
         <div className="cover-image">
-          <img src="../assets/images/inner-page/cover-img.jpg" className="img-fluid blur-up lazyload" alt="" />
+          <img
+            src="../assets/images/inner-page/cover-img.jpg"
+            className="img-fluid blur-up lazyload"
+            alt=""
+          />
         </div>
 
         <div className="profile-contain">
@@ -44,7 +47,9 @@ const DashboardSidebar = ({ isOpen, toggleSidebar}) => {
 
           <div className="profile-name">
             <h3>{stored?.userName || 'Loading...'}</h3>
-            <h6 className="text-content">{stored?.email || 'No email found'}</h6>
+            <h6 className="text-content">
+              {stored?.email || 'No email found'}
+            </h6>
           </div>
         </div>
       </div>
@@ -53,7 +58,9 @@ const DashboardSidebar = ({ isOpen, toggleSidebar}) => {
         <li className="nav-item">
           <NavLink
             to="/dashboard"
-            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+            className={({ isActive }) =>
+              isActive ? 'nav-link active' : 'nav-link'
+            }
             end
           >
             <i data-feather="home"></i> Trang chủ
@@ -63,7 +70,9 @@ const DashboardSidebar = ({ isOpen, toggleSidebar}) => {
         <li className="nav-item">
           <NavLink
             to="/dashboard/orders"
-            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+            className={({ isActive }) =>
+              isActive ? 'nav-link active' : 'nav-link'
+            }
           >
             <i data-feather="shopping-bag"></i> Đơn hàng
           </NavLink>
@@ -71,13 +80,25 @@ const DashboardSidebar = ({ isOpen, toggleSidebar}) => {
 
         <li className="nav-item">
           <NavLink
+            to="/dashboard/vouchers"
+            className={({ isActive }) =>
+              isActive ? 'nav-link active' : 'nav-link'
+            }
+          >
+            <i data-feather="gift"></i> Ví Mã Giảm Giá
+          </NavLink>
+        </li>
+
+        <li className="nav-item">
+          <NavLink
             to="/dashboard/addresses"
-            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+            className={({ isActive }) =>
+              isActive ? 'nav-link active' : 'nav-link'
+            }
           >
             <i data-feather="map-pin"></i> Địa chỉ
           </NavLink>
         </li>
-
       </ul>
     </div>
   );

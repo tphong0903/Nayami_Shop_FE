@@ -5,6 +5,8 @@ import axios from 'axios';
 
 const token = localStorage.getItem('access_token');
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+const storedUser = JSON.parse(localStorage.getItem('user_information'));
+
 const DashboardHome = () => {
   const [userData, setUserData] = useState({
     fullName: '',
@@ -64,16 +66,16 @@ const DashboardHome = () => {
   const [activeTab, setActiveTab] = useState('profile');
   const location = useLocation();
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user_information'));
     window.scrollTo(0, 0);
     const fetchOrders = async () => {
       try {
         const response = await axios.get('/api/bills/history');
         const orderHistory = response.data.data || [];
         const totalOrders = orderHistory.length;
-        const pendingOrders = orderHistory.filter(
-          (order) => order.status === 'PENDING'
-        ).length;
+        const pendingOrders = orderHistory.filter(order => {
+          const isUnpaid = order.paymentMethod === 'ONLINE_BANKING' && order.paymentStatus === 'PENDING';
+          return order.status === 'PENDING' && !isUnpaid;
+        }).length;
 
         const totalSpent = orderHistory.reduce((total, order) => {
           if (order.status === 'COMPLETED') {
@@ -385,22 +387,28 @@ const DashboardHome = () => {
 
             {userData.recentOrders && userData.recentOrders.length > 0 ? (
               <div className="table-responsive">
-                <table className="table order-table">
+                <table className="table order-table" style={{ borderCollapse: 'collapse' }}>
                   <thead>
                     <tr>
-                      <th scope="col">Mã đơn hàng</th>
-                      <th scope="col">Ngày đặt</th>
-                      <th scope="col">Tổng tiền</th>
-                      <th scope="col">Trạng thái</th>
+                      <th scope="col" style={{ padding: '10px' }}>Mã đơn hàng</th>
+                      <th scope="col" style={{ padding: '10px' }}>Ngày đặt</th>
+                      <th scope="col" style={{ padding: '10px' }}>Tổng tiền</th>
+                      <th scope="col" style={{ padding: '10px' }}>Trạng thái</th>
                     </tr>
                   </thead>
                   <tbody>
                     {userData.recentOrders.map((order) => (
-                      <tr key={order.id} className="table-row">
-                        <td>{order.id}</td>
-                        <td>{formatDate(order.createdAt)}</td>
-                        <td>{formatCurrency(order.totalAmount)}</td>
-                        <td>
+                      <tr key={order.id} className="table-row" style={{ height: '50px' }}>
+                        <td style={{ padding: '10px', verticalAlign: 'middle' }}>
+                          {order.id}
+                        </td>
+                        <td style={{ padding: '10px', verticalAlign: 'middle' }}>
+                          {formatDate(order.createdAt)}
+                        </td>
+                        <td style={{ padding: '10px', verticalAlign: 'middle' }}>
+                          {formatCurrency(order.totalAmount)}
+                        </td>
+                        <td style={{ padding: '10px', verticalAlign: 'middle' }}>
                           <span className={getStatusBadgeClass(order.status)}>
                             {getStatusText(order.status)}
                           </span>
@@ -409,6 +417,7 @@ const DashboardHome = () => {
                     ))}
                   </tbody>
                 </table>
+
                 <div className="text-center mt-3">
                   <Link to="/dashboard/orders" className="btn btn-outline-dark">
                     Xem tất cả đơn hàng{' '}

@@ -112,7 +112,7 @@ const Product = ({ product, index, onQuantityChange, onDeleteProduct, isChecked,
         <div className="d-flex flex-column align-items-center justify-content-center">
           <div className="quantity-price">
             <div className="cart_qty">
-              <div className="input-group d-flex align-items-center">
+              <div className="input-group d-flex align-items-center" style={ { width: '100px' } }>
                 <button
                   type="button"
                   className="btn qty-left-minus"
@@ -125,10 +125,7 @@ const Product = ({ product, index, onQuantityChange, onDeleteProduct, isChecked,
                   type="text"
                   name="quantity"
                   value={product.quantity || 1}
-                  onChange={(e) => {
-                    const value = parseInt(e.target.value) || 0;
-                    handleQuantityChange(value);
-                  }}
+                  readOnly
                 />
                 <button
                   type="button"
