@@ -183,7 +183,7 @@ const CheckoutSection = () => {
       };
       console.log('Dữ liệu đơn hàng:', orderData);
       const response = await axios.post('/api/bills', orderData);
-      if (response.data.status == 200) {
+      if (response.data.status == 201) {
         Swal.fire({
           title: 'Thành công',
           text: 'Đặt hàng thành công!',

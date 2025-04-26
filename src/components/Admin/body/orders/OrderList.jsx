@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -25,11 +26,20 @@ const OrderList = () => {
   const fetchOrders = async () => {
     try {
       const response = await axios.get('/api/bills');
-      setOrders(response.data.data);
-      setFilteredOrders(response.data.data);
-    } catch (err) {
-      console.error('Error fetching orders:', err);
-    }
+
+      const updatedOrders = response.data.data.map(order => {
+        let lowerStatus = order.status.toLowerCase();
+        const isUnpaid = order.paymentMethod === 'ONLINE_BANKING' && order.payment.paymentStatus === 'PENDING' ;
+        return {
+          ...order,
+          status: isUnpaid ? 'unpaid' : lowerStatus,
+          originalStatus: lowerStatus,
+        };
+      });
+      console.log(updatedOrders);
+      setOrders(updatedOrders);
+      setFilteredOrders(updatedOrders);
+    } catch (err) { /* empty */ }
   };
 
   const formatCurrency = (amount) => {

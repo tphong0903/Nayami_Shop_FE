@@ -24,8 +24,7 @@ const OrderTab = () => {
       const formattedOrders = response.data.data.map((order) => {
         let lowerStatus = order.status.toLowerCase();
         const isUnpaid =
-          order.paymentMethod === 'ONLINE_BANKING' &&
-          order.paymentStatus === 'PENDING';
+          order.paymentMethod === 'ONLINE_BANKING' && order.paymentStatus === 'PENDING';
 
         return {
           ...order,
