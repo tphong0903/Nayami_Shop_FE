@@ -15,8 +15,8 @@ import Products from './components/Admin/body/products/Products';
 import AddProduct from './components/Admin/body/products/AddProduct';
 import UserDashboard from './pages/UserDashboard';
 
-import Users from './components/Admin/body/users/Users';
-import AddUser from './components/Admin/body/users/AddUser';
+import Staffs from './components/Admin/body/staff/Staffs.jsx';
+import AddStaff from './components/Admin/body/staff/AddStaff.jsx';
 import Categories from './components/Admin/body/categories/Categories';
 import AddCategory from './components/Admin/body/categories/AddCategory';
 import Brands from './components/Admin/body/brands/Brands';
@@ -40,8 +40,8 @@ import OrderDetail from './components/Admin/body/orders/OrderDetail';
 import ForgotPassword from '~/pages/ForgotPassword.jsx';
 import ResetPassword from '~/pages/ResetPassword.jsx';
 import EnterNewPassword from '~/pages/EnterNewPassword.jsx';
-import UpdateUser from '~/components/Admin/body/users/UpdateUser.jsx';
-import EditPasswordUser from '~/components/Admin/body/users/EditPasswordUser.jsx';
+import UpdateStaff from '~/components/Admin/body/staff/UpdateStaff.jsx';
+import EditPasswordStaff from '~/components/Admin/body/staff/EditPasswordStaff.jsx';
 import ProtectedRouteAdmin from '~/components/midlleware/ProtectedRouteAdmin.jsx';
 import Error404 from '~/pages/error/Error404.jsx';
 import ChangeProfileLayout from '~/components/info/ChangeProfileLayout.jsx';
@@ -54,6 +54,10 @@ import ProductList from './components/Admin/body/comments/ProductList';
 import CommentsList from './components/Admin/body/comments/CommentsList';
 import AddressTab from './components/info/AddressTab';
 import VoucherTab from './components/info/VoucherTab';
+import Users from './components/Admin/body/users/Users.jsx';
+import AddUser from './components/Admin/body/users/AddUser.jsx';
+import EditPasswordUser from './components/Admin/body/users/EditPasswordUser.jsx';
+import UpdateUser from './components/Admin/body/users/UpdateUser.jsx';
 
 function App() {
   useEffect(() => {
@@ -111,14 +115,8 @@ function App() {
             <Route element={<AdminPage />}>
               <Route index element={<DashBoard />} />
               <Route path="products" element={<Products />} />
-              <Route
-                path="add-new-product"
-                element={<AddProduct view={false} />}
-              />
-              <Route
-                path="edit-product/:id"
-                element={<AddProduct view={false} />}
-              />
+              <Route path="add-new-product" element={<AddProduct view={false} />}/>
+              <Route path="edit-product/:id" element={<AddProduct view={false} />}/>
               <Route
                 path="view-product/:id"
                 element={<AddProduct view={true} />}
@@ -129,13 +127,23 @@ function App() {
                 path="edit-discounts/:id"
                 element={<AddDiscountCampain />}
               />
-              <Route path="users" element={<Users />} />
+              {/*Customer*/}
+              <Route path="users" element={<Users/>} />
               <Route path="add-new-user" element={<AddUser />} />
               <Route
                 path="edit-password-user/:id"
                 element={<EditPasswordUser />}
               />
               <Route path="update-user/:id" element={<UpdateUser />} />
+              {/*Staff*/}
+              <Route path="staffs" element={<Staffs />} />
+              <Route path="add-new-staff" element={<AddStaff />} />
+              <Route
+                  path="edit-password-staff/:id"
+                  element={<EditPasswordStaff />}
+              />
+              <Route path="update-staff/:id" element={<UpdateStaff />} />
+
               <Route path="categories" element={<Categories />} />
               <Route path="add-new-category" element={<AddCategory />} />
               <Route path="update-new-category/:id" element={<AddCategory />} />

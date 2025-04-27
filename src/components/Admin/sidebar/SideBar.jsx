@@ -9,7 +9,7 @@ export default function SideBar({ value, setSidebarOpen }) {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isBrandsOpen, setIsBrandsOpen] = useState(false);
   const [isUsersOpen, setIsUsersOpen] = useState(false);
-  const [isRolesOpen, setIsRolesOpen] = useState(false);
+  const [isStaffsOpen, setIsStaffsOpen] = useState(false);
   const [isOrdersOpen, setIsOrdersOpen] = useState(false);
   const [isPromotionOpen, setIsPromotionOpen] = useState(false);
   const [isCommentOpen, setIsCommentOpen] = useState(false);
@@ -118,35 +118,34 @@ export default function SideBar({ value, setSidebarOpen }) {
                 )}
               </li>
 
-              {/* Users Menu */}
+              {/* Customer Menu */}
               <li className="sidebar-list">
                 <a className="sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsUsersOpen)}>
                   <i className="ri-user-3-line" />
-                  <span>Người dùng</span>
+                  <span>Khách hàng</span>
                   <i className={`ri-arrow-${isUsersOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
                 </a>
                 {isUsersOpen && (
                   <ul className="sidebar-submenu">
-                    <li><Link to="/admin/users">Người dùng</Link></li>
-                    <li><Link to="/admin/add-new-user">Thêm người dùng</Link></li>
+                    <li><Link to="/admin/users">Khách hàng</Link></li>
+                    <li><Link to="/admin/add-new-user">Thêm khách hàng</Link></li>
                   </ul>
                 )}
               </li>
-
-              {/*/!* Roles Menu *!/*/}
-              {/*<li className="sidebar-list">*/}
-              {/*  <a className="sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsRolesOpen)}>*/}
-              {/*    <i className="ri-user-3-line" />*/}
-              {/*    <span>Roles</span>*/}
-              {/*    <i className={`ri-arrow-${isRolesOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />*/}
-              {/*  </a>*/}
-              {/*  {isRolesOpen && (*/}
-              {/*    <ul className="sidebar-submenu">*/}
-              {/*      <li><a href="role.html">All Roles</a></li>*/}
-              {/*      <li><a href="create-role.html">Create Role</a></li>*/}
-              {/*    </ul>*/}
-              {/*  )}*/}
-              {/*</li>*/}
+              {/* Staff Menu */}
+              <li className="sidebar-list">
+                <a className="sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsStaffsOpen)}>
+                  <i className="ri-user-3-line" />
+                  <span>Nhân viên</span>
+                  <i className={`ri-arrow-${isStaffsOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
+                </a>
+                {isStaffsOpen && (
+                    <ul className="sidebar-submenu">
+                      <li><Link to="/admin/staffs">Nhân viên</Link></li>
+                      <li><Link to="/admin/add-new-staff">Thêm nhân viên</Link></li>
+                    </ul>
+                )}
+              </li>
 
               {/* Orders Menu */}
               <li className="sidebar-list">
@@ -161,7 +160,6 @@ export default function SideBar({ value, setSidebarOpen }) {
                   </ul>
                 )}
               </li>
-
               {/* Localization Menu */}
               <li className="sidebar-list">
                 <a className="linear-icon-link sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsPromotionOpen)}>

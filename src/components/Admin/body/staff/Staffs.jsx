@@ -3,14 +3,14 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-export default function Users() {
+export default function Staffs() {
   const [users, setUser] = useState([]);
   useEffect(() => {
     fetchUsers()
   }, [])
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('/api/users/get-all-users');
+      const response = await axios.get('/api/users/get-all-staffs');
       const user = response.data;
       setUser(user);
     } catch (err) {
@@ -20,7 +20,7 @@ export default function Users() {
   const updateNewStatus = async (userId) => {
     try {
       // 1. Lấy user hiện tại
-      const response = await axios.get(`/api/users/${userId}`);
+      const response = await axios.get(`/api/users/staff/${userId}`);
       const currentUser = response.data;
       // 2. Đảo status (giả sử là true/false)
       const updatedStatus = !currentUser.active
@@ -78,14 +78,14 @@ export default function Users() {
             <div className="card card-table">
               <div className="card-body">
                 <div className="title-header option-title">
-                  <h5>Khách hàng</h5>
+                  <h5>Nhân viên</h5>
                   <form className="d-inline-flex">
                     <a
-                      href="add-new-user"
+                      href="add-new-staff"
                       className="align-items-center btn btn-theme d-flex"
                     >
                       <i data-feather="plus" />
-                      Thêm khách hàng
+                      Thêm nhân viên
                     </a>
                   </form>
                 </div>
@@ -121,12 +121,12 @@ export default function Users() {
                                   </a>
                                 </li>
                                 <li>
-                                  <a href={`/admin/update-user/${user.userId}`}>
+                                  <a href={`/admin/update-staff/${user.userId}`}>
                                     <i className="ri-pencil-line" />
                                   </a>
                                 </li>
                                 <li>
-                                  <a href={`/admin/edit-password-user/${user.userId}`}>
+                                  <a href={`/admin/edit-password-staff/${user.userId}`}>
                                     <i className="ri-lock-line" />
                                   </a>
                                 </li>

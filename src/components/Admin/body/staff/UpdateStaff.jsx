@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 
-export default function UpdateUser() {
+export default function UpdateStaff() {
   const navigate = useNavigate();
   const {id} = useParams();
 
@@ -14,13 +14,13 @@ export default function UpdateUser() {
     phoneNumber: '',
     email: '',
     password: '',
-    type:'CUSTOMER'
+    type:'STAFF'
   });
   useEffect(() => {
     const fetchUser = async () => {
       try {
         console.log('Fetching user...');
-        const response = await axios.get(`/api/users/${id}`);
+        const response = await axios.get(`/api/users/staff/${id}`);
         const data = response.data;
         console.log(data);
         setFormData({
@@ -66,7 +66,7 @@ export default function UpdateUser() {
           confirmButtonText: 'OK',
           timer: 3000
         })
-        navigate('/admin/users');
+        navigate('/admin/staffs');
         console.log('Success:', resData);
       } else {
         const message = response.data.message;
@@ -91,7 +91,7 @@ export default function UpdateUser() {
     }
   };
   const goToHomePage = async () => {
-    navigate('/admin/users');
+    navigate('/admin/staffs');
   };
 
 
@@ -105,7 +105,7 @@ export default function UpdateUser() {
                 <div className="card">
                   <div className="card-body">
                     <div className="title-header option-title">
-                      <h5>Thay đổi thông tin khách hàng</h5>
+                      <h5>Thay đổi thông tin nhân viên</h5>
                     </div>
                     <div className="tab-content" id="pills-tabContent">
                       <div
@@ -117,12 +117,12 @@ export default function UpdateUser() {
                           onSubmit={handleSubmit}
                         >
                           <div className="card-header-1">
-                            <h5>Thông tin khách hàng</h5>
+                            <h5>Thông tin nhân viên</h5>
                           </div>
                           <div className="row">
                             <div className="mb-4 row align-items-center">
                               <label className="form-label-title col-lg-2 col-md-3 mb-0">
-                                Tên khách hàng
+                                Tên nhân viên
                               </label>
                               <div className="col-md-9 col-lg-10">
                                 <input

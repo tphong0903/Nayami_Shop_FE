@@ -72,8 +72,8 @@ export default function SectionSignup() {
           timer: 3000,
           showConfirmButton: false,
         });
-        // const ENPOINT_REDIRECT_PAGE = '/login'
-        // navigate(ENPOINT_REDIRECT_PAGE);
+        const ENPOINT_REDIRECT_PAGE = '/login'
+        navigate(ENPOINT_REDIRECT_PAGE);
       } else {
         Swal.fire({
           icon: 'error',
