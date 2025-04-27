@@ -10,8 +10,8 @@ export default function ProductList() {
 
     const [products, setProducts] = useState([])
 
-    useEffect(() => {
-        axios
+    const fetchData = async () => {
+        await axios
             .get('/api/products', {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('access_token')}`
@@ -23,6 +23,11 @@ export default function ProductList() {
             .catch(() => {
                 Swal.fire('Lỗi!', 'Không thể tải danh sách sản phẩm.', 'error')
             });
+
+    }
+
+    useEffect(() => {
+        fetchData()
     }, [])
 
     // useEffect(() => {

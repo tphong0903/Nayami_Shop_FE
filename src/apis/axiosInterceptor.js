@@ -10,8 +10,8 @@ const setupAxiosInterceptors = () => {
       const token = localStorage.getItem('access_token');
       if (token != null) {
         config.headers.Authorization = `Bearer ${token}`;
-      }else {
-        delete config.headers['Authorization'];
+      }else{
+        delete config.headers.Authorization;
       }
       return config;
     },

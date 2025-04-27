@@ -8,16 +8,23 @@ export default function CommentsList() {
 
     const { id } = useParams()
     const [comments, setComments] = useState([])
+    const [responses, setResponses] = useState([])
     const [replyData, setReplyData] = useState({
         id: 0,
-        // eslint-disable-next-line quotes
         staff: "demotranbao111@gmail.com",
         reply: ''
     })
+    const [disabledButton, setDisabledButton] = useState(false)
 
     const fetchData = async () => {
         await axios.get(`/api/comments/${id}`).then((response) => {
             setComments(reverseByProperty(response.data.data, 'id'))
+        }).catch(err => {
+            console.log(err)
+        })
+
+        await axios.get(`/api/responses/${id}`).then((response) => {
+            setResponses(reverseByProperty(response.data.data, 'id'))
         }).catch(err => {
             console.log(err)
         })
@@ -36,9 +43,9 @@ export default function CommentsList() {
         fetchData()
     }, [])
 
-    useState(() => {
-        console.log(replyData)
-    }, [replyData])
+    // useState(() => {
+    //     console.log(replyData)
+    // }, [replyData])
 
     const toggleActive = (id, active) => {
         const popUpTitle = () => {
@@ -57,7 +64,8 @@ export default function CommentsList() {
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
             confirmButtonText: acceptButton(),
-            cancelButtonText: 'Hủy'
+            cancelButtonText: 'Hủy',
+            timer: 1500
         }).then(async (result) => {
             if (result.isConfirmed) {
                 await axios.post('/api/comments/active', { id: id })
@@ -69,14 +77,38 @@ export default function CommentsList() {
     }
 
     const sendReply = async () => {
-        await axios.post('/api/response', replyData)
+        const modal = document.getElementById('replyModal');
+        const modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide();
+
+        await axios.post('/api/responses', replyData)
             .then(() => {
                 Swal.fire({
                     title: 'Phản hồi thành công',
                     icon: 'success',
                     timer: 1500
+                }).then(() => {
+                    fetchData()
                 })
             })
+    }
+
+    const checkResponse = (id) => {
+        return (responses.find(item => {
+            return id == item.comment.id
+        })?.description)
+    }
+
+    const changeResponse = (id) => {
+        const res = checkResponse(id)
+        if (res) {
+            setReplyData(prev => ({ ...prev, id: id, reply: res }))
+            setDisabledButton(true)
+        }
+        else {
+            setReplyData(prev => ({ ...prev, id: id, reply: '' }))
+            setDisabledButton(false)
+        }
     }
 
     return (
@@ -126,11 +158,16 @@ export default function CommentsList() {
                                                                         <td>
                                                                             <ul>
                                                                                 <li>
-                                                                                    <a href="" data-bs-toggle="modal" data-bs-target="#replyModal" onClick={() => { setReplyData(prev => ({ ...prev, id: item.id, reply: '' })) }}>
-                                                                                        <i className="ri-reply-fill text-primary" />
+                                                                                    <a href="" data-bs-toggle="modal" data-bs-target="#replyModal" onClick={() => changeResponse(item.id)}>
+                                                                                        {
+                                                                                            checkResponse(item.id)
+                                                                                                ? <i className='ri-pushpin-2-fill text-success'></i>
+                                                                                                : <i className="ri-reply-fill text-primary" />
+                                                                                        }
+
                                                                                     </a>
                                                                                 </li>
-                                                                                <div className="modal fade" id="replyModal" tabIndex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
+                                                                                <div className="modal fade" id="replyModal" tabIndex="-1">
                                                                                     <div className="modal-dialog">
                                                                                         <div className="modal-content">
                                                                                             <div className="modal-header">
@@ -147,7 +184,7 @@ export default function CommentsList() {
                                                                                             </div>
                                                                                             <div className="modal-footer">
                                                                                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                                                                <button onClick={() => sendReply()} type="button" className="btn btn-primary">Send Reply</button>
+                                                                                                <button id='sendBtn' onClick={() => sendReply()} disabled={disabledButton} type="button" className="btn btn-primary">Send Reply</button>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>

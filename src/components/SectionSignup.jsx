@@ -95,99 +95,99 @@ export default function SectionSignup() {
   }
 
   return (
-      <section className="log-in-section section-b-space">
-        <div className="container-fluid-lg w-100">
-          <div className="row">
-            <div className="col-xxl-6 col-xl-5 col-lg-6 d-lg-block d-none ms-auto">
-              <div className="image-contain">
-                <img src={Hinh1} className="img-fluid" alt="Sign Up" />
-              </div>
+    <section className="log-in-section section-b-space">
+      <div className="container-fluid-lg w-100">
+        <div className="row">
+          <div className="col-xxl-6 col-xl-5 col-lg-6 d-lg-block d-none ms-auto">
+            <div className="image-contain">
+              <img src={Hinh1} className="img-fluid" alt="Sign Up" />
             </div>
-
-            <div className="col-xxl-4 col-xl-5 col-lg-6 col-sm-8 mx-auto">
-              <div className="log-in-box">
-                <div className="log-in-title">
-                  <h3>Chào mứng đến với Nayami</h3>
-                  <h4>Tạo tài khoản mới</h4>
-                </div>
-
-                <div className="input-box">
-                  <form className="row g-4" onSubmit={handleSubmitSignup}>
-                    <div className="col-12">
-                      <div className="form-floating theme-form-floating">
-                        <input
-                            type="text"
-                            className={`form-control ${errors.fullname ? 'is-invalid' : ''}`}
-                            id="fullname"
-                            placeholder="Full Name"
-                            onChange={e => setFullname(e.target.value)}
-                        />
-                        <label htmlFor="fullname">Họ và tên</label>
-                        {errors.fullname && <div className="invalid-feedback d-block">{errors.fullname}</div>}
-                      </div>
-                    </div>
-
-                    <div className="col-12">
-                      <div className="form-floating theme-form-floating">
-                        <input
-                            type="text"
-                            className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
-                            id="phone"
-                            placeholder="Number phone"
-                            onChange={e => setPhone(e.target.value)}
-                        />
-                        <label htmlFor="phone">Số điện thoại</label>
-                        {errors.phone && <div className="invalid-feedback d-block">{errors.phone}</div>}
-                      </div>
-                    </div>
-
-                    <div className="col-12">
-                      <div className="form-floating theme-form-floating">
-                        <input
-                            type="email"
-                            className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-                            id="email"
-                            placeholder="Email Address"
-                            onChange={e => setEmail(e.target.value)}
-                        />
-                        <label htmlFor="email">Email</label>
-                        {errors.email && <div className="invalid-feedback d-block">{errors.email}</div>}
-                      </div>
-                    </div>
-
-                    <div className="col-12">
-                      <div className="form-floating theme-form-floating">
-                        <input
-                            type="password"
-                            className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                            id="password"
-                            placeholder="Password"
-                            onChange={e => setPassword(e.target.value)}
-                        />
-                        <label htmlFor="password">Mật khẩu</label>
-                        {errors.password && <div className="invalid-feedback d-block">{errors.password}</div>}
-                      </div>
-                    </div>
-
-                    <div className="col-12">
-                      <button className="btn btn-animation w-100" type="submit">Đăng ký</button>
-                    </div>
-                  </form>
-                </div>
-
-                <div className="other-log-in">
-                  <h6>or</h6>
-                </div>
-
-                <div className="sign-up-box">
-                  <h4>Đã có tài khoản ?</h4>
-                  <a href="/login">Đăng nhập</a>
-                </div>
-              </div>
-            </div>
-            <div className="col-xxl-7 col-xl-6 col-lg-6"></div>
           </div>
+
+          <div className="col-xxl-4 col-xl-5 col-lg-6 col-sm-8 mx-auto">
+            <div className="log-in-box">
+              <div className="log-in-title">
+                <h3>Chào mứng đến với Nayami</h3>
+                <h4>Tạo tài khoản mới</h4>
+              </div>
+
+              <div className="input-box">
+                <form className="row g-4" onSubmit={handleSubmitSignup}>
+                  <div className="col-12">
+                    <div className="form-floating theme-form-floating">
+                      <input
+                        type="text"
+                        className={`form-control ${errors.fullname ? 'is-invalid' : ''}`}
+                        id="fullname"
+                        placeholder="Full Name"
+                        onChange={e => setFullname(e.target.value)}
+                      />
+                      <label htmlFor="fullname">Họ và tên</label>
+                      {errors.fullname && <div className="invalid-feedback d-block">{errors.fullname}</div>}
+                    </div>
+                  </div>
+
+                  <div className="col-12">
+                    <div className="form-floating theme-form-floating">
+                      <input
+                        type="text"
+                        className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
+                        id="phone"
+                        placeholder="Number phone"
+                        onChange={e => setPhone(e.target.value)}
+                      />
+                      <label htmlFor="phone">Số điện thoại</label>
+                      {errors.phone && <div className="invalid-feedback d-block">{errors.phone}</div>}
+                    </div>
+                  </div>
+
+                  <div className="col-12">
+                    <div className="form-floating theme-form-floating">
+                      <input
+                        type="email"
+                        className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                        id="email"
+                        placeholder="Email Address"
+                        onChange={e => setEmail(e.target.value)}
+                      />
+                      <label htmlFor="email">Email</label>
+                      {errors.email && <div className="invalid-feedback d-block">{errors.email}</div>}
+                    </div>
+                  </div>
+
+                  <div className="col-12">
+                    <div className="form-floating theme-form-floating">
+                      <input
+                        type="password"
+                        className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+                        id="password"
+                        placeholder="Password"
+                        onChange={e => setPassword(e.target.value)}
+                      />
+                      <label htmlFor="password">Mật khẩu</label>
+                      {errors.password && <div className="invalid-feedback d-block">{errors.password}</div>}
+                    </div>
+                  </div>
+
+                  <div className="col-12">
+                    <button className="btn btn-animation w-100" type="submit">Đăng ký</button>
+                  </div>
+                </form>
+              </div>
+
+              <div className="other-log-in">
+                <h6>or</h6>
+              </div>
+
+              <div className="sign-up-box">
+                <h4>Đã có tài khoản ?</h4>
+                <a href="/login">Đăng nhập</a>
+              </div>
+            </div>
+          </div>
+          <div className="col-xxl-7 col-xl-6 col-lg-6"></div>
         </div>
-      </section>
+      </div>
+    </section>
   );
 }

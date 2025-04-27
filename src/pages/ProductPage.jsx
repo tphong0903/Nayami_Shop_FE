@@ -20,6 +20,7 @@ export default function ProductPage() {
   const [user, setUser] = useState()
   const [userPurchaseCheck, setUserPurchaseCheck] = useState()
   const [rate, setRate] = useState()
+  const [responses, setResponse] = useState()
 
   let decoded;
   if (localStorage.getItem('access_token')) {
@@ -68,12 +69,22 @@ export default function ProductPage() {
         Swal.fire('Lỗi!', 'Không thể tải đánh giá.', 'error')
       })
 
+    axios
+      .get(`/api/responses/${id}`)
+      .then((response) => {
+        setResponse(response.data.data)
+        // console.log(response.data.data)
+      })
+      .catch(() => {
+        Swal.fire('Lỗi!', 'Không thể tải phản hồi.', 'error')
+      })
+
   }, [id])
   return (
     <>
       <Header />
       <BreadCrumbSection title='Chi tiết sản phẩm' page={product?.name} />
-      <ProductSection product={product} user={user} rate={rate} purchaseCheck={userPurchaseCheck} />
+      <ProductSection product={product} user={user} rate={rate} purchaseCheck={userPurchaseCheck} response={responses} />
       <ReletedProductSection product={product} />
       <Footer />
       <QuickViewSection />
