@@ -46,9 +46,12 @@ export default function SectionLogin() {
 
     const redirectUserBasedOnRole = (token) => {
         const role = getUserRole(token);
-        if (role === 'ADMIN' || role === 'STAFF') {
+        if (role === 'ADMIN') {
             navigate('/admin');
-        } else if (role === 'CUSTOMER') {
+        }else if(role === 'STAFF') {
+            navigate('/admin/products');
+        }
+        else if (role === 'CUSTOMER') {
             navigate('/');
         }else{
             Swal.fire({
