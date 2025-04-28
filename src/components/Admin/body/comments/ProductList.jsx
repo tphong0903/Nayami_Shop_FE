@@ -49,44 +49,52 @@ export default function ProductList() {
                                         <Grid container spacing={3}>
                                             {
                                                 products.length > 0
-                                                    ? products.map((card, index) => (
-                                                        <Grid item xs={12} sm={6} md={3} key={index}>
-                                                            <Link to={`/admin/comments/${card.id}`} underline="none">
-                                                                <Card
-                                                                    sx={{
-                                                                        height: 350,
-                                                                        boxShadow: 3,
-                                                                        '&:hover': { boxShadow: 6 },
-                                                                        transition: 'box-shadow 0.3s',
-                                                                        cursor: 'pointer',
-                                                                        overflow: 'hidden',
-                                                                    }}
-                                                                >
-                                                                    <CardMedia
-                                                                        component="img"
-                                                                        height="140"
-                                                                        image={card.listImage[0]}
-                                                                        alt={card.name}
-                                                                        sx={{ height: 160, objectFit: 'contain', width: '100%' }}
-                                                                        className="zoom-image my-3"
-                                                                    />
-                                                                    <CardContent className='text-center'>
-                                                                        <Typography
-                                                                            variant="h5"
-                                                                            component="div"
-                                                                            className="gradient-text"
+                                                    ? products.map((card, index) => {
+                                                        return (<>
+                                                            <Grid item xs={12} sm={6} md={3} key={index}>
+                                                                <Link to={`/admin/comments/${card.id}`} underline="none">
+                                                                    <Card
+                                                                        sx={{
+                                                                            boxShadow: 3,
+                                                                            '&:hover': { boxShadow: 6 },
+                                                                            transition: 'box-shadow 0.3s',
+                                                                            cursor: 'pointer',
+                                                                            overflow: 'hidden',
+                                                                            display: 'flex',
+                                                                            flexDirection: 'column',
+                                                                            height: '100%', // Let it fill the Grid item, but content will define minimum height
+                                                                        }}
+                                                                    >
+                                                                        <CardMedia
+                                                                            component="img"
+                                                                            image={card.listImage[0]}
+                                                                            alt={card.name}
                                                                             sx={{
-                                                                                fontFamily: "'Playfair Display', serif",
-                                                                                fontWeight: 700,
+                                                                                height: 160,
+                                                                                objectFit: 'contain',
+                                                                                width: '100%',
+                                                                                marginTop: 2,
                                                                             }}
-                                                                        >
-                                                                            {card.name}
-                                                                        </Typography>
-                                                                    </CardContent>
-                                                                </Card>
-                                                            </Link>
-                                                        </Grid>
-                                                    ))
+                                                                            className="zoom-image"
+                                                                        />
+                                                                        <CardContent sx={{ textAlign: 'center', flexGrow: 1 }}>
+                                                                            <Typography
+                                                                                variant="h5"
+                                                                                component="div"
+                                                                                className="gradient-text"
+                                                                                sx={{
+                                                                                    fontFamily: "'Playfair Display', serif",
+                                                                                    fontWeight: 700,
+                                                                                }}
+                                                                            >
+                                                                                {card.name}
+                                                                            </Typography>
+                                                                        </CardContent>
+                                                                    </Card>
+                                                                </Link>
+                                                            </Grid>
+                                                        </>)
+                                                    })
                                                     : <>Loading</>
                                             }
                                         </Grid>
