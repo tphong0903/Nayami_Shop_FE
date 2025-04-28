@@ -107,15 +107,7 @@ export default function OrderDetail() {
                         <table className="table cart-table table-borderless">
                           <thead>
                             <tr>
-                              <th colSpan={2}>Sản phẩm</th>
-                              <th className="text-end" colSpan={2}>
-                                <a
-                                  href="#"
-                                  className="theme-color"
-                                >
-                                  Edit Items
-                                </a>
-                              </th>
+                              <th colSpan={4}>Sản phẩm</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -204,11 +196,10 @@ export default function OrderDetail() {
                                 >
                                   <MenuItem value="PENDING" sx={{ fontWeight: 'bold' }}>Chờ xác nhận</MenuItem>
                                   <MenuItem value="CONFIRMED" sx={{ fontWeight: 'bold' }}>Đã xác nhận</MenuItem>
-                                  <MenuItem value="SHIPPING" sx={{ fontWeight: 'bold' }}>Đang giao</MenuItem>
-                                  <MenuItem value="SHIPPED" sx={{ fontWeight: 'bold' }}>Đã giao</MenuItem>
+                                  <MenuItem value="SHIPPING" sx={{ fontWeight: 'bold' }}>Đang giao hàng</MenuItem>
+                                  <MenuItem value="SHIPPED" sx={{ fontWeight: 'bold' }}>Đã giao hàng</MenuItem>
                                   <MenuItem value="COMPLETED" sx={{ fontWeight: 'bold' }}>Hoàn tất</MenuItem>
                                   <MenuItem value="CANCELLED" sx={{ fontWeight: 'bold' }}>Đã hủy</MenuItem>
-                                  <MenuItem value="RETURN" sx={{ fontWeight: 'bold' }}>Trả hàng</MenuItem>
                                   <MenuItem value="GUARANTEE" sx={{ fontWeight: 'bold' }}>Bảo hành</MenuItem>
                                 </Select>
                               </FormControl>
