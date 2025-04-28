@@ -9,34 +9,14 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-export default function HomeSection() {
+export default function HomeSection({ promotion }) {
 
-  const [promotion, SetPromotions] = useState([])
   const swiperStyle = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%'
   }
-
-  const fetchData = async () => {
-    try {
-      await axios.get("/api/promotions")
-        .then(response => {
-          SetPromotions(response.data.data)
-        })
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [])
-
-  // useEffect(() => {
-  //   console.log(promotion)
-  // }, [promotion])
 
   return (
     <section className="home-section-2 home-section-bg pt-0 overflow-hidden">

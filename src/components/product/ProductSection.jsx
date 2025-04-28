@@ -84,9 +84,11 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
   }
 
   const checkResponse = (id) => {
-    return (response.find(item => {
-      return id == item.comment.id
-    })?.description)
+    if (response) {
+      return (response.find(item => {
+        return id == item.comment.id
+      })?.description)
+    }
   }
 
 
