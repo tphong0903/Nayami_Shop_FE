@@ -33,11 +33,22 @@ export default function HomePage() {
     return () => window.removeEventListener('scrollToDiscount', handleScrollEvent);
   }, [location]);
 
+  const filteredPromotions = (promotions) => {
+    let filtered;
+    if (promotions.length > 0) {
+      filtered = promotions.filter(item => {
+        const endDate = new Date(item.endDate);
+        return (endDate > todayDate && item.displayStatus == true);
+      })
+    }
+    return filtered
+  };
+
   const fetchData = async () => {
     try {
       await axios.get("/api/promotions")
         .then(response => {
-          SetPromotions(response.data.data)
+          SetPromotions(filteredPromotions(response.data.data))
         })
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -47,6 +58,9 @@ export default function HomePage() {
   useEffect(() => {
     fetchData();
   }, [])
+
+  const today = new Date();
+  const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
   return (
     <>

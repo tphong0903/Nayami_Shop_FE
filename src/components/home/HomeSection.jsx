@@ -54,39 +54,15 @@ export default function HomeSection({ promotion }) {
                         />
                         <div style={{ position: 'absolute !important' }} className="home-detail home-big-space p-center-left home-overlay ">
                           <div className="container-fluid-lg">
-                            {/* <div>
-                                <h6 className="ls-expanded text-uppercase text-danger">
-                                  Weekend Special offer
-                                </h6>
-                                <h1 className="heding-2 text-danger">{promotion?.title}</h1>
-                                <h5 className="text-content text-secondary">
-                                  {promotion?.description}
-                                </h5>
-                                <button
-                                  onclick="location.href = 'shop-left-sidebar.html';"
-                                  className="btn theme-bg-color btn-md text-white fw-bold mt-md-4 mt-2 mend-auto"
-                                >
-                                  Shop Now <i className="fa-solid fa-arrow-right icon" />
-                                </button>
-                              </div> */}
                           </div>
                         </div>
                       </div>
                     </SwiperSlide>
                   })
-                  // setTimeout(() => {
-
-                  // }, 500)
-
                   : <></>
               }
 
             </Swiper>
-            {/* <div className="slider-animate">
-              <div>
-
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
