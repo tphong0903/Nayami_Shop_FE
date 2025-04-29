@@ -15,23 +15,21 @@ const ProtectedRouteAdmin = () => {
 
             try {
                 const response = await axios.post(
-                  '/api/check-token-customer',
-                  {},
-                  {
-                      headers: {
-                          Authorization: `Bearer ${token}`,
-                      },
-                  }
+                    '/api/check-token-customer',
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
                 );
                 const status = response.data.status;
                 if (status === 200) {
-                    console.log('Token hợp lệ');
                     setIsAuthorized(true);
                 } else {
                     setIsAuthorized(false);
                 }
             } catch (error) {
-                console.log('Token không hợp lệ hoặc không có quyền:', error);
                 setIsAuthorized(false);
             }
         };

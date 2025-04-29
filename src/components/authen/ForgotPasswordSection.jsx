@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ForgotPasswordImage from '../assets/images/inner-page/forgot.png';
+import ForgotPasswordImage from '~/assets/images/inner-page/forgot.png';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 

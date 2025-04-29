@@ -1,8 +1,8 @@
-import Hinh1 from '../assets/images/inner-page/log-in.png';
-import GoogleImage from '../assets/images/inner-page/google.png';
+import Hinh1 from '~/assets/images/inner-page/log-in.png';
+import GoogleImage from '~/assets/images/inner-page/google.png';
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { jwtDecode } from 'jwt-decode';
 import Swal from 'sweetalert2';
 
@@ -48,12 +48,12 @@ export default function SectionLogin() {
         const role = getUserRole(token);
         if (role === 'ADMIN') {
             navigate('/admin');
-        }else if(role === 'STAFF') {
+        } else if (role === 'STAFF') {
             navigate('/admin/products');
         }
         else if (role === 'CUSTOMER') {
             navigate('/');
-        }else{
+        } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Lỗi',
@@ -64,8 +64,7 @@ export default function SectionLogin() {
         }
     };
 
-    const login = async (event) =>
-    {
+    const login = async (event) => {
         event.preventDefault();
         if (!validateForm()) return;
         try {
@@ -83,7 +82,7 @@ export default function SectionLogin() {
             });
             console.log(response);
             const status = response.data.status;
-            if(status == 201) {
+            if (status == 201) {
                 const accessToken = response.data.data.accessToken;
                 const refreshToken = response.data.data.refreshToken;
                 saveToken(accessToken, refreshToken);
@@ -95,7 +94,7 @@ export default function SectionLogin() {
                     showConfirmButton: true,
                 });
                 redirectUserBasedOnRole(accessToken);
-            }else{
+            } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Lỗi',
@@ -140,7 +139,7 @@ export default function SectionLogin() {
                 <div className="row">
                     <div className="col-xxl-6 col-xl-5 col-lg-6 d-lg-block d-none ms-auto">
                         <div className="image-contain">
-                            <img src={Hinh1} className="img-fluid" alt="Login"/>
+                            <img src={Hinh1} className="img-fluid" alt="Login" />
                         </div>
                     </div>
 
@@ -187,13 +186,13 @@ export default function SectionLogin() {
 
                                     <div className="col-12">
                                         <div className="forgot-box">
-                                            <a href="/forgot-password" className="forgot-password">Quên mật khẩu?</a>
+                                            <Link to={'/forgot-password'} className="forgot-password">Quên mật khẩu?</Link>
                                         </div>
                                     </div>
 
                                     <div className="col-12">
                                         <button className="btn btn-animation w-100 justify-content-center"
-                                                type="submit">
+                                            type="submit">
                                             Đăng nhập
                                         </button>
                                     </div>
@@ -214,7 +213,7 @@ export default function SectionLogin() {
                                                 handleGoogleLogin();
                                             }}
                                         >
-                                            <img src={GoogleImage} className="lazyload" alt="Google Login"/>
+                                            <img src={GoogleImage} className="lazyload" alt="Google Login" />
                                             Đăng nhập qua Google
                                         </a>
                                     </li>
@@ -223,7 +222,7 @@ export default function SectionLogin() {
 
                             <div className="sign-up-box">
                                 <h4>Chưa có tài khoản?</h4>
-                                <a href="/register">Đăng ký</a>
+                                <Link to={'/register'}>Đăng ký</Link>
                             </div>
                         </div>
                     </div>

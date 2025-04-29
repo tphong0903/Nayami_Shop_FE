@@ -37,7 +37,7 @@ export default function ReletedProductSection({ product }) {
       <section className="product-list-section section-b-space">
         <div className="container-fluid-lg">
           <div className="title">
-            <h2>Related Products</h2>
+            <h2>Các sản phẩm liên quan</h2>
             <span className="title-leaf">
               <svg className="icon-width">
                 <use xlinkHref="../assets/svg/leaf.svg#leaf" />

@@ -233,13 +233,13 @@ export default function TopNav() {
                           <ul className="user-box-name">
                             <li className="product-box-contain">
                               <i />
-                              <a href="/login">Đăng nhập</a>
+                              <Link to="/login">Đăng nhập</Link>
                             </li>
                             <li className="product-box-contain">
-                              <a href="/register">Đăng ký</a>
+                              <Link to="/register">Đăng ký</Link>
                             </li>
                             <li className="product-box-contain">
-                              <a href="/forgot-password">Quên mật khẩu</a>
+                              <Link to="/forgot-password">Quên mật khẩu</Link>
                             </li>
                           </ul>
                         </div>
@@ -254,7 +254,7 @@ export default function TopNav() {
                                 <Link to="/dashboard/orders">Đơn hàng</Link>
                               </li>
                               <li className="product-box-contain">
-                                <a href="/logout">Đăng xuất</a>
+                                <Link to="/logout">Đăng xuất</Link>
                               </li>
 
                             </ul>

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import ForgotPasswordImage from '../assets/images/inner-page/forgot.png';
+import ForgotPasswordImage from '~/assets/images/inner-page/forgot.png';
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 export default function EnterNewPasswordSection() {
   const [newPassword, setNewPassword] = useState('');
@@ -68,7 +68,6 @@ export default function EnterNewPasswordSection() {
         });
       }
     } catch (err) {
-      console.log(err);
       setError('Error resetting password. Please try again.');
       setSuccess(false);
       Swal.fire({
@@ -99,7 +98,7 @@ export default function EnterNewPasswordSection() {
 
                 {success ? (
                   <div className="alert alert-success">
-                    Cập nhật thành công. Bạn có thể <a href="/login">đăng nhập</a> với mật khẩu mới.
+                    Cập nhật thành công. Bạn có thể <Link to="/login">đăng nhập</Link> với mật khẩu mới.
                   </div>
                 ) : (
                   <div className="input-box">
