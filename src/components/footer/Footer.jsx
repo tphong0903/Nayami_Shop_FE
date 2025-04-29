@@ -103,92 +103,72 @@ export default function Footer() {
                 </div>
                 <div className="footer-contain">
                   <ul>
-                    {listCategorys?.length > 0 && (
-                      <li>
+                    {listCategorys?.length > 0 && listCategorys.map(v => (
+                      <li key={v.id}>
                         <a href="shop-left-sidebar.html" className="text-content">
-                          Vegetables &amp; Fruit
+                          {v.categoryName}
                         </a>
                       </li>
-                    )}
+                    ))}
                   </ul>
                 </div>
               </div>
               <div className="col-xl col-lg-2 col-sm-3">
                 <div className="footer-title">
-                  <h4>Useful Links</h4>
+                  <h4>Các Trang Chính</h4>
                 </div>
                 <div className="footer-contain">
                   <ul>
                     <li>
-                      <a href="index.html" className="text-content">
-                        Home
-                      </a>
+                      <Link to="/" className="text-content">
+                        Trang chủ
+                      </Link>
                     </li>
                     <li>
-                      <a href="shop-left-sidebar.html" className="text-content">
-                        Shop
-                      </a>
+                      <Link to="/shop" className="text-content">
+                        Sản phẩm
+                      </Link>
                     </li>
                     <li>
-                      <a href="about-us.html" className="text-content">
-                        About Us
-                      </a>
+                      <Link to="/about-us" className="text-content">
+                        Giới thiệu
+                      </Link>
                     </li>
                     <li>
-                      <a href="blog-list.html" className="text-content">
-                        Blog
-                      </a>
+                      <Link to="/login" className="text-content">
+                        Đăng nhập
+                      </Link>
                     </li>
                     <li>
-                      <a href="contact-us.html" className="text-content">
-                        Contact Us
-                      </a>
+                      <Link to="/register" className="text-content">
+                        Đăng ký
+                      </Link>
                     </li>
                   </ul>
                 </div>
               </div>
               <div className="col-xl-2 col-sm-3">
                 <div className="footer-title">
-                  <h4>Help Center</h4>
+                  <h4>Khách hàng</h4>
                 </div>
                 <div className="footer-contain">
                   <ul>
                     <li>
-                      <a href="order-success.html" className="text-content">
-                        Your Order
-                      </a>
+                      <Link to="/dashboard/orders" className="text-content">
+                        Đơn hàng của bạn
+                      </Link>
                     </li>
                     <li>
-                      <a href="user-dashboard.html" className="text-content">
-                        Your Account
-                      </a>
-                    </li>
-                    <li>
-                      <a href="order-tracking.html" className="text-content">
-                        Track Order
-                      </a>
-                    </li>
-                    <li>
-                      <a href="wishlist.html" className="text-content">
-                        Your Wishlist
-                      </a>
-                    </li>
-                    <li>
-                      <a href="search.html" className="text-content">
-                        Search
-                      </a>
-                    </li>
-                    <li>
-                      <a href="faq.html" className="text-content">
-                        FAQ
-                      </a>
+                      <Link to="/dashboard" className="text-content">
+                        Thông tin cá nhân
+                      </Link>
                     </li>
                   </ul>
                 </div>
               </div>
               <div className="col-xl-3 col-lg-4 col-sm-6">
                 <div className="footer-title">
-                  <h4>Contact Us</h4>
+                  <h4>Thông tin liên hệhệ</h4>
                 </div>
                 <div className="footer-contact">
                   <ul>
@@ -197,7 +177,7 @@ export default function Footer() {
                         <i data-feather="phone" />
                         <div className="contact-number">
                           <h6 className="text-content">Hotline 24/7 :</h6>
-                          <h5>+91 888 104 2340</h5>
+                          <h5>+84 0815xxxxxx</h5>
                         </div>
                       </div>
                     </li>
@@ -206,79 +186,13 @@ export default function Footer() {
                         <i data-feather="mail" />
                         <div className="contact-number">
                           <h6 className="text-content">Email Address :</h6>
-                          <h5>fastkart@hotmail.com</h5>
+                          <h5>nayamiShop@hotmail.com</h5>
                         </div>
                       </div>
-                    </li>
-                    <li className="social-app mb-0">
-                      <h5 className="mb-2 text-content">Download App :</h5>
-                      <ul>
-                        <li className="mb-0">
-                          <a
-                            href="https://play.google.com/store/apps"
-                            target="_blank"
-                          >
-                            <img
-                              src="../assets/images/playstore.svg"
-                              className="blur-up lazyload"
-                              alt=""
-                            />
-                          </a>
-                        </li>
-                        <li className="mb-0">
-                          <a
-                            href="https://www.apple.com/in/app-store/"
-                            target="_blank"
-                          >
-                            <img
-                              src="../assets/images/appstore.svg"
-                              className="blur-up lazyload"
-                              alt=""
-                            />
-                          </a>
-                        </li>
-                      </ul>
                     </li>
                   </ul>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="sub-footer section-small-space">
-            <div className="reserve">
-              <h6 className="text-content">©2022 Fastkart All rights reserved</h6>
-            </div>
-            <div className="payment">
-              <img
-                src="../assets/images/payment/1.png"
-                className="blur-up lazyload"
-                alt=""
-              />
-            </div>
-            <div className="social-link">
-              <h6 className="text-content">Stay connected :</h6>
-              <ul>
-                <li>
-                  <a href="https://www.facebook.com/" target="_blank">
-                    <i className="fa-brands fa-facebook-f" />
-                  </a>
-                </li>
-                <li>
-                  <a href="https://twitter.com/" target="_blank">
-                    <i className="fa-brands fa-twitter" />
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.instagram.com/" target="_blank">
-                    <i className="fa-brands fa-instagram" />
-                  </a>
-                </li>
-                <li>
-                  <a href="https://in.pinterest.com/" target="_blank">
-                    <i className="fa-brands fa-pinterest-p" />
-                  </a>
-                </li>
-              </ul>
             </div>
           </div>
         </div>

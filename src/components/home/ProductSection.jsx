@@ -4,6 +4,7 @@ import { Rating } from '@mui/material';
 import { formatCurrency } from '~/utils/formatCurrency';
 import { Link } from 'react-router-dom';
 import { addToCart } from '~/apis/addtoCart';
+import { Padding } from '@mui/icons-material';
 
 export default function ProductSection() {
   const [listOurProducts, setListOurProducts] = useState([])
@@ -163,6 +164,7 @@ export default function ProductSection() {
                               <i className="fa-solid fa-minus" />
                             </div>
                             <input
+                              style={{ padding: '0' }}
                               className="form-control input-number qty-input"
                               type="text"
                               name="quantity"

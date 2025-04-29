@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { addToCart } from '~/apis/addtoCart';
 import { formatCurrency } from '~/utils/formatCurrency';
 
 
@@ -31,13 +32,16 @@ export default function TopSellerSection() {
   useEffect(() => {
     getBestSellingByTime(dateRange[0], dateRange[1]);
   }, [dateRange]);
-  // useEffect(() => {
-  //   axios
-  //     .get('/api/products')
-  //     .then((response) => {
-  //       setListProductsTopSelling(response.data.data.slice(0, 12));
-  //     })
-  // }, []);
+
+  const [quantity, setQuantity] = useState({});
+
+  const handleQuantityChange = (productId, value) => {
+    setQuantity({
+      ...quantity,
+      [productId]: value
+    });
+  };
+
   return (
     <section className="product-section">
       <div className="container-fluid-lg">
@@ -94,25 +98,31 @@ export default function TopSellerSection() {
                               className="qty-left-minus"
                               data-type="minus"
                               data-field=""
+                              onClick={() => handleQuantityChange(v.id, Math.max(1, (quantity[v.id] || 1) - 1))}
                             >
                               <i className="fa-solid fa-minus" />
                             </div>
                             <input
+                              style={{ padding: '0' }}
                               className="form-control input-number qty-input"
                               type="text"
                               name="quantity"
-                              defaultValue={0}
+                              value={quantity[v.id] || 1}
+                              onChange={(e) => handleQuantityChange(v.id, parseInt(e.target.value) || 1)}
                             />
                             <div
                               className="qty-right-plus"
                               data-type="plus"
                               data-field=""
+                              onClick={() => handleQuantityChange(v.id, (quantity[v.id] || 1) + 1)}
                             >
                               <i className="fa-solid fa-plus" />
                             </div>
                           </div>
                         </div>
-                        <button className="buy-button buy-button-2 btn btn-cart">
+                        <button className="buy-button buy-button-2 btn btn-cart"
+                          onClick={() => addToCart(v.id, quantity[v.id] || 1)}>
+
                           <i className="iconly-Buy icli text-white m-0" />
                         </button>
                       </div>

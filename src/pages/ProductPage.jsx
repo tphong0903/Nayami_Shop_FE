@@ -16,6 +16,7 @@ export default function ProductPage() {
   const [user, setUser] = useState()
   const [userPurchaseCheck, setUserPurchaseCheck] = useState()
   const [rate, setRate] = useState()
+  const [isRate, setIsRate] = useState(false)
   const [responses, setResponse] = useState()
 
   let decoded;
@@ -75,12 +76,12 @@ export default function ProductPage() {
         Swal.fire('Lỗi!', 'Không thể tải phản hồi.', 'error')
       })
 
-  }, [id])
+  }, [id, isRate])
   return (
     <>
       <Header />
       <BreadCrumbSection title='Chi tiết sản phẩm' page={product?.name} />
-      <ProductSection product={product} user={user} rate={rate} purchaseCheck={userPurchaseCheck} response={responses} />
+      <ProductSection product={product} user={user} rate={rate} purchaseCheck={userPurchaseCheck} response={responses} setIsRate={setIsRate} isRate={isRate} />
       <ReletedProductSection product={product} />
       <Footer />
     </>

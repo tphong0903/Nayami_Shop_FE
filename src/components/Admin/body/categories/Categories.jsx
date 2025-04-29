@@ -1,18 +1,27 @@
 /* eslint-disable no-console */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import $ from 'jquery'
+import 'datatables.net-bs5'
+import '/src/assets/Admin/css/customPagination.css';
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
+  const tableRef = useRef(null)
 
   useEffect(() => {
     fetchCategories();
   }, []);
-
+  useEffect(() => {
+    if (categories.length > 0) {
+      $(tableRef.current).DataTable()
+    }
+  }, [categories])
   const fetchCategories = async () => {
     try {
       const response = await axios.get('/api/categories');
@@ -73,12 +82,13 @@ const CategoryList = () => {
                 </div>
 
                 <div className="table-responsive category-table">
-                  <table className="table all-package theme-table" id="table_id">
+                  <table ref={tableRef}
+                    className="table all-package theme-table table-product dataTable no-footer" id="table_id">
                     <thead>
                       <tr>
-                        <th>Tên danh mục</th>
-                        <th>Trạng thái</th>
-                        <th>Tùy chỉnh</th>
+                        <th>Tên danh mục<SwapVertIcon /></th>
+                        <th>Trạng thái<SwapVertIcon /></th>
+                        <th>Tùy chỉnh<SwapVertIcon /></th>
                       </tr>
                     </thead>
 
