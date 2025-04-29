@@ -1,13 +1,28 @@
 
-import Newsletter from './Newsletter'
 import StoreIcon from '@mui/icons-material/Store';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import DiscountIcon from '@mui/icons-material/Discount';
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { Category } from '@mui/icons-material';
 export default function Footer() {
+  const [listCategorys, setCategorys] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('/api/categories/active/brands')
+      .then((response) => {
+        setCategorys(response.data.data);
+      })
+      .catch(() => {
+        Swal.fire('Lỗi!', 'Không thể tải danh sách Danh mục.', 'error');
+      });
+  }, []);
   return (
     <>
-      <Newsletter />
       <footer className="section-t-space">
         <div className="container-fluid-lg">
           <div className="service-section">
@@ -19,7 +34,7 @@ export default function Footer() {
                       <StoreIcon />
                     </div>
                     <div className="service-detail">
-                      <h5>Every Fresh Products</h5>
+                      <h5>Cung cấp sản phẩm chính hãng</h5>
                     </div>
                   </div>
                   <div className="service-box">
@@ -27,7 +42,7 @@ export default function Footer() {
                       <LocalShippingOutlinedIcon />
                     </div>
                     <div className="service-detail">
-                      <h5>Free Delivery For Order Over $50</h5>
+                      <h5>Giao hàng toàn quốc</h5>
                     </div>
                   </div>
                   <div className="service-box">
@@ -35,7 +50,7 @@ export default function Footer() {
                       <DiscountIcon />
                     </div>
                     <div className="service-detail">
-                      <h5>Daily Mega Discounts</h5>
+                      <h5>Khuyến mãi ưu đãi lớn</h5>
                     </div>
                   </div>
                   <div className="service-box">
@@ -43,7 +58,7 @@ export default function Footer() {
                       <PriceCheckIcon />
                     </div>
                     <div className="service-detail">
-                      <h5>Best Price On The Market</h5>
+                      <h5>Giá cả hợp lý</h5>
                     </div>
                   </div>
                 </div>
@@ -65,19 +80,18 @@ export default function Footer() {
                   </div>
                   <div className="footer-logo-contain">
                     <p>
-                      We are a friendly bar serving a variety of cocktails, wines and
-                      beers. Our bar is a perfect place for a couple.
+                      Chúng tôi là cửa hàng công nghệ thân thiện, chuyên cung cấp đa dạng các dòng điện thoại, laptop và phụ kiện. Đây là địa điểm lý tưởng dành cho những tín đồ công nghệ và khách hàng yêu thích sự hiện đại.
                     </p>
                     <ul className="address">
                       <li>
                         <i data-feather="home" />
-                        <a href="#">
-                          1418 Riverwood Drive, CA 96052, US
-                        </a>
+                        <Link>
+                          số XX, đường Võ Văn Ngân, Thành phố Thủ Đức
+                        </Link>
                       </li>
                       <li>
                         <i data-feather="mail" />
-                        <a href="#">support@fastkart.com</a>
+                        <Link>support@nayamishop.com</Link>
                       </li>
                     </ul>
                   </div>
@@ -85,40 +99,17 @@ export default function Footer() {
               </div>
               <div className="col-xl-2 col-lg-3 col-md-4 col-sm-6">
                 <div className="footer-title">
-                  <h4>Categories</h4>
+                  <h4>Danh mục</h4>
                 </div>
                 <div className="footer-contain">
                   <ul>
-                    <li>
-                      <a href="shop-left-sidebar.html" className="text-content">
-                        Vegetables &amp; Fruit
-                      </a>
-                    </li>
-                    <li>
-                      <a href="shop-left-sidebar.html" className="text-content">
-                        Beverages
-                      </a>
-                    </li>
-                    <li>
-                      <a href="shop-left-sidebar.html" className="text-content">
-                        Meats &amp; Seafood
-                      </a>
-                    </li>
-                    <li>
-                      <a href="shop-left-sidebar.html" className="text-content">
-                        Frozen Foods
-                      </a>
-                    </li>
-                    <li>
-                      <a href="shop-left-sidebar.html" className="text-content">
-                        Biscuits &amp; Snacks
-                      </a>
-                    </li>
-                    <li>
-                      <a href="shop-left-sidebar.html" className="text-content">
-                        Grocery &amp; Staples
-                      </a>
-                    </li>
+                    {listCategorys?.length > 0 && (
+                      <li>
+                        <a href="shop-left-sidebar.html" className="text-content">
+                          Vegetables &amp; Fruit
+                        </a>
+                      </li>
+                    )}
                   </ul>
                 </div>
               </div>

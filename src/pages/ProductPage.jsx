@@ -2,11 +2,7 @@ import Header from '~/components/header/Header';
 import Footer from '~/components/footer/Footer';
 import BreadCrumbSection from '~/components/BreadCrumbSection';
 import ProductSection from '~/components/product/ProductSection';
-import '~/assets/UserCss.css'
 import ReletedProductSection from '~/components/product/ReletedProductSection';
-import StickyCartSection from '~/components/product/StickyCartSection';
-import QuickViewSection from '~/components/product/QuickViewSection';
-import DealBoxSection from '~/components/product/DealBoxSection';
 import { useEffect, useState } from 'react';
 import axios from 'axios'
 import Swal from 'sweetalert2'
@@ -87,9 +83,6 @@ export default function ProductPage() {
       <ProductSection product={product} user={user} rate={rate} purchaseCheck={userPurchaseCheck} response={responses} />
       <ReletedProductSection product={product} />
       <Footer />
-      <QuickViewSection />
-      <DealBoxSection />
-      <StickyCartSection />
     </>
   );
 }

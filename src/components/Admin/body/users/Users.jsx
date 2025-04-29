@@ -3,6 +3,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { Link } from 'react-router-dom';
 export default function Users() {
   const [users, setUser] = useState([]);
   useEffect(() => {
@@ -26,7 +27,7 @@ export default function Users() {
       const updatedStatus = !currentUser.active
       currentUser.active = updatedStatus;
       Swal.fire({
-        title: currentUser.active == true ? 'Bạn có chắc chắn muốn kích hoạt không?':'Bạn có chắc chắn muốn vô hiệu hóa không?',
+        title: currentUser.active == true ? 'Bạn có chắc chắn muốn kích hoạt không?' : 'Bạn có chắc chắn muốn vô hiệu hóa không?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
@@ -68,7 +69,6 @@ export default function Users() {
   };
 
 
-
   return (
     <div className="page-body">
       {/* All User Table Start */}
@@ -80,13 +80,12 @@ export default function Users() {
                 <div className="title-header option-title">
                   <h5>Khách hàng</h5>
                   <form className="d-inline-flex">
-                    <a
-                      href="add-new-user"
+                    <Link to={'add-new-user'}
                       className="align-items-center btn btn-theme d-flex"
                     >
                       <i data-feather="plus" />
                       Thêm khách hàng
-                    </a>
+                    </Link>
                   </form>
                 </div>
                 <div className="table-responsive table-product">
@@ -116,19 +115,19 @@ export default function Users() {
                             <td>
                               <ul className="d-flex gap-2">
                                 <li>
-                                  <a onClick={() => updateNewStatus(user.userId)}>
+                                  <Link onClick={() => updateNewStatus(user.userId)}>
                                     {user.active === false ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
-                                  </a>
+                                  </Link>
                                 </li>
                                 <li>
-                                  <a href={`/admin/update-user/${user.userId}`}>
+                                  <Link to={`/admin/update-user/${user.userId}`}>
                                     <i className="ri-pencil-line" />
-                                  </a>
+                                  </Link>
                                 </li>
                                 <li>
-                                  <a href={`/admin/edit-password-user/${user.userId}`}>
+                                  <Link to={`/admin/edit-password-user/${user.userId}`}>
                                     <i className="ri-lock-line" />
-                                  </a>
+                                  </Link>
                                 </li>
                               </ul>
                             </td>

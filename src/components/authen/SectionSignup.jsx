@@ -1,9 +1,7 @@
-import Hinh1 from '../assets/images/inner-page/log-in.png'
-import GoogleImage from '../assets/images/inner-page/google.png'
-import FaceBookImage from '../assets/images/inner-page/facebook.png'
+import Hinh1 from '~/assets/images/inner-page/log-in.png'
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 
 export default function SectionSignup() {
@@ -181,7 +179,7 @@ export default function SectionSignup() {
 
               <div className="sign-up-box">
                 <h4>Đã có tài khoản ?</h4>
-                <a href="/login">Đăng nhập</a>
+                <Link to={'/login'}>Đăng nhập</Link>
               </div>
             </div>
           </div>

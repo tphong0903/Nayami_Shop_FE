@@ -1,19 +1,43 @@
 import { Rating } from '@mui/material';
 import axios from 'axios';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { formatCurrency } from '~/utils/formatCurrency';
 
 
 export default function TopSellerSection() {
+  const startOfMonth = dayjs().startOf('month');
+  const endOfMonth = dayjs().endOf('month');
+  const [dateRange, setDateRange] = useState([startOfMonth, endOfMonth]);
   const [listProductsTopSelling, setListProductsTopSelling] = useState([]);
-  useEffect(() => {
+
+  const getBestSellingByTime = (startDate, endDate) => {
+    const dashboardDateDTO = {
+      startDate: startDate.format('YYYY-MM-DD'),
+      endDate: endDate.format('YYYY-MM-DD'),
+    };
+
     axios
-      .get('/api/products')
+      .post('/api/products/productBestSelling', dashboardDateDTO)
       .then((response) => {
-        setListProductsTopSelling(response.data.data.slice(0, 12));
+        setListProductsTopSelling(response.data.data)
       })
-  }, []);
+      .catch(() => {
+        Swal.fire('Lỗi!', 'Không thể lấy dữ liệu.', 'error');
+      });
+  };
+  useEffect(() => {
+    getBestSellingByTime(dateRange[0], dateRange[1]);
+  }, [dateRange]);
+  // useEffect(() => {
+  //   axios
+  //     .get('/api/products')
+  //     .then((response) => {
+  //       setListProductsTopSelling(response.data.data.slice(0, 12));
+  //     })
+  // }, []);
   return (
     <section className="product-section">
       <div className="container-fluid-lg">

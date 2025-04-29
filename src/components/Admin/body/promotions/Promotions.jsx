@@ -99,8 +99,7 @@ export default function Promotions() {
                                                                         </Link>
                                                                     </li>
                                                                     <li>
-                                                                        <a
-                                                                            href="#"
+                                                                        <Link
                                                                             className="text-danger"
                                                                             onClick={(e) => {
                                                                                 e.preventDefault();
@@ -108,7 +107,7 @@ export default function Promotions() {
                                                                             }}
                                                                         >
                                                                             <i className="ri-delete-bin-line" />
-                                                                        </a>
+                                                                        </Link>
 
                                                                     </li>
                                                                 </ul>

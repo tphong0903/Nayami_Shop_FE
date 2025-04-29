@@ -98,8 +98,7 @@ const CategoryList = () => {
                                   </Link>
                                 </li>
                                 <li>
-                                  <a
-                                    href="#"
+                                  <Link
                                     className="text-danger"
                                     onClick={(e) => {
                                       e.preventDefault();
@@ -107,7 +106,7 @@ const CategoryList = () => {
                                     }}
                                   >
                                     {category.active === false ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
-                                  </a>
+                                  </Link>
 
                                 </li>
                               </ul>

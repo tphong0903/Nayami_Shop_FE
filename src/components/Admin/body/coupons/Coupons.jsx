@@ -159,15 +159,15 @@ const CouponList = () => {
                                     </Link>
                                   </li>
                                   <li>
-                                    <a href="#"
+                                    <Link
                                       onClick={(e) => {
                                         e.preventDefault();
                                         changeStatusCoupon(coupon.id);
                                       }}
                                       data-bs-toggle="modal" data-bs-target="#exampleModalToggle" className="text-danger">
-                                      <i className={coupon.active=== false ? 'ri-eye-line' : 'ri-eye-off-line'} />
+                                      <i className={coupon.active === false ? 'ri-eye-line' : 'ri-eye-off-line'} />
 
-                                    </a>
+                                    </Link>
                                   </li>
 
                                 </ul>
@@ -190,6 +190,7 @@ const CouponList = () => {
       </div>
     </div>
 
-  )};
+  )
+};
 
 export default CouponList;

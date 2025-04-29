@@ -13,9 +13,9 @@ export default function ListProduct({ listProduct, totalPage, setCurrentPage, so
       <div className="show-button">
         <div className="filter-button-group mt-0">
           <div className="filter-button d-inline-block d-lg-none">
-            <a onClick={() => setOpenFilter1()}>
+            <Link onClick={() => setOpenFilter1()}>
               <i className="fa-solid fa-filter" /> Filter Menu
-            </a>
+            </Link>
           </div>
         </div>
         <div className="top-filter-menu">
@@ -58,35 +58,6 @@ export default function ListProduct({ listProduct, totalPage, setCurrentPage, so
 
                     />
                   </Link>
-                  {/* <ul className="product-option">
-                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-                      <a
-                        href="#"
-                        data-bs-toggle="modal"
-                        data-bs-target="#view"
-                      >
-                        <i data-feather="eye" />
-                      </a>
-                    </li>
-                    <li
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="top"
-                      title="Compare"
-                    >
-                      <a href="compare.html">
-                        <i data-feather="refresh-cw" />
-                      </a>
-                    </li>
-                    <li
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="top"
-                      title="Wishlist"
-                    >
-                      <a href="wishlist.html" className="notifi-wishlist">
-                        <i data-feather="heart" />
-                      </a>
-                    </li>
-                  </ul> */}
                 </div>
               </div>
               <div className="product-footer">

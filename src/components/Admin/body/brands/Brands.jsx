@@ -91,7 +91,7 @@ const BrandList = () => {
                                   </Link>
                                 </li>
                                 <li>
-                                  <a
+                                  <Link
                                     href="#"
                                     className="text-danger"
                                     onClick={(e) => {
@@ -101,7 +101,7 @@ const BrandList = () => {
                                   >
                                     {Brand.active === false ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
 
-                                  </a>
+                                  </Link>
                                 </li>
                               </ul>
                             </td>

@@ -199,23 +199,20 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                     <div className="product-info">
                       <ul className="product-info-list product-info-list-2">
                         <li>
-                          Thương hiệu : <a href="#">{product.brandDTO.name}</a>
+                          Thương hiệu : <Link>{product.brandDTO.name}</Link>
                         </li>
                         <li>
-                          Danh mục : <a href="#">{product.categoryDTO.categoryName}</a>
+                          Danh mục : <Link>{product.categoryDTO.categoryName}</Link>
                         </li>
                         <li>
-                          MFG : <a href="#">Jun 4, 2022</a>
+                          Số lượng : <Link>{product.quantity}</Link>
                         </li>
                         <li>
-                          Số lượng : <a href="#">{product.quantity}</a>
-                        </li>
-                        <li>
-                          Tình trạng : <a href="#">{
+                          Tình trạng : <Link>{
                             product.productStatus == 'COMING_SOON' ? 'Sắp kinh doanh' :
                               product.productStatus == 'OUT_OF_STOCK' ? 'Hết hàng' :
                                 product.productStatus == 'STOP_SELLING' ? 'Ngừng kinh doanh' : 'Đang bán'
-                          }</a>
+                          }</Link>
                         </li>
                       </ul>
                     </div>
@@ -236,7 +233,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                         aria-controls="description"
                         aria-selected="true"
                       >
-                        Description
+                        Mô tả sản phẩm
                       </button>
                     </li>
                     <li className="nav-item" role="presentation">
@@ -250,7 +247,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                         aria-controls="info"
                         aria-selected="false"
                       >
-                        Additional info
+                        Thông số
                       </button>
                     </li>
                     <li className="nav-item" role="presentation">
@@ -264,7 +261,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                         aria-controls="review"
                         aria-selected="false"
                       >
-                        Review
+                        Đánh giá
                       </button>
                     </li>
                   </ul>
