@@ -34,7 +34,7 @@ export default function HomePage() {
   }, [location]);
 
   const filteredPromotions = (promotions) => {
-    let filtered;
+    let filtered = [];
     if (promotions.length > 0) {
       filtered = promotions.filter(item => {
         const endDate = new Date(item.endDate);

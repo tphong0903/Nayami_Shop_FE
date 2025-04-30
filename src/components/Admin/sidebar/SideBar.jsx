@@ -207,16 +207,11 @@ export default function SideBar({ value, setSidebarOpen }) {
 
               {/* Settings Menu */}
               <li className="sidebar-list">
-                <a className="linear-icon-link sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsSettingsOpen)}>
+                <Link className="linear-icon-link sidebar-link sidebar-title" to={'/admin/information'}>
                   <i className="ri-settings-line" />
-                  <span>Settings</span>
+                  <span>Thông tin cá nhân</span>
                   <i className={`ri-arrow-${isSettingsOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
-                </a>
-                {isSettingsOpen && (
-                  <ul className="sidebar-submenu">
-                    <li><a href="profile-setting.html">Profile Setting</a></li>
-                  </ul>
-                )}
+                </Link>
               </li>
               {/* logout */}
               <li className="sidebar-list">

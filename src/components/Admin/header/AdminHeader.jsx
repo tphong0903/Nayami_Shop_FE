@@ -122,9 +122,9 @@ export default function AdminHeader({ setSidebarOpen }) {
                   </a>
                 </li>
                 <li style={{ display: 'block', width: '100%' }}>
-                  <a href="profile-setting.html">
+                  <a href="">
                     <TuneOutlined />
-                    <span>Settings</span>
+                    <span>Thông tin cá nhân</span>
                   </a>
                 </li>
                 <li style={{ display: 'block', width: '100%' }}>
