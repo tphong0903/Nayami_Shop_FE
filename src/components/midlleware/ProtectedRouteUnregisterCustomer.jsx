@@ -14,13 +14,13 @@ const ProtectedRouteAdmin = () => {
             }
             try {
                 const response = await axios.post(
-                  '/api/check-token-customer',
-                  {},
-                  {
-                      headers: {
-                          Authorization: `Bearer ${token}`,
-                      },
-                  }
+                    '/api/check-token-customer',
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
                 );
                 const status = response.data.status;
                 if (status === 200) {
@@ -29,7 +29,6 @@ const ProtectedRouteAdmin = () => {
                     setIsAuthorized(false);
                 }
             } catch (error) {
-                console.log('Token không hợp lệ hoặc không có quyền:', error);
                 setIsAuthorized(false);
             }
         };
@@ -44,7 +43,7 @@ const ProtectedRouteAdmin = () => {
 
     if (isAuthorized === false) {
         return <Outlet />;
-    }else{
+    } else {
         return <Navigate to="/error/404" replace />;
     }
 

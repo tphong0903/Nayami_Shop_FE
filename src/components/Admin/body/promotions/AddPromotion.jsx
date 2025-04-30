@@ -1,7 +1,7 @@
 import Checkbox from '@mui/material/Checkbox';
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
 
 export default function AddPromotion(view) {
@@ -309,8 +309,7 @@ export default function AddPromotion(view) {
                                                                             className="rounded"
                                                                             style={{ width: '100px', height: '100px', objectFit: 'cover' }}
                                                                         />
-                                                                        <a
-                                                                            href="#"
+                                                                        <Link
                                                                             className="text-danger"
                                                                             onClick={(e) => {
                                                                                 e.preventDefault();
@@ -323,7 +322,7 @@ export default function AddPromotion(view) {
                                                                             }}
                                                                         >
                                                                             <i className="ri-delete-bin-5-fill" />
-                                                                        </a>
+                                                                        </Link>
                                                                         {/* <button
                                                                             type="button"
                                                                             onClick={() => handleRemoveImage(index)}

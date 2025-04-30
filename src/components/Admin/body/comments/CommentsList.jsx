@@ -11,7 +11,7 @@ export default function CommentsList() {
     const [responses, setResponses] = useState([])
     const [replyData, setReplyData] = useState({
         id: 0,
-        staff: "demotranbao111@gmail.com",
+        staff: 'demotranbao111@gmail.com',
         reply: ''
     })
     const [disabledButton, setDisabledButton] = useState(false)
@@ -158,14 +158,14 @@ export default function CommentsList() {
                                                                         <td>
                                                                             <ul>
                                                                                 <li>
-                                                                                    <a href="" data-bs-toggle="modal" data-bs-target="#replyModal" onClick={() => changeResponse(item.id)}>
+                                                                                    <Link data-bs-toggle="modal" data-bs-target="#replyModal" onClick={() => changeResponse(item.id)}>
                                                                                         {
                                                                                             checkResponse(item.id)
                                                                                                 ? <i className='ri-pushpin-2-fill text-success'></i>
                                                                                                 : <i className="ri-reply-fill text-primary" />
                                                                                         }
 
-                                                                                    </a>
+                                                                                    </Link>
                                                                                 </li>
                                                                                 <div className="modal fade" id="replyModal" tabIndex="-1">
                                                                                     <div className="modal-dialog">
@@ -190,8 +190,7 @@ export default function CommentsList() {
                                                                                     </div>
                                                                                 </div>
                                                                                 <li>
-                                                                                    <a
-                                                                                        href=""
+                                                                                    <Link
                                                                                         className="text-danger"
                                                                                         onClick={(e) => {
                                                                                             e.preventDefault()
@@ -199,7 +198,7 @@ export default function CommentsList() {
                                                                                         }}
                                                                                     >
                                                                                         <i className='ri-eye-line' />
-                                                                                    </a>
+                                                                                    </Link>
 
                                                                                 </li>
                                                                             </ul>

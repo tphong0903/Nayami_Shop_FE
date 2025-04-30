@@ -1,13 +1,25 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { Link } from 'react-router-dom';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import $ from 'jquery'
+import 'datatables.net-bs5'
+import '/src/assets/Admin/css/customPagination.css';
 export default function Users() {
   const [users, setUser] = useState([]);
+  const tableRef = useRef(null)
   useEffect(() => {
     fetchUsers()
   }, [])
+
+  useEffect(() => {
+    if (users.length > 0) {
+      $(tableRef.current).DataTable()
+    }
+  }, [users])
   const fetchUsers = async () => {
     try {
       const response = await axios.get('/api/users/get-all-users');
@@ -26,7 +38,7 @@ export default function Users() {
       const updatedStatus = !currentUser.active
       currentUser.active = updatedStatus;
       Swal.fire({
-        title: currentUser.active == true ? 'Bạn có chắc chắn muốn kích hoạt không?':'Bạn có chắc chắn muốn vô hiệu hóa không?',
+        title: currentUser.active == true ? 'Bạn có chắc chắn muốn kích hoạt không?' : 'Bạn có chắc chắn muốn vô hiệu hóa không?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
@@ -68,7 +80,6 @@ export default function Users() {
   };
 
 
-
   return (
     <div className="page-body">
       {/* All User Table Start */}
@@ -80,25 +91,26 @@ export default function Users() {
                 <div className="title-header option-title">
                   <h5>Khách hàng</h5>
                   <form className="d-inline-flex">
-                    <a
-                      href="add-new-user"
+                    <Link to={'/admin/add-new-user'}
                       className="align-items-center btn btn-theme d-flex"
                     >
                       <i data-feather="plus" />
                       Thêm khách hàng
-                    </a>
+                    </Link>
                   </form>
                 </div>
                 <div className="table-responsive table-product">
-                  <table className="table all-package theme-table" id="table_id">
+                  <table
+                    ref={tableRef}
+                    className="table all-package theme-table" id="table_id">
                     <thead>
                       <tr>
-                        <th>Mã</th>
-                        <th>Tên</th>
-                        <th>Số điện thoại</th>
-                        <th>Email</th>
-                        <th>Trạng thái</th>
-                        <th>Tùy chỉnh</th>
+                        <th>Mã<SwapVertIcon /></th>
+                        <th>Tên<SwapVertIcon /></th>
+                        <th>Số điện thoại<SwapVertIcon /></th>
+                        <th>Email<SwapVertIcon /></th>
+                        <th>Trạng thái<SwapVertIcon /></th>
+                        <th>Tùy chỉnh<SwapVertIcon /></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -116,19 +128,19 @@ export default function Users() {
                             <td>
                               <ul className="d-flex gap-2">
                                 <li>
-                                  <a onClick={() => updateNewStatus(user.userId)}>
+                                  <Link onClick={() => updateNewStatus(user.userId)}>
                                     {user.active === false ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
-                                  </a>
+                                  </Link>
                                 </li>
                                 <li>
-                                  <a href={`/admin/update-user/${user.userId}`}>
+                                  <Link to={`/admin/update-user/${user.userId}`}>
                                     <i className="ri-pencil-line" />
-                                  </a>
+                                  </Link>
                                 </li>
                                 <li>
-                                  <a href={`/admin/edit-password-user/${user.userId}`}>
+                                  <Link to={`/admin/edit-password-user/${user.userId}`}>
                                     <i className="ri-lock-line" />
-                                  </a>
+                                  </Link>
                                 </li>
                               </ul>
                             </td>

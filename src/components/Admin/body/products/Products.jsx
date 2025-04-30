@@ -13,8 +13,6 @@ export default function Products() {
   const [products, setProducts] = useState([])
   const tableRef = useRef(null)
 
-
-
   useEffect(() => {
     axios
       .get('/api/products', {

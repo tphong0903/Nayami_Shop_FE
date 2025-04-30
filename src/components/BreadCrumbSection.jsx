@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function BreadCrumb(props) {
   return (
     <section className="breadscrumb-section pt-0">
@@ -9,9 +11,9 @@ export default function BreadCrumb(props) {
               <nav>
                 <ol className="breadcrumb mb-0">
                   <li className="breadcrumb-item">
-                    <a href="index.html">
+                    <Link to="/">
                       <i className="fa-solid fa-house" />
-                    </a>
+                    </Link>
                   </li>
                   <li className="breadcrumb-item active">
                     {props.page}

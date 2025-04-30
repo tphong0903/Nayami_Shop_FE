@@ -6,10 +6,12 @@ import DeliveryAddressSection from '../checkout/DeliveryAddressSection';
 import PaymentOptionsSection from '~/components/checkout/PaymentOptionsSection';
 import OrderSummary from '~/components/checkout/OrderSummary';
 import Swal from 'sweetalert2';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 
 const CheckoutSection = () => {
+  const navigate = useNavigate();
+
   const [checkoutData, setCheckoutData] = useState(null);
   const [addressList, setAddressList] = useState([]);
   const [carts, setCarts] = useState(null);
@@ -72,7 +74,7 @@ const CheckoutSection = () => {
             icon: 'success',
             confirmButtonText: 'OK'
           }).then(() => {
-            window.location.href = '/';
+            navigate('/');
           });
         })
         .catch(error => {
@@ -83,7 +85,7 @@ const CheckoutSection = () => {
             icon: 'error',
             confirmButtonText: 'OK'
           }).then(() => {
-            window.location.href = '/';
+            navigate('/');
           });
         });
     }
@@ -130,7 +132,7 @@ const CheckoutSection = () => {
         icon: 'error',
         confirmButtonText: 'OK'
       }).then(() => {
-        window.location.href = '/cart';
+        navigate('/cart');
       });
     }
   }, []);
@@ -193,10 +195,10 @@ const CheckoutSection = () => {
           localStorage.removeItem('checkoutData');
           console.log('Đơn hàng đã được đặt:', response.data.data);
           if (response.data.data.paymentUrl) {
-            window.location.href = response.data.data.paymentUrl;
+            navigate(response.data.data.paymentUrl);
           }
           else {
-            window.location.href = '/';
+            navigate('/');
           }
         });
       }

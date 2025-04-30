@@ -9,6 +9,7 @@ import Chuot from '~/assets/ImageCategoris/chuot-removebg-preview.png';
 import TaiNghe from '~/assets/ImageCategoris/tai-nghe-removebg-preview.png';
 import Loa from '~/assets/ImageCategoris/loa-removebg-preview.png';
 import Camera from '~/assets/ImageCategoris/camera-removebg-preview.png';
+import { Link, useNavigate } from 'react-router-dom';
 export default function CategorySection() {
   const [slidesToShow, setSlidesToShow] = useState(getSlidesToShow());
   function getSlidesToShow() {
@@ -38,6 +39,14 @@ export default function CategorySection() {
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
   };
+
+  const navigate = useNavigate();
+
+  const handleShopClick = (id, name) => {
+    const Id = id;
+    const Name = name;
+    navigate(`/shop?categoryId=${Id}&categoryName=${encodeURIComponent(Name)}`);
+  };
   return (
     <section className="category-section-3">
       <div className="container-fluid-lg">
@@ -49,18 +58,18 @@ export default function CategorySection() {
             <div className="category-slider-1 arrow-slider wow fadeInUp product-wrapper">
               <Slider {...settings}>
                 <div className="category-box-list">
-                  <a href="shop-left-sidebar.html" className="category-name">
+                  <Link to={`/shop?categoryId=1&categoryName=${encodeURIComponent('Laptop')}`} className="category-name">
                     <h4>Laptop</h4>
-                  </a>
+                  </Link>
                   <div className="category-box-view">
-                    <a href="shop-left-sidebar.html">
+                    <Link to={`/shop?categoryId=1&categoryName=${encodeURIComponent('Laptop')}`}>
                       <img
                         src={Laptop}
                         className="img-fluid lazyload"
                         alt=""
                       />
-                    </a>
-                    <button
+                    </Link>
+                    <button onClick={() => handleShopClick(1, 'Laptop')}
                       className="btn shop-button"
                     >
                       <span>Shop Now</span>
@@ -69,18 +78,18 @@ export default function CategorySection() {
                   </div>
                 </div>
                 <div className="category-box-list">
-                  <a href="shop-left-sidebar.html" className="category-name">
+                  <Link to={`/shop?categoryId=2&categoryName=${encodeURIComponent('Điện thoại')}`} className="category-name">
                     <h4>Điện thoại</h4>
-                  </a>
+                  </Link>
                   <div className="category-box-view">
-                    <a href="shop-left-sidebar.html">
+                    <Link to={`/shop?categoryId=2&categoryName=${encodeURIComponent('Điện thoại')}`}>
                       <img
                         src={DienThoai}
                         className="img-fluid lazyload"
                         alt=""
                       />
-                    </a>
-                    <button
+                    </Link>
+                    <button onClick={() => handleShopClick(2, 'Điện thoại')}
                       className="btn shop-button"
                     >
                       <span>Shop Now</span>
@@ -89,125 +98,113 @@ export default function CategorySection() {
                   </div>
                 </div>
                 <div className="category-box-list">
-                  <a href="shop-left-sidebar.html" className="category-name">
+                  <Link to={`/shop?categoryId=3&categoryName=${encodeURIComponent('Màn hình')}`}>
                     <h4>Màn hình</h4>
-                  </a>
+                  </Link>
                   <div className="category-box-view">
-                    <a href="shop-left-sidebar.html">
-                      <img
-                        src={ManHinh}
-                        className="img-fluid lazyload"
-                        alt=""
-                      />
-                    </a>
+                    <Link to={`/shop?categoryId=3&categoryName=${encodeURIComponent('Màn hình')}`}>
+                      <img src={ManHinh} className="img-fluid lazyload" alt="" />
+                    </Link>
                     <button
                       className="btn shop-button"
+                      onClick={() => handleShopClick(3, 'Màn hình')}
                     >
                       <span>Shop Now</span>
                       <i className="fas fa-angle-right" />
                     </button>
                   </div>
                 </div>
+
                 <div className="category-box-list">
-                  <a href="shop-left-sidebar.html" className="category-name">
+                  <Link to={`/shop?categoryId=4&categoryName=${encodeURIComponent('Bàn phím')}`}>
                     <h4>Bàn phím</h4>
-                  </a>
+                  </Link>
                   <div className="category-box-view">
-                    <a href="shop-left-sidebar.html">
-                      <img
-                        src={BanPhim}
-                        className="img-fluid  lazyload"
-                        alt=""
-                      />
-                    </a>
+                    <Link to={`/shop?categoryId=4&categoryName=${encodeURIComponent('Bàn phím')}`}>
+                      <img src={BanPhim} className="img-fluid lazyload" alt="" />
+                    </Link>
                     <button
                       className="btn shop-button"
+                      onClick={() => handleShopClick(4, 'Bàn phím')}
                     >
                       <span>Shop Now</span>
                       <i className="fas fa-angle-right" />
                     </button>
                   </div>
                 </div>
+
                 <div className="category-box-list">
-                  <a href="shop-left-sidebar.html" className="category-name">
+                  <Link to={`/shop?categoryId=5&categoryName=${encodeURIComponent('Chuột')}`}>
                     <h4>Chuột</h4>
-                  </a>
+                  </Link>
                   <div className="category-box-view">
-                    <a href="shop-left-sidebar.html">
-                      <img
-                        src={Chuot}
-                        className="img-fluid lazyload"
-                        alt=""
-                      />
-                    </a>
+                    <Link to={`/shop?categoryId=5&categoryName=${encodeURIComponent('Chuột')}`}>
+                      <img src={Chuot} className="img-fluid lazyload" alt="" />
+                    </Link>
                     <button
                       className="btn shop-button"
+                      onClick={() => handleShopClick(5, 'Chuột')}
                     >
                       <span>Shop Now</span>
                       <i className="fas fa-angle-right" />
                     </button>
                   </div>
                 </div>
+
                 <div className="category-box-list">
-                  <a href="shop-left-sidebar.html" className="category-name">
+                  <Link to={`/shop?categoryId=6&categoryName=${encodeURIComponent('Tai nghe')}`}>
                     <h4>Tai nghe</h4>
-                  </a>
+                  </Link>
                   <div className="category-box-view">
-                    <a href="shop-left-sidebar.html">
-                      <img
-                        src={TaiNghe}
-                        className="img-fluid lazyload"
-                        alt=""
-                      />
-                    </a>
+                    <Link to={`/shop?categoryId=6&categoryName=${encodeURIComponent('Tai nghe')}`}>
+                      <img src={TaiNghe} className="img-fluid lazyload" alt="" />
+                    </Link>
                     <button
                       className="btn shop-button"
+                      onClick={() => handleShopClick(6, 'Tai nghe')}
                     >
                       <span>Shop Now</span>
                       <i className="fas fa-angle-right" />
                     </button>
                   </div>
                 </div>
+
                 <div className="category-box-list">
-                  <a href="shop-left-sidebar.html" className="category-name">
+                  <Link to={`/shop?categoryId=7&categoryName=${encodeURIComponent('Loa')}`}>
                     <h4>Loa</h4>
-                  </a>
+                  </Link>
                   <div className="category-box-view">
-                    <a href="shop-left-sidebar.html">
-                      <img
-                        src={Loa}
-                        className="img-fluid  lazyload"
-                        alt=""
-                      />
-                    </a>
+                    <Link to={`/shop?categoryId=7&categoryName=${encodeURIComponent('Loa')}`}>
+                      <img src={Loa} className="img-fluid lazyload" alt="" />
+                    </Link>
                     <button
                       className="btn shop-button"
+                      onClick={() => handleShopClick(7, 'Loa')}
                     >
                       <span>Shop Now</span>
                       <i className="fas fa-angle-right" />
                     </button>
                   </div>
                 </div>
+
                 <div className="category-box-list">
-                  <a href="shop-left-sidebar.html" className="category-name">
+                  <Link to={`/shop?categoryId=8&categoryName=${encodeURIComponent('Camera')}`}>
                     <h4>Camera</h4>
-                  </a>
+                  </Link>
                   <div className="category-box-view">
-                    <a href="shop-left-sidebar.html">
-                      <img
-                        src={Camera}
-                        className="img-fluid  lazyload"
-                        alt=""
-                      />
-                    </a>
+                    <Link to={`/shop?categoryId=8&categoryName=${encodeURIComponent('Camera')}`}>
+                      <img src={Camera} className="img-fluid lazyload" alt="" />
+                    </Link>
                     <button
                       className="btn shop-button"
+                      onClick={() => handleShopClick(8, 'Camera')}
                     >
                       <span>Shop Now</span>
                       <i className="fas fa-angle-right" />
                     </button>
                   </div>
                 </div>
+
               </Slider>
             </div>
           </div>

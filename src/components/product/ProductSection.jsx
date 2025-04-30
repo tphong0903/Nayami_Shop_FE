@@ -1,6 +1,6 @@
 import { Rating, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { Editor } from '@toast-ui/react-editor';
+import { Editor, Viewer } from '@toast-ui/react-editor';
 import DealTimer from './DealTimer';
 import Slider from 'react-slick';
 import { formatCurrency } from '~/utils/formatCurrency';
@@ -8,7 +8,7 @@ import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import { addToCart } from '~/apis/addtoCart';
 import { Box, Typography, Chip } from '@mui/material'
-
+import StarIcon from '@mui/icons-material/Star';
 var settings = {
   focusOnSelect: true,
   infinite: true,
@@ -19,13 +19,12 @@ var settings = {
   arrows: false
 };
 
-export default function ProductSection({ product, user, rate, purchaseCheck, response }) {
+export default function ProductSection({ product, user, rate, setIsRate, isRate, purchaseCheck, response }) {
   const params = useParams();
 
   const [listImage, setListImage] = useState([]);
   const [listDiscountProducts, setListDiscountProducts] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
-
   const [submitInfo, setSubmitInfo] = useState({
     description: 'No description',
     rating: 0,
@@ -67,21 +66,34 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
 
   const submitReview = () => {
     axios.post('/api/comments', submitInfo)
-      .then(() => {
-        window.location.reload()
+      .then((res) => {
+        setIsRate(!isRate); // cập nhật danh sách
+        setSubmitInfo({
+          description: 'No description',
+          rating: 0,
+          userName: user?.userName ?? 'No name',
+          userEmail: user?.email ?? '',
+          productId: params.id,
+          active: true
+        });
       })
+      .catch((err) => {
+        console.error('❌ Gửi bình luận thất bại:', err);
+      });
   }
 
   const formatDateTime = (timestamp) => {
-    return new Date(timestamp).toLocaleString('en-US', {
+    const date = new Date(timestamp);
+    return date.toLocaleString('vi-VN', {
+      timeZone: 'Asia/Ho_Chi_Minh',
       day: 'numeric',
-      month: 'short',
+      month: 'numeric',
       year: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
-      hour12: true
-    }).replace(/(\d+) (\w+), (\d+) (.*)/, '$1 $2, $3 at $4');
-  }
+      hour12: false
+    }).replace(',', ' lúc');
+  };
 
   const checkResponse = (id) => {
     if (response) {
@@ -174,7 +186,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                   </div>
                   <div>
                     <Rating name="read-only" value={product?.ratingAvg ?? 0} readOnly />
-                    <span className="review" style={{ margin: '10px', fontSize: '15px', }}>{rate?.length ?? 0} Customer Review</span>
+                    <span className="review" style={{ margin: '10px', fontSize: '15px', }}>{rate?.length ?? 0} Đánh Giá</span>
                   </div>
                   {product && product?.discountDTO && (
                     <DealTimer product={product} />
@@ -199,23 +211,20 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                     <div className="product-info">
                       <ul className="product-info-list product-info-list-2">
                         <li>
-                          Thương hiệu : <a href="#">{product.brandDTO.name}</a>
+                          Thương hiệu : <Link>{product.brandDTO.name}</Link>
                         </li>
                         <li>
-                          Danh mục : <a href="#">{product.categoryDTO.categoryName}</a>
+                          Danh mục : <Link>{product.categoryDTO.categoryName}</Link>
                         </li>
                         <li>
-                          MFG : <a href="#">Jun 4, 2022</a>
+                          Số lượng : <Link>{product.quantity}</Link>
                         </li>
                         <li>
-                          Số lượng : <a href="#">{product.quantity}</a>
-                        </li>
-                        <li>
-                          Tình trạng : <a href="#">{
+                          Tình trạng : <Link>{
                             product.productStatus == 'COMING_SOON' ? 'Sắp kinh doanh' :
                               product.productStatus == 'OUT_OF_STOCK' ? 'Hết hàng' :
                                 product.productStatus == 'STOP_SELLING' ? 'Ngừng kinh doanh' : 'Đang bán'
-                          }</a>
+                          }</Link>
                         </li>
                       </ul>
                     </div>
@@ -236,7 +245,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                         aria-controls="description"
                         aria-selected="true"
                       >
-                        Description
+                        Mô tả sản phẩm
                       </button>
                     </li>
                     <li className="nav-item" role="presentation">
@@ -250,7 +259,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                         aria-controls="info"
                         aria-selected="false"
                       >
-                        Additional info
+                        Thông số
                       </button>
                     </li>
                     <li className="nav-item" role="presentation">
@@ -264,7 +273,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                         aria-controls="review"
                         aria-selected="false"
                       >
-                        Review
+                        Đánh giá
                       </button>
                     </li>
                   </ul>
@@ -276,12 +285,13 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                     >
                       <div className="product-description">
                         <div className="nav-desh" >
-                          <Editor
+                          <Viewer
                             initialValue={product.description}
                             initialEditType="wysiwyg"
                             previewStyle="vertical"
-                            useCommandShortcut={true}
-                            readOnly
+                            useCommandShortcut={false}
+                            readOnly={true}
+                            editable={false}
                             hideModeSwitch={true}
                             toolbarItems={[]}
                             height="auto"
@@ -319,17 +329,17 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                         <div className="row g-4">
                           <div className="col-xl-6">
                             <div className="review-title">
-                              <h4 className="fw-500">Customer reviews</h4>
+                              <h4 className="fw-500">Đánh giá của khách hàng</h4>
                             </div>
                             <div className="d-flex">
                               <Rating defaultValue={product?.ratingAvg ?? 0} precision={1} size='medium' readOnly />
-                              <h6 className="ms-3">{`${product?.ratingAvg ?? 0}`} Out Of 5</h6>
+                              <h6 className="ms-3">{`${product?.ratingAvg ?? 0}`}/5</h6>
                             </div>
                             <div className="rating-box">
                               <ul>
                                 <li>
                                   <div className="rating-list">
-                                    <h5>5 Star</h5>
+                                    <h5>5 Sao</h5>
                                     <div className="progress">
                                       <div
                                         className="progress-bar"
@@ -346,7 +356,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                                 </li>
                                 <li>
                                   <div className="rating-list">
-                                    <h5>4 Star</h5>
+                                    <h5>4 Sao</h5>
                                     <div className="progress">
                                       <div
                                         className="progress-bar"
@@ -363,7 +373,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                                 </li>
                                 <li>
                                   <div className="rating-list">
-                                    <h5>3 Star</h5>
+                                    <h5>3 Sao</h5>
                                     <div className="progress">
                                       <div
                                         className="progress-bar"
@@ -380,7 +390,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                                 </li>
                                 <li>
                                   <div className="rating-list">
-                                    <h5>2 Star</h5>
+                                    <h5>2 Sao</h5>
                                     <div className="progress">
                                       <div
                                         className="progress-bar"
@@ -397,7 +407,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                                 </li>
                                 <li>
                                   <div className="rating-list">
-                                    <h5>1 Star</h5>
+                                    <h5>1 Sao</h5>
                                     <div className="progress">
                                       <div
                                         className="progress-bar"
@@ -417,7 +427,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                           </div>
                           <div className="col-xl-6">
                             <div className="review-title">
-                              <h4 className="fw-500">Add a review</h4>
+                              <h4 className="fw-500">Thêm đánh giá</h4>
                             </div>
                             <div className="row g-4">
                               <div className="col-md-6">
@@ -429,7 +439,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                                     value={user ? user.userName : ''}
                                     placeholder="Name"
                                   />
-                                  <label htmlFor="name">Your Name</label>
+                                  <label htmlFor="name">Tên</label>
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -441,11 +451,11 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                                     placeholder="Email Address"
                                     value={user ? user.email : ''}
                                   />
-                                  <label htmlFor="email">Email Address</label>
+                                  <label htmlFor="email">Email</label>
                                 </div>
                               </div>
                               <div className="col-md-6 text-center">
-                                <label htmlFor="review1">Review Title</label>
+                                <label htmlFor="review1">Đánh giá</label>
                               </div>
                               <div className="col-md-6">
                                 <Rating name='rating' onChange={(e) => { updateSubmitData(e) }} />
@@ -462,7 +472,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                                     onChange={(e) => { updateSubmitData(e) }}
                                   />
                                   <label htmlFor="floatingTextarea2">
-                                    Write Your Comment
+                                    Hãy nêu cảm nhận của bạn
                                   </label>
                                 </div>
                               </div>
@@ -477,7 +487,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                           <div className="col-12">
                             <div className="review-title">
                               <h4 className="fw-500">
-                                Customer questions &amp; answers
+                                Đánh giá
                               </h4>
                             </div>
                             <div className="review-people">
@@ -489,15 +499,6 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
                                         <>
                                           <li key={index}>
                                             <div className="people-box">
-                                              <div>
-                                                <div className="people-image">
-                                                  <img
-                                                    src="../assets/images/review/1.jpg"
-                                                    className="img-fluid blur-up lazyload"
-                                                    alt=""
-                                                  />
-                                                </div>
-                                              </div>
                                               <div className="people-comment">
                                                 <a className="name" href="#">
                                                   {item.userName}
@@ -585,7 +586,7 @@ export default function ProductSection({ product, user, rate, purchaseCheck, res
               {/* Trending Product */}
               <div className="pt-25">
                 <div className="category-menu">
-                  <h3>Trending Products</h3>
+                  <h3>Sản phẩm đang khuyến mãi</h3>
                   <ul className="product-list product-right-sidebar border-0 p-0">
                     {listDiscountProducts.map(v => (
                       <li key={v.id}>

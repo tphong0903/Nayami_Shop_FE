@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios, { AxiosHeaders } from 'axios';
 import Swal from 'sweetalert2';
-
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import $ from 'jquery'
+import 'datatables.net-bs5'
+import '/src/assets/Admin/css/customPagination.css';
 const CouponList = () => {
   const [coupons, setCoupons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCoupons, setSelectedCoupons] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  const tableRef = useRef(null)
 
   const token = localStorage.getItem('access_token');
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -16,6 +20,12 @@ const CouponList = () => {
   useEffect(() => {
     fetchCoupons();
   }, []);
+
+  useEffect(() => {
+    if (coupons.length > 0) {
+      $(tableRef.current).DataTable()
+    }
+  }, [coupons])
   const changeStatusCoupon = async (id) => {
     Swal.fire({
       title: 'Bạn có chắc chắn muốn cập nhật?',
@@ -98,7 +108,9 @@ const CouponList = () => {
                   <div className="alert alert-danger">{error}</div>
                 ) : (
                   <div className="table-responsive">
-                    <table className="table all-package coupon-list-table table-hover theme-table" id="table_id">
+                    <table
+                      ref={tableRef}
+                      className="table all-package coupon-list-table table-hover theme-table" id="table_id">
                       <thead>
                         <tr>
                           <th>
@@ -111,11 +123,11 @@ const CouponList = () => {
                               />
                             </span>
                           </th>
-                          <th>Title</th>
-                          <th>Code</th>
-                          <th>Discount</th>
-                          <th>Status</th>
-                          <th>Option</th>
+                          <th>Title<SwapVertIcon /></th>
+                          <th>Code<SwapVertIcon /></th>
+                          <th>Discount<SwapVertIcon /></th>
+                          <th>Status<SwapVertIcon /></th>
+                          <th>Option<SwapVertIcon /></th>
                         </tr>
                       </thead>
 
@@ -159,15 +171,15 @@ const CouponList = () => {
                                     </Link>
                                   </li>
                                   <li>
-                                    <a href="#"
+                                    <Link
                                       onClick={(e) => {
                                         e.preventDefault();
                                         changeStatusCoupon(coupon.id);
                                       }}
                                       data-bs-toggle="modal" data-bs-target="#exampleModalToggle" className="text-danger">
-                                      <i className={coupon.active=== false ? 'ri-eye-line' : 'ri-eye-off-line'} />
+                                      <i className={coupon.active === false ? 'ri-eye-line' : 'ri-eye-off-line'} />
 
-                                    </a>
+                                    </Link>
                                   </li>
 
                                 </ul>
@@ -190,6 +202,7 @@ const CouponList = () => {
       </div>
     </div>
 
-  )};
+  )
+};
 
 export default CouponList;

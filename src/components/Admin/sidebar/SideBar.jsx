@@ -55,10 +55,10 @@ export default function SideBar({ value, setSidebarOpen }) {
           </div>
         </div>
         <div className="logo-icon-wrapper">
-          <a>
+          <Link>
             <img className="img-fluid main-logo main-white" src="/src/assets/Admin/images/logo/logo.png" alt="logo" />
             <img className="img-fluid main-logo main-dark" src="/src/assets/Admin/images/logo/logo-white.png" alt="logo" />
-          </a>
+          </Link>
         </div>
         <nav className="sidebar-main">
           <div className="left-arrow" id="left-arrow">
@@ -140,10 +140,10 @@ export default function SideBar({ value, setSidebarOpen }) {
                   <i className={`ri-arrow-${isStaffsOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
                 </a>
                 {isStaffsOpen && (
-                    <ul className="sidebar-submenu">
-                      <li><Link to="/admin/staffs">Nhân viên</Link></li>
-                      <li><Link to="/admin/add-new-staff">Thêm nhân viên</Link></li>
-                    </ul>
+                  <ul className="sidebar-submenu">
+                    <li><Link to="/admin/staffs">Nhân viên</Link></li>
+                    <li><Link to="/admin/add-new-staff">Thêm nhân viên</Link></li>
+                  </ul>
                 )}
               </li>
 
