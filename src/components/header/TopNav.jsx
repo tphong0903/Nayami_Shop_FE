@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import { Link } from 'react-router-dom'
-import LogoShop from '../../assets/images/mainImage.jpg'
+import LogoShop from '../../../public/assets/images/mainImage.jpg'
 import SearchIcon from '@mui/icons-material/Search';
 
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
