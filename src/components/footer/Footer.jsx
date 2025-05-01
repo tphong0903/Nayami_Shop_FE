@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { Category } from '@mui/icons-material';
+import Logo from '~/assets/images/mainImage.jpg'
 export default function Footer() {
   const [listCategorys, setCategorys] = useState([]);
 
@@ -70,13 +70,13 @@ export default function Footer() {
               <div className="col-xl-3 col-lg-4 col-sm-6">
                 <div className="footer-logo">
                   <div className="theme-logo">
-                    <a href="index.html">
+                    <Link href="/">
                       <img
-                        src="../assets/images/logo/1.png"
-                        className="blur-up lazyload"
+                        src={Logo}
+                        className=" lazyload"
                         alt=""
                       />
-                    </a>
+                    </Link>
                   </div>
                   <div className="footer-logo-contain">
                     <p>
