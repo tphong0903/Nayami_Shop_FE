@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import ErrorImage from '../../../public/assets/images/inner-page/404.png'
+import ErrorImage from '~/assets/images/inner-page/404.png'
 
 const Section404Error = () => {
   const navigate = useNavigate();

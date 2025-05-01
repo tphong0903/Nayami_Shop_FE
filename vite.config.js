@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://nayami-shop-be-latest.onrender.com',
+        target: 'http://localhost:8081',
         changeOrigin: true,
         secure: false,
       },

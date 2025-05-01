@@ -9,7 +9,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import $ from 'jquery'
 import 'datatables.net-bs5'
-import '/src/assets/Admin/css/customPagination.css';
+import '~/assets/Admin/css/customPagination.css';
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
   const tableRef = useRef(null)

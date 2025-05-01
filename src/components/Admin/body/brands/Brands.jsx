@@ -8,7 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import $ from 'jquery'
 import 'datatables.net-bs5'
-import '/src/assets/Admin/css/customPagination.css';
+import '~/assets/Admin/css/customPagination.css';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 
 const BrandList = () => {

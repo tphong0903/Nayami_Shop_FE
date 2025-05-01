@@ -8,45 +8,45 @@ export default function Head() {
         id="rtl-link"
         rel="stylesheet"
         type="text/css"
-        href="/src/assets/css/vendors/bootstrap.css"
+        href="~/assets/css/vendors/bootstrap.css"
       />
       {/* wow css */}
-      <link rel="stylesheet" href="/src/assets/css/animate.min.css" />
+      <link rel="stylesheet" href="~/assets/css/animate.min.css" />
       {/* font-awesome css */}
       <link
         rel="stylesheet"
         type="text/css"
-        href="/src/assets/css/vendors/font-awesome.css"
+        href="~/assets/css/vendors/font-awesome.css"
       />
       {/* feather icon css */}
       <link
         rel="stylesheet"
         type="text/css"
-        href="/src/assets/css/vendors/feather-icon.css"
+        href="~/assets/css/vendors/feather-icon.css"
       />
       {/* slick css */}
       <link
         rel="stylesheet"
         type="text/css"
-        href="/src/assets/css/vendors/slick/slick.css"
+        href="~/assets/css/vendors/slick/slick.css"
       />
       <link
         rel="stylesheet"
         type="text/css"
-        href="/src/assets/css/vendors/slick/slick-theme.css"
+        href="~/assets/css/vendors/slick/slick-theme.css"
       />
       {/* Iconly css */}
       <link
         rel="stylesheet"
         type="text/css"
-        href="/src/assets/css/bulk-style.css"
+        href="~/assets/css/bulk-style.css"
       />
       {/* Template css */}
       <link
         id="color-link"
         rel="stylesheet"
         type="text/css"
-        href="/src/assets/css/style.css"
+        href="~/assets/css/style.css"
       />
 
     </Helmet>

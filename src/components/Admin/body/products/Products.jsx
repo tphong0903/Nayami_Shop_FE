@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 import ProductItem from './ProductItem'
 import $ from 'jquery'
 import 'datatables.net-bs5'
-import '/src/assets/Admin/css/customPagination.css';
+import '~/assets/Admin/css/customPagination.css';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 
 

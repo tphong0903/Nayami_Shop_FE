@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import $ from 'jquery'
 import 'datatables.net-bs5'
-import '/src/assets/Admin/css/customPagination.css';
+import '~/assets/Admin/css/customPagination.css';
 export default function Users() {
   const [users, setUser] = useState([]);
   const tableRef = useRef(null)

@@ -3,12 +3,12 @@ import AdminHeader from '~/components/Admin/header/AdminHeader'
 import SideBar from '~/components/Admin/sidebar/SideBar'
 import '~/assets/AdminCss.css'
 import { useEffect, useState } from 'react'
-import {getRoleFromToken} from "~/utils/TokenUtil.js";
+import { getRoleFromToken } from "~/utils/TokenUtil.js";
 import SideBarStaff from "~/components/Admin/sidebar/SideBarStaff.jsx";
 
 export default function AdminPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [role,setRole] = useState('');
+  const [role, setRole] = useState('');
 
 
   const setSidebarOpen = () => {

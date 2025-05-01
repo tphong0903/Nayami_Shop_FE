@@ -7,8 +7,8 @@ export default function Error404() {
   return (
     <>
       <Header />
-      <BreadCrumb title='Error' page='Error'/>
-      <Section404Error/>
+      <BreadCrumb title='Error' page='Error' />
+      <Section404Error />
       <Footer />
     </>
   )

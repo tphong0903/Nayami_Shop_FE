@@ -94,7 +94,7 @@ const VoucherTab = () => {
               <h2>Ví Voucher</h2>
               <span className="title-leaf">
                 <svg className="icon-width bg-gray">
-                  <use xlinkHref="../src/assets/svg/leaf.svg#leaf"></use>
+                  <use xlinkHref="..~/assets/svg/leaf.svg#leaf"></use>
                 </svg>
               </span>
               <p>
@@ -156,13 +156,12 @@ const VoucherTab = () => {
                         </div>
                         <div className="voucher-action">
                           <button
-                            className={`btn ${
-                              isVoucherExpired(voucher.endDate)
+                            className={`btn ${isVoucherExpired(voucher.endDate)
+                              ? 'btn-secondary disabled'
+                              : isVoucherUsed(voucher.active)
                                 ? 'btn-secondary disabled'
-                                : isVoucherUsed(voucher.active)
-                                  ? 'btn-secondary disabled'
-                                  : 'btn-outline-primary'
-                            }`}
+                                : 'btn-outline-primary'
+                              }`}
                             onClick={() =>
                               !isVoucherExpired(voucher.endDate) &&
                               !isVoucherUsed(voucher.active) &&
