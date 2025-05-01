@@ -58,7 +58,7 @@ import Users from './components/Admin/body/users/Users.jsx';
 import AddUser from './components/Admin/body/users/AddUser.jsx';
 import EditPasswordUser from './components/Admin/body/users/EditPasswordUser.jsx';
 import UpdateUser from './components/Admin/body/users/UpdateUser.jsx';
-import UpdateInformationAdmin from "~/components/Admin/body/UpdateInformationAdmin.jsx";
+import UpdateInformationAdmin from '~/components/Admin/body/UpdateInformationAdmin.jsx';
 
 function App() {
   useEffect(() => {
@@ -160,8 +160,8 @@ function App() {
               <Route path="update-promotion/:id" element={<AddPromotion />} />
               <Route path="comments" element={<ProductList />} />
               <Route path="comments/:id" element={<CommentsList />} />
-            {/*  Update information*/}
-              <Route path="information" element={<UpdateInformationAdmin/>}  />
+              {/*  Update information*/}
+              <Route path="information" element={<UpdateInformationAdmin />} />
             </Route>
           </Route>
 
