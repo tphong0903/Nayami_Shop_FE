@@ -6,18 +6,37 @@ import Swal from 'sweetalert2'
 import { Rating } from '@mui/material';
 import { formatCurrency } from '~/utils/formatCurrency';
 import { addToCart } from '~/apis/addtoCart';
-var settings = {
-  dots: true,
-  infinite: true,
-  arrows: false,
-  speed: 500,
-  slidesToShow: 6,
-  slidesToScroll: 1
-};
+// var settings = {
+//   dots: true,
+//   infinite: true,
+//   arrows: false,
+//   speed: 500,
+//   slidesToShow: 6,
+//   slidesToScroll: 1
+// };
 
 
 export default function ReletedProductSection({ product }) {
   const [listRalatedProduct, setListRalatedProduct] = useState([]);
+  const [slidesToShow, setSlidesToShow] = useState(getSlidesToShow());
+  function getSlidesToShow() {
+    if (window.innerWidth < 480) {
+      return 1;
+    } else if (window.innerWidth < 768) {
+      return 2;
+    } else if (window.innerWidth < 1024) {
+      return 3;
+    } else {
+      return 6;
+    }
+  }
+  useEffect(() => {
+    const handleResize = () => {
+      setSlidesToShow(getSlidesToShow());
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   useEffect(() => {
     if (!product) {
       return;
@@ -31,6 +50,15 @@ export default function ReletedProductSection({ product }) {
         Swal.fire('Lỗi!', 'Không thể tải sản phẩm.', 'error')
       })
   }, [product]);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: slidesToShow,
+    slidesToScroll: 1,
+  };
+
   return (
     <>
       {/* Releted Product Section Start */}
@@ -46,11 +74,11 @@ export default function ReletedProductSection({ product }) {
           </div>
           <div className="row">
             <div className="col-12">
-              <div className="slider-6_1 product-wrapper">
+              <div className="slider-6_1  arrow-slider product-wrapper">
                 <Slider {...settings} >
                   {listRalatedProduct.length > 0 && listRalatedProduct.map((v, index) => (
                     <div key={index}>
-                      <div className="product-box-3 wow fadeInUp" style={{ minHeight: '400px', display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}>
+                      <div className="product-box-3 wow fadeInUp" >
                         <div className="product-header" >
                           <div className="product-image">
                             <Link to={`/product-detail/${v.id}`}>
