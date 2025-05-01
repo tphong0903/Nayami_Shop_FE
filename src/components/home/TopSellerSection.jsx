@@ -62,11 +62,13 @@ export default function TopSellerSection() {
                 <div key={v.id} className="col-xxl-2 col-lg-3 col-md-4 col-6 wow fadeInUp">
                   <div className="product-box-4" style={{ minHeight: '400px', display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}>
                     <div className="product-image">
-                      <div className="label-flex">
-                        <div className='discount'>
-                          <label>50%</label>
+                      {v?.discountDTO &&
+                        <div className="label-flex">
+                          <div className='discount'>
+                            <label>{v.discountDTO.percentage}%</label>
+                          </div>
                         </div>
-                      </div>
+                      }
                       <Link to={`/product-detail/${v.id}`}>
                         <img
                           src={v.listImage[0]}
