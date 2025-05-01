@@ -24,7 +24,7 @@ const CategoryList = () => {
   }, [categories])
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('/api/categories');
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/categories`);
       setCategories(response.data.data);
     } catch (err) {
       console.error('Error fetching categories:', err);
@@ -56,7 +56,7 @@ const CategoryList = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.put(`/api/categories/${id}`, category);
+          await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/categories/${id}`, category);
           fetchCategories();
         } catch (err) {
           Swal.fire('Lỗi!', 'Không thể xoá danh mục.', 'error');

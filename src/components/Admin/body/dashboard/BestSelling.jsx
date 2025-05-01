@@ -19,7 +19,7 @@ export default function BestSelling() {
     };
 
     axios
-      .post('/api/dashboard/productBestSelling', dashboardDateDTO)
+      .post(`${import.meta.env.VITE_API_BASE_URL}/api/dashboard/productBestSelling`, dashboardDateDTO)
       .then((response) => {
         setListProduct(response.data.data)
       })

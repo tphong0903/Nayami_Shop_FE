@@ -51,7 +51,7 @@ export default function AddDiscount({ discountDetail, openModal, setOpenModal, h
   }
   useEffect(() => {
     axios
-      .get('/api/products')
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/products`)
       .then((response) => {
         setProducts(response.data.data)
       })

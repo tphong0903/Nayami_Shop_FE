@@ -22,7 +22,7 @@ export default function RevenueChart() {
     };
 
     axios
-      .post('/api/dashboard/revenueByTime', dashboardDateDTO)
+      .post(`${import.meta.env.VITE_API_BASE_URL}/api/dashboard/revenueByTime`, dashboardDateDTO)
       .then((response) => {
         const newChartDataY = response.data.data.data;
         const newChartDataX = response.data.data.time

@@ -24,7 +24,7 @@ export default function OrderDetail() {
   };
 
   useEffect(() => {
-    axios.get(`/api/bills/${id}`).then(res => {
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/bills/${id}`).then(res => {
       setOrderDetail(res.data.data)
       console.log(res.data.data)
     })
@@ -66,7 +66,7 @@ export default function OrderDetail() {
       if (result.isConfirmed) {
         if (type != 1) {
           try {
-            await axios.post('/api/bills/status', {
+            await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills/status`, {
               billID: parseInt(id),
               status: option,
               email: orderDetail.customer.email

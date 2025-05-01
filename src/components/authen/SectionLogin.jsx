@@ -76,7 +76,7 @@ export default function SectionLogin() {
                     Swal.showLoading(); // Hiển thị spinner xoay
                 },
             });
-            const response = await axios.post('/api/login', {
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login`, {
                 email: email,
                 password: password
             });
@@ -121,7 +121,7 @@ export default function SectionLogin() {
 
     const handleGoogleLogin = async () => {
         try {
-            const response = await axios.get('/api/auth/social-login/google', {
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/auth/social-login/google`, {
                 headers: {
                     'Accept': 'application/json'
                 }

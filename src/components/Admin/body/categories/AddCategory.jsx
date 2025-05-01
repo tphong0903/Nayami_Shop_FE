@@ -57,11 +57,11 @@ const CategoryForm = () => {
       const payload = { categoryName: formData.categoryName, active: 'true' };
 
       if (isEditMode) {
-        await axios.put(`/api/categories/${id}`, payload, {
+        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/categories/${id}`, payload, {
           headers: { 'Content-Type': 'application/json' },
         });
       } else {
-        await axios.post('/api/categories', payload, {
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/categories`, payload, {
           headers: { 'Content-Type': 'application/json' },
         })
           .then(res => {

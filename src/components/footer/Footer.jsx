@@ -13,7 +13,7 @@ export default function Footer() {
 
   useEffect(() => {
     axios
-      .get('/api/categories/active/brands')
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/categories/active/brands`)
       .then((response) => {
         setCategorys(response.data.data);
       })

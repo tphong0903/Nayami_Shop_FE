@@ -27,7 +27,7 @@ const CouponForm = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('/api/users/get-all-users');
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/get-all-users`);
         const userOptions = response.data.map((user) => ({
           value: user.userId.toString(),
           label: `${user.email} (${user.phoneNumber})`,
@@ -61,7 +61,7 @@ const CouponForm = () => {
 
   const fetchCouponData = async () => {
     try {
-      const response = await axios.get(`/api/coupons/${id}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/coupons/${id}`);
       const coupon = response.data.data;
 
       if (users.length > 0) {
@@ -140,11 +140,11 @@ const CouponForm = () => {
       console.log('Sending payload:', payload);
 
       if (isEditMode) {
-        await axios.put(`/api/coupons/${id}`, payload, {
+        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/coupons/${id}`, payload, {
           headers: { 'Content-Type': 'application/json' },
         });
       } else {
-        await axios.post('/api/coupons', payload, {
+        await axios.post('${import.meta.env.VITE_API_BASE_URL}/api/coupons', payload, {
           headers: { 'Content-Type': 'application/json' },
         });
       }

@@ -51,7 +51,7 @@ export default function ChangeProfileLayout() {
     e.preventDefault(); // Ngăn reload trang
     try {
       console.log('Update user...: ', formData);
-      const response = await axios.put(`/api/users/update/${id}`, formData);
+      const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/users/update/${id}`, formData);
       const resData = response.data;
       console.log(resData);
       if (resData.status === 200 || resData.status === 201) {

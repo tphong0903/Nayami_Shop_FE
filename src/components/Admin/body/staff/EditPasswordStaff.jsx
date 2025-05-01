@@ -23,7 +23,7 @@ export default function EditPasswordStaff() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`/api/users/staff/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/staff/${id}`);
         const data = response.data;
         setFormData(prev => ({
           ...prev,
@@ -71,7 +71,7 @@ export default function EditPasswordStaff() {
     }
 
     try {
-      const response = await axios.put(`/api/users/update/password/staff/${id}`, formData);
+      const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/users/update/password/staff/${id}`, formData);
       const resData = response.data;
 
       if (resData.status === 200 || resData.status === 201) {

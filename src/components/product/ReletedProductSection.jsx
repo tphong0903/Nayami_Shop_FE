@@ -23,7 +23,7 @@ export default function ReletedProductSection({ product }) {
       return;
     }
     axios
-      .get(`/api/products/categories/${product.categoryDTO.id}`)
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/products/categories/${product.categoryDTO.id}`)
       .then((response) => {
         setListRalatedProduct(response.data.data.slice(0, 10))
       })

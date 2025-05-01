@@ -55,7 +55,7 @@ export default function SectionSignup() {
     event.preventDefault();
     if (!validateForm()) return; // ⛔ nếu form lỗi thì dừng
     try {
-      const response = await axios.post('/api/signup', {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/signup`, {
         email: email,
         password: password,
         fullName: fullname,

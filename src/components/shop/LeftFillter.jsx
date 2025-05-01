@@ -109,7 +109,7 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
   useEffect(() => {
     const fetchFilterOptions = async () => {
       try {
-        const response = await axios.get('/api/products/filterOption');
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/products/filterOption`);
         const { listBrandDTO, listCategoryDTO, listQuantityProductOfDiscount, listQuantityProductOfRating } = response.data.data;
 
         setListBrands(listBrandDTO);
@@ -126,7 +126,7 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    let url = '/api/products/filter'
+    let url = `${import.meta.env.VITE_API_BASE_URL}/api/products/filter`
     let params = [];
     if (listSelectedOption['listBrandsSelected'].length > 0) {
       params.push(

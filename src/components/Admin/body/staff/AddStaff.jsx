@@ -25,7 +25,7 @@ export default function AddStaff() {
     e.preventDefault(); // Ngăn reload trang
 
     try {
-      const response = await axios.post('/api/users/create', formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/create`, formData);
       const resData = response.data;
 
       if (resData.status === 200 || resData.status === 201) {

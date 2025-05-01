@@ -26,7 +26,7 @@ const BrandList = () => {
   }, [brands])
   const fetchBrands = async () => {
     try {
-      const response = await axios.get('/api/brands');
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/brands`);
       setBrands(response.data.data);
     } catch (err) {
       console.error('Error fetching brands:', err);
@@ -46,7 +46,7 @@ const BrandList = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`/api/brands/${id}`);
+          await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/brands/${id}`);
           fetchBrands();
 
           Swal.fire('Đã chuyển trạng thái !', 'Đã chuyển trạng thái thành công.', 'success');

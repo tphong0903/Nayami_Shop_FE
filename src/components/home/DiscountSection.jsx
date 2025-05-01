@@ -32,7 +32,7 @@ export default function DiscountSection({ ref }) {
   }, []);
   useEffect(() => {
     axios
-      .get('/api/products/discounts')
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/products/discounts`)
       .then((response) => {
         setListDiscountProducts(response.data.data.sort((a, b) => b.discount - a.discount).slice(0, 6));
         if (slidesToShow > listDiscountProducts.length)

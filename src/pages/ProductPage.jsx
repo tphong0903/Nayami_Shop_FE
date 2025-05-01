@@ -29,7 +29,7 @@ export default function ProductPage() {
     window.scrollTo(0, 0);
     setProduct(null);
     axios
-      .get(`/api/products/${id}`)
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/products/${id}`)
       .then((response) => {
         setProduct(response.data.data)
       })
@@ -39,7 +39,7 @@ export default function ProductPage() {
 
     if (decoded) {
       axios
-        .post('/api/users', { email: decoded.email })
+        .post(`${import.meta.env.VITE_API_BASE_URL}/api/users`, { email: decoded.email })
         .then(res => {
           setUser(res.data)
         })
@@ -48,7 +48,7 @@ export default function ProductPage() {
         })
 
       axios
-        .post('/api/users/check', { proId: id, email: decoded.email })
+        .post(`${import.meta.env.VITE_API_BASE_URL}/api/users/check`, { proId: id, email: decoded.email })
         .then(res => {
           setUserPurchaseCheck(res.data.data)
         })
@@ -58,7 +58,7 @@ export default function ProductPage() {
     }
 
     axios
-      .get(`/api/comments/${id}`)
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/comments/${id}`)
       .then((response) => {
         setRate(response.data.data)
       })
@@ -67,7 +67,7 @@ export default function ProductPage() {
       })
 
     axios
-      .get(`/api/responses/${id}`)
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/responses/${id}`)
       .then((response) => {
         setResponse(response.data.data)
         // console.log(response.data.data)

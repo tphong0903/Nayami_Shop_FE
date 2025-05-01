@@ -25,11 +25,11 @@ const OrderList = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('/api/bills');
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL} /api/bills`);
 
       const updatedOrders = response.data.data.map(order => {
         let lowerStatus = order.status.toLowerCase();
-        const isUnpaid = order.paymentMethod === 'ONLINE_BANKING' && order.payment.paymentStatus === 'PENDING' ;
+        const isUnpaid = order.paymentMethod === 'ONLINE_BANKING' && order.payment.paymentStatus === 'PENDING';
         return {
           ...order,
           status: isUnpaid ? 'unpaid' : lowerStatus,
@@ -56,47 +56,47 @@ const OrderList = () => {
 
   const getStatusLabel = (status) => {
     switch (status?.toLowerCase()) {
-    case 'completed':
-      return 'Hoàn thành';
-    case 'unpaid':
-      return 'Chờ thanh toán';
-    case 'confirmed':
-      return 'Đang chờ vận chuyển';
-    case 'shipping':
-      return 'Đang giao hàng';
-    case 'shipped':
-      return 'Đã giao';
-    case 'cancelled':
-      return 'Đã hủy';
-    case 'pending':
-      return 'Chờ xác nhận';
-    case 'guarantee':
-      return 'Bảo hành';
-    default:
-      return status;
+      case 'completed':
+        return 'Hoàn thành';
+      case 'unpaid':
+        return 'Chờ thanh toán';
+      case 'confirmed':
+        return 'Đang chờ vận chuyển';
+      case 'shipping':
+        return 'Đang giao hàng';
+      case 'shipped':
+        return 'Đã giao';
+      case 'cancelled':
+        return 'Đã hủy';
+      case 'pending':
+        return 'Chờ xác nhận';
+      case 'guarantee':
+        return 'Bảo hành';
+      default:
+        return status;
     }
   };
 
   const getStatusClassName = (status) => {
     switch (status?.toLowerCase()) {
-    case 'completed':
-      return 'badge bg-success';
-    case 'unpaid':
-      return 'badge bg-danger';
-    case 'confirmed':
-      return 'badge bg-info';
-    case 'shipping':
-      return 'badge bg-primary';
-    case 'shipped':
-      return 'badge bg-secondary';
-    case 'cancelled':
-      return 'badge bg-dark';
-    case 'pending':
-      return 'badge bg-warning';
-    case 'guarantee':
-      return 'badge bg-danger';
-    default:
-      return 'badge bg-light text-dark';
+      case 'completed':
+        return 'badge bg-success';
+      case 'unpaid':
+        return 'badge bg-danger';
+      case 'confirmed':
+        return 'badge bg-info';
+      case 'shipping':
+        return 'badge bg-primary';
+      case 'shipped':
+        return 'badge bg-secondary';
+      case 'cancelled':
+        return 'badge bg-dark';
+      case 'pending':
+        return 'badge bg-warning';
+      case 'guarantee':
+        return 'badge bg-danger';
+      default:
+        return 'badge bg-light text-dark';
     }
   };
 
@@ -138,9 +138,8 @@ const OrderList = () => {
                     {statusFilters.map((status) => (
                       <li className="nav-item" key={status.id}>
                         <button
-                          className={`nav-link ${
-                            activeStatus === status.id ? 'active' : ''
-                          }`}
+                          className={`nav-link ${activeStatus === status.id ? 'active' : ''
+                            }`}
                           onClick={() => handleStatusFilter(status.id)}
                         >
                           {status.label}
@@ -193,7 +192,7 @@ const OrderList = () => {
                               <td>
                                 <div className="d-flex justify-content-center">
                                   <button className="btn btn-primary">
-                                       Chi tiết
+                                    Chi tiết
                                   </button>
                                 </div>
                               </td>

@@ -17,7 +17,7 @@ export default function ProductList() {
 
     const fetchData = async () => {
         await axios
-            .get('/api/products', {
+            .get(`${import.meta.env.VITE_API_BASE_URL}/api/products`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('access_token')}`
                 }

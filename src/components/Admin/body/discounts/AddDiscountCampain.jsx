@@ -33,7 +33,7 @@ export default function AddDiscountCampain() {
   useEffect(() => {
     if (isEditMode) {
       axios
-        .get(`/api/discounts/${id}`)
+        .get(`${import.meta.env.VITE_API_BASE_URL}/api/discounts/${id}`)
         .then((response) => {
           setDiscountCampainModel(response.data.data)
         })
@@ -79,7 +79,7 @@ export default function AddDiscountCampain() {
     setDiscountCampainModel(prev => ({ ...prev, description: editorContent }))
 
     try {
-      const response = await axios.post('/api/discounts', JSON.stringify(discountCampainModel), {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/discounts`, JSON.stringify(discountCampainModel), {
         headers: { 'Content-Type': 'application/json' }
       });
 

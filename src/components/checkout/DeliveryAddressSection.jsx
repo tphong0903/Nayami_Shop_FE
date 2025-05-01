@@ -131,7 +131,7 @@ const DeliveryAddressSection = ({
       let response;
 
       if (newAddress.id) {
-        response = await axios.put(`/api/addresses/${newAddress.id}`, newAddress, {
+        response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/addresses/${newAddress.id}`, newAddress, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -153,7 +153,7 @@ const DeliveryAddressSection = ({
           text: 'Địa chỉ đã được cập nhật thành công!',
         });
       } else {
-        response = await axios.post('/api/addresses', newAddress, {
+        response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/addresses`, newAddress, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -233,7 +233,7 @@ const DeliveryAddressSection = ({
         cancelButtonText: 'Hủy'
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await axios.delete(`/api/addresses/${addressId}`);
+          await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/addresses/${addressId}`);
 
           const updatedAddresses = addresses.filter(address => address.id !== addressId);
           setAddresses(updatedAddresses);
