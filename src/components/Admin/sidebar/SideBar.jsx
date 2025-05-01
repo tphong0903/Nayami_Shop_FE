@@ -30,7 +30,7 @@ export default function SideBar({ value, setSidebarOpen }) {
       new SimpleBar(sidebarElement);
     }
     const script = document.createElement('script');
-    script.src = '/src/assets/Admin/js/sidebareffect.js';
+    script.src = '~/assets/Admin/js/sidebareffect.js';
     script.async = true;
     document.body.appendChild(script);
 
@@ -56,8 +56,8 @@ export default function SideBar({ value, setSidebarOpen }) {
         </div>
         <div className="logo-icon-wrapper">
           <Link>
-            <img className="img-fluid main-logo main-white" src="/src/assets/Admin/images/logo/logo.png" alt="logo" />
-            <img className="img-fluid main-logo main-dark" src="/src/assets/Admin/images/logo/logo-white.png" alt="logo" />
+            <img className="img-fluid main-logo main-white" src="~/assets/Admin/images/logo/logo.png" alt="logo" />
+            <img className="img-fluid main-logo main-dark" src="~/assets/Admin/images/logo/logo-white.png" alt="logo" />
           </Link>
         </div>
         <nav className="sidebar-main">

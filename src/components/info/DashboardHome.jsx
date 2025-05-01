@@ -23,44 +23,44 @@ const DashboardHome = () => {
   });
   const getStatusBadgeClass = (status) => {
     switch (status?.toLowerCase()) {
-    case 'completed':
-      return 'badge bg-success';
-    case 'unpaid':
-      return 'badge bg-danger';
-    case 'shipping':
-      return 'badge bg-primary';
-    case 'shipped':
-      return 'badge bg-info';
-    case 'cancelled':
-      return 'badge bg-danger';
-    case 'pending':
-      return 'badge bg-warning';
-    case 'guarantee':
-      return 'badge bg-secondary';
-    default:
-      return 'badge bg-light text-dark';
+      case 'completed':
+        return 'badge bg-success';
+      case 'unpaid':
+        return 'badge bg-danger';
+      case 'shipping':
+        return 'badge bg-primary';
+      case 'shipped':
+        return 'badge bg-info';
+      case 'cancelled':
+        return 'badge bg-danger';
+      case 'pending':
+        return 'badge bg-warning';
+      case 'guarantee':
+        return 'badge bg-secondary';
+      default:
+        return 'badge bg-light text-dark';
     }
   };
   const getStatusText = (status) => {
     switch (status?.toLowerCase()) {
-    case 'completed':
-      return 'Hoàn thành';
-    case 'unpaid':
-      return 'Chờ thanh toán';
-    case 'confrimed':
-      return 'Đang chờ vận chuyển';
-    case 'shipping':
-      return 'Đang giao hàng';
-    case 'shipped':
-      return 'Đã giao';
-    case 'cancelled':
-      return 'Đã hủy';
-    case 'pending':
-      return 'Chờ xác nhận';
-    case 'guarantee':
-      return 'Bảo hành';
-    default:
-      return status;
+      case 'completed':
+        return 'Hoàn thành';
+      case 'unpaid':
+        return 'Chờ thanh toán';
+      case 'confrimed':
+        return 'Đang chờ vận chuyển';
+      case 'shipping':
+        return 'Đang giao hàng';
+      case 'shipped':
+        return 'Đã giao';
+      case 'cancelled':
+        return 'Đã hủy';
+      case 'pending':
+        return 'Chờ xác nhận';
+      case 'guarantee':
+        return 'Bảo hành';
+      default:
+        return status;
     }
   };
   const [activeTab, setActiveTab] = useState('profile');
@@ -131,19 +131,19 @@ const DashboardHome = () => {
 
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {
-    case 'completed':
-      return 'success';
-    case 'processing':
-    case 'shipping':
-      return 'info';
-    case 'pending':
-      return 'warning';
-    case 'cancelled':
-      return 'danger';
-    case 'shipped':
-      return 'primary';
-    default:
-      return 'secondary';
+      case 'completed':
+        return 'success';
+      case 'processing':
+      case 'shipping':
+        return 'info';
+      case 'pending':
+        return 'warning';
+      case 'cancelled':
+        return 'danger';
+      case 'shipped':
+        return 'primary';
+      default:
+        return 'secondary';
     }
   };
 
@@ -158,7 +158,7 @@ const DashboardHome = () => {
         <h2>Bảng điều khiển</h2>
         <span className="title-leaf">
           <svg className="icon-width bg-gray">
-            <use xlinkHref="../src/assets/svg/leaf.svg#leaf"></use>
+            <use xlinkHref="..~/assets/svg/leaf.svg#leaf"></use>
           </svg>
         </span>
       </div>
@@ -173,7 +173,7 @@ const DashboardHome = () => {
                 alt="order icon"
               />
               <img
-                src="../src/assets/images/svg/order.svg"
+                src="..~/assets/images/svg/order.svg"
                 className=" lazyload"
                 alt="order icon"
               />
@@ -187,12 +187,12 @@ const DashboardHome = () => {
           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
             <div className="totle-contain">
               <img
-                src="../src/assets/images/svg/pending.svg"
+                src="..~/assets/images/svg/pending.svg"
                 className="img-1 lazyload"
                 alt="pending icon"
               />
               <img
-                src="../src/assets/images/svg/pending.svg"
+                src="..~/assets/images/svg/pending.svg"
                 className=" lazyload"
                 alt="pending icon"
               />
@@ -206,12 +206,12 @@ const DashboardHome = () => {
           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
             <div className="totle-contain">
               <img
-                src="../src/assets/images/svg/money.svg"
+                src="..~/assets/images/svg/money.svg"
                 className="img-1  lazyload"
                 alt="money icon"
               />
               <img
-                src="../src/assets/images/svg/money.svg"
+                src="..~/assets/images/svg/money.svg"
                 className=" lazyload"
                 alt="money icon"
               />
@@ -220,7 +220,7 @@ const DashboardHome = () => {
                 <h3 title={formatCurrency(userData.totalSpent)}>
                   {userData.totalSpent > 999999999
                     ? formatCurrency(userData.totalSpent).substring(0, 10) +
-                      '...'
+                    '...'
                     : formatCurrency(userData.totalSpent)}
                 </h3>
               </div>
@@ -256,9 +256,8 @@ const DashboardHome = () => {
       <div className="tab-content">
         {/* Profile Tab */}
         <div
-          className={`tab-pane fade ${
-            activeTab === 'profile' ? 'show active' : ''
-          }`}
+          className={`tab-pane fade ${activeTab === 'profile' ? 'show active' : ''
+            }`}
         >
           <div className="row">
             <div className="col-12">
@@ -376,9 +375,8 @@ const DashboardHome = () => {
 
         {/* Orders Tab */}
         <div
-          className={`tab-pane fade ${
-            activeTab === 'orders' ? 'show active' : ''
-          }`}
+          className={`tab-pane fade ${activeTab === 'orders' ? 'show active' : ''
+            }`}
         >
           <div className="dashboard-bg-box p-4">
             <div className="dashboard-title mb-4">
@@ -432,7 +430,7 @@ const DashboardHome = () => {
               <div className="text-center p-4 empty-box">
                 <div className="mb-3">
                   <img
-                    src="../src/assets/images/svg/order.svg"
+                    src="..~/assets/images/svg/order.svg"
                     alt="No Orders"
                     className="img-fluid"
                     style={{ width: '80px', opacity: '0.5' }}
