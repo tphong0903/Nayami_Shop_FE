@@ -21,7 +21,9 @@ export default function TopSellerSection() {
     };
 
     axios
-      .post('/api/products/productBestSelling', dashboardDateDTO)
+      .get('/api/products/displayStatus/1', {
+        params: dashboardDateDTO,
+      })
       .then((response) => {
         setListProductsTopSelling(response.data.data)
       })
