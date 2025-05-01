@@ -12,7 +12,7 @@ package-lock.json
 .yarn/cache
 node_modules
 dist
-dist-ssr
+dist-ssrok
 *.local
 
 # Editor directories and files

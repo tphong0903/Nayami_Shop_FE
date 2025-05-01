@@ -11,6 +11,7 @@ export const handleQuantityChange = (quantity, setQuantity, productId, value) =>
 };
 
 export const addToCart = async (productId, quantity) => {
+
   try {
     const token = localStorage.getItem('access_token');
     if (!token) {
@@ -25,7 +26,7 @@ export const addToCart = async (productId, quantity) => {
 
     await axios.post(`${window.location.origin}/api/cart`, {
       productId,
-      quantity: quantity[productId] || 1
+      quantity: quantity
     }, {
       headers: { 'Authorization': `Bearer ${token}` }
     });

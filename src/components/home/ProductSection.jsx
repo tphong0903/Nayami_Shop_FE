@@ -4,7 +4,6 @@ import { Rating } from '@mui/material';
 import { formatCurrency } from '~/utils/formatCurrency';
 import { Link } from 'react-router-dom';
 import { addToCart } from '~/apis/addtoCart';
-import { Padding } from '@mui/icons-material';
 
 export default function ProductSection() {
   const [listOurProducts, setListOurProducts] = useState([]);
