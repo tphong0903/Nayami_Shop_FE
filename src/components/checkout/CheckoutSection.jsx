@@ -101,7 +101,7 @@ const CheckoutSection = () => {
       address: address.addressName,
     }
     try {
-      const response = await axios.post('/api/ship/fee', addressData);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/ship/fee`, addressData);
       setShippingFee(response.data.fee.fee);
       console.log('Phí vận chuyển:', response.data.fee.fee);
     } catch (error) {
@@ -139,7 +139,7 @@ const CheckoutSection = () => {
 
   const fetchOrderDetails = async (data) => {
     try {
-      const response = await axios.post('/api/bills/checkout', data);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills/checkout`, data);
       const responseDetail = response.data.data;
       setAddressList(responseDetail?.listAddress || []);
       setCarts(responseDetail.listCartItem);
@@ -184,7 +184,7 @@ const CheckoutSection = () => {
         couponId: checkoutData.couponId,
       };
       console.log('Dữ liệu đơn hàng:', orderData);
-      const response = await axios.post('/api/bills', orderData);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills`, orderData);
       if (response.data.status == 201) {
         Swal.fire({
           title: 'Thành công',

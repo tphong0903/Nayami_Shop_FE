@@ -25,7 +25,7 @@ export default function TopNav() {
     try {
       const token = localStorage.getItem('access_token');
       if (token) {
-        const response = await axios.get(`${window.location.origin}/api/cart`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/cart`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -47,7 +47,7 @@ export default function TopNav() {
     try {
       const token = localStorage.getItem('access_token');
       if (token) {
-        await axios.delete(`${window.location.origin}/api/cart/${cartId}`, {
+        await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/cart/${cartId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

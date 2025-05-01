@@ -50,7 +50,7 @@ export default function ProductSection({ product, user, rate, setIsRate, isRate,
 
   useEffect(() => {
     axios
-      .get('/api/products/discounts')
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/products/discounts`)
       .then((response) => {
         setListDiscountProducts(response.data.data.slice(0, 5))
       })
@@ -65,7 +65,7 @@ export default function ProductSection({ product, user, rate, setIsRate, isRate,
   }
 
   const submitReview = () => {
-    axios.post('/api/comments', submitInfo)
+    axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/comments`, submitInfo)
       .then((res) => {
         setIsRate(!isRate); // cập nhật danh sách
         setSubmitInfo({

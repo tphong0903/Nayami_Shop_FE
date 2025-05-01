@@ -72,7 +72,7 @@ export default function UpdateInformationAdmin() {
 
         setLoading(true);
         try {
-            const response = await axios.put('/api/users/update/inform/admin', {
+            const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/users/update/inform/admin`, {
                 email: formData.email,
                 password: formData.password
             });

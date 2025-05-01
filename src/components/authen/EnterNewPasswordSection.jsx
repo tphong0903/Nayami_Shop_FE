@@ -41,7 +41,7 @@ export default function EnterNewPasswordSection() {
         },
       });
       const refreshAxios = axios.create();
-      const response = await refreshAxios.post('/api/reset-password/entered', {
+      const response = await refreshAxios.post(`${import.meta.env.VITE_API_BASE_URL}/api/reset-password/entered`, {
         newPassword: newPassword,
       }, {
         headers: {

@@ -69,7 +69,7 @@ const DashboardHome = () => {
     window.scrollTo(0, 0);
     const fetchOrders = async () => {
       try {
-        const response = await axios.get('/api/bills/history');
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/bills/history`);
         const orderHistory = response.data.data || [];
         const totalOrders = orderHistory.length;
         const pendingOrders = orderHistory.filter(order => {

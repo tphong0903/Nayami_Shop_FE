@@ -15,7 +15,7 @@ const ProtectedRouteAdmin = () => {
 
             try {
                 const response = await axios.post(
-                    '/api/check-token-staff',
+                    `${import.meta.env.VITE_API_BASE_URL}/api/check-token-staff`,
                     {},
                     {
                         headers: {

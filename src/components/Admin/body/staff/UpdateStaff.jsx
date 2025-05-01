@@ -20,7 +20,7 @@ export default function UpdateStaff() {
     const fetchUser = async () => {
       try {
         console.log('Fetching user...');
-        const response = await axios.get(`/api/users/staff/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/staff/${id}`);
         const data = response.data;
         console.log(data);
         setFormData({
@@ -56,7 +56,7 @@ export default function UpdateStaff() {
 
     try {
       console.log('Update user...');
-      const response = await axios.put(`/api/users/update/${id}`, formData);
+      const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/users/update/${id}`, formData);
       const resData = response.data;
       console.log(resData);
       if (resData.status === 200 || resData.status === 201) {

@@ -21,7 +21,7 @@ export default function Promotions() {
     }, [promotions])
     const fetchPromotions = async () => {
         try {
-            const response = await axios.get('/api/promotions');
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/promotions`);
             setPromotions(response.data.data);
         } catch (err) {
             console.error('Error fetching promotions:', err);
@@ -45,7 +45,7 @@ export default function Promotions() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await axios.delete(`/api/promotions/${id}`);
+                    await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/promotions/${id}`);
                     setPromotions((prevCategories) => prevCategories.filter(category => category.id !== id));
 
                     Swal.fire('Đã xoá!', 'Quảng cáo đã được xoá thành công.', 'success');

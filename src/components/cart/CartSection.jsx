@@ -28,7 +28,7 @@ export default function CartSection() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('/api/cart');
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/cart`);
 
       const productsWithCheck = response.data.data.map(product => ({
         ...product,
@@ -95,7 +95,7 @@ export default function CartSection() {
 
         setProducts(updatedProducts);
 
-        await axios.put(`/api/cart/${product.id}`, {
+        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/cart/${product.id}`, {
           quantity: newQuantity
         });
         fetchProducts();
@@ -139,7 +139,7 @@ export default function CartSection() {
 
   const handleApplyCoupon = async (couponCode) => {
     try {
-      const response = await axios.get(`/api/coupons/customer/${couponCode}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/coupons/customer/${couponCode}`);
       const { type, value, constraintMoney } = response.data.data;
 
       if (constraintMoney > total) {

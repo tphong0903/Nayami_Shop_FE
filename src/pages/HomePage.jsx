@@ -49,7 +49,7 @@ export default function HomePage() {
 
   const fetchData = async () => {
     try {
-      await axios.get('/api/promotions')
+      await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/promotions`)
         .then(response => {
           SetPromotions(filteredPromotions(response.data.data))
         })

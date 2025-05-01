@@ -44,7 +44,7 @@ const AddressTab = () => {
   }, []);
   const fetchAddressList = async () => {
     try {
-      const response = await axios.get('/api/addresses');
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/addresses`);
       setAddresses(response.data.data);
     } catch (error) {
       console.error('Lỗi khi tải danh sách địa chỉ:', error.response?.data?.message || error.message);
@@ -96,7 +96,7 @@ const AddressTab = () => {
       let response;
 
       if (newAddress.id) {
-        response = await axios.put(`/api/addresses/${newAddress.id}`, newAddress, {
+        response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/addresses/${newAddress.id}`, newAddress, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -114,7 +114,7 @@ const AddressTab = () => {
           text: 'Địa chỉ đã được cập nhật thành công!',
         });
       } else {
-        response = await axios.post('/api/addresses', newAddress, {
+        response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/addresses`, newAddress, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -190,7 +190,7 @@ const AddressTab = () => {
         cancelButtonText: 'Hủy'
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await axios.delete(`/api/addresses/${addressId}`);
+          await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/addresses/${addressId}`);
 
           const updatedAddresses = addresses.filter(address => address.id !== addressId);
           setAddresses(updatedAddresses);

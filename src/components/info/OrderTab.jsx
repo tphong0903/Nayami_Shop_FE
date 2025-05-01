@@ -17,7 +17,7 @@ const OrderTab = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('/api/bills/history', {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/bills/history`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -195,7 +195,7 @@ const OrderTab = () => {
     });
     if (result.isConfirmed) {
       try {
-        const response = await axios.post(`/api/bills/payment/${id}`);
+        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills/payment/${id}`);
         navigate(response.data.data.paymentUrl);
         fetchOrders();
       } catch (error) {
@@ -229,7 +229,7 @@ const OrderTab = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.post('/api/bills/cancel', { billID: id });
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills/cancel`, { billID: id });
         swalWithBootstrapButtons.fire(
           'Đã hủy!',
           'Đơn hàng đã được hủy thành công.',
@@ -265,7 +265,7 @@ const OrderTab = () => {
     });
     if (result.isConfirmed) {
       try {
-        await axios.post(`${window.location.origin}/api/bills/guarantee`, { billID: id });
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills/guarantee`, { billID: id });
         swalWithBootstrapButtons.fire(
           'Đã yêu cầu!',
           'Yêu cầu bảo hành đã được gửi thành công.',
@@ -306,7 +306,7 @@ const OrderTab = () => {
 
       const addItemPromises = order.items.map((item) =>
         axios.post(
-          `${window.location.origin}/api/cart`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/cart`,
           {
             productId: item.productId,
             quantity: item.quantity,

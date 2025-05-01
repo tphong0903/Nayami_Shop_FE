@@ -15,7 +15,7 @@ export default function Products() {
 
   useEffect(() => {
     axios
-      .get('/api/products', {
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/products`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -46,9 +46,9 @@ export default function Products() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`/api/products/${product.id}`);
+          await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/products/${product.id}`);
           axios
-            .get('/api/products')
+            .get(`${import.meta.env.VITE_API_BASE_URL}/api/products`)
             .then((response) => {
               setProducts(response.data.data)
             })

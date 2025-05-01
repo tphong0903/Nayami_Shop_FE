@@ -90,7 +90,7 @@ export default function AddProduct({ view }) {
     images.forEach(file => uploadData.append('files', file));
 
     try {
-      const response = await axios.post('/api/products', uploadData, {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/products`, uploadData, {
         headers: { 'Content-Type': 'multipart/form-data;' }
       });
 
@@ -212,7 +212,7 @@ export default function AddProduct({ view }) {
   useEffect(() => {
     resetForm()
     axios
-      .get('/api/brands')
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/brands`)
       .then((response) => {
         setBrands(response.data.data)
       })
@@ -220,7 +220,7 @@ export default function AddProduct({ view }) {
         Swal.fire('Lỗi!', 'Không thể tải danh sách thương hiệu.', 'error')
       })
     axios
-      .get('/api/categories')
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/categories`)
       .then((response) => {
         setCategorys(response.data.data)
       })
@@ -229,7 +229,7 @@ export default function AddProduct({ view }) {
       })
     if (isEditMode) {
       axios
-        .get(`/api/products/${id}`)
+        .get(`${import.meta.env.VITE_API_BASE_URL}/api/products/${id}`)
         .then((response) => {
           setFormData(response.data.data)
         })

@@ -22,7 +22,7 @@ export default function Users() {
   }, [users])
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('/api/users/get-all-users');
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/get-all-users`);
       const user = response.data;
       setUser(user);
     } catch (err) {
@@ -32,7 +32,7 @@ export default function Users() {
   const updateNewStatus = async (userId) => {
     try {
       // 1. Lấy user hiện tại
-      const response = await axios.get(`/api/users/${userId}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/${userId}`);
       const currentUser = response.data;
       // 2. Đảo status (giả sử là true/false)
       const updatedStatus = !currentUser.active
@@ -48,7 +48,7 @@ export default function Users() {
       }).then(async (result) => {
         if (result.isConfirmed) {
           // 3. Gửi PUT request với status mới
-          const updateResponse = await axios.put(`/api/users/update/${userId}`, currentUser);
+          const updateResponse = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/users/update/${userId}`, currentUser);
 
           if (updateResponse.data.status === 200 || updateResponse.data.status === 201) {
             Swal.fire({

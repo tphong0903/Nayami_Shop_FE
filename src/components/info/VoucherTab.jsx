@@ -13,7 +13,7 @@ const VoucherTab = () => {
     const fetchVouchers = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('/api/coupons/customer');
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/coupons/customer`);
         if (response.data.data) {
           setVouchers(response.data.data);
         }

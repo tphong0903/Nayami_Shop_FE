@@ -9,7 +9,7 @@ export default function OutOfStock() {
   const [listProduct, setListProduct] = useState([])
   useEffect(() => {
     axios
-      .get('/api/dashboard/productOutOfStock')
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/dashboard/productOutOfStock`)
       .then((response) => {
         setListProduct(response.data.data)
       })

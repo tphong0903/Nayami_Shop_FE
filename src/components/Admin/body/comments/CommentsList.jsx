@@ -17,13 +17,13 @@ export default function CommentsList() {
     const [disabledButton, setDisabledButton] = useState(false)
 
     const fetchData = async () => {
-        await axios.get(`/api/comments/${id}`).then((response) => {
+        await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/comments/${id}`).then((response) => {
             setComments(reverseByProperty(response.data.data, 'id'))
         }).catch(err => {
             console.log(err)
         })
 
-        await axios.get(`/api/responses/${id}`).then((response) => {
+        await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/responses/${id}`).then((response) => {
             setResponses(reverseByProperty(response.data.data, 'id'))
         }).catch(err => {
             console.log(err)
@@ -68,7 +68,7 @@ export default function CommentsList() {
             timer: 1500
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await axios.post('/api/comments/active', { id: id })
+                await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/comments/active`, { id: id })
                     .then(() => {
                         fetchData()
                     })
@@ -81,7 +81,7 @@ export default function CommentsList() {
         const modalInstance = bootstrap.Modal.getInstance(modal);
         modalInstance.hide();
 
-        await axios.post('/api/responses', replyData)
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/responses`, replyData)
             .then(() => {
                 Swal.fire({
                     title: 'Phản hồi thành công',

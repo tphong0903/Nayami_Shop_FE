@@ -11,7 +11,7 @@ export default function ProductSection() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   useEffect(() => {
     axios
-      .get('/api/products/displayStatus/1')
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/products/displayStatus/1`)
       .then((response) => {
         setListOurProducts(response.data.data.slice(0, 12));
         setFilteredProducts(response.data.data.slice(0, 12));

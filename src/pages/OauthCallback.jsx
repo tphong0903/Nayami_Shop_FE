@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Swal from 'sweetalert2';
 
 export default function OauthCallback() {
@@ -8,12 +8,12 @@ export default function OauthCallback() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
-    const state = params.get("state");
+    const code = params.get('code');
+    const state = params.get('state');
 
     if (code && state) {
       axios
-        .get("/api/login/oauth2/code/google", {
+        .get(`${import.meta.env.VITE_API_BASE_URL}/api/login/oauth2/code/google`, {
           params: {
             code: code,
             state: state,
@@ -22,8 +22,8 @@ export default function OauthCallback() {
         .then( async (res) => {
           console.log(res);
           const { accessToken, refreshToken } = res.data.data;
-          localStorage.setItem("access_token", accessToken);
-          localStorage.setItem("refresh_token", refreshToken);
+          localStorage.setItem('access_token', accessToken);
+          localStorage.setItem('refresh_token', refreshToken);
           Swal.fire({
             icon: 'success',
             title: 'Thành công',
@@ -31,7 +31,7 @@ export default function OauthCallback() {
             timer: 3000,
             showConfirmButton: true,
           });
-          navigate("/");
+          navigate('/');
         })
         .catch((err) => {
           Swal.fire({
@@ -41,10 +41,10 @@ export default function OauthCallback() {
             timer: 3000,
             showConfirmButton: true,
           });
-          navigate("/login");
+          navigate('/login');
         });
     } else {
-      navigate("/login");
+      navigate('/login');
     }
   }, [navigate]);
 

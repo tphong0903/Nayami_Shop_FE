@@ -39,7 +39,7 @@ const CouponList = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`/api/coupons/${id}`);
+          await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/coupons/${id}`);
           fetchCoupons();
 
           Swal.fire('Đã xoá!', 'Danh mục đã được xoá thành công.', 'success');
@@ -53,7 +53,7 @@ const CouponList = () => {
   const fetchCoupons = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/coupons');
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/coupons`);
       setCoupons(response.data.data);
       setLoading(false);
     } catch (err) {
