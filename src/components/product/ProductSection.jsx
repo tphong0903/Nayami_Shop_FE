@@ -8,7 +8,6 @@ import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import { addToCart } from '~/apis/addtoCart';
 import { Box, Typography, Chip } from '@mui/material'
-import StarIcon from '@mui/icons-material/Star';
 var settings = {
   focusOnSelect: true,
   infinite: true,
@@ -16,7 +15,16 @@ var settings = {
   speed: 500,
   vertical: true,
   verticalSwiping: true,
-  arrows: false
+  arrows: false,
+  responsive: [
+    {
+      breakpoint: 768,
+      settings: {
+        vertical: false,
+        verticalSwiping: false
+      }
+    }
+  ]
 };
 
 export default function ProductSection({ product, user, rate, setIsRate, isRate, purchaseCheck, response }) {
@@ -137,8 +145,8 @@ export default function ProductSection({ product, user, rate, setIsRate, isRate,
 
                     </div>
                     <div className="col-xxl-2 col-lg-12 col-md-2 order-xxl-1 order-lg-2 order-md-1">
-                      <div className="left-slider-image-2 left-slider ">
-                        <Slider {...settings} slidesToShow={listImage.length} slidesToScroll={1} style={{ height: '100%' }}>
+                      <div className="left-slider-image-2 left-slider  ">
+                        <Slider {...settings} slidesToShow={listImage.length} slidesToScroll={1}>
                           {listImage.length > 0 && listImage.map((v, index) => (
                             <div key={index}>
                               <div className="sidebar-image">

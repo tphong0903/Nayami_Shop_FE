@@ -98,7 +98,7 @@ export default function CategorySection() {
                   </div>
                 </div>
                 <div className="category-box-list">
-                  <Link to={`/shop?categoryId=3&categoryName=${encodeURIComponent('Màn hình')}`}>
+                  <Link to={`/shop?categoryId=3&categoryName=${encodeURIComponent('Màn hình')}`} className="category-name">
                     <h4>Màn hình</h4>
                   </Link>
                   <div className="category-box-view">
@@ -116,7 +116,7 @@ export default function CategorySection() {
                 </div>
 
                 <div className="category-box-list">
-                  <Link to={`/shop?categoryId=4&categoryName=${encodeURIComponent('Bàn phím')}`}>
+                  <Link to={`/shop?categoryId=4&categoryName=${encodeURIComponent('Bàn phím')}`} className="category-name">
                     <h4>Bàn phím</h4>
                   </Link>
                   <div className="category-box-view">
@@ -134,7 +134,7 @@ export default function CategorySection() {
                 </div>
 
                 <div className="category-box-list">
-                  <Link to={`/shop?categoryId=5&categoryName=${encodeURIComponent('Chuột')}`}>
+                  <Link to={`/shop?categoryId=5&categoryName=${encodeURIComponent('Chuột')}`} className="category-name">
                     <h4>Chuột</h4>
                   </Link>
                   <div className="category-box-view">
@@ -152,11 +152,11 @@ export default function CategorySection() {
                 </div>
 
                 <div className="category-box-list">
-                  <Link to={`/shop?categoryId=6&categoryName=${encodeURIComponent('Tai nghe')}`}>
+                  <Link to={`/shop?categoryId=6&categoryName=${encodeURIComponent('Tai nghe')}`} className="category-name">
                     <h4>Tai nghe</h4>
                   </Link>
                   <div className="category-box-view">
-                    <Link to={`/shop?categoryId=6&categoryName=${encodeURIComponent('Tai nghe')}`}>
+                    <Link to={`/shop?categoryId=6&categoryName=${encodeURIComponent('Tai nghe')}`} className="category-name">
                       <img src={TaiNghe} className="img-fluid lazyload" alt="" />
                     </Link>
                     <button
@@ -170,7 +170,7 @@ export default function CategorySection() {
                 </div>
 
                 <div className="category-box-list">
-                  <Link to={`/shop?categoryId=7&categoryName=${encodeURIComponent('Loa')}`}>
+                  <Link to={`/shop?categoryId=7&categoryName=${encodeURIComponent('Loa')}`} className="category-name">
                     <h4>Loa</h4>
                   </Link>
                   <div className="category-box-view">
@@ -188,7 +188,7 @@ export default function CategorySection() {
                 </div>
 
                 <div className="category-box-list">
-                  <Link to={`/shop?categoryId=8&categoryName=${encodeURIComponent('Camera')}`}>
+                  <Link to={`/shop?categoryId=8&categoryName=${encodeURIComponent('Camera')}`} className="category-name">
                     <h4>Camera</h4>
                   </Link>
                   <div className="category-box-view">

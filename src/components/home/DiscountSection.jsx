@@ -34,10 +34,29 @@ export default function DiscountSection({ ref }) {
     axios
       .get(`${import.meta.env.VITE_API_BASE_URL}/api/products/discounts`)
       .then((response) => {
-        setListDiscountProducts(response.data.data.sort((a, b) => b.discount - a.discount).slice(0, 6));
-        if (slidesToShow > listDiscountProducts.length)
-          setSlidesToShow(listDiscountProducts.length)
+        if (response.data && response.data.data) {
+          const productData = response.data.data;
+          const sortedProducts = productData
+            .sort(
+              (a, b) =>
+                (b.discountDTO?.percentage || 0) -
+                (a.discountDTO?.percentage || 0)
+            )
+            .slice(0, 6);
+
+          setListDiscountProducts(sortedProducts);
+
+          if (slidesToShow > sortedProducts.length) {
+            setSlidesToShow(Math.max(1, sortedProducts.length));
+          }
+        } else {
+          setListDiscountProducts([]);
+        }
       })
+      .catch((error) => {
+        console.error('Error fetching discount products:', error);
+        setListDiscountProducts([]);
+      });
   }, []);
 
   const settings = {
@@ -57,9 +76,9 @@ export default function DiscountSection({ ref }) {
           <div className="col-12">
             <div className="three-slider-1 arrow-slider product-wrapper">
               <Slider {...settings}>
-                {listDiscountProducts.map(v => (
+                {listDiscountProducts.map((v) => (
                   <div key={v.id}>
-                    <div className="deal-box wow fadeInUp" >
+                    <div className="deal-box wow fadeInUp">
                       <Link
                         to={`/product-detail/${v.id}`}
                         className="category-image order-sm-2"
@@ -78,23 +97,44 @@ export default function DiscountSection({ ref }) {
                           <span>Hot Deals</span>
                         </div>
                         <ul className="rating">
-                          <Rating name="read-only" value={v?.ratingAvg ?? 0} readOnly />
+                          <Rating
+                            name="read-only"
+                            value={v?.ratingAvg ?? 0}
+                            readOnly
+                          />
                         </ul>
-                        <Link to={`/product-detail/${v.id}`} className="text-title">
-                          <h5 style={{
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            maxWidth: '100%',
-                          }}>{v.name}</h5>
+                        <Link
+                          to={`/product-detail/${v.id}`}
+                          className="text-title"
+                        >
+                          <h5
+                            style={{
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              maxWidth: '100%',
+                            }}
+                          >
+                            {v.name}
+                          </h5>
                         </Link>
-                        <h3 className="theme-color price right-box-contain" style={{ textAlign: 'left' }}>
-
+                        <h3
+                          className="theme-color price right-box-contain"
+                          style={{ textAlign: 'left' }}
+                        >
                           <div>
-                            <del className="text-content">{formatCurrency(v.unitPrice)}</del>
-                            <h6 className="offer-top">{v?.discountDTO.percentage}% Off</h6>
+                            <del className="text-content">
+                              {formatCurrency(v.unitPrice)}
+                            </del>
+                            <h6 className="offer-top">
+                              {v?.discountDTO.percentage}% Off
+                            </h6>
                           </div>
-                          {formatCurrency(v.unitPrice * (100 - (v?.discountDTO?.percentage || 0)) / 100)}
+                          {formatCurrency(
+                            (v.unitPrice *
+                              (100 - (v?.discountDTO?.percentage || 0))) /
+                              100
+                          )}
                         </h3>
                         <DealTimer product={v} />
                       </div>
@@ -107,7 +147,5 @@ export default function DiscountSection({ ref }) {
         </div>
       </div>
     </section>
-
-
-  )
+  );
 }

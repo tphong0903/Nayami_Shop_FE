@@ -1,8 +1,8 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import axios from 'axios';
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import BoltIcon from '@mui/icons-material/Bolt';
 export default function MenuNav() {
   const navigate = useNavigate();
@@ -52,30 +52,55 @@ export default function MenuNav() {
                     </button>
                   </div>
                   <ul className="category-list">
-                    {listCategorys.map(v => (
-                      <li className="onhover-category-list" key={v.id}>
-                        <Link to={`/shop?categoryId=${v.id}&categoryName=${encodeURIComponent(v.categoryName)}`} className="category-name">
-                          <h6>{v.categoryName}</h6>
-                          <i className="fa-solid fa-angle-right" />
-                        </Link>
-                        <div className="onhover-category-box">
-                          <div className="list-1">
-                            <div className="category-title-box">
-                              <h5>Thương Hiệu</h5>
+                    {listCategorys && listCategorys.length > 0 ? (
+                      listCategorys.map((v) => (
+                        <li className="onhover-category-list" key={v.id}>
+                          <Link
+                            to={`/shop?categoryId=${
+                              v.id
+                            }&categoryName=${encodeURIComponent(
+                              v.categoryName
+                            )}`}
+                            className="category-name"
+                          >
+                            <h6>{v.categoryName}</h6>
+                            <i className="fa-solid fa-angle-right" />
+                          </Link>
+                          <div className="onhover-category-box">
+                            <div className="list-1">
+                              <div className="category-title-box">
+                                <h5>Thương Hiệu</h5>
+                              </div>
+                              <ul>
+                                {v.brandDTOList && v.brandDTOList.length > 0 ? (
+                                  v.brandDTOList.map((b) => (
+                                    <li key={b.id}>
+                                      <Link
+                                        to={`/shop?categoryId=${
+                                          v.id
+                                        }&categoryName=${encodeURIComponent(
+                                          v.categoryName
+                                        )}&brandId=${
+                                          b.id
+                                        }&brandName=${encodeURIComponent(
+                                          b.name
+                                        )}&`}
+                                      >
+                                        {b.name}
+                                      </Link>
+                                    </li>
+                                  ))
+                                ) : (
+                                  <li>Không có thương hiệu</li>
+                                )}
+                              </ul>
                             </div>
-                            <ul>
-                              {v.brandDTOList.map(b => (
-                                <li key={b.id}>
-                                  <Link to={`/shop?categoryId=${v.id}&categoryName=${encodeURIComponent(v.categoryName)}&brandId=${b.id}&brandName=${encodeURIComponent(b.name)}&`}>{b.name}</Link>
-                                </li>
-                              ))
-                              }
-                            </ul>
                           </div>
-                        </div>
-                      </li>
-                    ))
-                    }
+                        </li>
+                      ))
+                    ) : (
+                      <li className="text-center py-2">Đang tải danh mục...</li>
+                    )}
                   </ul>
                 </div>
               </div>
@@ -95,7 +120,13 @@ export default function MenuNav() {
                       />
                     </div>
                     <div className="offcanvas-body">
-                      <ul className="navbar-nav" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <ul
+                        className="navbar-nav"
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                        }}
+                      >
                         <li className="nav-item">
                           <Link
                             className="nav-link"
@@ -138,10 +169,7 @@ export default function MenuNav() {
                 </div>
               </div>
               <div className="header-nav-right">
-                <button
-                  onClick={handleDealClick}
-                  className="btn deal-button"
-                >
+                <button onClick={handleDealClick} className="btn deal-button">
                   <BoltIcon />
                   <span>Khuyến mãi hôm nay</span>
                 </button>
@@ -151,5 +179,5 @@ export default function MenuNav() {
         </div>
       </div>
     </>
-  )
+  );
 }

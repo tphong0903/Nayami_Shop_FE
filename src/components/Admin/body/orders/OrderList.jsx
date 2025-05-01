@@ -56,47 +56,47 @@ const OrderList = () => {
 
   const getStatusLabel = (status) => {
     switch (status?.toLowerCase()) {
-      case 'completed':
-        return 'Hoàn thành';
-      case 'unpaid':
-        return 'Chờ thanh toán';
-      case 'confirmed':
-        return 'Đang chờ vận chuyển';
-      case 'shipping':
-        return 'Đang giao hàng';
-      case 'shipped':
-        return 'Đã giao';
-      case 'cancelled':
-        return 'Đã hủy';
-      case 'pending':
-        return 'Chờ xác nhận';
-      case 'guarantee':
-        return 'Bảo hành';
-      default:
-        return status;
+    case 'completed':
+      return 'Hoàn thành';
+    case 'unpaid':
+      return 'Chờ thanh toán';
+    case 'confirmed':
+      return 'Đang chờ vận chuyển';
+    case 'shipping':
+      return 'Đang giao hàng';
+    case 'shipped':
+      return 'Đã giao';
+    case 'cancelled':
+      return 'Đã hủy';
+    case 'pending':
+      return 'Chờ xác nhận';
+    case 'guarantee':
+      return 'Bảo hành';
+    default:
+      return status;
     }
   };
 
   const getStatusClassName = (status) => {
     switch (status?.toLowerCase()) {
-      case 'completed':
-        return 'badge bg-success';
-      case 'unpaid':
-        return 'badge bg-danger';
-      case 'confirmed':
-        return 'badge bg-info';
-      case 'shipping':
-        return 'badge bg-primary';
-      case 'shipped':
-        return 'badge bg-secondary';
-      case 'cancelled':
-        return 'badge bg-dark';
-      case 'pending':
-        return 'badge bg-warning';
-      case 'guarantee':
-        return 'badge bg-danger';
-      default:
-        return 'badge bg-light text-dark';
+    case 'completed':
+      return 'badge bg-success';
+    case 'unpaid':
+      return 'badge bg-danger';
+    case 'confirmed':
+      return 'badge bg-info';
+    case 'shipping':
+      return 'badge bg-primary';
+    case 'shipped':
+      return 'badge bg-secondary';
+    case 'cancelled':
+      return 'badge bg-dark';
+    case 'pending':
+      return 'badge bg-warning';
+    case 'guarantee':
+      return 'badge bg-danger';
+    default:
+      return 'badge bg-light text-dark';
     }
   };
 
@@ -139,7 +139,7 @@ const OrderList = () => {
                       <li className="nav-item" key={status.id}>
                         <button
                           className={`nav-link ${activeStatus === status.id ? 'active' : ''
-                            }`}
+                          }`}
                           onClick={() => handleStatusFilter(status.id)}
                         >
                           {status.label}
