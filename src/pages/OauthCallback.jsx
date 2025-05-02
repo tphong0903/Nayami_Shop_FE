@@ -13,13 +13,13 @@ export default function OauthCallback() {
 
     if (code && state) {
       axios
-        .get(`${import.meta.env.VITE_API_BASE_URL}/api/login/oauth2/code/google`, {
+        .get('https://nayamishop.id.vn/api/login/oauth2/code/google', {
           params: {
             code: code,
             state: state,
           },
         })
-        .then( async (res) => {
+        .then(async (res) => {
           console.log(res);
           const { accessToken, refreshToken } = res.data.data;
           localStorage.setItem('access_token', accessToken);
