@@ -87,6 +87,7 @@ export default function Promotions() {
                                                     <th>Ngày bắt đầu<SwapVertIcon /></th>
                                                     <th>Ngày kết thúc<SwapVertIcon /></th>
                                                     <th>Trạng thái hiển thị<SwapVertIcon /></th>
+                                                     <th>Thao tác<SwapVertIcon /></th>
                                                 </tr>
                                             </thead>
 
