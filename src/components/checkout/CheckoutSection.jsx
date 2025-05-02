@@ -57,6 +57,53 @@ const CheckoutSection = () => {
     }
   };
 
+  const fetchStatusPayment = () => {
+    const status = searchParams.get('status');
+    const cancel = searchParams.get('cancel');
+    const orderCode = searchParams.get('orderCode');
+
+    if (status && orderCode) {
+      axios
+        .get('api/bills/callback', { params: { status, cancel, orderCode } })
+        .then((response) => {
+          console.log('Payment status updated:', response.data);
+          if(response.data.status === 200) {
+            Swal.fire({
+              title: 'Thành công',
+              text: 'Thanh toán thành công!',
+              icon: 'success',
+              confirmButtonText: 'OK',
+            }).then(() => {
+              navigate('/');
+            });
+          }
+          else {
+            Swal.fire({
+              title: 'Thất bại',
+              text: response.data.message,
+              icon: 'error',
+              confirmButtonText: 'OK',
+            }).then(() => {
+              navigate('/');
+            });
+          }
+        })
+        .catch((error) => {
+          console.error('Error updating payment status:', error);
+          Swal.fire({
+            title: 'Lỗi thanh toán',
+            text:
+              error.response?.data?.message ||
+              'Đã xảy ra lỗi khi cập nhật trạng thái thanh toán',
+            icon: 'error',
+            confirmButtonText: 'OK',
+          }).then(() => {
+            navigate('/');
+          });
+        });
+    }
+  };
+
   const fetchShippingFee = async (address) => {
     if (!address) return;
 
@@ -87,6 +134,7 @@ const CheckoutSection = () => {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   useEffect(() => {
+    fetchStatusPayment();
     const storedData = localStorage.getItem('checkoutData');
     if (storedData) {
       const parsedData = JSON.parse(storedData);
