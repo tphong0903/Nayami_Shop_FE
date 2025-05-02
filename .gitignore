@@ -9,10 +9,11 @@ lerna-debug.log*
 package.json
 package-lock.json
 
+.env
 .yarn/cache
 node_modules
 dist
-dist-ssrok
+dist-ssr
 *.local
 
 # Editor directories and files
