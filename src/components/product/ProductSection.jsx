@@ -146,22 +146,26 @@ export default function ProductSection({ product, user, rate, setIsRate, isRate,
                     </div>
                     <div className="col-xxl-2 col-lg-12 col-md-2 order-xxl-1 order-lg-2 order-md-1">
                       <div className="left-slider-image-2 left-slider  ">
-                        <Slider {...settings} slidesToShow={listImage.length} slidesToScroll={1}>
-                          {listImage.length > 0 && listImage.map((v, index) => (
-                            <div key={index}>
-                              <div className="sidebar-image">
-                                <img
-                                  src={listImage[index]}
-                                  onClick={() => setSelectedImage(listImage[index])}
-                                  className="img-fluid  lazyload"
-                                  alt=""
-                                />
+                        {listImage.length > 1 &&
+                          <Slider {...settings} slidesToShow={listImage.length} slidesToScroll={1}>
+                            {listImage.length > 0 && listImage.map((v, index) => (
+                              <div key={index}>
+                                <div className="sidebar-image">
+                                  <img
+                                    src={listImage[index]}
+                                    onClick={() => setSelectedImage(listImage[index])}
+                                    className="img-fluid  lazyload"
+                                    alt=""
+                                  />
+                                </div>
                               </div>
-                            </div>
-                          ))}
-                        </Slider>
+                            ))}
+                          </Slider>
+                        }
                       </div>
                     </div>
+
+
 
                   </div>
 

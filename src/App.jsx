@@ -25,7 +25,6 @@ import AddBrand from './components/Admin/body/brands/AddBrand';
 import Login from './pages/Login';
 import Signup from '~/pages/Signup.jsx';
 import Logout from '~/pages/Logout.jsx';
-import setupAxiosInterceptors from './apis/axiosInterceptor.js';
 
 import DiscountCampain from './components/Admin/body/discounts/DiscountCampain';
 import AddDiscountCampain from './components/Admin/body/discounts/AddDiscountCampain';
