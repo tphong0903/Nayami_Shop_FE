@@ -9,14 +9,14 @@ import axios from 'axios';
 
 export default function UserDashboard() {
   const [informUser, setInformUser] = useState(false)
-  
+
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem('access_token');
       const email = getEmailFromToken(token);
       if (!email) return;
       try {
-        const response = await axios.get(`/api/users/email/${email}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/email/${email}`);
         const user = response.data;
         localStorage.setItem('user_information', JSON.stringify(user));
         setInformUser(true);

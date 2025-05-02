@@ -1,20 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import BlockIcon from '@mui/icons-material/Block';
 import Swal from 'sweetalert2';
-
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import $ from 'jquery'
+import 'datatables.net-bs5'
+import '~/assets/Admin/css/customPagination.css';
 export default function Promotions() {
     const [promotions, setPromotions] = useState([]);
-
+    const tableRef = useRef(null)
     useEffect(() => {
         fetchPromotions();
     }, []);
-
+    useEffect(() => {
+        if (promotions.length > 0) {
+            $(tableRef.current).DataTable()
+        }
+    }, [promotions])
     const fetchPromotions = async () => {
         try {
-            const response = await axios.get('/api/promotions');
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/promotions`);
             setPromotions(response.data.data);
         } catch (err) {
             console.error('Error fetching promotions:', err);
@@ -38,7 +45,7 @@ export default function Promotions() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await axios.delete(`/api/promotions/${id}`);
+                    await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/promotions/${id}`);
                     setPromotions((prevCategories) => prevCategories.filter(category => category.id !== id));
 
                     Swal.fire('Đã xoá!', 'Quảng cáo đã được xoá thành công.', 'success');
@@ -69,14 +76,17 @@ export default function Promotions() {
                                     </div>
 
                                     <div className="table-responsive category-table">
-                                        <table className="table all-package theme-table" id="table_id">
+                                        <table
+                                            ref={tableRef}
+
+                                            className="table all-package theme-table" id="table_id">
                                             <thead>
                                                 <tr>
-                                                    <th>Tên</th>
-                                                    <th>Mô tả</th>
-                                                    <th>Ngày bắt đầu</th>
-                                                    <th>Ngày kết thúc</th>
-                                                    <th>Trạng thái hiển thị</th>
+                                                    <th>Tên<SwapVertIcon /></th>
+                                                    <th>Mô tả<SwapVertIcon /></th>
+                                                    <th>Ngày bắt đầu<SwapVertIcon /></th>
+                                                    <th>Ngày kết thúc<SwapVertIcon /></th>
+                                                    <th>Trạng thái hiển thị<SwapVertIcon /></th>
                                                 </tr>
                                             </thead>
 
@@ -99,8 +109,7 @@ export default function Promotions() {
                                                                         </Link>
                                                                     </li>
                                                                     <li>
-                                                                        <a
-                                                                            href="#"
+                                                                        <Link
                                                                             className="text-danger"
                                                                             onClick={(e) => {
                                                                                 e.preventDefault();
@@ -108,7 +117,7 @@ export default function Promotions() {
                                                                             }}
                                                                         >
                                                                             <i className="ri-delete-bin-line" />
-                                                                        </a>
+                                                                        </Link>
 
                                                                     </li>
                                                                 </ul>

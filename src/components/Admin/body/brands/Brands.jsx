@@ -1,23 +1,32 @@
 /* eslint-disable no-console */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import $ from 'jquery'
+import 'datatables.net-bs5'
+import '~/assets/Admin/css/customPagination.css';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 
 const BrandList = () => {
   const [brands, setBrands] = useState([]);
+  const tableRef = useRef(null)
 
   useEffect(() => {
     fetchBrands();
   }, []);
 
-
+  useEffect(() => {
+    if (brands.length > 0) {
+      $(tableRef.current).DataTable()
+    }
+  }, [brands])
   const fetchBrands = async () => {
     try {
-      const response = await axios.get('/api/brands');
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/brands`);
       setBrands(response.data.data);
     } catch (err) {
       console.error('Error fetching brands:', err);
@@ -37,7 +46,7 @@ const BrandList = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`/api/brands/${id}`);
+          await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/brands/${id}`);
           fetchBrands();
 
           Swal.fire('Đã chuyển trạng thái !', 'Đã chuyển trạng thái thành công.', 'success');
@@ -65,13 +74,15 @@ const BrandList = () => {
                   </div>
                 </div>
 
-                <div className="table-responsive Brand-table">
-                  <table className="table all-package theme-table" id="table_id">
+                <div className="table-responsive category-table">
+                  <table
+                    ref={tableRef}
+                    className="table all-package theme-table table-product dataTable no-footer" id="table_id">
                     <thead>
                       <tr>
-                        <th>Thương hiệu</th>
-                        <th>Trạng thái</th>
-                        <th>Tuỳ chọn</th>
+                        <th>Thương hiệu<SwapVertIcon /></th>
+                        <th>Trạng thái<SwapVertIcon /></th>
+                        <th>Tuỳ chọn<SwapVertIcon /></th>
                       </tr>
                     </thead>
 
@@ -91,7 +102,7 @@ const BrandList = () => {
                                   </Link>
                                 </li>
                                 <li>
-                                  <a
+                                  <Link
                                     href="#"
                                     className="text-danger"
                                     onClick={(e) => {
@@ -101,7 +112,7 @@ const BrandList = () => {
                                   >
                                     {Brand.active === false ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
 
-                                  </a>
+                                  </Link>
                                 </li>
                               </ul>
                             </td>

@@ -30,7 +30,7 @@ export default function SideBar({ value, setSidebarOpen }) {
       new SimpleBar(sidebarElement);
     }
     const script = document.createElement('script');
-    script.src = '/src/assets/Admin/js/sidebareffect.js';
+    script.src = '~/assets/Admin/js/sidebareffect.js';
     script.async = true;
     document.body.appendChild(script);
 
@@ -55,10 +55,10 @@ export default function SideBar({ value, setSidebarOpen }) {
           </div>
         </div>
         <div className="logo-icon-wrapper">
-          <a>
-            <img className="img-fluid main-logo main-white" src="/src/assets/Admin/images/logo/logo.png" alt="logo" />
-            <img className="img-fluid main-logo main-dark" src="/src/assets/Admin/images/logo/logo-white.png" alt="logo" />
-          </a>
+          <Link>
+            <img className="img-fluid main-logo main-white" src="~/assets/Admin/images/logo/logo.png" alt="logo" />
+            <img className="img-fluid main-logo main-dark" src="~/assets/Admin/images/logo/logo-white.png" alt="logo" />
+          </Link>
         </div>
         <nav className="sidebar-main">
           <div className="left-arrow" id="left-arrow">
@@ -140,10 +140,10 @@ export default function SideBar({ value, setSidebarOpen }) {
                   <i className={`ri-arrow-${isStaffsOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
                 </a>
                 {isStaffsOpen && (
-                    <ul className="sidebar-submenu">
-                      <li><Link to="/admin/staffs">Nhân viên</Link></li>
-                      <li><Link to="/admin/add-new-staff">Thêm nhân viên</Link></li>
-                    </ul>
+                  <ul className="sidebar-submenu">
+                    <li><Link to="/admin/staffs">Nhân viên</Link></li>
+                    <li><Link to="/admin/add-new-staff">Thêm nhân viên</Link></li>
+                  </ul>
                 )}
               </li>
 
@@ -207,16 +207,11 @@ export default function SideBar({ value, setSidebarOpen }) {
 
               {/* Settings Menu */}
               <li className="sidebar-list">
-                <a className="linear-icon-link sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsSettingsOpen)}>
+                <Link className="linear-icon-link sidebar-link sidebar-title" to={'/admin/information'}>
                   <i className="ri-settings-line" />
-                  <span>Settings</span>
+                  <span>Thông tin cá nhân</span>
                   <i className={`ri-arrow-${isSettingsOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
-                </a>
-                {isSettingsOpen && (
-                  <ul className="sidebar-submenu">
-                    <li><a href="profile-setting.html">Profile Setting</a></li>
-                  </ul>
-                )}
+                </Link>
               </li>
               {/* logout */}
               <li className="sidebar-list">

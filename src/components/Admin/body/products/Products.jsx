@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 import ProductItem from './ProductItem'
 import $ from 'jquery'
 import 'datatables.net-bs5'
-import '/src/assets/Admin/css/customPagination.css';
+import '~/assets/Admin/css/customPagination.css';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 
 
@@ -13,11 +13,9 @@ export default function Products() {
   const [products, setProducts] = useState([])
   const tableRef = useRef(null)
 
-
-
   useEffect(() => {
     axios
-      .get('/api/products', {
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/products`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -48,9 +46,9 @@ export default function Products() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`/api/products/${product.id}`);
+          await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/products/${product.id}`);
           axios
-            .get('/api/products')
+            .get(`${import.meta.env.VITE_API_BASE_URL}/api/products`)
             .then((response) => {
               setProducts(response.data.data)
             })

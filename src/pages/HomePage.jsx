@@ -5,7 +5,6 @@ import HomeSection from '~/components/home/HomeSection'
 import ServiceSection from '~/components/home/ServiceSection'
 import CategorySection from '~/components/home/CategorySection'
 import ProductSection from '~/components/home/ProductSection'
-import BannerSection from '~/components/home/BannerSection'
 import TopSellerSection from '~/components/home/TopSellerSection'
 import DiscountSection from '~/components/home/DiscountSection'
 import '~/assets/UserCss.css'
@@ -34,19 +33,23 @@ export default function HomePage() {
   }, [location]);
 
   const filteredPromotions = (promotions) => {
-    let filtered = [];
-    if (promotions.length > 0) {
-      filtered = promotions.filter(item => {
-        const endDate = new Date(item.endDate);
-        return (endDate > todayDate && item.displayStatus == true);
-      })
+    if (promotions == null)
+      return null
+    else {
+      let filtered = [];
+      if (promotions.length > 0) {
+        filtered = promotions.filter(item => {
+          const endDate = new Date(item.endDate);
+          return (endDate > todayDate && item.displayStatus == true);
+        })
+      }
+      return filtered
     }
-    return filtered
   };
 
   const fetchData = async () => {
     try {
-      await axios.get("/api/promotions")
+      await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/promotions`)
         .then(response => {
           SetPromotions(filteredPromotions(response.data.data))
         })
@@ -69,8 +72,6 @@ export default function HomePage() {
       <ServiceSection />
       <CategorySection />
       <ProductSection />
-
-      <BannerSection promotion={promotion} />
       <div ref={discountRef}>
       </div>
       <DiscountSection />

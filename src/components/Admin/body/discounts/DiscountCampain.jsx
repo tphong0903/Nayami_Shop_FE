@@ -4,7 +4,7 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import $ from 'jquery'
 import 'datatables.net-bs5'
-import '/src/assets/Admin/css/customPagination.css';
+import '~/assets/Admin/css/customPagination.css';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import DiscountCampainItem from './DiscountCampainItem';
 
@@ -14,7 +14,7 @@ export default function DiscountCampain() {
 
   useEffect(() => {
     axios
-      .get('/api/discounts')
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/discounts`)
       .then((response) => {
         setDiscountCampains(response.data.data)
       })
@@ -41,9 +41,9 @@ export default function DiscountCampain() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`/api/discounts/${discountCampain.id}`);
+          await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/discounts/${discountCampain.id}`);
           axios
-            .get('/api/discounts')
+            .get(`${import.meta.env.VITE_API_BASE_URL}/api/discounts`)
             .then((response) => {
               setDiscountCampains(response.data.data)
             })

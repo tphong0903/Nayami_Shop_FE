@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import { Link } from 'react-router-dom'
-import LogoShop from '../../assets/images/mainImage.jpg'
+import LogoShop from '~/assets/images/mainImage.jpg'
 import SearchIcon from '@mui/icons-material/Search';
 
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
@@ -25,7 +25,7 @@ export default function TopNav() {
     try {
       const token = localStorage.getItem('access_token');
       if (token) {
-        const response = await axios.get(`${window.location.origin}/api/cart`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/cart`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -47,7 +47,7 @@ export default function TopNav() {
     try {
       const token = localStorage.getItem('access_token');
       if (token) {
-        await axios.delete(`${window.location.origin}/api/cart/${cartId}`, {
+        await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/cart/${cartId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -233,13 +233,13 @@ export default function TopNav() {
                           <ul className="user-box-name">
                             <li className="product-box-contain">
                               <i />
-                              <a href="/login">Đăng nhập</a>
+                              <Link to="/login">Đăng nhập</Link>
                             </li>
                             <li className="product-box-contain">
-                              <a href="/register">Đăng ký</a>
+                              <Link to="/register">Đăng ký</Link>
                             </li>
                             <li className="product-box-contain">
-                              <a href="/forgot-password">Quên mật khẩu</a>
+                              <Link to="/forgot-password">Quên mật khẩu</Link>
                             </li>
                           </ul>
                         </div>
@@ -254,7 +254,7 @@ export default function TopNav() {
                                 <Link to="/dashboard/orders">Đơn hàng</Link>
                               </li>
                               <li className="product-box-contain">
-                                <a href="/logout">Đăng xuất</a>
+                                <Link to="/logout">Đăng xuất</Link>
                               </li>
 
                             </ul>

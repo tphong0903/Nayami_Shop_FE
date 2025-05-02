@@ -25,7 +25,7 @@ const BrandForm = () => {
   const fetchBrandData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/brands/${id}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/brands/${id}`);
       const brand = response.data.data;
 
       setFormData({
@@ -55,11 +55,11 @@ const BrandForm = () => {
       const payload = { name: formData.name };
 
       if (isEditMode) {
-        await axios.put(`/api/brands/${id}`, payload, {
+        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/brands/${id}`, payload, {
           headers: { 'Content-Type': 'application/json' },
         });
       } else {
-        await axios.post('/api/brands', payload, {
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/brands`, payload, {
           headers: { 'Content-Type': 'application/json' },
         });
       }

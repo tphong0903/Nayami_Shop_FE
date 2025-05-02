@@ -1,21 +1,30 @@
 /* eslint-disable no-console */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import $ from 'jquery'
+import 'datatables.net-bs5'
+import '~/assets/Admin/css/customPagination.css';
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
+  const tableRef = useRef(null)
 
   useEffect(() => {
     fetchCategories();
   }, []);
-
+  useEffect(() => {
+    if (categories.length > 0) {
+      $(tableRef.current).DataTable()
+    }
+  }, [categories])
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('/api/categories');
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/categories`);
       setCategories(response.data.data);
     } catch (err) {
       console.error('Error fetching categories:', err);
@@ -47,7 +56,7 @@ const CategoryList = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.put(`/api/categories/${id}`, category);
+          await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/categories/${id}`, category);
           fetchCategories();
         } catch (err) {
           Swal.fire('Lỗi!', 'Không thể xoá danh mục.', 'error');
@@ -73,12 +82,13 @@ const CategoryList = () => {
                 </div>
 
                 <div className="table-responsive category-table">
-                  <table className="table all-package theme-table" id="table_id">
+                  <table ref={tableRef}
+                    className="table all-package theme-table table-product dataTable no-footer" id="table_id">
                     <thead>
                       <tr>
-                        <th>Tên danh mục</th>
-                        <th>Trạng thái</th>
-                        <th>Tùy chỉnh</th>
+                        <th>Tên danh mục<SwapVertIcon /></th>
+                        <th>Trạng thái<SwapVertIcon /></th>
+                        <th>Tùy chỉnh<SwapVertIcon /></th>
                       </tr>
                     </thead>
 
@@ -98,8 +108,7 @@ const CategoryList = () => {
                                   </Link>
                                 </li>
                                 <li>
-                                  <a
-                                    href="#"
+                                  <Link
                                     className="text-danger"
                                     onClick={(e) => {
                                       e.preventDefault();
@@ -107,7 +116,7 @@ const CategoryList = () => {
                                     }}
                                   >
                                     {category.active === false ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
-                                  </a>
+                                  </Link>
 
                                 </li>
                               </ul>

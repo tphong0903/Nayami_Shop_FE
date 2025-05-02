@@ -2,11 +2,7 @@ import Header from '~/components/header/Header';
 import Footer from '~/components/footer/Footer';
 import BreadCrumbSection from '~/components/BreadCrumbSection';
 import ProductSection from '~/components/product/ProductSection';
-import '~/assets/UserCss.css'
 import ReletedProductSection from '~/components/product/ReletedProductSection';
-import StickyCartSection from '~/components/product/StickyCartSection';
-import QuickViewSection from '~/components/product/QuickViewSection';
-import DealBoxSection from '~/components/product/DealBoxSection';
 import { useEffect, useState } from 'react';
 import axios from 'axios'
 import Swal from 'sweetalert2'
@@ -20,6 +16,7 @@ export default function ProductPage() {
   const [user, setUser] = useState()
   const [userPurchaseCheck, setUserPurchaseCheck] = useState()
   const [rate, setRate] = useState()
+  const [isRate, setIsRate] = useState(false)
   const [responses, setResponse] = useState()
 
   let decoded;
@@ -32,7 +29,7 @@ export default function ProductPage() {
     window.scrollTo(0, 0);
     setProduct(null);
     axios
-      .get(`/api/products/${id}`)
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/products/${id}`)
       .then((response) => {
         setProduct(response.data.data)
       })
@@ -42,7 +39,7 @@ export default function ProductPage() {
 
     if (decoded) {
       axios
-        .post('/api/users', { email: decoded.email })
+        .post(`${import.meta.env.VITE_API_BASE_URL}/api/users`, { email: decoded.email })
         .then(res => {
           setUser(res.data)
         })
@@ -51,7 +48,7 @@ export default function ProductPage() {
         })
 
       axios
-        .post('/api/users/check', { proId: id, email: decoded.email })
+        .post(`${import.meta.env.VITE_API_BASE_URL}/api/users/check`, { proId: id, email: decoded.email })
         .then(res => {
           setUserPurchaseCheck(res.data.data)
         })
@@ -61,7 +58,7 @@ export default function ProductPage() {
     }
 
     axios
-      .get(`/api/comments/${id}`)
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/comments/${id}`)
       .then((response) => {
         setRate(response.data.data)
       })
@@ -70,7 +67,7 @@ export default function ProductPage() {
       })
 
     axios
-      .get(`/api/responses/${id}`)
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/responses/${id}`)
       .then((response) => {
         setResponse(response.data.data)
         // console.log(response.data.data)
@@ -79,17 +76,14 @@ export default function ProductPage() {
         Swal.fire('Lỗi!', 'Không thể tải phản hồi.', 'error')
       })
 
-  }, [id])
+  }, [id, isRate])
   return (
     <>
       <Header />
       <BreadCrumbSection title='Chi tiết sản phẩm' page={product?.name} />
-      <ProductSection product={product} user={user} rate={rate} purchaseCheck={userPurchaseCheck} response={responses} />
+      <ProductSection product={product} user={user} rate={rate} purchaseCheck={userPurchaseCheck} response={responses} setIsRate={setIsRate} isRate={isRate} />
       <ReletedProductSection product={product} />
       <Footer />
-      <QuickViewSection />
-      <DealBoxSection />
-      <StickyCartSection />
     </>
   );
 }

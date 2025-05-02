@@ -17,10 +17,9 @@ export default function BestSelling() {
       startDate: startDate.format('YYYY-MM-DD'),
       endDate: endDate.format('YYYY-MM-DD'),
     };
-    console.log(dashboardDateDTO)
 
     axios
-      .post('/api/dashboard/productBestSelling', dashboardDateDTO)
+      .post(`${import.meta.env.VITE_API_BASE_URL}/api/dashboard/productBestSelling`, dashboardDateDTO)
       .then((response) => {
         setListProduct(response.data.data)
       })

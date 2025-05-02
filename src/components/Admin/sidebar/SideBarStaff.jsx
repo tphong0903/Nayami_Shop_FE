@@ -30,7 +30,7 @@ export default function SideBarStaff({ value, setSidebarOpen }) {
             new SimpleBar(sidebarElement);
         }
         const script = document.createElement('script');
-        script.src = '/src/assets/Admin/js/sidebareffect.js';
+        script.src = '~/assets/Admin/js/sidebareffect.js';
         script.async = true;
         document.body.appendChild(script);
 
@@ -56,8 +56,8 @@ export default function SideBarStaff({ value, setSidebarOpen }) {
                 </div>
                 <div className="logo-icon-wrapper">
                     <a>
-                        <img className="img-fluid main-logo main-white" src="/src/assets/Admin/images/logo/logo.png" alt="logo" />
-                        <img className="img-fluid main-logo main-dark" src="/src/assets/Admin/images/logo/logo-white.png" alt="logo" />
+                        <img className="img-fluid main-logo main-white" src="~/assets/Admin/images/logo/logo.png" alt="logo" />
+                        <img className="img-fluid main-logo main-dark" src="~/assets/Admin/images/logo/logo-white.png" alt="logo" />
                     </a>
                 </div>
                 <nav className="sidebar-main">
@@ -73,7 +73,7 @@ export default function SideBarStaff({ value, setSidebarOpen }) {
                             {/*    </Link>*/}
                             {/*</li>*/}
 
-                             {/*Product Menu */}
+                            {/*Product Menu */}
                             <li className="sidebar-list">
                                 <a className="linear-icon-link sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsProductOpen)}>
                                     <i className="ri-store-3-line" />

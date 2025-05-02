@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const OrderTab = () => {
+
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('all');
   const [orders, setOrders] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,7 +17,7 @@ const OrderTab = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('/api/bills/history', {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/bills/history`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -90,58 +92,58 @@ const OrderTab = () => {
 
   const getStatusBadgeClass = (status) => {
     switch (status?.toLowerCase()) {
-    case 'completed':
-      return 'badge bg-success';
-    case 'unpaid':
-      return 'badge bg-danger';
-    case 'shipping':
-      return 'badge bg-primary';
-    case 'shipped':
-      return 'badge bg-info';
-    case 'cancelled':
-      return 'badge bg-danger';
-    case 'pending':
-      return 'badge bg-warning';
-    case 'guarantee':
-      return 'badge bg-secondary';
-    case 'confirmed':
-      return 'badge bg-info';
-    default:
-      return 'badge bg-light text-dark';
+      case 'completed':
+        return 'badge bg-success';
+      case 'unpaid':
+        return 'badge bg-danger';
+      case 'shipping':
+        return 'badge bg-primary';
+      case 'shipped':
+        return 'badge bg-info';
+      case 'cancelled':
+        return 'badge bg-danger';
+      case 'pending':
+        return 'badge bg-warning';
+      case 'guarantee':
+        return 'badge bg-secondary';
+      case 'confirmed':
+        return 'badge bg-info';
+      default:
+        return 'badge bg-light text-dark';
     }
   };
 
   const getStatusText = (status) => {
     switch (status) {
-    case 'completed':
-      return 'Hoàn thành';
-    case 'unpaid':
-      return 'Chờ thanh toán';
-    case 'confirmed':
-      return 'Đang chờ vận chuyển';
-    case 'shipping':
-      return 'Đang giao hàng';
-    case 'shipped':
-      return 'Đã giao';
-    case 'cancelled':
-      return 'Đã hủy';
-    case 'pending':
-      return 'Chờ xác nhận';
-    case 'guarantee':
-      return 'Bảo hành';
-    default:
-      return status;
+      case 'completed':
+        return 'Hoàn thành';
+      case 'unpaid':
+        return 'Chờ thanh toán';
+      case 'confirmed':
+        return 'Đang chờ vận chuyển';
+      case 'shipping':
+        return 'Đang giao hàng';
+      case 'shipped':
+        return 'Đã giao';
+      case 'cancelled':
+        return 'Đã hủy';
+      case 'pending':
+        return 'Chờ xác nhận';
+      case 'guarantee':
+        return 'Bảo hành';
+      default:
+        return status;
     }
   };
 
   const getPaymentMethodText = (method) => {
     switch (method) {
-    case 'ONLINE_BANKING':
-      return 'Chuyển khoản ngân hàng';
-    case 'COD':
-      return 'Thanh toán khi nhận hàng';
-    default:
-      return method;
+      case 'ONLINE_BANKING':
+        return 'Chuyển khoản ngân hàng';
+      case 'COD':
+        return 'Thanh toán khi nhận hàng';
+      default:
+        return method;
     }
   };
 
@@ -193,8 +195,8 @@ const OrderTab = () => {
     });
     if (result.isConfirmed) {
       try {
-        const response=await axios.post(`/api/bills/payment/${id}`);
-        window.location.href = response.data.data.paymentUrl;
+        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills/payment/${id}`);
+        navigate(response.data.data.paymentUrl);
         fetchOrders();
       } catch (error) {
         swalWithBootstrapButtons.fire(
@@ -227,7 +229,7 @@ const OrderTab = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.post('/api/bills/cancel', { billID: id });
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills/cancel`, { billID: id });
         swalWithBootstrapButtons.fire(
           'Đã hủy!',
           'Đơn hàng đã được hủy thành công.',
@@ -263,7 +265,7 @@ const OrderTab = () => {
     });
     if (result.isConfirmed) {
       try {
-        await axios.post(`${window.location.origin}/api/bills/guarantee`, { billID: id });
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills/guarantee`, { billID: id });
         swalWithBootstrapButtons.fire(
           'Đã yêu cầu!',
           'Yêu cầu bảo hành đã được gửi thành công.',
@@ -304,7 +306,7 @@ const OrderTab = () => {
 
       const addItemPromises = order.items.map((item) =>
         axios.post(
-          `${window.location.origin}/api/cart`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/cart`,
           {
             productId: item.productId,
             quantity: item.quantity,
@@ -422,7 +424,7 @@ const OrderTab = () => {
           <li className="nav-item" role="presentation">
             <button
               className={`nav-link ${activeTab === 'completed' ? 'active' : ''
-              }`}
+                }`}
               onClick={() => setActiveTab('completed')}
             >
               Hoàn thành
@@ -431,7 +433,7 @@ const OrderTab = () => {
           <li className="nav-item" role="presentation">
             <button
               className={`nav-link ${activeTab === 'guarantee' ? 'active' : ''
-              }`}
+                }`}
               onClick={() => setActiveTab('guarantee')}
             >
               Bảo hành
@@ -440,7 +442,7 @@ const OrderTab = () => {
           <li className="nav-item" role="presentation">
             <button
               className={`nav-link ${activeTab === 'cancelled' ? 'active' : ''
-              }`}
+                }`}
               onClick={() => setActiveTab('cancelled')}
             >
               Đã hủy
@@ -468,10 +470,10 @@ const OrderTab = () => {
                   {order.status !== 'pending' &&
                     order.status !== 'cancelled' &&
                     order.status !== 'unpaid' && (
-                    <h5 className="mb-0 text-primary">
+                      <h5 className="mb-0 text-primary">
                         Mã giao hàng: #{order.orderNumber}
-                    </h5>
-                  )}
+                      </h5>
+                    )}
                   <p className="text-muted mb-0">
                     Ngày đặt:{' '}
                     {new Date(order.createdAt).toLocaleDateString('vi-VN')}
@@ -481,7 +483,7 @@ const OrderTab = () => {
                       className={`fa ${order.paymentMethod === 'ONLINE_BANKING'
                         ? 'fa-university'
                         : 'fa-money-bill'
-                      } me-1`}
+                        } me-1`}
                     ></i>
                     {getPaymentMethodText(order.paymentMethod)}
                   </p>
@@ -489,47 +491,47 @@ const OrderTab = () => {
                   {order.paymentMethod === 'ONLINE_BANKING' &&
                     order.paymentStatus === 'PENDING' &&
                     timers[order.id] && (
-                    <div className="payment-countdown mt-2">
-                      <div className="d-flex align-items-center">
-                        <i className="fa fa-clock text-danger me-1"></i>
-                        <span className="text-danger">
+                      <div className="payment-countdown mt-2">
+                        <div className="d-flex align-items-center">
+                          <i className="fa fa-clock text-danger me-1"></i>
+                          <span className="text-danger">
                             Vui lòng thanh toán trong:{' '}
-                          <span className="fw-bold">
-                            {formatTimeRemaining(timers[order.id])}
+                            <span className="fw-bold">
+                              {formatTimeRemaining(timers[order.id])}
+                            </span>
                           </span>
-                        </span>
-                      </div>
-                      <div
-                        className="progress mt-1"
-                        style={{ height: '5px' }}
-                      >
-                        {(() => {
-                          const now = new Date().getTime();
-                          const orderTime = new Date(
-                            order.createdAt
-                          ).getTime();
-                          const deadline = timers[order.id];
-                          const totalTime = deadline - orderTime;
-                          const timeLeft = deadline - now;
-                          const percentage = Math.max(
-                            0,
-                            Math.min(100, (timeLeft / totalTime) * 100)
-                          );
+                        </div>
+                        <div
+                          className="progress mt-1"
+                          style={{ height: '5px' }}
+                        >
+                          {(() => {
+                            const now = new Date().getTime();
+                            const orderTime = new Date(
+                              order.createdAt
+                            ).getTime();
+                            const deadline = timers[order.id];
+                            const totalTime = deadline - orderTime;
+                            const timeLeft = deadline - now;
+                            const percentage = Math.max(
+                              0,
+                              Math.min(100, (timeLeft / totalTime) * 100)
+                            );
 
-                          return (
-                            <div
-                              className="progress-bar bg-danger"
-                              role="progressbar"
-                              style={{ width: `${percentage}%` }}
-                              aria-valuenow={percentage}
-                              aria-valuemin="0"
-                              aria-valuemax="100"
-                            ></div>
-                          );
-                        })()}
+                            return (
+                              <div
+                                className="progress-bar bg-danger"
+                                role="progressbar"
+                                style={{ width: `${percentage}%` }}
+                                aria-valuenow={percentage}
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            );
+                          })()}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                 </div>
                 <div className="d-flex align-items-center">
                   <span className={getStatusBadgeClass(order.status)}>
@@ -573,10 +575,10 @@ const OrderTab = () => {
                           item.productName
                             .toLowerCase()
                             .includes(searchTerm.toLowerCase()) ? (
-                            <mark>{item.productName}</mark>
-                          ) : (
-                            item.productName
-                          )}
+                          <mark>{item.productName}</mark>
+                        ) : (
+                          item.productName
+                        )}
                       </h6>
                       <p className="product-quantity mb-1">
                         Số lượng: x{item.quantity}
@@ -600,20 +602,20 @@ const OrderTab = () => {
                 <div>
                   {order.paymentMethod === 'ONLINE_BANKING' &&
                     order.paymentStatus === 'PENDING' && (
-                    <button className="btn btn-danger btn-sm me-2" onClick={() => {handlePayment(order.id)}}>
-                      <i className="fa fa-credit-card me-1"></i>Thanh toán ngay
-                    </button>
-                  )}
+                      <button className="btn btn-danger btn-sm me-2" onClick={() => { handlePayment(order.id) }}>
+                        <i className="fa fa-credit-card me-1"></i>Thanh toán ngay
+                      </button>
+                    )}
 
                   {(order.status === 'completed' ||
                     order.status === 'cancelled') && (
-                    <button
-                      className="btn btn-primary btn-sm"
-                      onClick={() => buyAgain(order)}
-                    >
-                      <i className="fa fa-redo me-1"></i>Mua lại
-                    </button>
-                  )}
+                      <button
+                        className="btn btn-primary btn-sm"
+                        onClick={() => buyAgain(order)}
+                      >
+                        <i className="fa fa-redo me-1"></i>Mua lại
+                      </button>
+                    )}
 
                   {order.status === 'pending' && (
                     <button

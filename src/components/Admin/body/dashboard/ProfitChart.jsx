@@ -22,7 +22,7 @@ export default function ProfitChart() {
     };
 
     axios
-      .post('/api/dashboard/profitByTime', dashboardDateDTO)
+      .post(`${import.meta.env.VITE_API_BASE_URL}/api/dashboard/profitByTime`, dashboardDateDTO)
       .then((response) => {
         const newChartDataY = response.data.data.data;
         const newChartDataX = response.data.data.time

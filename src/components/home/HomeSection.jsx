@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import HinhBanner from '~/assets/images/fashion/home-banner/1.jpg'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -23,7 +23,7 @@ export default function HomeSection({ promotion }) {
       <div className="container p-0">
         <div className="row">
           <div className="col-12">
-            <Swiper
+            {promotion?.length > 0 && (<Swiper
               style={swiperStyle}
               slidesPerView={1}
               spaceBetween={30}
@@ -49,6 +49,7 @@ export default function HomeSection({ promotion }) {
                         <img
                           width="100%"
                           src={item?.promotionImages[0]?.url}
+                          style={{ height: '670px', width: '100%', objectFit: 'cover' }}
                           className="img-fluid bg-img lazyload"
                           alt="Empty"
                         />
@@ -62,7 +63,7 @@ export default function HomeSection({ promotion }) {
                   : <></>
               }
 
-            </Swiper>
+            </Swiper>)}
           </div>
         </div>
       </div>

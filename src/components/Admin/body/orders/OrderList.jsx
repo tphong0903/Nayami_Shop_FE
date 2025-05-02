@@ -25,11 +25,11 @@ const OrderList = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('/api/bills');
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL} /api/bills`);
 
       const updatedOrders = response.data.data.map(order => {
         let lowerStatus = order.status.toLowerCase();
-        const isUnpaid = order.paymentMethod === 'ONLINE_BANKING' && order.payment.paymentStatus === 'PENDING' ;
+        const isUnpaid = order.paymentMethod === 'ONLINE_BANKING' && order.payment.paymentStatus === 'PENDING';
         return {
           ...order,
           status: isUnpaid ? 'unpaid' : lowerStatus,
@@ -138,8 +138,7 @@ const OrderList = () => {
                     {statusFilters.map((status) => (
                       <li className="nav-item" key={status.id}>
                         <button
-                          className={`nav-link ${
-                            activeStatus === status.id ? 'active' : ''
+                          className={`nav-link ${activeStatus === status.id ? 'active' : ''
                           }`}
                           onClick={() => handleStatusFilter(status.id)}
                         >
@@ -193,7 +192,7 @@ const OrderList = () => {
                               <td>
                                 <div className="d-flex justify-content-center">
                                   <button className="btn btn-primary">
-                                       Chi tiết
+                                    Chi tiết
                                   </button>
                                 </div>
                               </td>

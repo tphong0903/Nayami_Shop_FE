@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import feather from 'feather-icons';
 import './App.css';
 
@@ -58,6 +58,7 @@ import Users from './components/Admin/body/users/Users.jsx';
 import AddUser from './components/Admin/body/users/AddUser.jsx';
 import EditPasswordUser from './components/Admin/body/users/EditPasswordUser.jsx';
 import UpdateUser from './components/Admin/body/users/UpdateUser.jsx';
+import UpdateInformationAdmin from '~/components/Admin/body/UpdateInformationAdmin.jsx';
 
 function App() {
   useEffect(() => {
@@ -115,8 +116,8 @@ function App() {
             <Route element={<AdminPage />}>
               <Route index element={<DashBoard />} />
               <Route path="products" element={<Products />} />
-              <Route path="add-new-product" element={<AddProduct view={false} />}/>
-              <Route path="edit-product/:id" element={<AddProduct view={false} />}/>
+              <Route path="add-new-product" element={<AddProduct view={false} />} />
+              <Route path="edit-product/:id" element={<AddProduct view={false} />} />
               <Route
                 path="view-product/:id"
                 element={<AddProduct view={true} />}
@@ -128,7 +129,7 @@ function App() {
                 element={<AddDiscountCampain />}
               />
               {/*Customer*/}
-              <Route path="users" element={<Users/>} />
+              <Route path="users" element={<Users />} />
               <Route path="add-new-user" element={<AddUser />} />
               <Route
                 path="edit-password-user/:id"
@@ -139,11 +140,10 @@ function App() {
               <Route path="staffs" element={<Staffs />} />
               <Route path="add-new-staff" element={<AddStaff />} />
               <Route
-                  path="edit-password-staff/:id"
-                  element={<EditPasswordStaff />}
+                path="edit-password-staff/:id"
+                element={<EditPasswordStaff />}
               />
               <Route path="update-staff/:id" element={<UpdateStaff />} />
-
               <Route path="categories" element={<Categories />} />
               <Route path="add-new-category" element={<AddCategory />} />
               <Route path="update-new-category/:id" element={<AddCategory />} />
@@ -160,6 +160,8 @@ function App() {
               <Route path="update-promotion/:id" element={<AddPromotion />} />
               <Route path="comments" element={<ProductList />} />
               <Route path="comments/:id" element={<CommentsList />} />
+              {/*  Update information*/}
+              <Route path="information" element={<UpdateInformationAdmin />} />
             </Route>
           </Route>
 

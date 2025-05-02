@@ -6,10 +6,12 @@ import DeliveryAddressSection from '../checkout/DeliveryAddressSection';
 import PaymentOptionsSection from '~/components/checkout/PaymentOptionsSection';
 import OrderSummary from '~/components/checkout/OrderSummary';
 import Swal from 'sweetalert2';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 
 const CheckoutSection = () => {
+  const navigate = useNavigate();
+
   const [checkoutData, setCheckoutData] = useState(null);
   const [addressList, setAddressList] = useState([]);
   const [carts, setCarts] = useState(null);
@@ -72,7 +74,7 @@ const CheckoutSection = () => {
             icon: 'success',
             confirmButtonText: 'OK'
           }).then(() => {
-            window.location.href = '/';
+            navigate('/');
           });
         })
         .catch(error => {
@@ -83,7 +85,7 @@ const CheckoutSection = () => {
             icon: 'error',
             confirmButtonText: 'OK'
           }).then(() => {
-            window.location.href = '/';
+            navigate('/');
           });
         });
     }
@@ -99,7 +101,7 @@ const CheckoutSection = () => {
       address: address.addressName,
     }
     try {
-      const response = await axios.post('/api/ship/fee', addressData);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/ship/fee`, addressData);
       setShippingFee(response.data.fee.fee);
       console.log('Phí vận chuyển:', response.data.fee.fee);
     } catch (error) {
@@ -130,14 +132,14 @@ const CheckoutSection = () => {
         icon: 'error',
         confirmButtonText: 'OK'
       }).then(() => {
-        window.location.href = '/cart';
+        navigate('/cart');
       });
     }
   }, []);
 
   const fetchOrderDetails = async (data) => {
     try {
-      const response = await axios.post('/api/bills/checkout', data);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills/checkout`, data);
       const responseDetail = response.data.data;
       setAddressList(responseDetail?.listAddress || []);
       setCarts(responseDetail.listCartItem);
@@ -182,7 +184,7 @@ const CheckoutSection = () => {
         couponId: checkoutData.couponId,
       };
       console.log('Dữ liệu đơn hàng:', orderData);
-      const response = await axios.post('/api/bills', orderData);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills`, orderData);
       if (response.data.status == 201) {
         Swal.fire({
           title: 'Thành công',
@@ -193,10 +195,10 @@ const CheckoutSection = () => {
           localStorage.removeItem('checkoutData');
           console.log('Đơn hàng đã được đặt:', response.data.data);
           if (response.data.data.paymentUrl) {
-            window.location.href = response.data.data.paymentUrl;
+            navigate(response.data.data.paymentUrl);
           }
           else {
-            window.location.href = '/';
+            navigate('/');
           }
         });
       }

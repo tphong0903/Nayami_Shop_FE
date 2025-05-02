@@ -21,23 +21,11 @@ export default function AddUser() {
     }));
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault(); // ngăn reload trang
-  //
-  //   try {
-  //     const response = await axios.post('/api/users/create', formData);
-  //     console.log('User added:', response.data);
-  //     alert('User added successfully!');
-  //   } catch (error) {
-  //     console.error('Error adding user:', error);
-  //     alert('Error adding user');
-  //   }
-  // };
   const handleSubmit = async (e) => {
     e.preventDefault(); // Ngăn reload trang
 
     try {
-      const response = await axios.post('/api/users/create', formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/create`, formData);
       const resData = response.data;
 
       if (resData.status === 200 || resData.status === 201) {
@@ -105,12 +93,12 @@ export default function AddUser() {
                               </label>
                               <div className="col-md-9 col-lg-10">
                                 <input
-                                    className="form-control"
-                                    type="text"
-                                    name="userName"
-                                    value={formData.userName}
-                                    onChange={handleChange}
-                                    required
+                                  className="form-control"
+                                  type="text"
+                                  name="userName"
+                                  value={formData.userName}
+                                  onChange={handleChange}
+                                  required
                                 />
                               </div>
                             </div>
@@ -120,14 +108,14 @@ export default function AddUser() {
                               </label>
                               <div className="col-md-9 col-lg-10">
                                 <input
-                                    className="form-control"
-                                    type="text"
-                                    name="phoneNumber"
-                                    value={formData.phoneNumber}
-                                    onChange={handleChange}
-                                    required
-                                    pattern="^(0|\+84)[0-9]{9,10}$"
-                                    title="Phone number must start with 0 or +84 and contain 10-11 digits"
+                                  className="form-control"
+                                  type="text"
+                                  name="phoneNumber"
+                                  value={formData.phoneNumber}
+                                  onChange={handleChange}
+                                  required
+                                  pattern="^(0|\+84)[0-9]{9,10}$"
+                                  title="Phone number must start with 0 or +84 and contain 10-11 digits"
                                 />
 
                               </div>

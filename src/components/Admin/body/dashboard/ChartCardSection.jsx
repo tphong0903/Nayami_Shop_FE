@@ -8,7 +8,7 @@ export default function ChartCardSection() {
   const [chartCardData, setChartCardData] = useState()
   useEffect(() => {
     axios
-      .get('/api/dashboard/chartCard')
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/dashboard/chartCard`)
       .then((response) => {
         setChartCardData(response.data.data)
       })

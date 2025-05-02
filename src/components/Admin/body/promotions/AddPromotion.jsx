@@ -1,16 +1,16 @@
 import Checkbox from '@mui/material/Checkbox';
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 export default function AddPromotion(view) {
     const [formData, setFormData] = useState({
         id: 0,
-        title: "",
-        description: "",
-        startDate: "",
-        endDate: "",
+        title: '',
+        description: '',
+        startDate: '',
+        endDate: '',
         displayStatus: false,
         promotionImages: []
     });
@@ -33,7 +33,7 @@ export default function AddPromotion(view) {
     const updateInfo = async () => {
         if (id) {
             try {
-                const res = await axios.get(`/api/promotions/${id}`)
+                const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/promotions/${id}`)
                 setFormData(res.data.data)
                 setInteractionImages(res.data.data.promotionImages)
             } catch (error) {
@@ -52,7 +52,7 @@ export default function AddPromotion(view) {
         }
         if (Object.keys(objFound).length > 2) {
             Swal.fire({
-                title: "Bạn muốn gỡ ảnh này (đã lưu)?",
+                title: 'Bạn muốn gỡ ảnh này (đã lưu)?',
                 // text: 'Sau khi xoá sẽ không thể khôi phục!',
                 icon: 'warning',
                 showCancelButton: true,
@@ -63,10 +63,10 @@ export default function AddPromotion(view) {
             })
                 .then(async (result) => {
                     if (result.isConfirmed) {
-                        await axios.post('/api/images', { url: objFound.url })
+                        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/images`, { url: objFound.url })
                             .then(() => {
                                 Swal.fire({
-                                    title: "Gỡ ảnh thành công",
+                                    title: 'Gỡ ảnh thành công',
                                     // text: 'Sau khi xoá sẽ không thể khôi phục!',
                                     icon: 'success',
                                     confirmButtonColor: '#d33',
@@ -123,14 +123,14 @@ export default function AddPromotion(view) {
         try {
             for (const f of selectedImage) {
                 const formData = new FormData();
-                formData.append("file", f);
-                formData.append("upload_preset", "electric_devices");
-                formData.append("cloud_name", "dwijkd4xi");
+                formData.append('file', f);
+                formData.append('upload_preset', 'electric_devices');
+                formData.append('cloud_name', 'dwijkd4xi');
 
                 const res = await fetch(
-                    "https://api.cloudinary.com/v1_1/dwijkd4xi/image/upload",
+                    'https://api.cloudinary.com/v1_1/dwijkd4xi/image/upload',
                     {
-                        method: "POST",
+                        method: 'POST',
                         body: formData,
                     }
                 );
@@ -149,14 +149,14 @@ export default function AddPromotion(view) {
                     promotionImages: [...prevState.promotionImages, ...uploadedImages]
                 };
 
-                axios.post("/api/promotions", updatedFormData)
+                axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/promotions`, updatedFormData)
                     .then(api_response => {
                         Swal.fire({
-                            title: "Thêm quảng cáo thành công",
-                            icon: "success",
+                            title: 'Thêm quảng cáo thành công',
+                            icon: 'success',
                             timer: 3000
                         })
-                        navigate("/admin/promotions");
+                        navigate('/admin/promotions');
                     })
                     .catch(err => console.log(err));
 
@@ -183,10 +183,10 @@ export default function AddPromotion(view) {
                 //     })
                 //     .catch(err => console.log(err));
 
-                axios.put(`/api/promotions/${id}`, updatedFormData)
+                axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/promotions/${id}`, updatedFormData)
                     .then(api_response => {
                         console.log(api_response);
-                        navigate("/admin/promotions");
+                        navigate('/admin/promotions');
                     })
                     .catch(err => console.log(err));
 
@@ -309,8 +309,7 @@ export default function AddPromotion(view) {
                                                                             className="rounded"
                                                                             style={{ width: '100px', height: '100px', objectFit: 'cover' }}
                                                                         />
-                                                                        <a
-                                                                            href="#"
+                                                                        <Link
                                                                             className="text-danger"
                                                                             onClick={(e) => {
                                                                                 e.preventDefault();
@@ -323,7 +322,7 @@ export default function AddPromotion(view) {
                                                                             }}
                                                                         >
                                                                             <i className="ri-delete-bin-5-fill" />
-                                                                        </a>
+                                                                        </Link>
                                                                         {/* <button
                                                                             type="button"
                                                                             onClick={() => handleRemoveImage(index)}

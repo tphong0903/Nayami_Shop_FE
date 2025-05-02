@@ -11,19 +11,19 @@ export default function CommentsList() {
     const [responses, setResponses] = useState([])
     const [replyData, setReplyData] = useState({
         id: 0,
-        staff: "demotranbao111@gmail.com",
+        staff: 'demotranbao111@gmail.com',
         reply: ''
     })
     const [disabledButton, setDisabledButton] = useState(false)
 
     const fetchData = async () => {
-        await axios.get(`/api/comments/${id}`).then((response) => {
+        await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/comments/${id}`).then((response) => {
             setComments(reverseByProperty(response.data.data, 'id'))
         }).catch(err => {
             console.log(err)
         })
 
-        await axios.get(`/api/responses/${id}`).then((response) => {
+        await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/responses/${id}`).then((response) => {
             setResponses(reverseByProperty(response.data.data, 'id'))
         }).catch(err => {
             console.log(err)
@@ -68,7 +68,7 @@ export default function CommentsList() {
             timer: 1500
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await axios.post('/api/comments/active', { id: id })
+                await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/comments/active`, { id: id })
                     .then(() => {
                         fetchData()
                     })
@@ -81,7 +81,7 @@ export default function CommentsList() {
         const modalInstance = bootstrap.Modal.getInstance(modal);
         modalInstance.hide();
 
-        await axios.post('/api/responses', replyData)
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/responses`, replyData)
             .then(() => {
                 Swal.fire({
                     title: 'Phản hồi thành công',
@@ -158,14 +158,14 @@ export default function CommentsList() {
                                                                         <td>
                                                                             <ul>
                                                                                 <li>
-                                                                                    <a href="" data-bs-toggle="modal" data-bs-target="#replyModal" onClick={() => changeResponse(item.id)}>
+                                                                                    <Link data-bs-toggle="modal" data-bs-target="#replyModal" onClick={() => changeResponse(item.id)}>
                                                                                         {
                                                                                             checkResponse(item.id)
                                                                                                 ? <i className='ri-pushpin-2-fill text-success'></i>
                                                                                                 : <i className="ri-reply-fill text-primary" />
                                                                                         }
 
-                                                                                    </a>
+                                                                                    </Link>
                                                                                 </li>
                                                                                 <div className="modal fade" id="replyModal" tabIndex="-1">
                                                                                     <div className="modal-dialog">
@@ -190,8 +190,7 @@ export default function CommentsList() {
                                                                                     </div>
                                                                                 </div>
                                                                                 <li>
-                                                                                    <a
-                                                                                        href=""
+                                                                                    <Link
                                                                                         className="text-danger"
                                                                                         onClick={(e) => {
                                                                                             e.preventDefault()
@@ -199,7 +198,7 @@ export default function CommentsList() {
                                                                                         }}
                                                                                     >
                                                                                         <i className='ri-eye-line' />
-                                                                                    </a>
+                                                                                    </Link>
 
                                                                                 </li>
                                                                             </ul>

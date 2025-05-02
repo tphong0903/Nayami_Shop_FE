@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import 'datatables.net-bs5'
-import '/src/assets/Admin/css/customPagination.css';
+import '~/assets/Admin/css/customPagination.css';
 import $ from 'jquery'
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { Tooltip } from '@mui/material';
@@ -17,7 +17,7 @@ export default function ProductList() {
 
     const fetchData = async () => {
         await axios
-            .get('/api/products', {
+            .get(`${import.meta.env.VITE_API_BASE_URL}/api/products`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('access_token')}`
                 }

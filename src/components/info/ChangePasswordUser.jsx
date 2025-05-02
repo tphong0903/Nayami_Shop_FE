@@ -31,7 +31,7 @@ export default function ChangePasswordUser() {
     }
 
     try {
-      const response = await axios.put('/api/users/update-password', {
+      const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/users/update-password`, {
         newPassword: newPassword
       });
 
