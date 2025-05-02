@@ -7,8 +7,6 @@ import PaymentOptionsSection from '~/components/checkout/PaymentOptionsSection';
 import OrderSummary from '~/components/checkout/OrderSummary';
 import Swal from 'sweetalert2';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-
-
 const CheckoutSection = () => {
   const navigate = useNavigate();
 
@@ -32,12 +30,12 @@ const CheckoutSection = () => {
   };
 
   const handleAddAddress = (newAddress) => {
-    setAddressList(prevAddresses => [...prevAddresses, newAddress]);
+    setAddressList((prevAddresses) => [...prevAddresses, newAddress]);
   };
 
   const handleUpdateAddress = (updatedAddress) => {
-    setAddressList(prevAddresses =>
-      prevAddresses.map(address =>
+    setAddressList((prevAddresses) =>
+      prevAddresses.map((address) =>
         address.id === updatedAddress.id ? updatedAddress : address
       )
     );
@@ -49,8 +47,8 @@ const CheckoutSection = () => {
   };
 
   const handleDeleteAddress = (addressId) => {
-    setAddressList(prevAddresses =>
-      prevAddresses.filter(address => address.id !== addressId)
+    setAddressList((prevAddresses) =>
+      prevAddresses.filter((address) => address.id !== addressId)
     );
 
     if (selectedAddress && selectedAddress.id === addressId) {
@@ -65,31 +63,34 @@ const CheckoutSection = () => {
     const orderCode = searchParams.get('orderCode');
 
     if (status && orderCode) {
-      axios.get('api/bills/callback', { params: { status, cancel, orderCode } })
-        .then(response => {
+      axios
+        .get('api/bills/callback', { params: { status, cancel, orderCode } })
+        .then((response) => {
           console.log('Payment status updated:', response.data);
           Swal.fire({
             title: 'Thanh toán thành công',
             text: 'Đơn hàng của bạn đã được thanh toán thành công',
             icon: 'success',
-            confirmButtonText: 'OK'
+            confirmButtonText: 'OK',
           }).then(() => {
             navigate('/');
           });
         })
-        .catch(error => {
+        .catch((error) => {
           console.error('Error updating payment status:', error);
           Swal.fire({
             title: 'Lỗi thanh toán',
-            text: error.response?.data?.message || 'Đã xảy ra lỗi khi cập nhật trạng thái thanh toán',
+            text:
+              error.response?.data?.message ||
+              'Đã xảy ra lỗi khi cập nhật trạng thái thanh toán',
             icon: 'error',
-            confirmButtonText: 'OK'
+            confirmButtonText: 'OK',
           }).then(() => {
             navigate('/');
           });
         });
     }
-  }
+  };
 
   const fetchShippingFee = async (address) => {
     if (!address) return;
@@ -99,9 +100,12 @@ const CheckoutSection = () => {
       district: address.district,
       ward: address.ward,
       address: address.addressName,
-    }
+    };
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/ship/fee`, addressData);
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/ship/fee`,
+        addressData
+      );
       setShippingFee(response.data.fee.fee);
       console.log('Phí vận chuyển:', response.data.fee.fee);
     } catch (error) {
@@ -109,10 +113,10 @@ const CheckoutSection = () => {
       Swal.fire({
         title: 'Lỗi',
         text: error.response?.data?.message || 'Không thể lấy phí vận chuyển',
-        icon: 'error'
-      })
-    };
-  }
+        icon: 'error',
+      });
+    }
+  };
 
   const token = localStorage.getItem('access_token');
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -130,7 +134,7 @@ const CheckoutSection = () => {
         title: 'Lỗi',
         text: 'Không tìm thấy dữ liệu đơn hàng, vui lòng thử lại.',
         icon: 'error',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
       }).then(() => {
         navigate('/cart');
       });
@@ -139,18 +143,20 @@ const CheckoutSection = () => {
 
   const fetchOrderDetails = async (data) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills/checkout`, data);
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/bills/checkout`,
+        data
+      );
       const responseDetail = response.data.data;
       setAddressList(responseDetail?.listAddress || []);
       setCarts(responseDetail.listCartItem);
-
     } catch (error) {
       console.error('Lỗi khi lấy thông tin đơn hàng:', error);
       Swal.fire({
         title: 'Lỗi',
         text: 'Không thể lấy thông tin đơn hàng.',
         icon: 'error',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
       });
     }
   };
@@ -161,7 +167,7 @@ const CheckoutSection = () => {
         title: 'Thông báo',
         text: 'Vui lòng chọn địa chỉ giao hàng',
         icon: 'warning',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
       });
       return;
     }
@@ -170,7 +176,7 @@ const CheckoutSection = () => {
         title: 'Thông báo',
         text: 'Vui lòng chọn phương thức thanh toán',
         icon: 'warning',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
       });
       return;
     }
@@ -184,39 +190,57 @@ const CheckoutSection = () => {
         couponId: checkoutData.couponId,
       };
       console.log('Dữ liệu đơn hàng:', orderData);
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills`, orderData);
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/bills`,
+        orderData
+      );
       if (response.data.status == 201) {
         Swal.fire({
           title: 'Thành công',
           text: 'Đặt hàng thành công!',
           icon: 'success',
-          confirmButtonText: 'OK'
+          confirmButtonText: 'OK',
         }).then(() => {
           localStorage.removeItem('checkoutData');
           console.log('Đơn hàng đã được đặt:', response.data.data);
-          if (response.data.paymentUrl) {
-            navigate(response.data.paymentUrl);
-          }
-          else {
+          if (response.data.data.paymentUrl) {
+            navigate(response.data.data.paymentUrl);
+          } else {
             navigate('/');
           }
         });
-      }
-      else {
+      } else if (response.data.status == 200) {
+        Swal.fire({
+          title: 'Thành công',
+          text: 'Đặt hàng thành công!',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        }).then(() => {
+          localStorage.removeItem('checkoutData');
+          console.log('Đơn hàng đã được đặt:', response.data.data);
+          if (response.data.data.paymentUrl) {
+            window.location.href = response.data.data.paymentUrl;
+          } else {
+            navigate('/');
+          }
+        });
+      } else {
         Swal.fire({
           title: 'Thất bại',
           text: response.data.data,
           icon: 'error',
-          confirmButtonText: 'OK'
-        })
+          confirmButtonText: 'OK',
+        });
       }
     } catch (error) {
       console.error('Lỗi khi đặt hàng:', error);
       Swal.fire({
         title: 'Lỗi',
-        text: error.response?.data?.message || 'Không thể đặt hàng. Vui lòng thử lại.',
+        text:
+          error.response?.data?.message ||
+          'Không thể đặt hàng. Vui lòng thử lại.',
         icon: 'error',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
       });
     }
   };
@@ -237,7 +261,9 @@ const CheckoutSection = () => {
                     onDeleteAddress={handleDeleteAddress}
                   />
 
-                  <PaymentOptionsSection onPaymentMethodChange={handlePaymentMethodChange} />
+                  <PaymentOptionsSection
+                    onPaymentMethodChange={handlePaymentMethodChange}
+                  />
                 </ul>
               </div>
             </div>
@@ -266,6 +292,6 @@ const CheckoutSection = () => {
       </div>
     </section>
   );
-}
+};
 
 export default CheckoutSection;

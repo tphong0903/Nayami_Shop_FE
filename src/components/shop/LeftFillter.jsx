@@ -164,6 +164,7 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
     }
 
     params.push(`pageNo=${currentPage}`)
+    params.push('pageSize=12')
     params.push(`price=${debouncedPrice[0]}`);
     params.push(`price=${debouncedPrice[1]}`);
     params.push(`search=${searchQuery}`);

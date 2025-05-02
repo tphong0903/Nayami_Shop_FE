@@ -6,26 +6,9 @@ import { Link } from 'react-router-dom';
 import { addToCart } from '~/apis/addtoCart';
 
 export default function ProductSection() {
-  const [listOurProducts, setListOurProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_API_BASE_URL}/api/products/displayStatus/1`)
-      .then((response) => {
-        if (response.data && response.data.data) {
-          const productData = response.data.data;
-          setListOurProducts(productData.slice(0, 12));
-          setFilteredProducts(productData.slice(0, 12));
-        } else {
-          setListOurProducts([]);
-          setFilteredProducts([]);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching products:', error);
-        setListOurProducts([]);
-        setFilteredProducts([]);
-      });
+    getProductbyCategory('Laptop')
   }, []);
 
   const [quantity, setQuantity] = useState({});
@@ -41,6 +24,7 @@ export default function ProductSection() {
     let url = `${import.meta.env.VITE_API_BASE_URL}/api/products/filter`;
     let params = [];
     params.push(`categories=${encodeURIComponent(name)}`);
+    params.push('pageSize=12')
     if (params.length > 0) {
       url += '?' + params.join('&');
     }
@@ -49,12 +33,10 @@ export default function ProductSection() {
       .then((response) => {
         const data = response.data.data.content;
         const slicedData = Array.isArray(data) ? data.slice(0, 12) : [];
-        setListOurProducts(slicedData);
         setFilteredProducts(slicedData);
       })
       .catch((error) => {
         console.error('Lỗi khi lọc sản phẩm theo danh mục:', error);
-        setListOurProducts([]);
         setFilteredProducts([]);
       });
   }
