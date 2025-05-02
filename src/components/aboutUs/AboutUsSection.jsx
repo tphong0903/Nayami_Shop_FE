@@ -10,9 +10,9 @@ export default function AboutUs() {
     <section className="fresh-vegetable-section section-lg-space">
       <div className="container-fluid-lg">
         <div className="row gx-xl-5 gy-xl-0 g-3 ratio_148_1">
-          <div className="col-xl-6 col-12">
+          <div className="col-xl-6 col-12 d-none d-md-block">
             <div className="row g-sm-4 g-2">
-              <div className="col-6">
+              <div className="col-5">
                 <div className="fresh-image-2">
                   <div>
                     <img
@@ -28,7 +28,7 @@ export default function AboutUs() {
                   </div>
                 </div>
               </div>
-              <div className="col-6">
+              <div className="col-5">
                 <div className="fresh-image">
                   <div>
                     <img

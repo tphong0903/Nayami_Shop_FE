@@ -21,7 +21,7 @@ export default function ReletedProductSection({ product }) {
   const [slidesToShow, setSlidesToShow] = useState(getSlidesToShow());
   function getSlidesToShow() {
     if (window.innerWidth < 480) {
-      return 1;
+      return 2;
     } else if (window.innerWidth < 768) {
       return 2;
     } else if (window.innerWidth < 1024) {
