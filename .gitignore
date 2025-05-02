@@ -10,9 +10,9 @@ package.json
 package-lock.json
 
 .env
-.yarn/cache
-node_modules
-dist
+.yarn/cache/
+node_modules/
+dists
 dist-ssr
 *.local
 
