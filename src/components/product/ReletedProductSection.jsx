@@ -78,7 +78,12 @@ export default function ReletedProductSection({ product }) {
                 <Slider {...settings} >
                   {listRalatedProduct.length > 0 && listRalatedProduct.map((v, index) => (
                     <div key={index}>
-                      <div className="product-box-3 wow fadeInUp" >
+                      <div className="product-box-3 wow fadeInUp" style={{
+                        minHeight: '400px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        flexDirection: 'column',
+                      }}>
                         <div className="product-header" >
                           <div className="product-image">
                             <Link to={`/product-detail/${v.id}`}>

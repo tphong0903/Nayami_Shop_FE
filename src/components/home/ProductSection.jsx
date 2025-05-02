@@ -27,15 +27,6 @@ export default function ProductSection() {
         setFilteredProducts([]);
       });
   }, []);
-  const getProductForTab = (tab) => {
-    if (tab === 'All') {
-      setFilteredProducts(listOurProducts);
-    } else {
-      setFilteredProducts(
-        listOurProducts.filter((v) => v.categoryDTO.categoryName === tab)
-      );
-    }
-  };
 
   const [quantity, setQuantity] = useState({});
 
@@ -46,6 +37,27 @@ export default function ProductSection() {
     });
   };
 
+  const getProductbyCategory = (name) => {
+    let url = `${import.meta.env.VITE_API_BASE_URL}/api/products/filter`;
+    let params = [];
+    params.push(`categories=${encodeURIComponent(name)}`);
+    if (params.length > 0) {
+      url += '?' + params.join('&');
+    }
+    axios
+      .get(url)
+      .then((response) => {
+        const data = response.data.data.content;
+        const slicedData = Array.isArray(data) ? data.slice(0, 12) : [];
+        setListOurProducts(slicedData);
+        setFilteredProducts(slicedData);
+      })
+      .catch((error) => {
+        console.error('Lỗi khi lọc sản phẩm theo danh mục:', error);
+        setListOurProducts([]);
+        setFilteredProducts([]);
+      });
+  }
   return (
     <section className="product-section">
       <div className="container-fluid-lg">
@@ -65,23 +77,11 @@ export default function ProductSection() {
               <li className="nav-item">
                 <button
                   className="nav-link btn active"
-                  id="all-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#all"
-                  type="button"
-                  onClick={() => getProductForTab('All')}
-                >
-                  Tất cả
-                </button>
-              </li>
-              <li className="nav-item">
-                <button
-                  className="nav-link btn"
                   id="cooking-tab"
                   data-bs-toggle="tab"
                   data-bs-target="#cooking"
                   type="button"
-                  onClick={() => getProductForTab('Laptop')}
+                  onClick={() => getProductbyCategory('Laptop')}
                 >
                   {' '}
                   Laptop
@@ -94,7 +94,7 @@ export default function ProductSection() {
                   data-bs-toggle="tab"
                   data-bs-target="#fruits"
                   type="button"
-                  onClick={() => getProductForTab('Phone')}
+                  onClick={() => getProductbyCategory('Điện thoại')}
                 >
                   Điện thoại
                 </button>
@@ -106,7 +106,7 @@ export default function ProductSection() {
                   data-bs-toggle="tab"
                   data-bs-target="#beverage"
                   type="button"
-                  onClick={() => getProductForTab('KeyBoard')}
+                  onClick={() => getProductbyCategory('Bàn phím')}
                 >
                   Bàn phím
                 </button>
@@ -118,7 +118,7 @@ export default function ProductSection() {
                   data-bs-toggle="tab"
                   data-bs-target="#dairy"
                   type="button"
-                  onClick={() => getProductForTab('HeadPhone')}
+                  onClick={() => getProductbyCategory('Tai nghe')}
                 >
                   Tai nghe
                 </button>
@@ -192,7 +192,7 @@ export default function ProductSection() {
                           {formatCurrency(
                             (v.unitPrice *
                               (100 - (v?.discountDTO?.percentage || 0))) /
-                              100
+                            100
                           )}
                         </h5>
                       </div>

@@ -144,7 +144,7 @@ const CouponForm = () => {
           headers: { 'Content-Type': 'application/json' },
         });
       } else {
-        await axios.post('${import.meta.env.VITE_API_BASE_URL}/api/coupons', payload, {
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/coupons`, payload, {
           headers: { 'Content-Type': 'application/json' },
         });
       }
@@ -356,7 +356,7 @@ const CouponForm = () => {
                             type="submit"
                             className="btn btn-primary me-3"
                           >
-                            { isEditMode
+                            {isEditMode
                               ? 'Cập nhật Coupon'
                               : 'Thêm Coupon'}
                           </button>

@@ -194,8 +194,8 @@ const CheckoutSection = () => {
         }).then(() => {
           localStorage.removeItem('checkoutData');
           console.log('Đơn hàng đã được đặt:', response.data.data);
-          if (response.data.data.paymentUrl) {
-            navigate(response.data.data.paymentUrl);
+          if (response.data.paymentUrl) {
+            navigate(response.data.paymentUrl);
           }
           else {
             navigate('/');

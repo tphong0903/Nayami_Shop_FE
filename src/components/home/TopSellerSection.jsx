@@ -21,7 +21,7 @@ export default function TopSellerSection() {
 
     axios
       .get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/products/displayStatus/1`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/products/bestSelling`,
         {
           params: dashboardDateDTO,
         }
@@ -119,7 +119,7 @@ export default function TopSellerSection() {
                             {formatCurrency(
                               (v.unitPrice *
                                 (100 - (v?.discountDTO?.percentage || 0))) /
-                                100
+                              100
                             )}
                           </h5>
                         </div>
