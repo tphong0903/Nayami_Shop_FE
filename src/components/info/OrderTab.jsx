@@ -196,7 +196,7 @@ const OrderTab = () => {
     if (result.isConfirmed) {
       try {
         const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills/payment/${id}`);
-        navigate(response.data.data.paymentUrl);
+        window.location.href=response.data.data.paymentUrl;
         fetchOrders();
       } catch (error) {
         swalWithBootstrapButtons.fire(

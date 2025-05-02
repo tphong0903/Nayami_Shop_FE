@@ -57,41 +57,6 @@ const CheckoutSection = () => {
     }
   };
 
-  const fetchStatusPayment = () => {
-    const status = searchParams.get('status');
-    const cancel = searchParams.get('cancel');
-    const orderCode = searchParams.get('orderCode');
-
-    if (status && orderCode) {
-      axios
-        .get('api/bills/callback', { params: { status, cancel, orderCode } })
-        .then((response) => {
-          console.log('Payment status updated:', response.data);
-          Swal.fire({
-            title: 'Thanh toán thành công',
-            text: 'Đơn hàng của bạn đã được thanh toán thành công',
-            icon: 'success',
-            confirmButtonText: 'OK',
-          }).then(() => {
-            navigate('/');
-          });
-        })
-        .catch((error) => {
-          console.error('Error updating payment status:', error);
-          Swal.fire({
-            title: 'Lỗi thanh toán',
-            text:
-              error.response?.data?.message ||
-              'Đã xảy ra lỗi khi cập nhật trạng thái thanh toán',
-            icon: 'error',
-            confirmButtonText: 'OK',
-          }).then(() => {
-            navigate('/');
-          });
-        });
-    }
-  };
-
   const fetchShippingFee = async (address) => {
     if (!address) return;
 
