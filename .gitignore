@@ -10,9 +10,15 @@ package.json
 package-lock.json
 
 .env
+
 .yarn/cache/
 node_modules/
 dists
+
+.yarn/cache
+node_modules
+dist
+
 dist-ssr
 *.local
 
@@ -25,4 +31,6 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
+
 *.sw?
+
