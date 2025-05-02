@@ -87,7 +87,6 @@ const CheckoutSection = () => {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   useEffect(() => {
-    fetchStatusPayment();
     const storedData = localStorage.getItem('checkoutData');
     if (storedData) {
       const parsedData = JSON.parse(storedData);
