@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Rating } from '@mui/material';
 import DealTimer from '../product/DealTimer';
 import { formatCurrency } from '~/utils/formatCurrency';
+import { addToCart } from '~/apis/addtoCart';
 
 export default function DiscountSection({ ref }) {
   const [slidesToShow, setSlidesToShow] = useState(getSlidesToShow());
@@ -90,7 +91,7 @@ export default function DiscountSection({ ref }) {
                         />
                       </Link>
                       <div className="deal-detail order-sm-1 product-section">
-                        <button className="buy-box btn theme-bg-color text-white btn-cart">
+                        <button className="buy-box btn theme-bg-color text-white btn-cart" onClick={() => addToCart(v.id, 1)}>
                           <i className="iconly-Buy icli m-0" />
                         </button>
                         <div className="hot-deal">
@@ -133,7 +134,7 @@ export default function DiscountSection({ ref }) {
                           {formatCurrency(
                             (v.unitPrice *
                               (100 - (v?.discountDTO?.percentage || 0))) /
-                              100
+                            100
                           )}
                         </h3>
                         <DealTimer product={v} />

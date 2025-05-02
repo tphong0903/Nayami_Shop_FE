@@ -164,6 +164,7 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
     }
 
     params.push(`pageNo=${currentPage}`)
+    params.push('pageSize=12')
     params.push(`price=${debouncedPrice[0]}`);
     params.push(`price=${debouncedPrice[1]}`);
     params.push(`search=${searchQuery}`);
@@ -347,10 +348,12 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
               >
                 <div className="accordion-body">
                   <ul className="category-list custom-padding">
-                    {[...Array(6)].map((_, i) => (
+                    {[1, 2, 3, 4, 5].map((i) => (
                       <li key={i}>
                         <div className="form-check ps-0 m-0 category-list-box">
-                          <input className="checkbox_animated" type="checkbox"
+                          <input
+                            className="checkbox_animated"
+                            type="checkbox"
                             onClick={() => handleSelected(i, 'listRatingSelected', i + ' sao')}
                             checked={listSelectedOption['listRatingSelected'].some(item => item.id === i)}
                           />

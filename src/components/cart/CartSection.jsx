@@ -139,7 +139,7 @@ export default function CartSection() {
 
   const handleApplyCoupon = async (couponCode) => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/coupons/customer/${couponCode}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/coupons/customer/${couponCode}`);
       const { type, value, constraintMoney } = response.data.data;
 
       if (constraintMoney > total) {

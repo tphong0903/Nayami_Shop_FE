@@ -158,7 +158,7 @@ const DashboardHome = () => {
         <h2>Bảng điều khiển</h2>
         <span className="title-leaf">
           <svg className="icon-width bg-gray">
-            <use xlinkHref="..~/assets/svg/leaf.svg#leaf"></use>
+            <use xlinkHref="/assets/svg/leaf.svg#leaf"></use>
           </svg>
         </span>
       </div>
@@ -168,12 +168,12 @@ const DashboardHome = () => {
           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
             <div className="totle-contain">
               <img
-                src="src/assets/images/svg/order.svg"
+                src="/assets/images/svg/order.svg"
                 className="img-1 lazyload"
                 alt="order icon"
               />
               <img
-                src="..~/assets/images/svg/order.svg"
+                src="/assets/images/svg/order.svg"
                 className=" lazyload"
                 alt="order icon"
               />
@@ -187,12 +187,12 @@ const DashboardHome = () => {
           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
             <div className="totle-contain">
               <img
-                src="..~/assets/images/svg/pending.svg"
+                src="/assets/images/svg/pending.svg"
                 className="img-1 lazyload"
                 alt="pending icon"
               />
               <img
-                src="..~/assets/images/svg/pending.svg"
+                src="/assets/images/svg/pending.svg"
                 className=" lazyload"
                 alt="pending icon"
               />
@@ -206,12 +206,12 @@ const DashboardHome = () => {
           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
             <div className="totle-contain">
               <img
-                src="..~/assets/images/svg/money.svg"
+                src="/assets/images/svg/money.svg"
                 className="img-1  lazyload"
                 alt="money icon"
               />
               <img
-                src="..~/assets/images/svg/money.svg"
+                src="/assets/images/svg/money.svg"
                 className=" lazyload"
                 alt="money icon"
               />

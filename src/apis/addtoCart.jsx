@@ -24,7 +24,7 @@ export const addToCart = async (productId, quantity) => {
       return;
     }
 
-    await axios.post(`${window.location.origin}/api/cart`, {
+    await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/cart`, {
       productId,
       quantity: quantity
     }, {
