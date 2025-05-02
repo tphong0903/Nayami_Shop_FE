@@ -202,7 +202,7 @@ export default function ProductSection({ product, user, rate, setIsRate, isRate,
                   <div className="note-box product-packege">
                     <button
                       onClick={() => addToCart(product.id, 1)}
-
+                      disabled={product.productStatus !== 'ON_SELL'}
                       className="btn btn-animation btn-md fw-bold mend-auto cart-button w-100"
                     >
                       Giỏ hàng <i className="fa-solid fa-arrow-right icon" />
@@ -614,13 +614,13 @@ export default function ProductSection({ product, user, rate, setIsRate, isRate,
                               <Link to={`/product-detail/${v.id}`}>
                                 <h6 className="name">{v.name}</h6>
                               </Link>
-                              {product?.discountDTO && (
+                              {v?.discountDTO && (
                                 <div>
-                                  <del className="text-content">{formatCurrency(product.unitPrice)}</del>
+                                  <del className="text-content">{formatCurrency(v.unitPrice)}</del>
                                 </div>
                               )}
                               <h6 className="price theme-color">
-                                {formatCurrency(parseInt(product.unitPrice * (100 - (product?.discountDTO?.percentage || 0)) / 100, 10))}
+                                {formatCurrency(parseInt(v.unitPrice * (100 - (v?.discountDTO?.percentage || 0)) / 100, 10))}
                               </h6>
                             </div>
                           </div>
