@@ -67,14 +67,26 @@ const CheckoutSection = () => {
         .get('api/bills/callback', { params: { status, cancel, orderCode } })
         .then((response) => {
           console.log('Payment status updated:', response.data);
-          Swal.fire({
-            title: 'Thanh toán thành công',
-            text: 'Đơn hàng của bạn đã được thanh toán thành công',
-            icon: 'success',
-            confirmButtonText: 'OK',
-          }).then(() => {
-            navigate('/');
-          });
+          if(response.data.status === 200) {
+            Swal.fire({
+              title: 'Thành công',
+              text: 'Thanh toán thành công!',
+              icon: 'success',
+              confirmButtonText: 'OK',
+            }).then(() => {
+              navigate('/');
+            });
+          }
+          else {
+            Swal.fire({
+              title: 'Thất bại',
+              text: response.data.message,
+              icon: 'error',
+              confirmButtonText: 'OK',
+            }).then(() => {
+              navigate('/');
+            });
+          }
         })
         .catch((error) => {
           console.error('Error updating payment status:', error);
