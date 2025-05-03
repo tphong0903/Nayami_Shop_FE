@@ -127,10 +127,7 @@ export default function SectionLogin() {
                 }
             });
             const googleLoginUrl = response.data.data;
-                        const googleLoginUrl = response.data.data;
-
             const url = new URL(googleLoginUrl);
-
             // Lấy path + query string
             const pathWithParams = `${url.pathname}${url.search}`;
 
