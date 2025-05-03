@@ -4,9 +4,6 @@
       "source": "/(.*)",
       "destination": "/"
     }
-  ],
-  "static": {
-    "directory": "./dist"  
-  }
+  ]
 }
 
