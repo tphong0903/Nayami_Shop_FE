@@ -93,7 +93,7 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/register" element={<Signup />} />
-            <Route path="/auth/google/callback" element={<OauthCallback />} />
+            <Route path="/oauth2/google/callback" element={<OauthCallback />} />
             <Route path="/enter-new-password" element={<EnterNewPassword />} />
           </Route>
           {/*Cho customer*/}
