@@ -126,8 +126,8 @@ export default function SectionLogin() {
                     'Accept': 'application/json'
                 }
             });
-            const googleLoginUrl = response.data.data;
-            window.location.href = googleLoginUrl;
+          const googleLoginUrl = response.data.data;
+            window.location.href = googleLoginUrl
         } catch (error) {
             console.error('Failed to get Google login URL:', error);
         }

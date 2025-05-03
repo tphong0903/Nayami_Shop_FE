@@ -8,11 +8,13 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'https://nayamishop.id.vn',
+        // target: 'http://localhost:8081',
         changeOrigin: true,
         secure: false,
       },
     },
   },
+  base: '/',
   resolve: {
     alias: {
       '~': '/src',

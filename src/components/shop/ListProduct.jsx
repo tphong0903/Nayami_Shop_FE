@@ -14,8 +14,8 @@ export default function ListProduct({ listProduct, totalPage, setCurrentPage, so
       <div className="show-button">
         <div className="filter-button-group mt-0">
           <div className="filter-button d-inline-block d-lg-none">
-            <Link onClick={() => setOpenFilter1()}>
-              <i className="fa-solid fa-filter" /> Filter Menu
+            <Link onClick={() => setOpenFilter1()} style={{ color: 'white' }}>
+              <i className="fa-solid fa-filter" /> Lọc
             </Link>
           </div>
         </div>
@@ -105,7 +105,7 @@ export default function ListProduct({ listProduct, totalPage, setCurrentPage, so
       </div>
       <nav className="custome-pagination">
         <ul className="pagination justify-content-center">
-          <Pagination count={totalPage} showFirstButton showLastButton onChange={(event, value) => setCurrentPage(value)} />
+          <Pagination count={totalPage} variant="outlined" shape="rounded" showFirstButton showLastButton onChange={(event, value) => setCurrentPage(value)} />
         </ul>
       </nav>
     </div>

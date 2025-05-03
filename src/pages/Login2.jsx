@@ -1,11 +1,15 @@
+import Header from '~/components/header/Header';
+import Footer from '~/components/footer/Footer';
+import BreadCrumb from '~/components/BreadCrumbSection';
+
+import '~/assets/UserCss.css'
+import SectionLogin from '~/components/authen/SectionLogin';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import '~/assets/UserCss.css'
-export default function OauthCallback() {
+import { useNavigate } from 'react-router-dom';
+export default function Login2() {
   const navigate = useNavigate();
-
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');
@@ -46,7 +50,13 @@ export default function OauthCallback() {
     } else {
       navigate('/login');
     }
-  }, [navigate]);
-
-  return <h1>Processing Google Login...</h1>;
+  }, []);
+  return (
+    <>
+      <Header />
+      <BreadCrumb title='Đăng nhập' page='Đăng nhâp' />
+      <SectionLogin />
+      <Footer />
+    </>
+  )
 }

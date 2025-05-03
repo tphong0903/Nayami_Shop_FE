@@ -25,7 +25,6 @@ import AddBrand from './components/Admin/body/brands/AddBrand';
 import Login from './pages/Login';
 import Signup from '~/pages/Signup.jsx';
 import Logout from '~/pages/Logout.jsx';
-import setupAxiosInterceptors from './apis/axiosInterceptor.js';
 
 import DiscountCampain from './components/Admin/body/discounts/DiscountCampain';
 import AddDiscountCampain from './components/Admin/body/discounts/AddDiscountCampain';
@@ -60,6 +59,7 @@ import EditPasswordUser from './components/Admin/body/users/EditPasswordUser.jsx
 import UpdateUser from './components/Admin/body/users/UpdateUser.jsx';
 import UpdateInformationAdmin from '~/components/Admin/body/UpdateInformationAdmin.jsx';
 import OrderDetailView from './components/info/OrderDetailView.jsx';
+import Login2 from './pages/Login2';
 
 function App() {
   useEffect(() => {
@@ -95,7 +95,7 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/register" element={<Signup />} />
-            <Route path="/auth/google/callback" element={<OauthCallback />} />
+            <Route path="/oauth2/google/callback" element={<Login2 />} />
             <Route path="/enter-new-password" element={<EnterNewPassword />} />
           </Route>
           {/*Cho customer*/}
