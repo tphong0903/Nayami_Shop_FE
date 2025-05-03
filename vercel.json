@@ -6,7 +6,7 @@
     }
   ],
   "static": {
-    "directory": "./dist"  // Đảm bảo rằng Vercel sẽ phục vụ tệp static từ thư mục dist
+    "directory": "./dist"  
   }
 }
 
