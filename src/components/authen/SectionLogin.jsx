@@ -127,7 +127,15 @@ export default function SectionLogin() {
                 }
             });
             const googleLoginUrl = response.data.data;
-            window.location.href = googleLoginUrl;
+                        const googleLoginUrl = response.data.data;
+
+            const url = new URL(googleLoginUrl);
+
+            // Lấy path + query string
+            const pathWithParams = `${url.pathname}${url.search}`;
+
+            // Chuyển hướng bằng React Router
+            navigate(pathWithParams);
         } catch (error) {
             console.error('Failed to get Google login URL:', error);
         }
