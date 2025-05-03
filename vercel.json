@@ -1,8 +1,24 @@
 {
     "rewrites": [
         {
+              "source": "/oauth2/google/(.*)",
+              "destination": "/index.html"
+        },
+        {
+              "source": "/oauth2/(.*)",
+              "destination": "/index.html"
+        },
+        {
+              "source": "/dashboard/(.*)",
+              "destination": "/index.html"
+        },
+        {
+              "source": "/admin/(.*)",
+              "destination": "/index.html"
+        },
+        { 
             "source": "/(.*)",
-            "destination": "/"
+            "destination": "/index.html"
         }
     ]
 }
