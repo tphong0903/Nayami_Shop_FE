@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './orderDetail.css'; // Import CSS file for custom styles
 
@@ -406,19 +406,26 @@ const OrderDetailView = () => {
                   className="order-item d-flex p-3 border-bottom"
                 >
                   <div className="order-item-img me-3">
-                    <img
-                      src={item.productImage}
-                      alt={item.productName}
-                      style={{
-                        width: '80px',
-                        height: '80px',
-                        objectFit: 'cover',
-                      }}
-                      className="rounded"
-                    />
+                    <Link to ={`/product-detail/${item.productId}`}>
+                      <img
+                        src={item.productImage}
+                        alt={item.productName}
+                        style={{
+                          width: '80px',
+                          height: '80px',
+                          objectFit: 'cover',
+                        }}
+                        className="rounded"
+                      />
+                    </Link>
                   </div>
                   <div className="order-item-details flex-grow-1">
-                    <h6 className="product-name mb-1">{item.productName}</h6>
+                    <h6 className="product-name mb-1">
+                      <Link to ={`/product-detail/${item.productId}`}>
+                        {item.productName}
+                      </Link>
+
+                    </h6>
                     <p className="product-quantity mb-1 text-muted">
                                         Số lượng: x{item.quantity || 0}
                     </p>
