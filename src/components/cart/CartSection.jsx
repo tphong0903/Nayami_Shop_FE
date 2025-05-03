@@ -114,7 +114,7 @@ export default function CartSection() {
 
   const handleDeleteProduct = async (id) => {
     try {
-      await axios.delete(`/api/cart/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/cart/${id}`);
       setProducts((prevProducts) => prevProducts.filter(product => product.id !== id));
 
       Swal.fire({
