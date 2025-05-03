@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-
+import '~/assets/UserCss.css'
 export default function OauthCallback() {
   const navigate = useNavigate();
 
