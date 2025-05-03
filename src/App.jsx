@@ -58,6 +58,7 @@ import AddUser from './components/Admin/body/users/AddUser.jsx';
 import EditPasswordUser from './components/Admin/body/users/EditPasswordUser.jsx';
 import UpdateUser from './components/Admin/body/users/UpdateUser.jsx';
 import UpdateInformationAdmin from '~/components/Admin/body/UpdateInformationAdmin.jsx';
+import OrderDetailView from './components/info/OrderDetailView.jsx';
 import Login2 from './pages/Login2';
 
 function App() {
@@ -104,6 +105,8 @@ function App() {
               <Route path="orders" element={<OrderTab />} />
               <Route path="profile" element={<ChangeProfileLayout />} />
               <Route path="password" element={<ChangePasswordUser />} />
+              <Route path="orders/:id" element={<OrderDetailView />} />
+
               <Route path="addresses" element={<AddressTab />} />
               <Route path="vouchers" element={<VoucherTab />} />
             </Route>
