@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react-swc';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/',
+  base: 'https://nayami-shop-fe.vercel.app/',
   plugins: [react()],
   server: {
     proxy: {
