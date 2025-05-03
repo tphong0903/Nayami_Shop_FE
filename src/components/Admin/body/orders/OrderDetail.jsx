@@ -233,6 +233,21 @@ export default function OrderDetail() {
                             <h4>Thông tin thanh toán</h4>
                             <p>Hình thức thanh toán: {orderDetail?.payment.paymentMethod}
                             </p>
+                            <p>Trạng thái thanh toán:
+                              <FormControl fullWidth>
+                                <Select
+                                  labelId="order-status-label"
+                                  id="order-status"
+                                  sx={{ fontWeight: 'bold' }}
+                                  value={orderDetail?.payment.paymentStatus || ''}
+                                  disabled
+                                >
+                                  <MenuItem value="PENDING" sx={{ fontWeight: 'bold' }}>Chờ thanh toán</MenuItem>
+                                  <MenuItem value="COMPLETED" sx={{ fontWeight: 'bold' }}>Hoàn tất</MenuItem>
+                                  <MenuItem value="CANCELLED" sx={{ fontWeight: 'bold' }}>Đã hủy</MenuItem>
+                                </Select>
+                              </FormControl>
+                            </p>
                           </div>
                         </div>
                       </div>
