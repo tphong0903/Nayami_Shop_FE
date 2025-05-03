@@ -25,7 +25,7 @@ const OrderList = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL} /api/bills`);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/bills`);
 
       const updatedOrders = response.data.data.map(order => {
         let lowerStatus = order.status.toLowerCase();

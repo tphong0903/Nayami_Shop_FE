@@ -124,7 +124,16 @@ export default function OrderDetail() {
                                 </td>
                                 <td>
                                   <p>Tên sản phẩm</p>
-                                  <h5>{li.productName}</h5>
+                                  <h5
+                                    style={{
+                                      whiteSpace: 'nowrap',
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis'
+                                    }}
+                                    title={li.productName}
+                                  >
+                                    {li.productName}
+                                  </h5>
                                 </td>
                                 <td>
                                   <p>Số lượng</p>
@@ -224,21 +233,6 @@ export default function OrderDetail() {
                             <h4>Thông tin thanh toán</h4>
                             <p>Hình thức thanh toán: {orderDetail?.payment.paymentMethod}
                             </p>
-                            <p>Trạng thái thanh toán:
-                              <FormControl fullWidth>
-                                <Select
-                                  labelId="order-status-label"
-                                  id="order-status"
-                                  sx={{ fontWeight: 'bold' }}
-                                  value={orderDetail?.payment.paymentStatus || ''}
-                                  onChange={(e) => handleOptions(e.target.value, 1)}
-                                >
-                                  <MenuItem value="PENDING" sx={{ fontWeight: 'bold' }}>Chờ thanh toán</MenuItem>
-                                  <MenuItem value="COMPLETED" sx={{ fontWeight: 'bold' }}>Hoàn tất</MenuItem>
-                                  <MenuItem value="CANCELLED" sx={{ fontWeight: 'bold' }}>Đã hủy</MenuItem>
-                                </Select>
-                              </FormControl>
-                            </p>
                           </div>
                         </div>
                       </div>
@@ -263,6 +257,5 @@ export default function OrderDetail() {
         </footer>
       </div>
     </div>
-
   </>
 }
