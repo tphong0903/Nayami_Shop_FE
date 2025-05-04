@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { formatCurrency } from '~/utils/formatCurrency';
 import axios from 'axios';
+import { getEmailFromToken } from '~/utils/TokenUtil';
 
 const token = localStorage.getItem('access_token');
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-const storedUser = JSON.parse(localStorage.getItem('user_information'));
 
 const DashboardHome = () => {
   const [userData, setUserData] = useState({
@@ -105,9 +105,13 @@ const DashboardHome = () => {
             totalAmount: order.totalPrice,
             status: order.status,
           }));
-        const fullName = storedUser?.userName
-        const email = storedUser?.email
-        const phone = storedUser?.phoneNumber
+
+        const email2 = getEmailFromToken(token);
+        const response2 = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/email/${email2}`);
+        const user1 = response2.data;
+        const fullName = user1.userName
+        const email = user1.email
+        const phone = user1.phoneNumber
         setUserData({
           fullName,
           email,
@@ -119,15 +123,11 @@ const DashboardHome = () => {
         });
       } catch (error) {
         console.error('Error fetching order history:', error);
-        setUserData({
-          userName: storedUser.userName,
-          email: storedUser.email,
-        });
       }
     };
 
     fetchOrders();
-  }, [location.pathname]);
+  }, []);
 
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {
