@@ -7,7 +7,7 @@ const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
   useEffect(() => {
     setStoredUser(JSON.parse(localStorage.getItem('user_information')));
     window.scrollTo(0, 0);
-  }, [location.pathname]);
+  }, []);
   return (
     <div className={`dashboard-left-sidebar ${!isOpen ? 'collapsed' : ''}`}>
       <div className="close-button d-flex d-lg-none">
@@ -18,7 +18,7 @@ const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
       <div className="profile-box">
         <div className="cover-image">
           <img
-            src="../assets/images/inner-page/cover-img.jpg"
+            src="/assets/images/inner-page/cover-img.jpg"
             className="img-fluid blur-up lazyload"
             alt=""
           />
