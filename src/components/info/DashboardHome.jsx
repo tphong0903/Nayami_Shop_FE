@@ -105,9 +105,9 @@ const DashboardHome = () => {
             totalAmount: order.totalPrice,
             status: order.status,
           }));
-        const fullName = storedUser.userName
-        const email = storedUser.email
-        const phone = storedUser.phoneNumber
+        const fullName = storedUser?.userName
+        const email = storedUser?.email
+        const phone = storedUser?.phoneNumber
         setUserData({
           fullName,
           email,
