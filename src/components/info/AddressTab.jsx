@@ -282,7 +282,7 @@ const AddressTab = () => {
             <h2>Danh sách địa chỉ của tôi</h2>
             <span className="title-leaf">
               <svg className="icon-width bg-gray">
-                <use xlinkHref="..~/assets/svg/leaf.svg#leaf"></use>
+                <use xlinkHref="/assets/svg/leaf.svg#leaf"></use>
               </svg>
             </span>
           </div>
