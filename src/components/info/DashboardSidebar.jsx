@@ -1,12 +1,25 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { getEmailFromToken } from '~/utils/TokenUtil';
 
 const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
-  const [stored, setStoredUser] = useState('');
-  const location = useLocation();
+  const [userInformation, setUserInformation] = useState({})
+
   useEffect(() => {
-    setStoredUser(JSON.parse(localStorage.getItem('user_information')));
-    window.scrollTo(0, 0);
+    const token = localStorage.getItem('access_token');
+    const email = getEmailFromToken(token);
+    if (!email) return;
+    try {
+      axios
+        .get(`${import.meta.env.VITE_API_BASE_URL}/api/users/email/${email}`)
+        .then((response) => {
+          const user1 = response.data;
+          setUserInformation(user1)
+        })
+    } catch (error) {
+      console.error('Error fetching user:', error);
+    }
   }, []);
   return (
     <div className={`dashboard-left-sidebar ${!isOpen ? 'collapsed' : ''}`}>
@@ -46,9 +59,9 @@ const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
           </div>
 
           <div className="profile-name">
-            <h3>{stored?.userName || 'Loading...'}</h3>
+            <h3>{userInformation?.userName || 'Loading...'}</h3>
             <h6 className="text-content">
-              {stored?.email || 'No email found'}
+              {userInformation?.email || 'No email found'}
             </h6>
           </div>
         </div>
