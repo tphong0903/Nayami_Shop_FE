@@ -3,7 +3,7 @@ const refreshAxios = axios.create();
 const getNewAccessToken = async () => {
   const refreshToken = localStorage.getItem('refresh_token');
   try {
-    const res = await refreshAxios.post('/api/refresh', null, {
+    const res = await refreshAxios.post(`${import.meta.env.VITE_API_BASE_URL}/api/refresh`, null, {
       headers: {
         Authorization: `Bearer ${refreshToken}`,
       },

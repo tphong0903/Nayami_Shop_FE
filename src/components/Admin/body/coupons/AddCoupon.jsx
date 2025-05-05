@@ -167,7 +167,7 @@ const CouponForm = () => {
                   <div className="card-body">
                     <div className="card-header-2">
                       <h5>
-                        {isEditMode ? 'Edit Coupon' : 'Coupon Information'}
+                        {isEditMode ? 'Chỉnh Sửa Mã Giảm Giá' : 'Thông tin mã giảm giá'}
                       </h5>
                     </div>
 
@@ -183,13 +183,13 @@ const CouponForm = () => {
                     >
                       <div className="mb-4 row align-items-center">
                         <label className="form-label-title col-sm-3 mb-0">
-                          Content
+                          Tên
                         </label>
                         <div className="col-sm-9">
                           <input
                             className="form-control"
                             type="text"
-                            placeholder="Enter coupon content"
+                            placeholder="Tên mã khuyến mãi"
                             name="content"
                             value={formData.content}
                             onChange={handleInputChange}
@@ -201,7 +201,7 @@ const CouponForm = () => {
                       {/* Discount Type */}
                       <div className="mb-4 row align-items-center">
                         <label className="form-label-title col-sm-3 mb-0">
-                          Discount Type
+                          Loại khuyến mãi
                         </label>
                         <div className="col-sm-9">
                           <select
@@ -212,14 +212,14 @@ const CouponForm = () => {
                             required
                           >
                             <option value="PERCENT">Percentage (%)</option>
-                            <option value="MONEY">Fixed Amount ($)</option>
+                            <option value="MONEY">Fixed Amount (VND)</option>
                           </select>
                         </div>
                       </div>
 
                       <div className="mb-4 row align-items-center">
                         <label className="form-label-title col-sm-3 mb-0">
-                          {formData.type === 'PERCENT' ? 'Discount (%)' : 'Discount Amount'}
+                          {formData.type === 'PERCENT' ? 'Giảm giá (%)' : 'Số tiền giảm'}
                         </label>
                         <div className="col-sm-9">
                           <div className="input-group">
@@ -243,7 +243,7 @@ const CouponForm = () => {
 
                       <div className="mb-4 row align-items-center">
                         <label className="form-label-title col-sm-3 mb-0">
-                          Minimum Order Value (VND)
+                          Số tiền tối thiếu để giảm (VND)
                         </label>
                         <div className="col-sm-9">
                           <div className="input-group">
@@ -266,7 +266,7 @@ const CouponForm = () => {
 
                       <div className="mb-4 row align-items-center">
                         <label className="form-label-title col-sm-3 mb-0">
-                          Applicable Customer
+                          Khách hàng
                         </label>
                         <div className="col-sm-9">
                           <Select
@@ -297,7 +297,7 @@ const CouponForm = () => {
 
                       <div className="mb-4 row align-items-center">
                         <label className="form-label-title col-sm-3 mb-0">
-                          Start Date
+                          Ngày bắt đầu
                         </label>
                         <div className="col-sm-9">
                           <input
@@ -314,7 +314,7 @@ const CouponForm = () => {
                       {/* Expiry Date */}
                       <div className="mb-4 row align-items-center">
                         <label className="form-label-title col-sm-3 mb-0">
-                          Expiry Date
+                          Ngày kết thúc
                         </label>
                         <div className="col-sm-9">
                           <input
@@ -331,7 +331,7 @@ const CouponForm = () => {
                       {/* Active Status */}
                       <div className="mb-4 row align-items-center">
                         <label className="form-label-title col-sm-3 mb-0">
-                          Status
+                          Trạng thái
                         </label>
                         <div className="col-sm-9">
                           <div className="form-check form-switch">
@@ -365,7 +365,7 @@ const CouponForm = () => {
                             className="btn btn-secondary"
                             onClick={() => navigate('/admin/coupons')}
                           >
-                            Cancel
+                            Hủy
                           </button>
                         </div>
                       </div>

@@ -72,7 +72,7 @@ export default function DiscountCampain() {
                     <ul>
                       <li>
                         <Link className='btn btn-solid' to={'/admin/add-discounts'}>
-                          Thêm chiến dịch
+                          Thêm khuyến mãi
                         </Link>
                       </li>
                     </ul>
