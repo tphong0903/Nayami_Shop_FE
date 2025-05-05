@@ -84,11 +84,11 @@ const CouponList = () => {
             <div className="card card-table">
               <div className="card-body">
                 <div className="title-header option-title">
-                  <h5>Coupon List</h5>
+                  <h5>Mã Khuyến Mãi</h5>
                   <div className="right-options">
                     <ul>
                       <li>
-                        <Link to="/admin/add-new-coupon" className="btn btn-solid">Add Coupon</Link>
+                        <Link to="/admin/add-new-coupon" className="btn btn-solid">Thêm mã khuyến mãi</Link>
                       </li>
                     </ul>
                   </div>
@@ -119,11 +119,11 @@ const CouponList = () => {
                               />
                             </span>
                           </th>
-                          <th>Title<SwapVertIcon /></th>
+                          <th>Tên<SwapVertIcon /></th>
                           <th>Code<SwapVertIcon /></th>
-                          <th>Discount<SwapVertIcon /></th>
-                          <th>Status<SwapVertIcon /></th>
-                          <th>Option<SwapVertIcon /></th>
+                          <th>Giảm giá<SwapVertIcon /></th>
+                          <th>Trạng thái<SwapVertIcon /></th>
+                          <th>Tùy Chỉnh<SwapVertIcon /></th>
                         </tr>
                       </thead>
 

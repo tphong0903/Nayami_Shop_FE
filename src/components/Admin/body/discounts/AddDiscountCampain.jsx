@@ -27,9 +27,7 @@ export default function AddDiscountCampain() {
     discountDetailDTOList: [],
 
   });
-  useEffect(() => {
 
-  }, [discountCampainModel])
   useEffect(() => {
     if (isEditMode) {
       axios
@@ -42,6 +40,7 @@ export default function AddDiscountCampain() {
         })
     }
   }, [id, isEditMode])
+
   useEffect(() => {
     if (editorRef.current) {
       editorRef.current.getInstance().setHTML(discountCampainModel.description);
@@ -75,11 +74,11 @@ export default function AddDiscountCampain() {
     setOpenModalEdit(v => !v);
   };
   const handleSave = async () => {
-    const editorContent = editorRef.current?.getInstance().getMarkdown() || '';
-    setDiscountCampainModel(prev => ({ ...prev, description: editorContent }))
+    const editorContent = editorRef.current.getInstance().getMarkdown() || '';
+    const updatedModel = { ...discountCampainModel, description: editorContent };
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/discounts`, JSON.stringify(discountCampainModel), {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/discounts`, JSON.stringify(updatedModel), {
         headers: { 'Content-Type': 'application/json' }
       });
 
@@ -146,6 +145,7 @@ export default function AddDiscountCampain() {
                                   previewStyle="vertical"
                                   height="400px"
                                   useCommandShortcut={true}
+                                  autoFocus={false}
                                   ref={editorRef}
                                 />
                               </div>

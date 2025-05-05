@@ -156,7 +156,7 @@ export default function CategorySection() {
                     <h4>Tai nghe</h4>
                   </Link>
                   <div className="category-box-view">
-                    <Link to={`/shop?categoryId=6&categoryName=${encodeURIComponent('Tai nghe')}`} className="category-name">
+                    <Link to={`/shop?categoryId=6&categoryName=${encodeURIComponent('Tai nghe')}`}>
                       <img src={TaiNghe} className="img-fluid lazyload" alt="" />
                     </Link>
                     <button
