@@ -7,8 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://nayamishop.id.vn',
-        // target: 'http://localhost:8081',
+        // target: 'https://nayamishop.id.vn',
+        target: 'http://localhost:8081',
         changeOrigin: true,
         secure: false,
       },
