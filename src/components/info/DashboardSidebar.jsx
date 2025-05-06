@@ -1,13 +1,26 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { getEmailFromToken } from '~/utils/TokenUtil';
 
 const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
-  const [stored, setStoredUser] = useState('');
-  const location = useLocation();
+  const [userInformation, setUserInformation] = useState({})
+
   useEffect(() => {
-    setStoredUser(JSON.parse(localStorage.getItem('user_information')));
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
+    const token = localStorage.getItem('access_token');
+    const email = getEmailFromToken(token);
+    if (!email) return;
+    try {
+      axios
+        .get(`${import.meta.env.VITE_API_BASE_URL}/api/users/email/${email}`)
+        .then((response) => {
+          const user1 = response.data;
+          setUserInformation(user1)
+        })
+    } catch (error) {
+      console.error('Error fetching user:', error);
+    }
+  }, []);
   return (
     <div className={`dashboard-left-sidebar ${!isOpen ? 'collapsed' : ''}`}>
       <div className="close-button d-flex d-lg-none">
@@ -18,7 +31,7 @@ const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
       <div className="profile-box">
         <div className="cover-image">
           <img
-            src="../assets/images/inner-page/cover-img.jpg"
+            src="/assets/images/inner-page/cover-img.jpg"
             className="img-fluid blur-up lazyload"
             alt=""
           />
@@ -46,9 +59,9 @@ const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
           </div>
 
           <div className="profile-name">
-            <h3>{stored?.userName || 'Loading...'}</h3>
+            <h3>{userInformation?.userName || 'Loading...'}</h3>
             <h6 className="text-content">
-              {stored?.email || 'No email found'}
+              {userInformation?.email || 'No email found'}
             </h6>
           </div>
         </div>

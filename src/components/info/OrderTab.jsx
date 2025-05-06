@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const OrderTab = () => {
-
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('all');
   const [orders, setOrders] = useState([]);
@@ -18,16 +16,20 @@ const OrderTab = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/bills/history`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/bills/history`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const formattedOrders = response.data.data.map((order) => {
         let lowerStatus = order.status.toLowerCase();
         const isUnpaid =
-          order.paymentMethod === 'ONLINE_BANKING' && order.paymentStatus === 'PENDING';
+          order.paymentMethod === 'ONLINE_BANKING' &&
+          order.paymentStatus === 'PENDING';
 
         return {
           ...order,
@@ -196,8 +198,10 @@ const OrderTab = () => {
     });
     if (result.isConfirmed) {
       try {
-        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills/payment/${id}`);
-        window.location.href=response.data.data.paymentUrl;
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/api/bills/payment/${id}`
+        );
+        window.location.href = response.data.data.paymentUrl;
         fetchOrders();
       } catch (error) {
         swalWithBootstrapButtons.fire(
@@ -230,13 +234,24 @@ const OrderTab = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills/cancel`, { billID: id });
-        swalWithBootstrapButtons.fire(
-          'Đã hủy!',
-          'Đơn hàng đã được hủy thành công.',
-          'success'
+        const response =await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/api/bills/cancel`,
+          { billID: id }
         );
-        fetchOrders();
+        if (response.data.status ===200) {
+          swalWithBootstrapButtons.fire(
+            'Đã hủy!',
+            'Đơn hàng đã được hủy thành công.',
+            'success'
+          );
+          fetchOrders();
+        } else {
+          swalWithBootstrapButtons.fire(
+            'Lỗi!',
+            'Không thể hủy đơn hàng. Vui lòng thử lại sau.',
+            'error'
+          );
+        }
       } catch (error) {
         swalWithBootstrapButtons.fire(
           'Lỗi!',
@@ -266,7 +281,10 @@ const OrderTab = () => {
     });
     if (result.isConfirmed) {
       try {
-        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bills/guarantee`, { billID: id });
+        await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/api/bills/guarantee`,
+          { billID: id }
+        );
         swalWithBootstrapButtons.fire(
           'Đã yêu cầu!',
           'Yêu cầu bảo hành đã được gửi thành công.',
@@ -342,6 +360,10 @@ const OrderTab = () => {
     }
   };
 
+  const handleViewOrderDetails = (orderId) => {
+    navigate(`/dashboard/orders/${orderId}`);
+  };
+
   return (
     <div className="dashboard-order">
       <div className="dashboard-title mb-4">
@@ -400,7 +422,9 @@ const OrderTab = () => {
           </li>
           <li className="nav-item" role="presentation">
             <button
-              className={`nav-link ${activeTab === 'confrimed' ? 'active' : ''}`}
+              className={`nav-link ${
+                activeTab === 'confrimed' ? 'active' : ''
+              }`}
               onClick={() => setActiveTab('confrimed')}
             >
               Đang chờ vận chuyển
@@ -424,7 +448,8 @@ const OrderTab = () => {
           </li>
           <li className="nav-item" role="presentation">
             <button
-              className={`nav-link ${activeTab === 'completed' ? 'active' : ''
+              className={`nav-link ${
+                activeTab === 'completed' ? 'active' : ''
               }`}
               onClick={() => setActiveTab('completed')}
             >
@@ -433,7 +458,8 @@ const OrderTab = () => {
           </li>
           <li className="nav-item" role="presentation">
             <button
-              className={`nav-link ${activeTab === 'guarantee' ? 'active' : ''
+              className={`nav-link ${
+                activeTab === 'guarantee' ? 'active' : ''
               }`}
               onClick={() => setActiveTab('guarantee')}
             >
@@ -442,7 +468,8 @@ const OrderTab = () => {
           </li>
           <li className="nav-item" role="presentation">
             <button
-              className={`nav-link ${activeTab === 'cancelled' ? 'active' : ''
+              className={`nav-link ${
+                activeTab === 'cancelled' ? 'active' : ''
               }`}
               onClick={() => setActiveTab('cancelled')}
             >
@@ -465,25 +492,24 @@ const OrderTab = () => {
           </div>
         ) : (
           filteredOrders.map((order) => (
-            <div key={order.id} className="order-card mb-4 border rounded">
+            <div
+              key={order.id}
+              className="order-card mb-4 border rounded hover-shadow"
+              style={{ cursor: 'pointer', transition: 'box-shadow 0.3s ease' }}
+              onClick={() => handleViewOrderDetails(order.id)}
+            >
               <div className="order-card-header d-flex justify-content-between align-items-center p-3 bg-light">
                 <div>
-                  {order.status !== 'pending' &&
-                    order.status !== 'cancelled' &&
-                    order.status !== 'unpaid' && (
-                    <h5 className="mb-0 text-primary">
-                        Mã giao hàng: #{order.orderNumber}
-                    </h5>
-                  )}
                   <p className="text-muted mb-0">
                     Ngày đặt:{' '}
                     {new Date(order.createdAt).toLocaleDateString('vi-VN')}
                   </p>
                   <p className="text-muted mb-0">
                     <i
-                      className={`fa ${order.paymentMethod === 'ONLINE_BANKING'
-                        ? 'fa-university'
-                        : 'fa-money-bill'
+                      className={`fa ${
+                        order.paymentMethod === 'ONLINE_BANKING'
+                          ? 'fa-university'
+                          : 'fa-money-bill'
                       } me-1`}
                     ></i>
                     {getPaymentMethodText(order.paymentMethod)}
@@ -551,7 +577,9 @@ const OrderTab = () => {
                     className="order-item d-flex p-3 border-top"
                   >
                     <div className="order-item-img me-3">
-                      <Link to={`/product-detail/${item.productId}`}>
+                      <Link
+                        to={`/dashboard/orders/${order.id}`} 
+                      >
                         <img
                           src={item.productImage}
                           alt={item.productName}
@@ -564,10 +592,11 @@ const OrderTab = () => {
                           className="rounded hover:scale-105"
                         />
                       </Link>
-
                     </div>
                     <div className="order-item-details flex-grow-1">
-                      <Link to={`/product-detail/${item.productId}`}>
+                      <Link
+                        to={`/dashboard/orders/${order.id}`}
+                      >
                         <h6
                           className="product-name mb-1"
                           style={{
@@ -607,10 +636,17 @@ const OrderTab = () => {
                   </span>
                 </div>
                 <div>
+
                   {order.paymentMethod === 'ONLINE_BANKING' &&
                     order.paymentStatus === 'PENDING' && (
-                    <button className="btn btn-danger btn-sm me-2" onClick={() => { handlePayment(order.id) }}>
-                      <i className="fa fa-credit-card me-1"></i>Thanh toán ngay
+                    <button
+                      className="btn btn-danger btn-sm me-2"
+                      onClick={() => {
+                        handlePayment(order.id);
+                      }}
+                    >
+                      <i className="fa fa-credit-card me-1"></i>Thanh toán
+                        ngay
                     </button>
                   )}
 
@@ -618,26 +654,36 @@ const OrderTab = () => {
                     order.status === 'cancelled') && (
                     <button
                       className="btn btn-primary btn-sm"
-                      onClick={() => buyAgain(order)}
+                      onClick={() => {
+                        buyAgain(order);
+                      }}
                     >
                       <i className="fa fa-redo me-1"></i>Mua lại
                     </button>
                   )}
 
-                  {order.status === 'pending' && (
+                  {(order.status === 'pending' && order.paymentStatus ==='PENDING' )&& (
                     <button
                       className="btn btn-danger btn-sm"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent parent click
                         cancelOrder(order.id);
                       }}
                     >
                       <i className="fa fa-times me-1"></i>Hủy đơn hàng
                     </button>
                   )}
+
                   {order.status === 'shipped' && (
-                    <button className="btn btn-danger btn-sm" onClick={() => {
-                      requestGuarantee(order.id);
-                    }}>Yêu cầu bảo hành</button>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent parent click
+                        requestGuarantee(order.id);
+                      }}
+                    >
+                      <i className="fa fa-tools me-1"></i>Yêu cầu bảo hành
+                    </button>
                   )}
                 </div>
               </div>

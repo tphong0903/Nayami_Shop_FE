@@ -24,12 +24,13 @@ export default function OrderDetail() {
   };
 
   useEffect(() => {
+    fetechOrderDetail()
+  }, [id])
+  const fetechOrderDetail = async () => {
     axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/bills/${id}`).then(res => {
       setOrderDetail(res.data.data)
-      console.log(res.data.data)
     })
-  }, [id])
-
+  }
   const extractDateTime = (dateString) => {
     if (!dateString) return 'Ngày không xác định';
 
@@ -76,8 +77,8 @@ export default function OrderDetail() {
               ...prev,
               status: option
             }));
-
             Swal.fire('Thành công', 'Đơn hàng đã được cập nhật.', 'success');
+            fetechOrderDetail();
           } catch (error) {
             Swal.fire('Lỗi', 'Không thể cập nhật đơn hàng.', 'error');
           }

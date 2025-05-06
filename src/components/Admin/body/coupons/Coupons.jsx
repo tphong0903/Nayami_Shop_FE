@@ -21,11 +21,7 @@ const CouponList = () => {
     fetchCoupons();
   }, []);
 
-  useEffect(() => {
-    if (coupons.length > 0) {
-      $(tableRef.current).DataTable()
-    }
-  }, [coupons])
+
   const changeStatusCoupon = async (id) => {
     Swal.fire({
       title: 'Bạn có chắc chắn muốn cập nhật?',
@@ -41,8 +37,8 @@ const CouponList = () => {
         try {
           await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/coupons/${id}`);
           fetchCoupons();
-
-          Swal.fire('Đã xoá!', 'Danh mục đã được xoá thành công.', 'success');
+          await fetchCoupons();
+          Swal.fire('Thành công!', 'Đã cập nhật trạng thái mã giảm giá.', 'success');
         } catch (err) {
           Swal.fire('Lỗi!', 'Không thể xoá danh mục.', 'error');
           console.error('Lỗi khi xoá danh mục:', err);
@@ -88,11 +84,11 @@ const CouponList = () => {
             <div className="card card-table">
               <div className="card-body">
                 <div className="title-header option-title">
-                  <h5>Coupon List</h5>
+                  <h5>Mã Khuyến Mãi</h5>
                   <div className="right-options">
                     <ul>
                       <li>
-                        <Link to="/admin/add-new-coupon" className="btn btn-solid">Add Coupon</Link>
+                        <Link to="/admin/add-new-coupon" className="btn btn-solid">Thêm mã khuyến mãi</Link>
                       </li>
                     </ul>
                   </div>
@@ -123,11 +119,11 @@ const CouponList = () => {
                               />
                             </span>
                           </th>
-                          <th>Title<SwapVertIcon /></th>
+                          <th>Tên<SwapVertIcon /></th>
                           <th>Code<SwapVertIcon /></th>
-                          <th>Discount<SwapVertIcon /></th>
-                          <th>Status<SwapVertIcon /></th>
-                          <th>Option<SwapVertIcon /></th>
+                          <th>Giảm giá<SwapVertIcon /></th>
+                          <th>Trạng thái<SwapVertIcon /></th>
+                          <th>Tùy Chỉnh<SwapVertIcon /></th>
                         </tr>
                       </thead>
 

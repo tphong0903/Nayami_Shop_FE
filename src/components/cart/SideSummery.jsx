@@ -27,6 +27,9 @@ export default function SideSummery({
     }
 
     onApplyCoupon(couponCode);
+    if (discount==0) {
+      setCouponCode('');
+    }
   };
 
   const handleCheckout = () => {

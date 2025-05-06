@@ -7,13 +7,15 @@ import $ from 'jquery'
 import 'datatables.net-bs5'
 import '~/assets/Admin/css/customPagination.css';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
-
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Products() {
   const [products, setProducts] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   const tableRef = useRef(null)
 
   useEffect(() => {
+    setIsLoading(true)
     axios
       .get(`${import.meta.env.VITE_API_BASE_URL}/api/products`, {
         headers: {
@@ -25,6 +27,9 @@ export default function Products() {
       })
       .catch(() => {
         Swal.fire('Lỗi!', 'Không thể tải danh sách sản phẩm.', 'error')
+      })
+      .finally(() => {
+        setIsLoading(false)
       });
   }, [])
 
@@ -100,17 +105,24 @@ export default function Products() {
                       </tr>
                     </thead>
                     <tbody>
-                      {products.length > 0 ? (
-                        products.map((product) => (
-                          <ProductItem key={product.id} product={product} deleteProduct={deleteProduct} />
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={7} className='text-center'>
-                            Không có sản phẩm nào
-                          </td>
-                        </tr>
-                      )}
+                      {isLoading ? (<tr>
+                        <td colSpan={7} className='text-center'>
+                          <CircularProgress />
+                        </td>
+                      </tr>) : (
+                        products.length > 0 ? (
+                          products.map((product) => (
+                            <ProductItem key={product.id} product={product} deleteProduct={deleteProduct} />
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={7} className='text-center'>
+                              Không có sản phẩm nào
+                            </td>
+                          </tr>
+                        )
+                      )
+                      }
                     </tbody>
                   </table>
                 </div>

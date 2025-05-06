@@ -28,7 +28,7 @@ const CategoryForm = () => {
   const fetchCategoryData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/categories/${id}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/categories/${id}`);
       const category = response.data.data;
 
       setFormData({

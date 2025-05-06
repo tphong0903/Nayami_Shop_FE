@@ -2,36 +2,44 @@ import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { getEmailFromToken } from '~/utils/TokenUtil';
 
 export default function ChangeProfileLayout() {
   const [id, setId] = useState('');
   const [isValid, setIsValid] = useState(true);
-
   const [formData, setFormData] = useState({
-    userId:'',
+    userId: '',
     userName: '',
     phoneNumber: '',
     email: '',
     password: '',
-    type:'CUSTOMER',
+    type: 'CUSTOMER',
     active: true
   });
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('Get user from local storage');
-    const storedUser = JSON.parse(localStorage.getItem('user_information'));
-    if (storedUser) {
-      setId(storedUser.userId);
-      setFormData({
-        userId:storedUser.userId,
-        userName: storedUser.userName,
-        phoneNumber: storedUser.phoneNumber,
-        email: storedUser.email,
-        password: '',
-        type: storedUser.type || 'CUSTOMER',
-        active: storedUser.active
-      });
+    const token = localStorage.getItem('access_token');
+    const email = getEmailFromToken(token);
+    if (!email) return;
+    try {
+      axios
+        .get(`${import.meta.env.VITE_API_BASE_URL}/api/users/email/${email}`)
+        .then((response) => {
+          const storedUser = response.data;
+          setId(storedUser.userId);
+          setFormData({
+            userId: storedUser.userId,
+            userName: storedUser.userName,
+            phoneNumber: storedUser.phoneNumber,
+            email: storedUser.email,
+            password: '',
+            type: storedUser.type || 'CUSTOMER',
+            active: storedUser.active
+          });
+        })
+    } catch (error) {
+      console.error('Error fetching user:', error);
     }
 
   }, []);
@@ -140,7 +148,7 @@ export default function ChangeProfileLayout() {
                                 />
                                 {isValid === false && (
                                   <p style={{ color: 'red' }}>
-                          Số điện thoại không hợp lệ!
+                                    Số điện thoại không hợp lệ!
                                   </p>
                                 )}
                               </div>
