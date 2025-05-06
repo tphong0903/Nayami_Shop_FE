@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { formatCurrency } from '~/utils/formatCurrency';
 import axios from 'axios';
 import { getEmailFromToken } from '~/utils/TokenUtil';
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 
 
@@ -66,7 +66,6 @@ const DashboardHome = () => {
     }
   };
   const [activeTab, setActiveTab] = useState('profile');
-  const location = useLocation();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchDashboardData = async () => {
