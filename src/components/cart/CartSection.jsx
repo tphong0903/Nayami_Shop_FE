@@ -179,6 +179,8 @@ export default function CartSection() {
         icon: 'error',
         confirmButtonText: 'OK'
       });
+      document.getElementById('couponCode').value = '';
+
     }
   };
 

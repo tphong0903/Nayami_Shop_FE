@@ -27,6 +27,9 @@ export default function SideSummery({
     }
 
     onApplyCoupon(couponCode);
+    if (discount==0) {
+      setCouponCode('');
+    }
   };
 
   const handleCheckout = () => {
@@ -88,7 +91,6 @@ export default function SideSummery({
                 className="form-control"
                 id="couponCode"
                 placeholder="Nhập mã giảm giá tại đây..."
-                value={couponCode}
                 onChange={(e) => setCouponCode(e.target.value)}
               />
               <button className="btn-apply" onClick={handleApplyCoupon}>

@@ -48,7 +48,7 @@ export default function Staffs() {
       }).then(async (result) => {
         if (result.isConfirmed) {
           // 3. Gửi PUT request với status mới
-          const updateResponse = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/users/update/${userId}`, currentUser);
+          const updateResponse = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/users/update/status/${userId}`, currentUser);
 
           if (updateResponse.data.status === 200 || updateResponse.data.status === 201) {
             Swal.fire({
@@ -117,36 +117,36 @@ export default function Staffs() {
                     <tbody>
                       {
                         users.map((user) =>
-                        (
-                          <tr key={user.userId}>
-                            <td style={{ textAlign: 'center' }}>{user.userId}</td>
-                            <td>{user.userName}</td>
-                            <td>{user.phoneNumber}</td>
-                            <td>{user.email}</td>
-                            <td className={user.active === false ? 'status-danger' : 'status-close'}>
-                              <span>{user.active === false ? 'Inactive' : 'Active'}</span>
-                            </td>
-                            <td>
-                              <ul className="d-flex gap-2">
-                                <li>
-                                  <Link onClick={() => updateNewStatus(user.userId)}>
-                                    {user.active === false ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link to={`/admin/update-staff/${user.userId}`}>
-                                    <i className="ri-pencil-line" />
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link to={`/admin/edit-password-staff/${user.userId}`}>
-                                    <i className="ri-lock-line" />
-                                  </Link>
-                                </li>
-                              </ul>
-                            </td>
-                          </tr>
-                        ))
+                          (
+                            <tr key={user.userId}>
+                              <td style={{ textAlign: 'center' }}>{user.userId}</td>
+                              <td>{user.userName}</td>
+                              <td>{user.phoneNumber}</td>
+                              <td>{user.email}</td>
+                              <td className={user.active === false ? 'status-danger' : 'status-close'}>
+                                <span>{user.active === false ? 'Inactive' : 'Active'}</span>
+                              </td>
+                              <td>
+                                <ul className="d-flex gap-2">
+                                  <li>
+                                    <Link onClick={() => updateNewStatus(user.userId)}>
+                                      {user.active === false ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link to={`/admin/update-staff/${user.userId}`}>
+                                      <i className="ri-pencil-line" />
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link to={`/admin/edit-password-staff/${user.userId}`}>
+                                      <i className="ri-lock-line" />
+                                    </Link>
+                                  </li>
+                                </ul>
+                              </td>
+                            </tr>
+                          ))
                       }
                       {users.length == 0 && (
                         <tr>
