@@ -21,7 +21,7 @@ export default function ReletedProductSection({ product }) {
   const [slidesToShow, setSlidesToShow] = useState(getSlidesToShow());
   function getSlidesToShow() {
     if (window.innerWidth < 480) {
-      return 1;
+      return 2;
     } else if (window.innerWidth < 768) {
       return 2;
     } else if (window.innerWidth < 1024) {
@@ -78,7 +78,12 @@ export default function ReletedProductSection({ product }) {
                 <Slider {...settings} >
                   {listRalatedProduct.length > 0 && listRalatedProduct.map((v, index) => (
                     <div key={index}>
-                      <div className="product-box-3 wow fadeInUp" >
+                      <div className="product-box-3 wow fadeInUp" style={{
+                        minHeight: '400px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        flexDirection: 'column',
+                      }}>
                         <div className="product-header" >
                           <div className="product-image">
                             <Link to={`/product-detail/${v.id}`}>

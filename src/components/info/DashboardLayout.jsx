@@ -6,22 +6,12 @@ import { getEmailFromToken } from '~/utils/TokenUtil.js';
 import axios from 'axios';
 
 const DashboardLayout = () => {
-  const location = useLocation();
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    if (typeof feather !== 'undefined') {
-      feather.replace();
-    }
-  }, [location.pathname]);
-
-
   return (
     <section className="user-dashboard-section section-b-space">
       <div className="container-fluid-lg">
         <div className="row">
           <div className="col-xxl-3 col-lg-4">
-            <DashboardSidebar/>
+            <DashboardSidebar />
           </div>
 
           <div className="col-xxl-9 col-lg-8">
@@ -29,7 +19,7 @@ const DashboardLayout = () => {
               Show Menu
             </button>
             <div className="dashboard-right-sidebar">
-              <Outlet/>
+              <Outlet />
             </div>
           </div>
         </div>

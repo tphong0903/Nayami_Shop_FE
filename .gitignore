@@ -9,8 +9,21 @@ lerna-debug.log*
 package.json
 package-lock.json
 
+<<<<<<< HEAD
 node_modules
 dist
+=======
+.env
+
+.yarn/cache/
+node_modules/
+dists
+
+.yarn/cache
+node_modules
+dist
+
+>>>>>>> 9b742705fb700763e97ae9fb614e74c4cf2d9723
 dist-ssr
 *.local
 
@@ -23,7 +36,13 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
+<<<<<<< HEAD
 *.sw?
 #Yarn
 .yarn/cache/
 .env
+=======
+
+*.sw?
+
+>>>>>>> 9b742705fb700763e97ae9fb614e74c4cf2d9723

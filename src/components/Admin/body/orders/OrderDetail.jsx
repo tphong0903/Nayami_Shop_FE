@@ -24,12 +24,13 @@ export default function OrderDetail() {
   };
 
   useEffect(() => {
+    fetechOrderDetail()
+  }, [id])
+  const fetechOrderDetail = async () => {
     axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/bills/${id}`).then(res => {
       setOrderDetail(res.data.data)
-      console.log(res.data.data)
     })
-  }, [id])
-
+  }
   const extractDateTime = (dateString) => {
     if (!dateString) return 'Ngày không xác định';
 
@@ -76,8 +77,8 @@ export default function OrderDetail() {
               ...prev,
               status: option
             }));
-
             Swal.fire('Thành công', 'Đơn hàng đã được cập nhật.', 'success');
+            fetechOrderDetail();
           } catch (error) {
             Swal.fire('Lỗi', 'Không thể cập nhật đơn hàng.', 'error');
           }
@@ -124,7 +125,16 @@ export default function OrderDetail() {
                                 </td>
                                 <td>
                                   <p>Tên sản phẩm</p>
-                                  <h5>{li.productName}</h5>
+                                  <h5
+                                    style={{
+                                      whiteSpace: 'nowrap',
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis'
+                                    }}
+                                    title={li.productName}
+                                  >
+                                    {li.productName}
+                                  </h5>
                                 </td>
                                 <td>
                                   <p>Số lượng</p>
@@ -231,7 +241,7 @@ export default function OrderDetail() {
                                   id="order-status"
                                   sx={{ fontWeight: 'bold' }}
                                   value={orderDetail?.payment.paymentStatus || ''}
-                                  onChange={(e) => handleOptions(e.target.value, 1)}
+                                  disabled
                                 >
                                   <MenuItem value="PENDING" sx={{ fontWeight: 'bold' }}>Chờ thanh toán</MenuItem>
                                   <MenuItem value="COMPLETED" sx={{ fontWeight: 'bold' }}>Hoàn tất</MenuItem>
@@ -263,6 +273,5 @@ export default function OrderDetail() {
         </footer>
       </div>
     </div>
-
   </>
 }

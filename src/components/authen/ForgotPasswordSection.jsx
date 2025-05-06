@@ -19,7 +19,7 @@ export default function ForgotPasswordSection() {
           Swal.showLoading(); // Hiển thị spinner xoay
         },
       });
-      const response = await axios.get('api/reset-password', {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/reset-password`, {
         params: { email }, // Gửi email như một query param
       });
       if (response.data.status === 200) {

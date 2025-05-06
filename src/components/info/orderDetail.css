@@ -1,0 +1,16 @@
+/* Style cho card trong phần thông tin chi tiết đơn hàng */
+.row .col-md-6 .card {
+  height: 100%; /* Đảm bảo rằng tất cả các card có cùng chiều cao */
+}
+
+/* Đảm bảo rằng phần body của card có thể mở rộng để lấp đầy không gian */
+.row .col-md-6 .card-body {
+  height: calc(100% - 56px); /* Trừ đi chiều cao của card-header */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Đảm bảo rằng nội dung bên trong có thể căn chỉnh đúng */
+.row .col-md-6 .card-body p:last-child {
+  margin-bottom: 0;
+}
