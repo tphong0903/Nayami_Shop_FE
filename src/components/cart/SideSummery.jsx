@@ -91,6 +91,7 @@ export default function SideSummery({
                 className="form-control"
                 id="couponCode"
                 placeholder="Nhập mã giảm giá tại đây..."
+                value={couponCode}
                 onChange={(e) => setCouponCode(e.target.value)}
               />
               <button className="btn-apply" onClick={handleApplyCoupon}>
