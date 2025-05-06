@@ -12,8 +12,16 @@ export default function OauthCallback() {
     const state = params.get('state');
 
     if (code && state) {
+      Swal.fire({
+        title: 'Đang đăng nhập',
+        html: 'Vui lòng chờ trong giây lát',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading(); // Hiển thị spinner xoay
+        },
+      });
       axios
-        .get('https://nayamishop.id.vn/api/login/oauth2/code/google', {
+        .get(`${import.meta.env.VITE_API_BASE_URL}/api/login/oauth2/code/google`, {
           params: {
             code: code,
             state: state,
@@ -26,8 +34,8 @@ export default function OauthCallback() {
           localStorage.setItem('refresh_token', refreshToken);
           Swal.fire({
             icon: 'success',
-            title: 'Thành công',
-            text: 'Đăng nhập thành công',
+            title: 'Đăng nhập thành công',
+            text: 'Nếu bạn là thành viên mới, vui lòng check mail để nhận mật khẩu',
             timer: 3000,
             showConfirmButton: true,
           });
@@ -48,5 +56,5 @@ export default function OauthCallback() {
     }
   }, [navigate]);
 
-  return <h1>Processing Google Login...</h1>;
+  return <div></div>;
 }

@@ -13,7 +13,6 @@ const DashboardLayout = () => {
           <div className="col-xxl-3 col-lg-4">
             <DashboardSidebar />
           </div>
-
           <div className="col-xxl-9 col-lg-8">
             <button className="btn left-dashboard-show btn-animation btn-md fw-bold d-block mb-4 d-lg-none">
               Show Menu
