@@ -370,7 +370,6 @@ const OrderDetailView = () => {
     );
   }
 
-  // Determine if order is unpaid
   const isUnpaid =
     order.paymentMethod === 'ONLINE_BANKING' &&
     order.paymentStatus === 'PENDING';
@@ -590,7 +589,7 @@ const OrderDetailView = () => {
                   </button>
                 )}
 
-                {status === 'pending' && (
+                {(status === 'pending' && order.payment.paymentStatus==='PENDING' )&& (
                   <button
                     className="btn btn-outline-danger w-100 mb-2"
                     onClick={cancelOrder}
