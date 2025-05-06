@@ -654,7 +654,7 @@ const OrderTab = () => {
                     </button>
                   )}
 
-                  {order.status === 'pending' && (
+                  {(order.status === 'pending' && order.paymentStatus ==='PENDING' )&& (
                     <button
                       className="btn btn-danger btn-sm"
                       onClick={(e) => {
