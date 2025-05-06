@@ -4,10 +4,11 @@ import { formatCurrency } from '~/utils/formatCurrency';
 import axios from 'axios';
 import { getEmailFromToken } from '~/utils/TokenUtil';
 
-const token = localStorage.getItem('access_token');
-axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
 
 const DashboardHome = () => {
+  const token = localStorage.getItem('access_token');
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   const [userData, setUserData] = useState({
     fullName: '',
     email: '',
@@ -66,37 +67,34 @@ const DashboardHome = () => {
   const [activeTab, setActiveTab] = useState('profile');
   const location = useLocation();
   useEffect(() => {
-    window.scrollTo(0, 0);
-    const fetchOrders = async () => {
+    const fetchDashboardData = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/bills/history`);
-        const orderHistory = response.data.data || [];
+        const email = getEmailFromToken(token);
+        const [ordersRes, userRes] = await Promise.all([
+          axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/bills/history`),
+          axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/email/${email}`)
+        ]);
+
+        const orderHistory = ordersRes.data.data || [];
         const totalOrders = orderHistory.length;
+
         const pendingOrders = orderHistory.filter(order => {
           const isUnpaid = order.paymentMethod === 'ONLINE_BANKING' && order.paymentStatus === 'PENDING';
           return order.status === 'PENDING' && !isUnpaid;
         }).length;
 
         const totalSpent = orderHistory.reduce((total, order) => {
-          if (order.status === 'COMPLETED') {
-            return total + (order.totalPrice || 0);
-          }
-          return total;
+          return order.status === 'COMPLETED' ? total + (order.totalPrice || 0) : total;
         }, 0);
 
-        const formattedOrders = response.data.data.map((order) => {
-          let lowerStatus = order.status.toLowerCase();
-          const isUnpaid =
-            order.paymentMethod === 'ONLINE_BANKING' &&
-            order.paymentStatus === 'PENDING';
-
-          return {
-            ...order,
-            status: isUnpaid ? 'unpaid' : lowerStatus,
-            originalStatus: lowerStatus,
-          };
-        });
-        const recentOrders = formattedOrders
+        const recentOrders = orderHistory
+          .map((order) => {
+            const isUnpaid = order.paymentMethod === 'ONLINE_BANKING' && order.paymentStatus === 'PENDING';
+            return {
+              ...order,
+              status: isUnpaid ? 'unpaid' : order.status.toLowerCase(),
+            };
+          })
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           .slice(0, 3)
           .map((order) => ({
@@ -106,28 +104,27 @@ const DashboardHome = () => {
             status: order.status,
           }));
 
-        const email2 = getEmailFromToken(token);
-        const response2 = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/email/${email2}`);
-        const user1 = response2.data;
-        const fullName = user1.userName
-        const email = user1.email
-        const phone = user1.phoneNumber
-        setUserData({
-          fullName,
-          email,
-          phone,
+        const user = userRes.data;
+
+        setUserData(prev => ({
+          ...prev,
+          fullName: user.userName,
+          email: user.email,
+          phone: user.phoneNumber,
           totalOrders,
           pendingOrders,
           totalSpent,
           recentOrders,
-        });
+        }));
+
       } catch (error) {
-        console.error('Error fetching order history:', error);
+        console.error('Error fetching dashboard data:', error);
       }
     };
 
-    fetchOrders();
+    fetchDashboardData();
   }, []);
+
 
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {
