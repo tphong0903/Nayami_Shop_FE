@@ -21,11 +21,7 @@ const CouponList = () => {
     fetchCoupons();
   }, []);
 
-  useEffect(() => {
-    if (coupons.length > 0) {
-      $(tableRef.current).DataTable()
-    }
-  }, [coupons])
+
   const changeStatusCoupon = async (id) => {
     Swal.fire({
       title: 'Bạn có chắc chắn muốn cập nhật?',
@@ -41,8 +37,8 @@ const CouponList = () => {
         try {
           await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/coupons/${id}`);
           fetchCoupons();
-
-          Swal.fire('Đã xoá!', 'Danh mục đã được xoá thành công.', 'success');
+          await fetchCoupons();
+          Swal.fire('Thành công!', 'Đã cập nhật trạng thái mã giảm giá.', 'success');
         } catch (err) {
           Swal.fire('Lỗi!', 'Không thể xoá danh mục.', 'error');
           console.error('Lỗi khi xoá danh mục:', err);

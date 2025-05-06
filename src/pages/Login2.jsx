@@ -17,7 +17,7 @@ export default function Login2() {
 
     if (code && state) {
       axios
-        .get('https://nayamishop.id.vn/api/login/oauth2/code/google', {
+        .get(`${import.meta.env.VITE_API_BASE_URL}/api/login/oauth2/code/google`, {
           params: {
             code: code,
             state: state,
