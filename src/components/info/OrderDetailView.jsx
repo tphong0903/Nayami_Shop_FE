@@ -117,16 +117,25 @@ const OrderDetailView = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.post(
+        const response = await axios.post(
           `${import.meta.env.VITE_API_BASE_URL}/api/bills/cancel`,
           { billID: id }
         );
-        swalWithBootstrapButtons.fire(
-          'Đã hủy!',
-          'Đơn hàng đã được hủy thành công.',
-          'success'
-        );
-        navigate('/dashboard/orders');
+        console.log(response.data.data);
+        if (response.data.status ===200) {
+          swalWithBootstrapButtons.fire(
+            'Đã hủy!',
+            'Đơn hàng đã được hủy thành công.',
+            'success'
+          );
+          navigate('/dashboard/orders');
+        } else {
+          swalWithBootstrapButtons.fire(
+            'Lỗi!',
+            'Không thể hủy đơn hàng. Vui lòng thử lại sau.',
+            'error'
+          );
+        }
       } catch (error) {
         swalWithBootstrapButtons.fire(
           'Lỗi!',
