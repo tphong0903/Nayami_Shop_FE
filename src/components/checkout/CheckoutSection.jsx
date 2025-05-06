@@ -193,7 +193,7 @@ const CheckoutSection = () => {
           confirmButtonText: 'OK'
         }).then(() => {
           localStorage.removeItem('checkoutData');
-          console.log('Đơn hàng đã được đặt:', response.data.data);
+          console.log('Đơn hàng đã được đặt:', response.data.data.paymentUrl);
           if (response.data.data.paymentUrl) {
             navigate(response.data.data.paymentUrl);
           }

@@ -30,7 +30,7 @@ export default function SideBar({ value, setSidebarOpen }) {
       new SimpleBar(sidebarElement);
     }
     const script = document.createElement('script');
-    script.src = '~/assets/Admin/js/sidebareffect.js';
+    script.src = '../../assets/Admin/js/sidebareffect.js';
     script.async = true;
     document.body.appendChild(script);
 

@@ -33,6 +33,7 @@ export default function TopNav() {
 
         if (response.data) {
           setCartItems(response.data.data || []);
+          console.log(response.data)
           let totalPrice = 0;
           if (response.data.data && response.data.data.length > 0) {
             totalPrice = response.data.data.reduce((sum, item) => sum + (item.totalPrice || 0), 0);

@@ -26,3 +26,4 @@ dist-ssr
 *.sw?
 #Yarn
 .yarn/cache/
+.env
