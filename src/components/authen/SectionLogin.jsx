@@ -49,7 +49,7 @@ export default function SectionLogin() {
         if (role === 'ADMIN') {
             navigate('/admin');
         } else if (role === 'STAFF') {
-            navigate('/admin/products');
+            navigate('/admin/users');
         }
         else if (role === 'CUSTOMER') {
             navigate('/');
