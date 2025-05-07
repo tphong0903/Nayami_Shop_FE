@@ -27,11 +27,10 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
   const categoryName = searchParams.get('categoryName') || '';
   const brandId = searchParams.get('brandId') || '';
   const brandName = searchParams.get('brandName') || '';
-  const hasAppliedFilters = useRef(false);
+  const suppressInitialTrigger = useRef(true);
 
   useEffect(() => {
     if (categoryId || brandId) {
-      hasAppliedFilters.current = true;
       if (categoryId) {
         clearAllSelectedOptions();
         handleSelected(categoryId, 'listCategoriesSelected', categoryName);
@@ -39,13 +38,15 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
       if (brandId) {
         handleSelected(brandId, 'listBrandsSelected', brandName);
       }
+      console.log('hêhe')
     }
     searchParams.delete('categoryId');
     searchParams.delete('categoryName');
     searchParams.delete('brandId');
     searchParams.delete('brandName');
     navigate({ search: searchParams.toString() }, { replace: true });
-  }, [categoryId, brandId]);
+
+  }, [location.search]);
 
   const clearAllSelectedOptions = () => {
     setListSelectedOption({
@@ -125,6 +126,10 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
   }, []);
 
   useEffect(() => {
+    if (suppressInitialTrigger.current) {
+      suppressInitialTrigger.current = false;
+      return;
+    }
     window.scrollTo(0, 0);
     let url = `${import.meta.env.VITE_API_BASE_URL}/api/products/filter`
     let params = [];

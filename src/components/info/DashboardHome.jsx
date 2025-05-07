@@ -3,12 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { formatCurrency } from '~/utils/formatCurrency';
 import axios from 'axios';
 import { getEmailFromToken } from '~/utils/TokenUtil';
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
-const token = localStorage.getItem('access_token');
-axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
 
 const DashboardHome = () => {
+  const token = localStorage.getItem('access_token');
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   const [userData, setUserData] = useState({
     fullName: '',
     email: '',
@@ -65,7 +66,6 @@ const DashboardHome = () => {
     }
   };
   const [activeTab, setActiveTab] = useState('profile');
-  const location = useLocation();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -119,12 +119,17 @@ const DashboardHome = () => {
         }));
         setLoading(false);
 
+
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
       }
     };
+
+
+
     fetchDashboardData();
   }, []);
+
 
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {

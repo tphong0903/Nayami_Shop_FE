@@ -87,7 +87,7 @@ const OrderTab = () => {
     if (ordersUpdated) {
       setOrders(updatedOrders);
     }
-  }, [orders, timers, currentTime]);
+  }, [timers, currentTime]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
