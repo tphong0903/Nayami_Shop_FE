@@ -66,59 +66,6 @@ export default function SideBarStaff({ value, setSidebarOpen }) {
                     </div>
                     <div id="sidebar-menu">
                         <ul className="sidebar-links" id="simple-bar">
-                            {/*<li className="sidebar-list">*/}
-                            {/*    <Link className="sidebar-link sidebar-title link-nav" to='/admin'>*/}
-                            {/*        <i className="ri-home-line" />*/}
-                            {/*        <span>Dashboard</span>*/}
-                            {/*    </Link>*/}
-                            {/*</li>*/}
-
-                            {/*Product Menu */}
-                            <li className="sidebar-list">
-                                <a className="linear-icon-link sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsProductOpen)}>
-                                    <i className="ri-store-3-line" />
-                                    <span>Sản phẩm</span>
-                                    <i className={`ri-arrow-${isProductOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
-                                </a>
-                                {isProductOpen && (
-                                    <ul className="sidebar-submenu">
-                                        <li><Link to="/admin/products">Danh sách sản phẩm</Link></li>
-                                        <li><Link to="/admin/add-new-product">Thêm sản phẩm</Link></li>
-                                    </ul>
-                                )}
-                            </li>
-
-                            {/* Category Menu */}
-                            <li className="sidebar-list">
-                                <a className="linear-icon-link sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsCategoryOpen)}>
-                                    <i className="ri-list-check-2" />
-                                    <span>Danh mục</span>
-                                    <i className={`ri-arrow-${isCategoryOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
-                                </a>
-                                {isCategoryOpen && (
-                                    <ul className="sidebar-submenu">
-                                        <li><Link to="/admin/categories">Danh sách danh mục</Link></li>
-                                        <li><Link to="/admin/add-new-category">Thêm danh mục</Link></li>
-                                    </ul>
-                                )}
-                            </li>
-
-                            {/* Brands Menu */}
-                            <li className="sidebar-list">
-                                <a className="linear-icon-link sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsBrandsOpen)}>
-                                    <i className="ri-list-settings-line" />
-                                    <span>Thương hiệu</span>
-                                    <i className={`ri-arrow-${isBrandsOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
-                                </a>
-                                {isBrandsOpen && (
-                                    <ul className="sidebar-submenu">
-                                        <li><Link to="/admin/brands">Danh sách thương hiệu</Link></li>
-                                        <li><Link to="/admin/add-new-brand">Thêm thương hiệu</Link></li>
-                                    </ul>
-                                )}
-                            </li>
-
-                            {/* Customer Menu */}
                             <li className="sidebar-list">
                                 <a className="sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsUsersOpen)}>
                                     <i className="ri-user-3-line" />
@@ -132,8 +79,6 @@ export default function SideBarStaff({ value, setSidebarOpen }) {
                                     </ul>
                                 )}
                             </li>
-                            {/* Staff Menu */}
-
                             {/* Orders Menu */}
                             <li className="sidebar-list">
                                 <a className="sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsOrdersOpen)}>
@@ -171,23 +116,6 @@ export default function SideBarStaff({ value, setSidebarOpen }) {
                                 {isCommentOpen && (
                                     <ul className="sidebar-submenu">
                                         <li><Link to="/admin/comments">Danh sách đánh giá</Link></li>
-                                    </ul>
-                                )}
-                            </li>
-
-                            {/* Coupons Menu */}
-                            <li className="sidebar-list">
-                                <a className="linear-icon-link sidebar-link sidebar-title" href="#" onClick={() => toggleMenu(setIsCouponsOpen)}>
-                                    <i className="ri-price-tag-3-line" />
-                                    <span>Khuyến mãi</span>
-                                    <i className={`ri-arrow-${isCouponsOpen ? 'down' : 'right'}-s-line`} style={{ marginLeft: 'auto' }} />
-                                </a>
-                                {isCouponsOpen && (
-                                    <ul className="sidebar-submenu">
-                                        <li><Link to="/admin/discounts">Danh sách khuyến mãi</Link></li>
-                                        <li><Link to="/admin/add-discounts">Tạo khuyến mãi</Link></li>
-                                        <li><Link to="/admin/coupons">Danh sách mã giảm giá</Link></li>
-                                        <li><Link to="/admin/add-new-coupon">Tạo mã giảm giá</Link></li>
                                     </ul>
                                 )}
                             </li>

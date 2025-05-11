@@ -87,7 +87,7 @@ const OrderTab = () => {
     if (ordersUpdated) {
       setOrders(updatedOrders);
     }
-  }, [orders, timers, currentTime]);
+  }, [timers, currentTime]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -234,16 +234,24 @@ const OrderTab = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.post(
+        const response =await axios.post(
           `${import.meta.env.VITE_API_BASE_URL}/api/bills/cancel`,
           { billID: id }
         );
-        swalWithBootstrapButtons.fire(
-          'Đã hủy!',
-          'Đơn hàng đã được hủy thành công.',
-          'success'
-        );
-        fetchOrders();
+        if (response.data.status ===200) {
+          swalWithBootstrapButtons.fire(
+            'Đã hủy!',
+            'Đơn hàng đã được hủy thành công.',
+            'success'
+          );
+          fetchOrders();
+        } else {
+          swalWithBootstrapButtons.fire(
+            'Lỗi!',
+            'Không thể hủy đơn hàng. Vui lòng thử lại sau.',
+            'error'
+          );
+        }
       } catch (error) {
         swalWithBootstrapButtons.fire(
           'Lỗi!',
@@ -654,7 +662,7 @@ const OrderTab = () => {
                     </button>
                   )}
 
-                  {order.status === 'pending' && (
+                  {(order.status === 'pending' && order.paymentStatus ==='PENDING' )&& (
                     <button
                       className="btn btn-danger btn-sm"
                       onClick={(e) => {

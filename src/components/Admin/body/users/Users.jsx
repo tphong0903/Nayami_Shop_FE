@@ -48,7 +48,7 @@ export default function Users() {
       }).then(async (result) => {
         if (result.isConfirmed) {
           // 3. Gửi PUT request với status mới
-          const updateResponse = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/users/update/${userId}`, currentUser);
+          const updateResponse = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/users/update/status/${userId}`, currentUser);
 
           if (updateResponse.data.status === 200 || updateResponse.data.status === 201) {
             Swal.fire({

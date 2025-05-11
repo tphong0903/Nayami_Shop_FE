@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, useNavigate, Navigate} from 'react-router-dom';
 import feather from 'feather-icons';
 import './App.css';
 
@@ -95,7 +95,7 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/register" element={<Signup />} />
-            <Route path="/oauth2/google/callback" element={<Login2 />} />
+            <Route path="/oauth2/google/callback" element={<OauthCallback/>} />
             <Route path="/enter-new-password" element={<EnterNewPassword />} />
           </Route>
           {/*Cho customer*/}
@@ -170,6 +170,7 @@ function App() {
 
           {/* Error page */}
           <Route path="/error/404" element={<Error404 />} />
+          <Route path="*" element={<Navigate to="/error/404" replace />} />
         </Routes>
       </Router>
     </>
