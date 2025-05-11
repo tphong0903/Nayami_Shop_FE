@@ -109,14 +109,14 @@ export default function ProductList() {
                                 </td>
                               </Tooltip>
                               <td>{product.categoryDTO.categoryName}</td>
-                              <td>{product.quantity}</td>
+                              <td>{product.rateQuantity}</td>
                               <td><Rating defaultValue={product?.ratingAvg ?? 0} precision={1} size='medium' readOnly /></td>
                             </tr>
                           ))
                         ) : (
                           <tr>
                             <td colSpan={7} className='text-center'>
-                                                            Không có sản phẩm nào
+                              Không có sản phẩm nào
                             </td>
                           </tr>
                         )}
