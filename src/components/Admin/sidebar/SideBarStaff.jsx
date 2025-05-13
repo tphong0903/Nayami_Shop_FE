@@ -2,7 +2,6 @@ import LogoShop from '~/assets/images/mainLogoMauTrang.png'
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SimpleBar from 'simplebar';
-import 'simplebar/dist/simplebar.css';
 
 export default function SideBarStaff({ value, setSidebarOpen }) {
     const [isProductOpen, setIsProductOpen] = useState(false);
