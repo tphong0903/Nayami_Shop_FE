@@ -61,6 +61,7 @@ export default function ProductPage() {
       .get(`${import.meta.env.VITE_API_BASE_URL}/api/comments/${id}`)
       .then((response) => {
         setRate(response.data.data)
+        console.log(response.data.data)
       })
       .catch(() => {
         Swal.fire('Lỗi!', 'Không thể tải đánh giá.', 'error')
