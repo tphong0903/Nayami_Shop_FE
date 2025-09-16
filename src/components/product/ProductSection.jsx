@@ -506,7 +506,7 @@ export default function ProductSection({ product, user, rate, setIsRate, isRate,
                               <ul className="review-list">
                                 {
                                   rate?.length > 0
-                                    ? rate.map((item, index) => {
+                                    ? rate.filter((item) => item.active == true).map((item, index) => {
                                       return (
                                         <>
                                           <li key={index}>

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, useNavigate, Navigate} from 'react-router-dom';
 import feather from 'feather-icons';
 import './App.css';
 
@@ -170,6 +170,7 @@ function App() {
 
           {/* Error page */}
           <Route path="/error/404" element={<Error404 />} />
+          <Route path="*" element={<Navigate to="/error/404" replace />} />
         </Routes>
       </Router>
     </>
