@@ -168,7 +168,6 @@ export default function CategorySection() {
                     </button>
                   </div>
                 </div>
-
                 <div className="category-box-list">
                   <Link to={`/shop?categoryId=7&categoryName=${encodeURIComponent('Loa')}`} className="category-name">
                     <h4>Loa</h4>
@@ -208,6 +207,12 @@ export default function CategorySection() {
               </Slider>
             </div>
           </div>
+          <iframe
+            allow="microphone;"
+            width="350"
+            height="430"
+            src="https://console.dialogflow.com/api-client/demo/embedded/b4ea1cf6-68a5-4cae-b827-b2d187083ede">
+          </iframe>
         </div>
       </div>
     </section>
