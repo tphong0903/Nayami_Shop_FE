@@ -1,5 +1,7 @@
-import { useEffect } from 'react';
-import {BrowserRouter as Router, Routes, Route, useNavigate, Navigate} from 'react-router-dom';
+
+import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+
 import feather from 'feather-icons';
 import './App.css';
 
@@ -61,7 +63,11 @@ import UpdateInformationAdmin from '~/components/Admin/body/UpdateInformationAdm
 import OrderDetailView from './components/info/OrderDetailView.jsx';
 import Login2 from './pages/Login2';
 
+import { Box, Fab } from '@mui/material';
+import ChatIcon from '@mui/icons-material/Chat'
+import ChatBox from './components/ChatBox.jsx';
 function App() {
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     feather.replace();
   }, []);
@@ -95,7 +101,7 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/register" element={<Signup />} />
-            <Route path="/oauth2/google/callback" element={<OauthCallback/>} />
+            <Route path="/oauth2/google/callback" element={<OauthCallback />} />
             <Route path="/enter-new-password" element={<EnterNewPassword />} />
           </Route>
           {/*Cho customer*/}
@@ -172,6 +178,24 @@ function App() {
           <Route path="/error/404" element={<Error404 />} />
           <Route path="*" element={<Navigate to="/error/404" replace />} />
         </Routes>
+        {open && (
+          <Box sx={{ position: "fixed", bottom: 80, right: 16 }}>
+            <ChatBox onClose={() => setOpen(false)} />
+          </Box>
+        )}
+
+        <Fab
+          sx={{
+            position: "fixed", bottom: 16, right: 50, bgcolor: "#0da487 !important",
+            color: "white",
+            "&:hover": {
+              bgcolor: "#0b8f72 !important",
+            },
+          }}
+          onClick={() => setOpen((prev) => !prev)}
+        >
+          <ChatIcon />
+        </Fab>
       </Router>
     </>
   );
