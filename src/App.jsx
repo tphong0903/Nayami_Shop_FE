@@ -1,65 +1,72 @@
-import { useEffect } from 'react';
-import {BrowserRouter as Router, Routes, Route, useNavigate, Navigate} from 'react-router-dom';
-import feather from 'feather-icons';
-import './App.css';
+import { useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+  Navigate,
+} from "react-router-dom";
+import feather from "feather-icons";
+import "./App.css";
 
-import HomePage from './pages/HomePage';
-import ProductPage from './pages/ProductPage';
-import ShopPage from './pages/ShopPage';
-import AboutUsPage from './pages/AboutUsPage';
-import CartPage from './pages/CartPage';
-import CheckOutPage from './pages/CheckOutPage';
-import AdminPage from './pages/Admin/AdminPage';
-import DashBoard from './components/Admin/body/dashboard/DashBoard';
-import Products from './components/Admin/body/products/Products';
-import AddProduct from './components/Admin/body/products/AddProduct';
-import UserDashboard from './pages/UserDashboard';
+import HomePage from "./pages/HomePage";
+import ProductPage from "./pages/ProductPage";
+import ShopPage from "./pages/ShopPage";
+import AboutUsPage from "./pages/AboutUsPage";
+import CartPage from "./pages/CartPage";
+import CheckOutPage from "./pages/CheckOutPage";
+import AdminPage from "./pages/Admin/AdminPage";
+import DashBoard from "./components/Admin/body/dashboard/DashBoard";
+import Products from "./components/Admin/body/products/Products";
+import AddProduct from "./components/Admin/body/products/AddProduct";
+import UserDashboard from "./pages/UserDashboard";
 
-import Staffs from './components/Admin/body/staff/Staffs.jsx';
-import AddStaff from './components/Admin/body/staff/AddStaff.jsx';
-import Categories from './components/Admin/body/categories/Categories';
-import AddCategory from './components/Admin/body/categories/AddCategory';
-import Brands from './components/Admin/body/brands/Brands';
-import AddBrand from './components/Admin/body/brands/AddBrand';
+import Staffs from "./components/Admin/body/staff/Staffs.jsx";
+import AddStaff from "./components/Admin/body/staff/AddStaff.jsx";
+import Categories from "./components/Admin/body/categories/Categories";
+import AddCategory from "./components/Admin/body/categories/AddCategory";
+import Brands from "./components/Admin/body/brands/Brands";
+import AddBrand from "./components/Admin/body/brands/AddBrand";
 
-import Login from './pages/Login';
-import Signup from '~/pages/Signup.jsx';
-import Logout from '~/pages/Logout.jsx';
+import Login from "./pages/Login";
+import Signup from "~/pages/Signup.jsx";
+import Logout from "~/pages/Logout.jsx";
 
-import DiscountCampain from './components/Admin/body/discounts/DiscountCampain';
-import AddDiscountCampain from './components/Admin/body/discounts/AddDiscountCampain';
-import Coupons from './components/Admin/body/coupons/Coupons';
-import AddCoupon from './components/Admin/body/coupons/AddCoupon';
-import OrderTab from './components/info/OrderTab';
-import DashboardHome from './components/info/DashboardHome';
-import Promotions from './components/Admin/body/promotions/Promotions';
-import AddPromotion from './components/Admin/body/promotions/AddPromotion';
-import OrderList from './components/Admin/body/orders/OrderList';
-import OrderDetail from './components/Admin/body/orders/OrderDetail';
-import ForgotPassword from '~/pages/ForgotPassword.jsx';
-import ResetPassword from '~/pages/ResetPassword.jsx';
-import EnterNewPassword from '~/pages/EnterNewPassword.jsx';
-import UpdateStaff from '~/components/Admin/body/staff/UpdateStaff.jsx';
-import EditPasswordStaff from '~/components/Admin/body/staff/EditPasswordStaff.jsx';
-import ProtectedRouteAdmin from '~/components/midlleware/ProtectedRouteAdmin.jsx';
-import Error404 from '~/pages/error/Error404.jsx';
-import ChangeProfileLayout from '~/components/info/ChangeProfileLayout.jsx';
-import ChangePasswordUser from '~/components/info/ChangePasswordUser.jsx';
-import OauthCallback from '~/pages/OauthCallback.jsx';
+import DiscountCampain from "./components/Admin/body/discounts/DiscountCampain";
+import AddDiscountCampain from "./components/Admin/body/discounts/AddDiscountCampain";
+import Coupons from "./components/Admin/body/coupons/Coupons";
+import AddCoupon from "./components/Admin/body/coupons/AddCoupon";
+import OrderTab from "./components/info/OrderTab";
+import DashboardHome from "./components/info/DashboardHome";
+import Promotions from "./components/Admin/body/promotions/Promotions";
+import AddPromotion from "./components/Admin/body/promotions/AddPromotion";
+import OrderList from "./components/Admin/body/orders/OrderList";
+import OrderDetail from "./components/Admin/body/orders/OrderDetail";
+import ForgotPassword from "~/pages/ForgotPassword.jsx";
+import ResetPassword from "~/pages/ResetPassword.jsx";
+import EnterNewPassword from "~/pages/EnterNewPassword.jsx";
+import UpdateStaff from "~/components/Admin/body/staff/UpdateStaff.jsx";
+import EditPasswordStaff from "~/components/Admin/body/staff/EditPasswordStaff.jsx";
+import ProtectedRouteAdmin from "~/components/midlleware/ProtectedRouteAdmin.jsx";
+import Error404 from "~/pages/error/Error404.jsx";
+import ChangeProfileLayout from "~/components/info/ChangeProfileLayout.jsx";
+import ChangePasswordUser from "~/components/info/ChangePasswordUser.jsx";
+import OauthCallback from "~/pages/OauthCallback.jsx";
 
-import ProtectedRouteRegisterCustomer from '~/components/midlleware/ProtectedRouteRegisterCustomer.jsx';
-import ProtectedRouteUnregisterCustomer from '~/components/midlleware/ProtectedRouteUnregisterCustomer.jsx';
-import ProductList from './components/Admin/body/comments/ProductList';
-import CommentsList from './components/Admin/body/comments/CommentsList';
-import AddressTab from './components/info/AddressTab';
-import VoucherTab from './components/info/VoucherTab';
-import Users from './components/Admin/body/users/Users.jsx';
-import AddUser from './components/Admin/body/users/AddUser.jsx';
-import EditPasswordUser from './components/Admin/body/users/EditPasswordUser.jsx';
-import UpdateUser from './components/Admin/body/users/UpdateUser.jsx';
-import UpdateInformationAdmin from '~/components/Admin/body/UpdateInformationAdmin.jsx';
-import OrderDetailView from './components/info/OrderDetailView.jsx';
-import Login2 from './pages/Login2';
+import ProtectedRouteRegisterCustomer from "~/components/midlleware/ProtectedRouteRegisterCustomer.jsx";
+import ProtectedRouteUnregisterCustomer from "~/components/midlleware/ProtectedRouteUnregisterCustomer.jsx";
+import ProductList from "./components/Admin/body/comments/ProductList";
+import CommentsList from "./components/Admin/body/comments/CommentsList";
+import AddressTab from "./components/info/AddressTab";
+import VoucherTab from "./components/info/VoucherTab";
+import Users from "./components/Admin/body/users/Users.jsx";
+import AddUser from "./components/Admin/body/users/AddUser.jsx";
+import EditPasswordUser from "./components/Admin/body/users/EditPasswordUser.jsx";
+import UpdateUser from "./components/Admin/body/users/UpdateUser.jsx";
+import UpdateInformationAdmin from "~/components/Admin/body/UpdateInformationAdmin.jsx";
+import OrderDetailView from "./components/info/OrderDetailView.jsx";
+import Login2 from "./pages/Login2";
+import ChatBot from "./components/chatbot/ChatBot";
 
 function App() {
   useEffect(() => {
@@ -95,7 +102,7 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/register" element={<Signup />} />
-            <Route path="/oauth2/google/callback" element={<OauthCallback/>} />
+            <Route path="/oauth2/google/callback" element={<OauthCallback />} />
             <Route path="/enter-new-password" element={<EnterNewPassword />} />
           </Route>
           {/*Cho customer*/}
@@ -119,8 +126,14 @@ function App() {
             <Route element={<AdminPage />}>
               <Route index element={<DashBoard />} />
               <Route path="products" element={<Products />} />
-              <Route path="add-new-product" element={<AddProduct view={false} />} />
-              <Route path="edit-product/:id" element={<AddProduct view={false} />} />
+              <Route
+                path="add-new-product"
+                element={<AddProduct view={false} />}
+              />
+              <Route
+                path="edit-product/:id"
+                element={<AddProduct view={false} />}
+              />
               <Route
                 path="view-product/:id"
                 element={<AddProduct view={true} />}
@@ -172,6 +185,7 @@ function App() {
           <Route path="/error/404" element={<Error404 />} />
           <Route path="*" element={<Navigate to="/error/404" replace />} />
         </Routes>
+        <ChatBot />
       </Router>
     </>
   );

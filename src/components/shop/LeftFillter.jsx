@@ -1,11 +1,20 @@
-import { Rating, Slider } from '@mui/material'
-import axios from 'axios'
-import { useEffect, useState, useRef } from 'react'
+import { Rating, Slider } from '@mui/material';
+import axios from 'axios';
+import { useEffect, useState, useRef } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Link } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function LeftFillter({ setListProduct, currentPage, setTotalPage, setCurrentPage, sortBy, searchQuery, openFilter, setOpenFilter1 }) {
+export default function LeftFillter({
+  setListProduct,
+  currentPage,
+  setTotalPage,
+  setCurrentPage,
+  sortBy,
+  searchQuery,
+  openFilter,
+  setOpenFilter1,
+}) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -14,12 +23,12 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
     listBrandsSelected: [],
     listDiscountsSelected: [],
     listRatingSelected: [],
-    listSearchQuery: []
-  })
-  const [listBrands, setListBrands] = useState([])
-  const [listCategories, setListCategories] = useState([])
-  const [listDiscounts, setListDiscounts] = useState([])
-  const [listRating, setListRating] = useState([])
+    listSearchQuery: [],
+  });
+  const [listBrands, setListBrands] = useState([]);
+  const [listCategories, setListCategories] = useState([]);
+  const [listDiscounts, setListDiscounts] = useState([]);
+  const [listRating, setListRating] = useState([]);
   const [valuePrice, setValuePrice] = useState([0, 100000000]);
   const [debouncedPrice, setDebouncedPrice] = useState(valuePrice);
   const searchParams = new URLSearchParams(location.search);
@@ -38,14 +47,13 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
       if (brandId) {
         handleSelected(brandId, 'listBrandsSelected', brandName);
       }
-      console.log('hêhe')
+      console.log('hêhe');
     }
     searchParams.delete('categoryId');
     searchParams.delete('categoryName');
     searchParams.delete('brandId');
     searchParams.delete('brandName');
     navigate({ search: searchParams.toString() }, { replace: true });
-
   }, [location.search]);
 
   const clearAllSelectedOptions = () => {
@@ -54,7 +62,7 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
       listCategoriesSelected: [],
       listDiscountsSelected: [],
       listRatingSelected: [],
-      listSearchQuery: []
+      listSearchQuery: [],
     });
   };
 
@@ -64,14 +72,14 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
 
   useEffect(() => {
     if (searchQuery && searchQuery.trim() !== '') {
-      setListSelectedOption(prevState => ({
+      setListSelectedOption((prevState) => ({
         ...prevState,
-        listSearchQuery: [{ id: 'search', name: searchQuery }]
+        listSearchQuery: [{ id: 'search', name: searchQuery }],
       }));
     } else {
-      setListSelectedOption(prevState => ({
+      setListSelectedOption((prevState) => ({
         ...prevState,
-        listSearchQuery: []
+        listSearchQuery: [],
       }));
     }
   }, [searchQuery]);
@@ -85,18 +93,18 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
   }, [valuePrice]);
 
   const handleSelected = (id, option, name) => {
-    setListSelectedOption(prevState => {
+    setListSelectedOption((prevState) => {
       let currentList = prevState[option];
 
-      let exists = currentList.some(item => item.id === id);
+      let exists = currentList.some((item) => item.id === id);
 
       let updatedList = exists
-        ? currentList.filter(item => item.id !== id)
+        ? currentList.filter((item) => item.id !== id)
         : [...currentList, { id, name }];
 
       return {
         ...prevState,
-        [option]: updatedList
+        [option]: updatedList,
       };
     });
     if (option === 'listSearchQuery') {
@@ -104,14 +112,21 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
       params.delete('search');
       navigate({ search: params.toString() }, { replace: true });
     }
-    setCurrentPage(1)
+    setCurrentPage(1);
   };
 
   useEffect(() => {
     const fetchFilterOptions = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/products/filterOption`);
-        const { listBrandDTO, listCategoryDTO, listQuantityProductOfDiscount, listQuantityProductOfRating } = response.data.data;
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/products/filterOption`
+        );
+        const {
+          listBrandDTO,
+          listCategoryDTO,
+          listQuantityProductOfDiscount,
+          listQuantityProductOfRating,
+        } = response.data.data;
 
         setListBrands(listBrandDTO);
         setListCategories(listCategoryDTO);
@@ -131,7 +146,7 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
       return;
     }
     window.scrollTo(0, 0);
-    let url = `${import.meta.env.VITE_API_BASE_URL}/api/products/filter`
+    let url = `${import.meta.env.VITE_API_BASE_URL}/api/products/filter`;
     let params = [];
     if (listSelectedOption['listBrandsSelected'].length > 0) {
       params.push(
@@ -168,8 +183,8 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
       params.push(`sortBy=${encodeURIComponent(sortBy)}`);
     }
 
-    params.push(`pageNo=${currentPage}`)
-    params.push('pageSize=12')
+    params.push(`pageNo=${currentPage}`);
+    params.push('pageSize=12');
     params.push(`price=${debouncedPrice[0]}`);
     params.push(`price=${debouncedPrice[1]}`);
     params.push(`search=${searchQuery}`);
@@ -177,15 +192,19 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
     if (params.length > 0) {
       url += '?' + params.join('&');
     }
-    axios
-      .get(url)
-      .then((response) => {
-        const data = response.data.data.content;
-        setListProduct(Array.isArray(data) ? data : []);
-        setTotalPage(response.data.data.page.totalPages)
-      })
-  }, [listSelectedOption, setListProduct, currentPage, sortBy, debouncedPrice, searchQuery]);
-
+    axios.get(url).then((response) => {
+      const data = response.data.data.content;
+      setListProduct(Array.isArray(data) ? data : []);
+      setTotalPage(response.data.data.page.totalPages);
+    });
+  }, [
+    listSelectedOption,
+    setListProduct,
+    currentPage,
+    sortBy,
+    debouncedPrice,
+    searchQuery,
+  ]);
 
   return (
     <div className="col-lg-3  wow fadeInUp">
@@ -202,18 +221,34 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
               <Link onClick={clearAllSelectedOptions}>Xóa tất cả</Link>
             </div>
             <ul>
-              {Object.entries(listSelectedOption).map(([key, list]) => (
+              {Object.entries(listSelectedOption).map(([key, list]) =>
                 list.map((item) => (
-                  <li key={item.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px' }}>
-                    <div style={{ flexGrow: 2 }} >
-                      <span className="option-name" style={{ fontSize: '14px', fontWeight: '500' }}>{item.name}</span>
+                  <li
+                    key={item.id}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      padding: '8px 12px',
+                    }}
+                  >
+                    <div style={{ flexGrow: 2 }}>
+                      <span
+                        className="option-name"
+                        style={{ fontSize: '14px', fontWeight: '500' }}
+                      >
+                        {item.name}
+                      </span>
                     </div>
                     <div>
-                      <ClearIcon fontSize="small" className="clear-icon" onClick={() => handleSelected(item.id, key, item.name)} />
+                      <ClearIcon
+                        fontSize="small"
+                        className="clear-icon"
+                        onClick={() => handleSelected(item.id, key, item.name)}
+                      />
                     </div>
                   </li>
                 ))
-              ))}
+              )}
             </ul>
           </div>
           <div className="accordion custome-accordion" id="accordionExample">
@@ -237,19 +272,29 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
               >
                 <div className="accordion-body">
                   <ul className="category-list custom-padding custom-height">
-                    {listCategories.map(v => (
+                    {listCategories.map((v) => (
                       <li key={v.id}>
                         <div className="form-check ps-0 m-0 category-list-box">
                           <input
                             className="checkbox_animated"
                             type="checkbox"
                             id="fruit"
-                            onClick={() => handleSelected(v.id, 'listCategoriesSelected', v.categoryName)}
-                            checked={listSelectedOption['listCategoriesSelected'].some(item => item.id === v.id)}
+                            onChange={() =>
+                              handleSelected(
+                                v.id,
+                                'listCategoriesSelected',
+                                v.categoryName
+                              )
+                            }
+                            checked={listSelectedOption[
+                              'listCategoriesSelected'
+                            ].some((item) => item.id === v.id)}
                           />
                           <label className="form-check-label" htmlFor="fruit">
                             <span className="name">{v.categoryName}</span>
-                            <span className="number">({v.quantityProduct})</span>
+                            <span className="number">
+                              ({v.quantityProduct})
+                            </span>
                           </label>
                         </div>
                       </li>
@@ -278,19 +323,25 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
               >
                 <div className="accordion-body">
                   <ul className="category-list custom-padding">
-                    {listBrands.map(v => (
+                    {listBrands.map((v) => (
                       <li key={v.id}>
                         <div className="form-check ps-0 m-0 category-list-box">
                           <input
                             className="checkbox_animated"
                             type="checkbox"
                             id="veget"
-                            onClick={() => handleSelected(v.id, 'listBrandsSelected', v.name)}
-                            checked={listSelectedOption['listBrandsSelected'].some(item => item.id === v.id)}
+                            onChange={() =>
+                              handleSelected(v.id, 'listBrandsSelected', v.name)
+                            }
+                            checked={listSelectedOption[
+                              'listBrandsSelected'
+                            ].some((item) => item.id === v.id)}
                           />
                           <label className="form-check-label" htmlFor="veget">
                             <span className="name">{v.name}</span>
-                            <span className="number">({v.quantityProduct})</span>
+                            <span className="number">
+                              ({v.quantityProduct})
+                            </span>
                           </label>
                         </div>
                       </li>
@@ -327,7 +378,9 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
                       step={500000}
                       min={0}
                       max={100000000}
-                      valueLabelFormat={(value) => value.toLocaleString('vi-VN') + ' VND'}
+                      valueLabelFormat={(value) =>
+                        value.toLocaleString('vi-VN') + ' VND'
+                      }
                     />
                   </div>
                 </div>
@@ -359,14 +412,24 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
                           <input
                             className="checkbox_animated"
                             type="checkbox"
-                            onClick={() => handleSelected(i, 'listRatingSelected', i + ' sao')}
-                            checked={listSelectedOption['listRatingSelected'].some(item => item.id === i)}
+                            onChange={() =>
+                              handleSelected(
+                                i,
+                                'listRatingSelected',
+                                i + ' sao'
+                              )
+                            }
+                            checked={listSelectedOption[
+                              'listRatingSelected'
+                            ].some((item) => item.id === i)}
                           />
                           <div className="form-check-label">
                             <ul className="rating">
                               <Rating name="read-only" value={i} readOnly />
                             </ul>
-                            <span className="text-content">({listRating[i]})</span>
+                            <span className="text-content">
+                              ({listRating[i]})
+                            </span>
                           </div>
                         </div>
                       </li>
@@ -400,8 +463,16 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
                         <input
                           className="checkbox_animated"
                           type="checkbox"
-                          onClick={() => handleSelected(1, 'listDiscountsSelected', '0% - 5%')}
-                          checked={listSelectedOption['listDiscountsSelected'].some(item => item.id === 1)}
+                          onChange={() =>
+                            handleSelected(
+                              1,
+                              'listDiscountsSelected',
+                              '0% - 5%'
+                            )
+                          }
+                          checked={listSelectedOption[
+                            'listDiscountsSelected'
+                          ].some((item) => item.id === 1)}
                           id="flexCheckDefault"
                         />
                         <label
@@ -419,8 +490,16 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
                           className="checkbox_animated"
                           type="checkbox"
                           id="flexCheckDefault1"
-                          onClick={() => handleSelected(2, 'listDiscountsSelected', '5% - 10%')}
-                          checked={listSelectedOption['listDiscountsSelected'].some(item => item.id === 2)}
+                          onChange={() =>
+                            handleSelected(
+                              2,
+                              'listDiscountsSelected',
+                              '5% - 10%'
+                            )
+                          }
+                          checked={listSelectedOption[
+                            'listDiscountsSelected'
+                          ].some((item) => item.id === 2)}
                         />
                         <label
                           className="form-check-label"
@@ -437,8 +516,16 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
                           className="checkbox_animated"
                           type="checkbox"
                           id="flexCheckDefault2"
-                          onClick={() => handleSelected(3, 'listDiscountsSelected', '10% - 15%')}
-                          checked={listSelectedOption['listDiscountsSelected'].some(item => item.id === 3)}
+                          onChange={() =>
+                            handleSelected(
+                              3,
+                              'listDiscountsSelected',
+                              '10% - 15%'
+                            )
+                          }
+                          checked={listSelectedOption[
+                            'listDiscountsSelected'
+                          ].some((item) => item.id === 3)}
                         />
                         <label
                           className="form-check-label"
@@ -455,8 +542,16 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
                           className="checkbox_animated"
                           type="checkbox"
                           id="flexCheckDefault3"
-                          onClick={() => handleSelected(4, 'listDiscountsSelected', '15% - 25%')}
-                          checked={listSelectedOption['listDiscountsSelected'].some(item => item.id === 4)}
+                          onChange={() =>
+                            handleSelected(
+                              4,
+                              'listDiscountsSelected',
+                              '15% - 25%'
+                            )
+                          }
+                          checked={listSelectedOption[
+                            'listDiscountsSelected'
+                          ].some((item) => item.id === 4)}
                         />
                         <label
                           className="form-check-label"
@@ -473,8 +568,16 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
                           className="checkbox_animated"
                           type="checkbox"
                           id="flexCheckDefault4"
-                          onClick={() => handleSelected(5, 'listDiscountsSelected', 'Hơn 25%')}
-                          checked={listSelectedOption['listDiscountsSelected'].some(item => item.id === 5)}
+                          onChange={() =>
+                            handleSelected(
+                              5,
+                              'listDiscountsSelected',
+                              'Hơn 25%'
+                            )
+                          }
+                          checked={listSelectedOption[
+                            'listDiscountsSelected'
+                          ].some((item) => item.id === 5)}
                         />
                         <label
                           className="form-check-label"
@@ -489,11 +592,9 @@ export default function LeftFillter({ setListProduct, currentPage, setTotalPage,
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
-    </div >
-
-  )
+    </div>
+  );
 }
