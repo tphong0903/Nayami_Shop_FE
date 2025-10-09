@@ -1,13 +1,7 @@
-import { useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-  Navigate,
-} from "react-router-dom";
-import feather from "feather-icons";
-import "./App.css";
+import { useEffect } from 'react';
+import {BrowserRouter as Router, Routes, Route, useNavigate, Navigate} from 'react-router-dom';
+import feather from 'feather-icons';
+import './App.css';
 
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage";
@@ -68,7 +62,11 @@ import OrderDetailView from "./components/info/OrderDetailView.jsx";
 import Login2 from "./pages/Login2";
 import ChatBot from "./components/chatbot/ChatBot";
 
+import { Box, Fab } from '@mui/material';
+import ChatIcon from '@mui/icons-material/Chat'
+import ChatBox from './components/ChatBox.jsx';
 function App() {
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     feather.replace();
   }, []);
@@ -185,7 +183,6 @@ function App() {
           <Route path="/error/404" element={<Error404 />} />
           <Route path="*" element={<Navigate to="/error/404" replace />} />
         </Routes>
-        <ChatBot />
       </Router>
     </>
   );

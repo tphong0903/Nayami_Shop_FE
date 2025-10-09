@@ -4,6 +4,7 @@ import RevenueChart from './RevenueChart';
 import ProfitChart from './ProfitChart';
 import BestSelling from './BestSelling';
 import OutOfStock from './OutOfStock';
+import ExportExcel from './ExportExcel';
 export default function DashBoard() {
   const options = {
     chart: {
@@ -36,6 +37,7 @@ export default function DashBoard() {
     <div className="page-body">
       <div className="container-fluid">
         <div className="row">
+          <ExportExcel />
           <ChartCardSection />
           <RevenueChart />
           <ProfitChart />

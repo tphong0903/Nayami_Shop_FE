@@ -7,10 +7,14 @@ import { Rating } from '@mui/material';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useReactToPrint } from 'react-to-print';
+import { QRCodeCanvas } from 'qrcode.react';
+import BarcodeViewer from './BarcodeViewer';
 
 export default function AddProduct({ view }) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const qrRef = useRef();
   const isEditMode = !!id;
   const [listBrands, setBrands] = useState([])
   const [listCategorys, setCategorys] = useState([])
@@ -46,7 +50,9 @@ export default function AddProduct({ view }) {
       listOtherConfigDTO: [],
     },
   });
-
+  const handlePrintQR = useReactToPrint({
+    content: () => qrRef.current,
+  });
   const handleSave = async () => {
     console.log(formData)
     const editorContent = editorRef.current?.getInstance().getMarkdown() || '';
@@ -256,6 +262,7 @@ export default function AddProduct({ view }) {
                   <div className="card-body">
                     <div className="card-header-2">
                       <h5>Thông Tin Sản Phẩm</h5>
+
                     </div>
                     <form className="theme-form theme-form-2 mega-form">
                       <div className="mb-4 row align-items-center">
@@ -503,6 +510,22 @@ export default function AddProduct({ view }) {
                     </button>
                   </div>
                 </div>
+
+                {formData.name && (
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="card-header-2">
+                        <h5>Mã QR</h5>
+                      </div>
+                      <div className="text-center mt-3">
+                        <BarcodeViewer productId={id} />
+                      </div>
+
+                    </div>
+                  </div>
+                )}
+
+
                 <div className="card">
                   <div className="card-body">
                     <div className="row align-items-center">
